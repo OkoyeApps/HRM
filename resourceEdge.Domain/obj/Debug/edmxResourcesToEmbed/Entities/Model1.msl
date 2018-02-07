@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ResourceEdge2018ModelStoreContainer" CdmEntityContainer="ResourceEdge2018Entities">
+    <EntitySetMapping Name="employees">
+      <EntityTypeMapping TypeName="ResourceEdge2018Model.employees">
+        <MappingFragment StoreEntitySet="employees">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="date_of_joining" ColumnName="date_of_joining" />
+          <ScalarProperty Name="date_of_leaving" ColumnName="date_of_leaving" />
+          <ScalarProperty Name="reporting_manager" ColumnName="reporting_manager" />
+          <ScalarProperty Name="emp_status_id" ColumnName="emp_status_id" />
+          <ScalarProperty Name="businessunit_id" ColumnName="businessunit_id" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="jobtitle_id" ColumnName="jobtitle_id" />
+          <ScalarProperty Name="position_id" ColumnName="position_id" />
+          <ScalarProperty Name="years_exp" ColumnName="years_exp" />
+          <ScalarProperty Name="holiday_group" ColumnName="holiday_group" />
+          <ScalarProperty Name="prefix_id" ColumnName="prefix_id" />
+          <ScalarProperty Name="extension_number" ColumnName="extension_number" />
+          <ScalarProperty Name="office_number" ColumnName="office_number" />
+          <ScalarProperty Name="office_faxnumber" ColumnName="office_faxnumber" />
+          <ScalarProperty Name="createdby" ColumnName="createdby" />
+          <ScalarProperty Name="modifiedby" ColumnName="modifiedby" />
+          <ScalarProperty Name="createddate" ColumnName="createddate" />
+          <ScalarProperty Name="modifieddate" ColumnName="modifieddate" />
+          <ScalarProperty Name="isactive" ColumnName="isactive" />
+          <ScalarProperty Name="is_orghead" ColumnName="is_orghead" />
+          <ScalarProperty Name="userId" ColumnName="userId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="users">
+      <EntityTypeMapping TypeName="ResourceEdge2018Model.users">
+        <MappingFragment StoreEntitySet="users">
+          <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="emprole" ColumnName="emprole" />
+          <ScalarProperty Name="userstatus" ColumnName="userstatus" />
+          <ScalarProperty Name="firstname" ColumnName="firstname" />
+          <ScalarProperty Name="lastname" ColumnName="lastname" />
+          <ScalarProperty Name="userfullname" ColumnName="userfullname" />
+          <ScalarProperty Name="emailaddress" ColumnName="emailaddress" />
+          <ScalarProperty Name="contactnumber" ColumnName="contactnumber" />
+          <ScalarProperty Name="empipaddress" ColumnName="empipaddress" />
+          <ScalarProperty Name="emptemplock" ColumnName="emptemplock" />
+          <ScalarProperty Name="empreasonlocked" ColumnName="empreasonlocked" />
+          <ScalarProperty Name="emplockeddate" ColumnName="emplockeddate" />
+          <ScalarProperty Name="emppassword" ColumnName="emppassword" />
+          <ScalarProperty Name="createdby" ColumnName="createdby" />
+          <ScalarProperty Name="modifiedby" ColumnName="modifiedby" />
+          <ScalarProperty Name="createddate" ColumnName="createddate" />
+          <ScalarProperty Name="modifieddate" ColumnName="modifieddate" />
+          <ScalarProperty Name="isactive" ColumnName="isactive" />
+          <ScalarProperty Name="employeeId" ColumnName="employeeId" />
+          <ScalarProperty Name="modeofentry" ColumnName="modeofentry" />
+          <ScalarProperty Name="other_modeofentry" ColumnName="other_modeofentry" />
+          <ScalarProperty Name="entrycomments" ColumnName="entrycomments" />
+          <ScalarProperty Name="rccandidatename" ColumnName="rccandidatename" />
+          <ScalarProperty Name="selecteddate" ColumnName="selecteddate" />
+          <ScalarProperty Name="candidatereferredby" ColumnName="candidatereferredby" />
+          <ScalarProperty Name="company_id" ColumnName="company_id" />
+          <ScalarProperty Name="profileimg" ColumnName="profileimg" />
+          <ScalarProperty Name="jobtitle_id" ColumnName="jobtitle_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="identityCodes">
+      <EntityTypeMapping TypeName="ResourceEdge2018Model.identityCodes">
+        <MappingFragment StoreEntitySet="identityCodes">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="employee_code" ColumnName="employee_code" />
+          <ScalarProperty Name="backgroundagency_code" ColumnName="backgroundagency_code" />
+          <ScalarProperty Name="vendors_code" ColumnName="vendors_code" />
+          <ScalarProperty Name="staffing_code" ColumnName="staffing_code" />
+          <ScalarProperty Name="users_code" ColumnName="users_code" />
+          <ScalarProperty Name="requisition_code" ColumnName="requisition_code" />
+          <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+          <ScalarProperty Name="createddate" ColumnName="createddate" />
+          <ScalarProperty Name="modifiedBy" ColumnName="modifiedBy" />
+          <ScalarProperty Name="modifieddate" ColumnName="modifieddate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="products">
+      <EntityTypeMapping TypeName="ResourceEdge2018Model.products">
+        <MappingFragment StoreEntitySet="products">
+          <ScalarProperty Name="descriptions" ColumnName="descriptions" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

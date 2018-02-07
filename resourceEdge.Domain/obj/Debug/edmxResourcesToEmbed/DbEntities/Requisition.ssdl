@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="sentrifugoDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'sentrifugoDB.dbo.main_request_history' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="main_request_history">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="request_id" Type="int" />
+    <Property Name="description" Type="varchar" MaxLength="300" />
+    <Property Name="emp_id" Type="int" />
+    <Property Name="emp_name" Type="varchar" MaxLength="100" />
+    <Property Name="emp_profileimg" Type="varchar" MaxLength="150" />
+    <Property Name="createdby" Type="int" />
+    <Property Name="modifiedby" Type="int" />
+    <Property Name="createddate" Type="datetime" />
+    <Property Name="modifieddate" Type="datetime" />
+    <Property Name="isactive" Type="bit" />
+    <Property Name="comments" Type="varchar" MaxLength="300" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'sentrifugoDB.dbo.main_requisition' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="main_requisition">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="req_skills" />
+      <PropertyRef Name="req_exp_years" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="requisition_code" Type="varchar" MaxLength="20" />
+    <Property Name="onboard_date" Type="date" />
+    <Property Name="position_id" Type="int" />
+    <Property Name="reporting_id" Type="int" />
+    <Property Name="businessunit_id" Type="int" />
+    <Property Name="department_id" Type="int" />
+    <Property Name="jobtitle" Type="int" />
+    <Property Name="req_no_positions" Type="int" />
+    <Property Name="selected_members" Type="int" />
+    <Property Name="filled_positions" Type="int" />
+    <Property Name="jobdescription" Type="text" />
+    <Property Name="req_skills" Type="text" Nullable="false" />
+    <Property Name="req_qualification" Type="varchar" MaxLength="150" />
+    <Property Name="req_exp_years" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="emp_type" Type="int" />
+    <Property Name="req_priority" Type="bit" />
+    <Property Name="additional_info" Type="text" />
+    <Property Name="req_status" Type="varchar" MaxLength="25" />
+    <Property Name="approver1" Type="int" />
+    <Property Name="approver2" Type="int" />
+    <Property Name="approver3" Type="int" />
+    <Property Name="appstatus1" Type="varchar" MaxLength="25" />
+    <Property Name="appstatus2" Type="varchar" MaxLength="25" />
+    <Property Name="appstatus3" Type="varchar" MaxLength="25" />
+    <Property Name="recruiters" Type="varchar" MaxLength="150" />
+    <Property Name="client_id" Type="int" />
+    <Property Name="isactive" Type="bit" />
+    <Property Name="createdby" Type="int" />
+    <Property Name="modifiedby" Type="int" />
+    <Property Name="createdon" Type="datetime" />
+    <Property Name="modifiedon" Type="datetime" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'sentrifugoDB.dbo.main_requisition_history' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="main_requisition_history">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="requisition_id" Type="int" />
+    <Property Name="candidate_id" Type="int" />
+    <Property Name="candidate_name" Type="varchar" MaxLength="150" />
+    <Property Name="interview_id" Type="int" />
+    <Property Name="description" Type="varchar" MaxLength="500" />
+    <Property Name="createdby" Type="int" />
+    <Property Name="modifiedby" Type="int" />
+    <Property Name="createddate" Type="datetime" />
+    <Property Name="modifieddate" Type="datetime" />
+    <Property Name="isactive" Type="bit" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'sentrifugoDB.dbo.main_requisition_summary' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="main_requisition_summary">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="req_skills" />
+      <PropertyRef Name="req_exp_years" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="req_id" Type="int" />
+    <Property Name="requisition_code" Type="varchar" MaxLength="20" />
+    <Property Name="onboard_date" Type="date" />
+    <Property Name="position_id" Type="int" />
+    <Property Name="position_name" Type="varchar" MaxLength="200" />
+    <Property Name="reporting_id" Type="int" />
+    <Property Name="reporting_manager_name" Type="varchar" MaxLength="200" />
+    <Property Name="businessunit_id" Type="int" />
+    <Property Name="businessunit_name" Type="varchar" MaxLength="200" />
+    <Property Name="department_id" Type="int" />
+    <Property Name="department_name" Type="varchar" MaxLength="200" />
+    <Property Name="jobtitle" Type="int" />
+    <Property Name="jobtitle_name" Type="varchar" MaxLength="200" />
+    <Property Name="req_no_positions" Type="int" />
+    <Property Name="selected_members" Type="int" />
+    <Property Name="filled_positions" Type="int" />
+    <Property Name="jobdescription" Type="text" />
+    <Property Name="req_skills" Type="text" Nullable="false" />
+    <Property Name="req_qualification" Type="varchar" MaxLength="150" />
+    <Property Name="req_exp_years" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="emp_type" Type="int" />
+    <Property Name="emp_type_name" Type="varchar" MaxLength="200" />
+    <Property Name="req_priority" Type="bit" />
+    <Property Name="additional_info" Type="text" />
+    <Property Name="req_status" Type="varchar" MaxLength="20" />
+    <Property Name="approver1" Type="int" />
+    <Property Name="approver1_name" Type="varchar" MaxLength="200" />
+    <Property Name="approver2" Type="int" />
+    <Property Name="approver2_name" Type="varchar" MaxLength="200" />
+    <Property Name="approver3" Type="int" />
+    <Property Name="approver3_name" Type="varchar" MaxLength="200" />
+    <Property Name="appstatus1" Type="varchar" MaxLength="20" />
+    <Property Name="appstatus2" Type="varchar" MaxLength="20" />
+    <Property Name="appstatus3" Type="varchar" MaxLength="20" />
+    <Property Name="recruiters" Type="varchar" MaxLength="150" />
+    <Property Name="client_id" Type="int" />
+    <Property Name="isactive" Type="bit" />
+    <Property Name="createdby_name" Type="varchar" MaxLength="200" />
+    <Property Name="createdby" Type="int" />
+    <Property Name="modifiedby" Type="int" />
+    <Property Name="createdon" Type="datetime" />
+    <Property Name="modifiedon" Type="datetime" />
+  </EntityType>
+  <EntityContainer Name="sentrifugoDBModelStoreContainer">
+    <EntitySet Name="main_request_history" EntityType="Self.main_request_history" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [main_request_history].[id] AS [id], 
+    [main_request_history].[request_id] AS [request_id], 
+    [main_request_history].[description] AS [description], 
+    [main_request_history].[emp_id] AS [emp_id], 
+    [main_request_history].[emp_name] AS [emp_name], 
+    [main_request_history].[emp_profileimg] AS [emp_profileimg], 
+    [main_request_history].[createdby] AS [createdby], 
+    [main_request_history].[modifiedby] AS [modifiedby], 
+    [main_request_history].[createddate] AS [createddate], 
+    [main_request_history].[modifieddate] AS [modifieddate], 
+    [main_request_history].[isactive] AS [isactive], 
+    [main_request_history].[comments] AS [comments]
+    FROM [dbo].[main_request_history] AS [main_request_history]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="main_requisition" EntityType="Self.main_requisition" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [main_requisition].[id] AS [id], 
+    [main_requisition].[requisition_code] AS [requisition_code], 
+    [main_requisition].[onboard_date] AS [onboard_date], 
+    [main_requisition].[position_id] AS [position_id], 
+    [main_requisition].[reporting_id] AS [reporting_id], 
+    [main_requisition].[businessunit_id] AS [businessunit_id], 
+    [main_requisition].[department_id] AS [department_id], 
+    [main_requisition].[jobtitle] AS [jobtitle], 
+    [main_requisition].[req_no_positions] AS [req_no_positions], 
+    [main_requisition].[selected_members] AS [selected_members], 
+    [main_requisition].[filled_positions] AS [filled_positions], 
+    [main_requisition].[jobdescription] AS [jobdescription], 
+    [main_requisition].[req_skills] AS [req_skills], 
+    [main_requisition].[req_qualification] AS [req_qualification], 
+    [main_requisition].[req_exp_years] AS [req_exp_years], 
+    [main_requisition].[emp_type] AS [emp_type], 
+    [main_requisition].[req_priority] AS [req_priority], 
+    [main_requisition].[additional_info] AS [additional_info], 
+    [main_requisition].[req_status] AS [req_status], 
+    [main_requisition].[approver1] AS [approver1], 
+    [main_requisition].[approver2] AS [approver2], 
+    [main_requisition].[approver3] AS [approver3], 
+    [main_requisition].[appstatus1] AS [appstatus1], 
+    [main_requisition].[appstatus2] AS [appstatus2], 
+    [main_requisition].[appstatus3] AS [appstatus3], 
+    [main_requisition].[recruiters] AS [recruiters], 
+    [main_requisition].[client_id] AS [client_id], 
+    [main_requisition].[isactive] AS [isactive], 
+    [main_requisition].[createdby] AS [createdby], 
+    [main_requisition].[modifiedby] AS [modifiedby], 
+    [main_requisition].[createdon] AS [createdon], 
+    [main_requisition].[modifiedon] AS [modifiedon]
+    FROM [dbo].[main_requisition] AS [main_requisition]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="main_requisition_history" EntityType="Self.main_requisition_history" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [main_requisition_history].[id] AS [id], 
+    [main_requisition_history].[requisition_id] AS [requisition_id], 
+    [main_requisition_history].[candidate_id] AS [candidate_id], 
+    [main_requisition_history].[candidate_name] AS [candidate_name], 
+    [main_requisition_history].[interview_id] AS [interview_id], 
+    [main_requisition_history].[description] AS [description], 
+    [main_requisition_history].[createdby] AS [createdby], 
+    [main_requisition_history].[modifiedby] AS [modifiedby], 
+    [main_requisition_history].[createddate] AS [createddate], 
+    [main_requisition_history].[modifieddate] AS [modifieddate], 
+    [main_requisition_history].[isactive] AS [isactive]
+    FROM [dbo].[main_requisition_history] AS [main_requisition_history]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="main_requisition_summary" EntityType="Self.main_requisition_summary" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [main_requisition_summary].[id] AS [id], 
+    [main_requisition_summary].[req_id] AS [req_id], 
+    [main_requisition_summary].[requisition_code] AS [requisition_code], 
+    [main_requisition_summary].[onboard_date] AS [onboard_date], 
+    [main_requisition_summary].[position_id] AS [position_id], 
+    [main_requisition_summary].[position_name] AS [position_name], 
+    [main_requisition_summary].[reporting_id] AS [reporting_id], 
+    [main_requisition_summary].[reporting_manager_name] AS [reporting_manager_name], 
+    [main_requisition_summary].[businessunit_id] AS [businessunit_id], 
+    [main_requisition_summary].[businessunit_name] AS [businessunit_name], 
+    [main_requisition_summary].[department_id] AS [department_id], 
+    [main_requisition_summary].[department_name] AS [department_name], 
+    [main_requisition_summary].[jobtitle] AS [jobtitle], 
+    [main_requisition_summary].[jobtitle_name] AS [jobtitle_name], 
+    [main_requisition_summary].[req_no_positions] AS [req_no_positions], 
+    [main_requisition_summary].[selected_members] AS [selected_members], 
+    [main_requisition_summary].[filled_positions] AS [filled_positions], 
+    [main_requisition_summary].[jobdescription] AS [jobdescription], 
+    [main_requisition_summary].[req_skills] AS [req_skills], 
+    [main_requisition_summary].[req_qualification] AS [req_qualification], 
+    [main_requisition_summary].[req_exp_years] AS [req_exp_years], 
+    [main_requisition_summary].[emp_type] AS [emp_type], 
+    [main_requisition_summary].[emp_type_name] AS [emp_type_name], 
+    [main_requisition_summary].[req_priority] AS [req_priority], 
+    [main_requisition_summary].[additional_info] AS [additional_info], 
+    [main_requisition_summary].[req_status] AS [req_status], 
+    [main_requisition_summary].[approver1] AS [approver1], 
+    [main_requisition_summary].[approver1_name] AS [approver1_name], 
+    [main_requisition_summary].[approver2] AS [approver2], 
+    [main_requisition_summary].[approver2_name] AS [approver2_name], 
+    [main_requisition_summary].[approver3] AS [approver3], 
+    [main_requisition_summary].[approver3_name] AS [approver3_name], 
+    [main_requisition_summary].[appstatus1] AS [appstatus1], 
+    [main_requisition_summary].[appstatus2] AS [appstatus2], 
+    [main_requisition_summary].[appstatus3] AS [appstatus3], 
+    [main_requisition_summary].[recruiters] AS [recruiters], 
+    [main_requisition_summary].[client_id] AS [client_id], 
+    [main_requisition_summary].[isactive] AS [isactive], 
+    [main_requisition_summary].[createdby_name] AS [createdby_name], 
+    [main_requisition_summary].[createdby] AS [createdby], 
+    [main_requisition_summary].[modifiedby] AS [modifiedby], 
+    [main_requisition_summary].[createdon] AS [createdon], 
+    [main_requisition_summary].[modifiedon] AS [modifiedon]
+    FROM [dbo].[main_requisition_summary] AS [main_requisition_summary]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>

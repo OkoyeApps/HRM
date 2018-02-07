@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ResourceEdge2018Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="employees">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="date_of_joining" Type="DateTime" Precision="0" />
+    <Property Name="date_of_leaving" Type="DateTime" Precision="0" />
+    <Property Name="reporting_manager" Type="Int64" />
+    <Property Name="emp_status_id" Type="Int32" />
+    <Property Name="businessunit_id" Type="Int32" />
+    <Property Name="department_id" Type="Int32" />
+    <Property Name="jobtitle_id" Type="Int32" />
+    <Property Name="position_id" Type="Int32" />
+    <Property Name="years_exp" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+    <Property Name="holiday_group" Type="Int32" />
+    <Property Name="prefix_id" Type="Int32" />
+    <Property Name="extension_number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="office_number" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="office_faxnumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="createdby" Type="Int32" />
+    <Property Name="modifiedby" Type="Int32" />
+    <Property Name="createddate" Type="DateTime" Precision="3" />
+    <Property Name="modifieddate" Type="DateTime" Precision="3" />
+    <Property Name="isactive" Type="Boolean" />
+    <Property Name="is_orghead" Type="Boolean" />
+    <Property Name="userId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="users" Relationship="Self.fk_userId_users" FromRole="employees" ToRole="users" />
+  </EntityType>
+  <EntityType Name="users">
+    <Key>
+      <PropertyRef Name="userId" />
+    </Key>
+    <Property Name="userId" Type="Int32" Nullable="false" />
+    <Property Name="emprole" Type="Int32" />
+    <Property Name="userstatus" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="firstname" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="lastname" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="userfullname" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="emailaddress" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="contactnumber" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="empipaddress" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="emptemplock" Type="Byte" />
+    <Property Name="empreasonlocked" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="emplockeddate" Type="DateTime" Precision="0" />
+    <Property Name="emppassword" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="createdby" Type="Int32" />
+    <Property Name="modifiedby" Type="Int32" />
+    <Property Name="createddate" Type="DateTime" Precision="3" />
+    <Property Name="modifieddate" Type="DateTime" Precision="3" />
+    <Property Name="isactive" Type="Int16" />
+    <Property Name="employeeId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="modeofentry" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="other_modeofentry" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="entrycomments" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="rccandidatename" Type="Int32" />
+    <Property Name="selecteddate" Type="DateTime" Precision="0" />
+    <Property Name="candidatereferredby" Type="Int32" />
+    <Property Name="company_id" Type="Int32" />
+    <Property Name="profileimg" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="jobtitle_id" Type="Int64" />
+    <NavigationProperty Name="employees" Relationship="Self.fk_userId_users" FromRole="users" ToRole="employees" />
+  </EntityType>
+  <EntityType Name="identityCodes">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="employee_code" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="backgroundagency_code" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="vendors_code" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="staffing_code" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="users_code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="requisition_code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="createdBy" Type="Int32" />
+    <Property Name="createddate" Type="DateTime" Precision="3" />
+    <Property Name="modifiedBy" Type="Int32" />
+    <Property Name="modifieddate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <Association Name="fk_userId_users">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="employees" Type="Self.employees" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="userId" />
+      </Principal>
+      <Dependent Role="employees">
+        <PropertyRef Name="userId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ResourceEdge2018Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="employees" EntityType="Self.employees" />
+    <EntitySet Name="users" EntityType="Self.users" />
+    <EntitySet Name="identityCodes" EntityType="Self.identityCodes" />
+    <AssociationSet Name="fk_userId_users" Association="Self.fk_userId_users">
+      <End Role="users" EntitySet="users" />
+      <End Role="employees" EntitySet="employees" />
+    </AssociationSet>
+    <EntitySet Name="products" EntityType="ResourceEdge2018Model.products" />
+  </EntityContainer>
+  <EntityType Name="products">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="descriptions" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+</Schema>

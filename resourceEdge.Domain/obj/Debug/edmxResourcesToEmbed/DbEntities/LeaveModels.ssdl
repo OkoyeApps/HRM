@@ -1,0 +1,461 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="sentrifugoDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'sentrifugoDB.dbo.main_empholidays' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="main_empholidays">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="user_id" Type="int" />
+    <Property Name="holiday_group_id" Type="int" />
+    <Property Name="createdby" Type="int" />
+    <Property Name="modifiedby" Type="int" />
+    <Property Name="createddate" Type="datetime" />
+    <Property Name="modifieddate" Type="datetime" />
+    <Property Name="isactive" Type="bit" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'sentrifugoDB.dbo.main_employeeleaves' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="main_employeeleaves">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="user_id" Type="int" />
+    <Property Name="emp_leave_limit" Type="float" />
+    <Property Name="used_leaves" Type="float" />
+    <Property Name="alloted_year" Type="int" />
+    <Property Name="createdby" Type="int" />
+    <Property Name="modifiedby" Type="int" />
+    <Property Name="createddate" Type="datetime" />
+    <Property Name="modifieddate" Type="datetime" />
+    <Property Name="isactive" Type="bit" />
+    <Property Name="isleavetrasnferset" Type="bit" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'sentrifugoDB.dbo.main_employeeleavetypes' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="main_employeeleavetypes">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="leavetype" Type="varchar" MaxLength="255" />
+    <Property Name="numberofdays" Type="int" />
+    <Property Name="leavecode" Type="varchar" MaxLength="255" />
+    <Property Name="description" Type="varchar" MaxLength="255" />
+    <Property Name="leavepreallocated" Type="varchar" MaxLength="4" />
+    <Property Name="leavepredeductable" Type="int" />
+    <Property Name="createdby" Type="int" />
+    <Property Name="modifiedby" Type="int" />
+    <Property Name="createddate" Type="datetime" />
+    <Property Name="modifieddate" Type="datetime" />
+    <Property Name="isactive" Type="bit" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'sentrifugoDB.dbo.main_leavemanagement' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="main_leavemanagement">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="cal_startmonth" Type="int" />
+    <Property Name="weekend_startday" Type="int" />
+    <Property Name="weekend_endday" Type="int" />
+    <Property Name="businessunit_id" Type="int" />
+    <Property Name="department_id" Type="int" />
+    <Property Name="hr_id" Type="int" />
+    <Property Name="hours_day" Type="int" />
+    <Property Name="is_satholiday" Type="varchar" MaxLength="4" />
+    <Property Name="is_halfday" Type="bit" />
+    <Property Name="is_leavetransfer" Type="varchar" MaxLength="4" />
+    <Property Name="is_skipholidays" Type="varchar" MaxLength="4" />
+    <Property Name="descriptions" Type="varchar" MaxLength="255" />
+    <Property Name="createdby" Type="int" />
+    <Property Name="modifiedby" Type="int" />
+    <Property Name="createddate" Type="datetime" />
+    <Property Name="modifieddate" Type="datetime" />
+    <Property Name="isactive" Type="bit" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'sentrifugoDB.dbo.main_leavemanagement_summary' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="main_leavemanagement_summary">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="leavemgmt_id" Type="int" />
+    <Property Name="cal_startmonth" Type="int" />
+    <Property Name="cal_startmonthname" Type="varchar" MaxLength="100" />
+    <Property Name="weekend_startday" Type="int" />
+    <Property Name="weekend_startdayname" Type="varchar" MaxLength="100" />
+    <Property Name="weekend_endday" Type="int" />
+    <Property Name="weekend_enddayname" Type="varchar" MaxLength="100" />
+    <Property Name="businessunit_id" Type="int" />
+    <Property Name="businessunit_name" Type="varchar" MaxLength="100" />
+    <Property Name="department_id" Type="int" />
+    <Property Name="department_name" Type="varchar" MaxLength="100" />
+    <Property Name="hours_day" Type="int" />
+    <Property Name="is_satholiday" Type="varchar" MaxLength="4" />
+    <Property Name="is_halfday" Type="varchar" MaxLength="4" />
+    <Property Name="is_leavetransfer" Type="varchar" MaxLength="4" />
+    <Property Name="is_skipholidays" Type="varchar" MaxLength="4" />
+    <Property Name="descriptions" Type="varchar" MaxLength="255" />
+    <Property Name="createdby" Type="int" />
+    <Property Name="modifiedby" Type="int" />
+    <Property Name="createddate" Type="datetime" />
+    <Property Name="modifieddate" Type="datetime" />
+    <Property Name="isactive" Type="bit" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'sentrifugoDB.dbo.main_leaverequest' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="main_leaverequest">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="user_id" Type="int" />
+    <Property Name="reason" Type="text" />
+    <Property Name="approver_comments" Type="text" />
+    <Property Name="leavetypeid" Type="int" />
+    <Property Name="leaveday" Type="bit" />
+    <Property Name="from_date" Type="date" />
+    <Property Name="to_date" Type="date" />
+    <Property Name="leavestatus" Type="varchar" MaxLength="25" />
+    <Property Name="rep_mang_id" Type="int" />
+    <Property Name="hr_id" Type="int" />
+    <Property Name="no_of_days" Type="float" />
+    <Property Name="appliedleavescount" Type="float" />
+    <Property Name="is_sat_holiday" Type="bit" />
+    <Property Name="createdby" Type="int" />
+    <Property Name="modifiedby" Type="int" />
+    <Property Name="createddate" Type="datetime" />
+    <Property Name="modifieddate" Type="datetime" />
+    <Property Name="isactive" Type="bit" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'sentrifugoDB.dbo.main_leaverequest_history' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="main_leaverequest_history">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="leaverequest_id" Type="int" />
+    <Property Name="description" Type="varchar" MaxLength="500" />
+    <Property Name="createdby" Type="int" />
+    <Property Name="modifiedby" Type="int" />
+    <Property Name="createddate" Type="datetime" />
+    <Property Name="modifieddate" Type="datetime" />
+    <Property Name="isactive" Type="bit" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'sentrifugoDB.dbo.main_leaverequest_summary' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="main_leaverequest_summary">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="leave_req_id" Type="int" />
+    <Property Name="user_id" Type="int" />
+    <Property Name="user_name" Type="varchar" MaxLength="255" />
+    <Property Name="department_id" Type="int" />
+    <Property Name="department_name" Type="varchar" MaxLength="255" />
+    <Property Name="bunit_id" Type="int" />
+    <Property Name="buss_unit_name" Type="varchar" MaxLength="255" />
+    <Property Name="reason" Type="text" />
+    <Property Name="approver_comments" Type="text" />
+    <Property Name="leavetypeid" Type="int" />
+    <Property Name="leavetype_name" Type="varchar" MaxLength="255" />
+    <Property Name="leaveday" Type="bit" />
+    <Property Name="from_date" Type="date" />
+    <Property Name="to_date" Type="date" />
+    <Property Name="leavestatus" Type="varchar" MaxLength="25" />
+    <Property Name="rep_mang_id" Type="int" />
+    <Property Name="rep_manager_name" Type="varchar" MaxLength="255" />
+    <Property Name="hr_id" Type="int" />
+    <Property Name="hr_name" Type="varchar" MaxLength="255" />
+    <Property Name="no_of_days" Type="float" />
+    <Property Name="appliedleavescount" Type="float" />
+    <Property Name="is_sat_holiday" Type="bit" />
+    <Property Name="createdby" Type="int" />
+    <Property Name="modifiedby" Type="int" />
+    <Property Name="createddate" Type="datetime" />
+    <Property Name="modifieddate" Type="datetime" />
+    <Property Name="isactive" Type="bit" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'sentrifugoDB.dbo.main_monthslist' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="main_monthslist">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="month_id" Type="int" />
+    <Property Name="monthcode" Type="varchar" MaxLength="255" />
+    <Property Name="description" Type="varchar" MaxLength="255" />
+    <Property Name="createdby" Type="int" />
+    <Property Name="modifiedby" Type="int" />
+    <Property Name="createddate" Type="datetime" />
+    <Property Name="modifieddate" Type="datetime" />
+    <Property Name="isactive" Type="bit" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'sentrifugoDB.dbo.main_weekdays' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="main_weekdays">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="day_name" Type="int" />
+    <Property Name="dayshortcode" Type="varchar" MaxLength="255" />
+    <Property Name="daylongcode" Type="varchar" MaxLength="255" />
+    <Property Name="description" Type="varchar" MaxLength="255" />
+    <Property Name="createdby" Type="int" />
+    <Property Name="modifiedby" Type="int" />
+    <Property Name="createddate" Type="datetime" />
+    <Property Name="modifieddate" Type="datetime" />
+    <Property Name="isactive" Type="bit" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'sentrifugoDB.dbo.tbl_months' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="tbl_months">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="monthid" Type="int" />
+    <Property Name="month_name" Type="varchar" MaxLength="50" />
+    <Property Name="createdby" Type="int" />
+    <Property Name="modifiedby" Type="int" />
+    <Property Name="createddate" Type="datetime" />
+    <Property Name="modifieddate" Type="datetime" />
+    <Property Name="isactive" Type="bit" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'sentrifugoDB.dbo.tbl_weeks' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="tbl_weeks">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="week_id" Type="int" />
+    <Property Name="week_name" Type="varchar" MaxLength="255" />
+    <Property Name="createdby" Type="int" />
+    <Property Name="modifiedby" Type="int" />
+    <Property Name="createddate" Type="datetime" />
+    <Property Name="modifieddate" Type="datetime" />
+    <Property Name="isactive" Type="bit" />
+  </EntityType>
+  <EntityContainer Name="sentrifugoDBModelStoreContainer">
+    <EntitySet Name="main_empholidays" EntityType="Self.main_empholidays" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [main_empholidays].[id] AS [id], 
+    [main_empholidays].[user_id] AS [user_id], 
+    [main_empholidays].[holiday_group_id] AS [holiday_group_id], 
+    [main_empholidays].[createdby] AS [createdby], 
+    [main_empholidays].[modifiedby] AS [modifiedby], 
+    [main_empholidays].[createddate] AS [createddate], 
+    [main_empholidays].[modifieddate] AS [modifieddate], 
+    [main_empholidays].[isactive] AS [isactive]
+    FROM [dbo].[main_empholidays] AS [main_empholidays]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="main_employeeleaves" EntityType="Self.main_employeeleaves" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [main_employeeleaves].[id] AS [id], 
+    [main_employeeleaves].[user_id] AS [user_id], 
+    [main_employeeleaves].[emp_leave_limit] AS [emp_leave_limit], 
+    [main_employeeleaves].[used_leaves] AS [used_leaves], 
+    [main_employeeleaves].[alloted_year] AS [alloted_year], 
+    [main_employeeleaves].[createdby] AS [createdby], 
+    [main_employeeleaves].[modifiedby] AS [modifiedby], 
+    [main_employeeleaves].[createddate] AS [createddate], 
+    [main_employeeleaves].[modifieddate] AS [modifieddate], 
+    [main_employeeleaves].[isactive] AS [isactive], 
+    [main_employeeleaves].[isleavetrasnferset] AS [isleavetrasnferset]
+    FROM [dbo].[main_employeeleaves] AS [main_employeeleaves]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="main_employeeleavetypes" EntityType="Self.main_employeeleavetypes" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [main_employeeleavetypes].[id] AS [id], 
+    [main_employeeleavetypes].[leavetype] AS [leavetype], 
+    [main_employeeleavetypes].[numberofdays] AS [numberofdays], 
+    [main_employeeleavetypes].[leavecode] AS [leavecode], 
+    [main_employeeleavetypes].[description] AS [description], 
+    [main_employeeleavetypes].[leavepreallocated] AS [leavepreallocated], 
+    [main_employeeleavetypes].[leavepredeductable] AS [leavepredeductable], 
+    [main_employeeleavetypes].[createdby] AS [createdby], 
+    [main_employeeleavetypes].[modifiedby] AS [modifiedby], 
+    [main_employeeleavetypes].[createddate] AS [createddate], 
+    [main_employeeleavetypes].[modifieddate] AS [modifieddate], 
+    [main_employeeleavetypes].[isactive] AS [isactive]
+    FROM [dbo].[main_employeeleavetypes] AS [main_employeeleavetypes]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="main_leavemanagement" EntityType="Self.main_leavemanagement" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [main_leavemanagement].[id] AS [id], 
+    [main_leavemanagement].[cal_startmonth] AS [cal_startmonth], 
+    [main_leavemanagement].[weekend_startday] AS [weekend_startday], 
+    [main_leavemanagement].[weekend_endday] AS [weekend_endday], 
+    [main_leavemanagement].[businessunit_id] AS [businessunit_id], 
+    [main_leavemanagement].[department_id] AS [department_id], 
+    [main_leavemanagement].[hr_id] AS [hr_id], 
+    [main_leavemanagement].[hours_day] AS [hours_day], 
+    [main_leavemanagement].[is_satholiday] AS [is_satholiday], 
+    [main_leavemanagement].[is_halfday] AS [is_halfday], 
+    [main_leavemanagement].[is_leavetransfer] AS [is_leavetransfer], 
+    [main_leavemanagement].[is_skipholidays] AS [is_skipholidays], 
+    [main_leavemanagement].[descriptions] AS [descriptions], 
+    [main_leavemanagement].[createdby] AS [createdby], 
+    [main_leavemanagement].[modifiedby] AS [modifiedby], 
+    [main_leavemanagement].[createddate] AS [createddate], 
+    [main_leavemanagement].[modifieddate] AS [modifieddate], 
+    [main_leavemanagement].[isactive] AS [isactive]
+    FROM [dbo].[main_leavemanagement] AS [main_leavemanagement]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="main_leavemanagement_summary" EntityType="Self.main_leavemanagement_summary" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [main_leavemanagement_summary].[id] AS [id], 
+    [main_leavemanagement_summary].[leavemgmt_id] AS [leavemgmt_id], 
+    [main_leavemanagement_summary].[cal_startmonth] AS [cal_startmonth], 
+    [main_leavemanagement_summary].[cal_startmonthname] AS [cal_startmonthname], 
+    [main_leavemanagement_summary].[weekend_startday] AS [weekend_startday], 
+    [main_leavemanagement_summary].[weekend_startdayname] AS [weekend_startdayname], 
+    [main_leavemanagement_summary].[weekend_endday] AS [weekend_endday], 
+    [main_leavemanagement_summary].[weekend_enddayname] AS [weekend_enddayname], 
+    [main_leavemanagement_summary].[businessunit_id] AS [businessunit_id], 
+    [main_leavemanagement_summary].[businessunit_name] AS [businessunit_name], 
+    [main_leavemanagement_summary].[department_id] AS [department_id], 
+    [main_leavemanagement_summary].[department_name] AS [department_name], 
+    [main_leavemanagement_summary].[hours_day] AS [hours_day], 
+    [main_leavemanagement_summary].[is_satholiday] AS [is_satholiday], 
+    [main_leavemanagement_summary].[is_halfday] AS [is_halfday], 
+    [main_leavemanagement_summary].[is_leavetransfer] AS [is_leavetransfer], 
+    [main_leavemanagement_summary].[is_skipholidays] AS [is_skipholidays], 
+    [main_leavemanagement_summary].[descriptions] AS [descriptions], 
+    [main_leavemanagement_summary].[createdby] AS [createdby], 
+    [main_leavemanagement_summary].[modifiedby] AS [modifiedby], 
+    [main_leavemanagement_summary].[createddate] AS [createddate], 
+    [main_leavemanagement_summary].[modifieddate] AS [modifieddate], 
+    [main_leavemanagement_summary].[isactive] AS [isactive]
+    FROM [dbo].[main_leavemanagement_summary] AS [main_leavemanagement_summary]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="main_leaverequest" EntityType="Self.main_leaverequest" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [main_leaverequest].[id] AS [id], 
+    [main_leaverequest].[user_id] AS [user_id], 
+    [main_leaverequest].[reason] AS [reason], 
+    [main_leaverequest].[approver_comments] AS [approver_comments], 
+    [main_leaverequest].[leavetypeid] AS [leavetypeid], 
+    [main_leaverequest].[leaveday] AS [leaveday], 
+    [main_leaverequest].[from_date] AS [from_date], 
+    [main_leaverequest].[to_date] AS [to_date], 
+    [main_leaverequest].[leavestatus] AS [leavestatus], 
+    [main_leaverequest].[rep_mang_id] AS [rep_mang_id], 
+    [main_leaverequest].[hr_id] AS [hr_id], 
+    [main_leaverequest].[no_of_days] AS [no_of_days], 
+    [main_leaverequest].[appliedleavescount] AS [appliedleavescount], 
+    [main_leaverequest].[is_sat_holiday] AS [is_sat_holiday], 
+    [main_leaverequest].[createdby] AS [createdby], 
+    [main_leaverequest].[modifiedby] AS [modifiedby], 
+    [main_leaverequest].[createddate] AS [createddate], 
+    [main_leaverequest].[modifieddate] AS [modifieddate], 
+    [main_leaverequest].[isactive] AS [isactive]
+    FROM [dbo].[main_leaverequest] AS [main_leaverequest]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="main_leaverequest_history" EntityType="Self.main_leaverequest_history" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [main_leaverequest_history].[id] AS [id], 
+    [main_leaverequest_history].[leaverequest_id] AS [leaverequest_id], 
+    [main_leaverequest_history].[description] AS [description], 
+    [main_leaverequest_history].[createdby] AS [createdby], 
+    [main_leaverequest_history].[modifiedby] AS [modifiedby], 
+    [main_leaverequest_history].[createddate] AS [createddate], 
+    [main_leaverequest_history].[modifieddate] AS [modifieddate], 
+    [main_leaverequest_history].[isactive] AS [isactive]
+    FROM [dbo].[main_leaverequest_history] AS [main_leaverequest_history]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="main_leaverequest_summary" EntityType="Self.main_leaverequest_summary" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [main_leaverequest_summary].[id] AS [id], 
+    [main_leaverequest_summary].[leave_req_id] AS [leave_req_id], 
+    [main_leaverequest_summary].[user_id] AS [user_id], 
+    [main_leaverequest_summary].[user_name] AS [user_name], 
+    [main_leaverequest_summary].[department_id] AS [department_id], 
+    [main_leaverequest_summary].[department_name] AS [department_name], 
+    [main_leaverequest_summary].[bunit_id] AS [bunit_id], 
+    [main_leaverequest_summary].[buss_unit_name] AS [buss_unit_name], 
+    [main_leaverequest_summary].[reason] AS [reason], 
+    [main_leaverequest_summary].[approver_comments] AS [approver_comments], 
+    [main_leaverequest_summary].[leavetypeid] AS [leavetypeid], 
+    [main_leaverequest_summary].[leavetype_name] AS [leavetype_name], 
+    [main_leaverequest_summary].[leaveday] AS [leaveday], 
+    [main_leaverequest_summary].[from_date] AS [from_date], 
+    [main_leaverequest_summary].[to_date] AS [to_date], 
+    [main_leaverequest_summary].[leavestatus] AS [leavestatus], 
+    [main_leaverequest_summary].[rep_mang_id] AS [rep_mang_id], 
+    [main_leaverequest_summary].[rep_manager_name] AS [rep_manager_name], 
+    [main_leaverequest_summary].[hr_id] AS [hr_id], 
+    [main_leaverequest_summary].[hr_name] AS [hr_name], 
+    [main_leaverequest_summary].[no_of_days] AS [no_of_days], 
+    [main_leaverequest_summary].[appliedleavescount] AS [appliedleavescount], 
+    [main_leaverequest_summary].[is_sat_holiday] AS [is_sat_holiday], 
+    [main_leaverequest_summary].[createdby] AS [createdby], 
+    [main_leaverequest_summary].[modifiedby] AS [modifiedby], 
+    [main_leaverequest_summary].[createddate] AS [createddate], 
+    [main_leaverequest_summary].[modifieddate] AS [modifieddate], 
+    [main_leaverequest_summary].[isactive] AS [isactive]
+    FROM [dbo].[main_leaverequest_summary] AS [main_leaverequest_summary]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="main_monthslist" EntityType="Self.main_monthslist" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [main_monthslist].[id] AS [id], 
+    [main_monthslist].[month_id] AS [month_id], 
+    [main_monthslist].[monthcode] AS [monthcode], 
+    [main_monthslist].[description] AS [description], 
+    [main_monthslist].[createdby] AS [createdby], 
+    [main_monthslist].[modifiedby] AS [modifiedby], 
+    [main_monthslist].[createddate] AS [createddate], 
+    [main_monthslist].[modifieddate] AS [modifieddate], 
+    [main_monthslist].[isactive] AS [isactive]
+    FROM [dbo].[main_monthslist] AS [main_monthslist]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="main_weekdays" EntityType="Self.main_weekdays" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [main_weekdays].[id] AS [id], 
+    [main_weekdays].[day_name] AS [day_name], 
+    [main_weekdays].[dayshortcode] AS [dayshortcode], 
+    [main_weekdays].[daylongcode] AS [daylongcode], 
+    [main_weekdays].[description] AS [description], 
+    [main_weekdays].[createdby] AS [createdby], 
+    [main_weekdays].[modifiedby] AS [modifiedby], 
+    [main_weekdays].[createddate] AS [createddate], 
+    [main_weekdays].[modifieddate] AS [modifieddate], 
+    [main_weekdays].[isactive] AS [isactive]
+    FROM [dbo].[main_weekdays] AS [main_weekdays]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="tbl_months" EntityType="Self.tbl_months" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [tbl_months].[id] AS [id], 
+    [tbl_months].[monthid] AS [monthid], 
+    [tbl_months].[month_name] AS [month_name], 
+    [tbl_months].[createdby] AS [createdby], 
+    [tbl_months].[modifiedby] AS [modifiedby], 
+    [tbl_months].[createddate] AS [createddate], 
+    [tbl_months].[modifieddate] AS [modifieddate], 
+    [tbl_months].[isactive] AS [isactive]
+    FROM [dbo].[tbl_months] AS [tbl_months]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="tbl_weeks" EntityType="Self.tbl_weeks" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [tbl_weeks].[id] AS [id], 
+    [tbl_weeks].[week_id] AS [week_id], 
+    [tbl_weeks].[week_name] AS [week_name], 
+    [tbl_weeks].[createdby] AS [createdby], 
+    [tbl_weeks].[modifiedby] AS [modifiedby], 
+    [tbl_weeks].[createddate] AS [createddate], 
+    [tbl_weeks].[modifieddate] AS [modifieddate], 
+    [tbl_weeks].[isactive] AS [isactive]
+    FROM [dbo].[tbl_weeks] AS [tbl_weeks]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>

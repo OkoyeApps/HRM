@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="sentrifugoDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="main_empholidays">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="user_id" Type="Int32" />
+    <Property Name="holiday_group_id" Type="Int32" />
+    <Property Name="createdby" Type="Int32" />
+    <Property Name="modifiedby" Type="Int32" />
+    <Property Name="createddate" Type="DateTime" Precision="3" />
+    <Property Name="modifieddate" Type="DateTime" Precision="3" />
+    <Property Name="isactive" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="main_employeeleaves">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="user_id" Type="Int32" />
+    <Property Name="emp_leave_limit" Type="Double" />
+    <Property Name="used_leaves" Type="Double" />
+    <Property Name="alloted_year" Type="Int32" />
+    <Property Name="createdby" Type="Int32" />
+    <Property Name="modifiedby" Type="Int32" />
+    <Property Name="createddate" Type="DateTime" Precision="3" />
+    <Property Name="modifieddate" Type="DateTime" Precision="3" />
+    <Property Name="isactive" Type="Boolean" />
+    <Property Name="isleavetrasnferset" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="main_employeeleavetypes">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="leavetype" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="numberofdays" Type="Int32" />
+    <Property Name="leavecode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="leavepreallocated" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+    <Property Name="leavepredeductable" Type="Int32" />
+    <Property Name="createdby" Type="Int32" />
+    <Property Name="modifiedby" Type="Int32" />
+    <Property Name="createddate" Type="DateTime" Precision="3" />
+    <Property Name="modifieddate" Type="DateTime" Precision="3" />
+    <Property Name="isactive" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="main_leavemanagement">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="cal_startmonth" Type="Int32" />
+    <Property Name="weekend_startday" Type="Int32" />
+    <Property Name="weekend_endday" Type="Int32" />
+    <Property Name="businessunit_id" Type="Int32" />
+    <Property Name="department_id" Type="Int32" />
+    <Property Name="hr_id" Type="Int32" />
+    <Property Name="hours_day" Type="Int32" />
+    <Property Name="is_satholiday" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+    <Property Name="is_halfday" Type="Boolean" />
+    <Property Name="is_leavetransfer" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+    <Property Name="is_skipholidays" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+    <Property Name="descriptions" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="createdby" Type="Int32" />
+    <Property Name="modifiedby" Type="Int32" />
+    <Property Name="createddate" Type="DateTime" Precision="3" />
+    <Property Name="modifieddate" Type="DateTime" Precision="3" />
+    <Property Name="isactive" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="main_leavemanagement_summary">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="leavemgmt_id" Type="Int32" />
+    <Property Name="cal_startmonth" Type="Int32" />
+    <Property Name="cal_startmonthname" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="weekend_startday" Type="Int32" />
+    <Property Name="weekend_startdayname" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="weekend_endday" Type="Int32" />
+    <Property Name="weekend_enddayname" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="businessunit_id" Type="Int32" />
+    <Property Name="businessunit_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="department_id" Type="Int32" />
+    <Property Name="department_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="hours_day" Type="Int32" />
+    <Property Name="is_satholiday" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+    <Property Name="is_halfday" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+    <Property Name="is_leavetransfer" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+    <Property Name="is_skipholidays" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+    <Property Name="descriptions" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="createdby" Type="Int32" />
+    <Property Name="modifiedby" Type="Int32" />
+    <Property Name="createddate" Type="DateTime" Precision="3" />
+    <Property Name="modifieddate" Type="DateTime" Precision="3" />
+    <Property Name="isactive" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="main_leaverequest">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="user_id" Type="Int32" />
+    <Property Name="reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="approver_comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="leavetypeid" Type="Int32" />
+    <Property Name="leaveday" Type="Boolean" />
+    <Property Name="from_date" Type="DateTime" Precision="0" />
+    <Property Name="to_date" Type="DateTime" Precision="0" />
+    <Property Name="leavestatus" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="rep_mang_id" Type="Int32" />
+    <Property Name="hr_id" Type="Int32" />
+    <Property Name="no_of_days" Type="Double" />
+    <Property Name="appliedleavescount" Type="Double" />
+    <Property Name="is_sat_holiday" Type="Boolean" />
+    <Property Name="createdby" Type="Int32" />
+    <Property Name="modifiedby" Type="Int32" />
+    <Property Name="createddate" Type="DateTime" Precision="3" />
+    <Property Name="modifieddate" Type="DateTime" Precision="3" />
+    <Property Name="isactive" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="main_leaverequest_history">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="leaverequest_id" Type="Int32" />
+    <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="createdby" Type="Int32" />
+    <Property Name="modifiedby" Type="Int32" />
+    <Property Name="createddate" Type="DateTime" Precision="3" />
+    <Property Name="modifieddate" Type="DateTime" Precision="3" />
+    <Property Name="isactive" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="main_leaverequest_summary">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="leave_req_id" Type="Int32" />
+    <Property Name="user_id" Type="Int32" />
+    <Property Name="user_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="department_id" Type="Int32" />
+    <Property Name="department_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="bunit_id" Type="Int32" />
+    <Property Name="buss_unit_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="approver_comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="leavetypeid" Type="Int32" />
+    <Property Name="leavetype_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="leaveday" Type="Boolean" />
+    <Property Name="from_date" Type="DateTime" Precision="0" />
+    <Property Name="to_date" Type="DateTime" Precision="0" />
+    <Property Name="leavestatus" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="rep_mang_id" Type="Int32" />
+    <Property Name="rep_manager_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="hr_id" Type="Int32" />
+    <Property Name="hr_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="no_of_days" Type="Double" />
+    <Property Name="appliedleavescount" Type="Double" />
+    <Property Name="is_sat_holiday" Type="Boolean" />
+    <Property Name="createdby" Type="Int32" />
+    <Property Name="modifiedby" Type="Int32" />
+    <Property Name="createddate" Type="DateTime" Precision="3" />
+    <Property Name="modifieddate" Type="DateTime" Precision="3" />
+    <Property Name="isactive" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="main_monthslist">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="month_id" Type="Int32" />
+    <Property Name="monthcode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="createdby" Type="Int32" />
+    <Property Name="modifiedby" Type="Int32" />
+    <Property Name="createddate" Type="DateTime" Precision="3" />
+    <Property Name="modifieddate" Type="DateTime" Precision="3" />
+    <Property Name="isactive" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="main_weekdays">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="day_name" Type="Int32" />
+    <Property Name="dayshortcode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="daylongcode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="createdby" Type="Int32" />
+    <Property Name="modifiedby" Type="Int32" />
+    <Property Name="createddate" Type="DateTime" Precision="3" />
+    <Property Name="modifieddate" Type="DateTime" Precision="3" />
+    <Property Name="isactive" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="tbl_months">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="monthid" Type="Int32" />
+    <Property Name="month_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="createdby" Type="Int32" />
+    <Property Name="modifiedby" Type="Int32" />
+    <Property Name="createddate" Type="DateTime" Precision="3" />
+    <Property Name="modifieddate" Type="DateTime" Precision="3" />
+    <Property Name="isactive" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="tbl_weeks">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="week_id" Type="Int32" />
+    <Property Name="week_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="createdby" Type="Int32" />
+    <Property Name="modifiedby" Type="Int32" />
+    <Property Name="createddate" Type="DateTime" Precision="3" />
+    <Property Name="modifieddate" Type="DateTime" Precision="3" />
+    <Property Name="isactive" Type="Boolean" />
+  </EntityType>
+  <EntityContainer Name="sentrifugoDBEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="main_empholidays" EntityType="Self.main_empholidays" />
+    <EntitySet Name="main_employeeleaves" EntityType="Self.main_employeeleaves" />
+    <EntitySet Name="main_employeeleavetypes" EntityType="Self.main_employeeleavetypes" />
+    <EntitySet Name="main_leavemanagement" EntityType="Self.main_leavemanagement" />
+    <EntitySet Name="main_leavemanagement_summary" EntityType="Self.main_leavemanagement_summary" />
+    <EntitySet Name="main_leaverequest" EntityType="Self.main_leaverequest" />
+    <EntitySet Name="main_leaverequest_history" EntityType="Self.main_leaverequest_history" />
+    <EntitySet Name="main_leaverequest_summary" EntityType="Self.main_leaverequest_summary" />
+    <EntitySet Name="main_monthslist" EntityType="Self.main_monthslist" />
+    <EntitySet Name="main_weekdays" EntityType="Self.main_weekdays" />
+    <EntitySet Name="tbl_months" EntityType="Self.tbl_months" />
+    <EntitySet Name="tbl_weeks" EntityType="Self.tbl_weeks" />
+  </EntityContainer>
+</Schema>
