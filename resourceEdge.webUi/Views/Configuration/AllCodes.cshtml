@@ -1,0 +1,88 @@
+﻿@model IEnumerable<resourceEdge.Domain.Entities.IdentityCodes>
+
+@{
+    ViewBag.Title = "AllCodes";
+}
+
+<h2>AllCodes</h2>
+@if (ViewBag.IdentitySucces != null)
+{
+<div class="alert alert-success"> ViewBag.IdentitySuccess</div>
+}
+<p>
+    @Html.ActionLink("Create New", "AddCode")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.employee_code)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.backgroundagency_code)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.vendors_code)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.staffing_code)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.users_code)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.requisition_code)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.createdBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.createddate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.modifiedBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.modifieddate)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.employee_code)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.backgroundagency_code)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.vendors_code)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.staffing_code)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.users_code)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.requisition_code)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.createdBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.createddate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.modifiedBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.modifieddate)
+        </td>
+        <td>
+            @Html.ActionLink("Edit Code", "EditCode", "Configuration", new { id = 1 })
+        </td>
+    </tr>
+}
+
+</table>

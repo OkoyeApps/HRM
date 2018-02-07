@@ -1,0 +1,160 @@
+﻿@model IEnumerable<resourceEdge.Domain.Entities.Employees>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_mainlayout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.empEmail)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dateOfJoining)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dateOfLeaving)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.reportingManager1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.empStatusId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.businessunitId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.departmentId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.jobtitleId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.positionId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.yearsExp)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.holidayGroup)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.prefixId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.extensionNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.officeNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.officeFaxnumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.createdby)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.modifiedby)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.createddate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.modifieddate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.isactive)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.isOrghead)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.modeofEmployement)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.empEmail)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dateOfJoining)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dateOfLeaving)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.reportingManager1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.empStatusId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.businessunitId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.departmentId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.jobtitleId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.positionId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.yearsExp)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.holidayGroup)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.prefixId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.extensionNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.officeNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.officeFaxnumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.createdby)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.modifiedby)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.createddate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.modifieddate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.isactive)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.isOrghead)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.modeofEmployement)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.empID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.empID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.empID })
+        </td>
+    </tr>
+}
+
+</table>

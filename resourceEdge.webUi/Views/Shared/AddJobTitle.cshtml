@@ -1,0 +1,95 @@
+﻿@model resourceEdge.Domain.Entities.Jobtitles
+
+<div class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
+    <div class="clearfix"> </div>
+    <div class="page-container">
+        <a class="btn btn-outline dark" data-toggle="modal" href="#jobTitle"> View Demo </a>
+        <div id="jobTitle" class="modal fade" tabindex="-1" data-width="1000" data-backdrop="static" data-keyboard="true">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title succ">Add Job</h4>
+            </div>
+
+                <div class="modal-body" id="empFrm">
+            @using (Ajax.BeginForm("AddJobTitle", "Configuration", new { returnurl = ViewBag.returnUrl }, new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "body" }))
+            {
+                    <div class="col-md-12">
+                        <div class="form-horizontal">
+                            @if ((string)TempData["Error"] != null)
+                            {
+                                string message = TempData["Error"].ToString();
+                                <div class="alert alert-danger" style="text-align : center">@message</div>
+                            }
+
+                            <hr />
+                            @Html.AntiForgeryToken()
+
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.jobtitlecode, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.jobtitlecode, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.jobtitlecode, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.jobtitlename, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.jobtitlename, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.jobtitlename, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.jobdescription, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.jobdescription, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.jobdescription, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.minexperiencerequired, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.minexperiencerequired, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.minexperiencerequired, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.jobpaygradecode, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.jobpaygradecode, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.jobpaygradecode, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.jobpayfrequency, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.jobpayfrequency, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.jobpayfrequency, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.comments, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <textarea cols="4" name="comments" class="form-control"></textarea>
+                                    @Html.ValidationMessageFor(model => model.comments, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="reset" data-dismiss="modal" class="btn btn-outline dark">Close</button>
+                        <input type="submit" class="btn btn-success" value="Create">
+                    </div>
+            }
+                </div>
+        </div>
+    </div>
+</div>

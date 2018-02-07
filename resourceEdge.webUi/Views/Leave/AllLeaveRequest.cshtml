@@ -1,0 +1,76 @@
+﻿@model IEnumerable<resourceEdge.Domain.Entities.LeaveRequest>
+
+@{
+    ViewBag.Title = "AllLeaveRequest";
+    Layout = "~/Views/Shared/mainLayout2.cshtml";
+}
+
+<h2>AllLeaveRequest</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@if (Model.Count() > 0)
+{
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Reason)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LeavetypeId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FromDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ToDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.requestDaysNo)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Reason)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LeavetypeId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FromDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ToDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.requestDaysNo)
+        </td>
+   
+            <td>
+                @using (Html.BeginForm("ApproveLeave", "Leave", new { returnUrl = Request.Url.PathAndQuery, userId = item.UserId, id = item.id }))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="submit" value="Approve"  class="btn btn-sm btn-success col-md-6" />
+                }|
+                @using (Html.BeginForm("DenyLeave", "Leave", new { returnUrl = Request.Url.PathAndQuery, userId = item.UserId, id = item.id }))
+                { 
+                    @Html.AntiForgeryToken()
+                    <input type="submit" value="Deny" class="btn btn-sm btn-danger col-md-6" />
+                }
+                </td>
+    
+    </tr>
+}
+
+</table>
+
+}else
+{
+    <div class="alert alert-success">
+        <p style="font-family: Arial, Helvetica, sans-serif; font-weight: 100; text-align : center">No pending leave available</p>
+    </div>
+}

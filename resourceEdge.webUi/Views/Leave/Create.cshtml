@@ -1,0 +1,180 @@
+﻿@model resourceEdge.Domain.Entities.LeaveManagementViewModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/mainLayout2.cshtml";
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Leave Configuration</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.businessunitId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(x => x.businessunitId, (SelectList)ViewBag.businessUnits, htmlAttributes: new { id = "RmBusiness", @class = "form-control", placeholder = "please input business unit" })
+                @Html.ValidationMessageFor(model => model.businessunitId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.departmentId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select id="departmentId" name="departmentId" class="form-control"></select>
+                @Html.ValidationMessageFor(model => model.departmentId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CalStartMonth, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(x => x.CalStartMonth, (SelectList)ViewBag.Months, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CalStartMonth, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.WeekendStartDay, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(x => x.WeekendStartDay, (SelectList)ViewBag.weekDays, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.WeekendStartDay, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.WeekendEndDay, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(x => x.WeekendEndDay, (SelectList)ViewBag.weekDays, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.WeekendEndDay, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.HoursDay, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.HoursDay, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.HoursDay, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsHalfday, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EnumDropDownListFor(model => model.IsHalfday, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IsHalfday, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsLeaveTransfer, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EnumDropDownListFor(model => model.IsLeaveTransfer, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IsLeaveTransfer, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsSkipHolidays, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EnumDropDownListFor(model => model.IsSkipHolidays, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IsSkipHolidays, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.HrId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select id="reportManager" name="HrId" class="form-control"></select>
+                @Html.ValidationMessageFor(model => model.HrId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Descriptions, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <textarea cols="4" name="Descriptions" id="Descriptions" class="form-control"></textarea>
+                @Html.ValidationMessageFor(model => model.Descriptions, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+function getRMByBusId(id) {
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:58124/api/Settings/GetRMByBusinessUnit/' + id,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    console.log('in the getRMByBusId  method');
+                    console.log(data);
+                    $('#reportManager').empty();
+                    if (data != '') {
+                        $('#reportManager').append('<option value="">' + '--Select Report Manager--' + '</option>');
+                        $.each(data, function (index, data) {
+                            $('#reportManager').append('<option value="' + data.userId + '">' + data.FullName + '</option>');
+                        })
+                    } else {
+
+                        $('#reportManager').append('<option value="">' + 'No Report Manager For this Unit yet' + '</option>')
+                    }
+                },
+                failure: function () {
+                    var message = {
+                        message: "Failed to load data... Try again later"
+                    };
+                    $('#reportManager').append('<option value="">' + message.message + '</option>')
+                }
+            })
+        };
+        $('#RmBusiness').bind('change', function () {
+            getRMByBusId($(this).val());
+        });
+
+
+        function getDepartmentByBusinessUnit(id) {
+            console.log(id);
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:58124/api/Settings/GetDepartmentsById/' + id,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    console.log('in the Get department method');
+                    console.log(data);
+                    $('#departmentId').empty();
+                    $('#departmentId').append('<option value="">' + '--Select department--' + '</option>');
+                    $.each(data, function (index, val) {
+                        $('#departmentId').append('<option value="' + val.deptId + '">' + val.deptName + '</option>');
+                    })
+                },
+            })
+        }
+        $('#RmBusiness').bind('change', function () {
+            getDepartmentByBusinessUnit($(this).val());
+        })
+    </script>
+}
+

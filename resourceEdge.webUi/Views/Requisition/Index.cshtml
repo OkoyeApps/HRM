@@ -1,0 +1,167 @@
+﻿@model IEnumerable<resourceEdge.Domain.Entities.Requisition>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/mainLayout2.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table table-responsive table-bordered">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.RequisitionCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OnboardDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PositionId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReportingId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BusinessunitId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DepartmentId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JobTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReqNoPositions)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JobDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReqSkills)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReqQualification)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReqExpYears)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmpType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReqPriority)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AdditionalInfo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReqStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Approver1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Approver2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Approver3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AppStatus1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AppStatus2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AppStatus3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ClientId)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.RequisitionCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OnboardDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PositionId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReportingId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BusinessunitId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DepartmentId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.JobTitle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReqNoPositions)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.JobDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReqSkills)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReqQualification)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReqExpYears)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmpType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReqPriority)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AdditionalInfo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReqStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Approver1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Approver2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Approver3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AppStatus1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AppStatus2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AppStatus3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ClientId)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+        </td>
+    </tr>
+}
+
+</table>

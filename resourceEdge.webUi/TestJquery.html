@@ -1,0 +1,66 @@
+﻿<!--<!DOCTYPE html>-->
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+
+</head>
+<body>
+    <select id="jobItem"></select>
+    <button id="btn" onclick="getJobs()" type="button">Get Jobs</button>
+
+    <script src="Scripts/jquery-1.10.2.js"></script>
+    <script type="text/javascript">
+        function getJobs() {
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:58124/api/settings/getjobs',
+                success: function (data) {
+                    console.log('data returned from getJobs')
+                    console.log(data)
+                    $('#jobItem').empty();
+                    $('#jobItem').append('<option value="">' + '--Select job--' + '</option>');
+                    $.each(data, function (index, val) {
+
+                        $('#jobItem').append('<option value="' + val.JobId + '">' + val.JobName + '</option>');
+                    })
+                    //helpers.buildDropdown(jQuery.parseJSON(data), $('#SelectItem'), 'Select Option');
+                }
+            });
+        };
+
+        $('#jobItem').bind('change', function () {
+            getPositionsById($(this).val());
+        })
+
+        function getPositionsById(id) {
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:58124/api/Settings/GetPositionById/' + id,
+                //data: "{id:" + id + "}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    console.log('in the Get position method');
+                    console.log(data);
+                    console.log(data)
+                    $('#SelectItem').empty();
+                    $('#SelectItem').append('<option value="">' + '--Select Position--' + '</option>');
+                    $.each(data, function (index, val) {
+                        $('#SelectItem').append('<option value="' + val.JobId + '">' + val.JobName + '</option>');
+                    })
+                },
+                failure : function(){
+                    var message = {
+                        message : "Failed to load data... Try again later"
+                    };
+                    $('#SelectItem').append('<option value="">' + message.message + '</option>')
+            }
+            })
+        }
+        $(document).ready(function () {
+
+        })
+    </script>
+</body>
+</html>
