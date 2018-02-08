@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ResourceEdge2018Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="employee">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="date_of_joining" Type="DateTime" Precision="0" />
+    <Property Name="date_of_leaving" Type="DateTime" Precision="0" />
+    <Property Name="reporting_manager" Type="Int64" />
+    <Property Name="emp_status_id" Type="Int32" />
+    <Property Name="businessunit_id" Type="Int32" />
+    <Property Name="department_id" Type="Int32" />
+    <Property Name="jobtitle_id" Type="Int32" />
+    <Property Name="position_id" Type="Int32" />
+    <Property Name="years_exp" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+    <Property Name="holiday_group" Type="Int32" />
+    <Property Name="prefix_id" Type="Int32" />
+    <Property Name="extension_number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="office_number" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="office_faxnumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="createdby" Type="Int32" />
+    <Property Name="modifiedby" Type="Int32" />
+    <Property Name="createddate" Type="DateTime" Precision="3" />
+    <Property Name="modifieddate" Type="DateTime" Precision="3" />
+    <Property Name="isactive" Type="Boolean" />
+    <Property Name="is_orghead" Type="Boolean" />
+    <Property Name="userId" Type="Int32" />
+    <NavigationProperty Name="user" Relationship="Self.FK__employees__userI__5CA1C101" FromRole="employees" ToRole="users" />
+  </EntityType>
+  <EntityType Name="identityCode">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="employee_code" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="backgroundagency_code" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="vendors_code" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="staffing_code" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="users_code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="requisition_code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="createdBy" Type="Int32" />
+    <Property Name="createddate" Type="DateTime" Precision="3" />
+    <Property Name="modifiedBy" Type="Int32" />
+    <Property Name="modifieddate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="emprole" Type="Int32" />
+    <Property Name="userstatus" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="firstname" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="lastname" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="userfullname" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="emailaddress" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="contactnumber" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="empipaddress" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="emptemplock" Type="Byte" />
+    <Property Name="empreasonlocked" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="emplockeddate" Type="DateTime" Precision="0" />
+    <Property Name="emppassword" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="createdby" Type="Int32" />
+    <Property Name="modifiedby" Type="Int32" />
+    <Property Name="createddate" Type="DateTime" Precision="3" />
+    <Property Name="modifieddate" Type="DateTime" Precision="3" />
+    <Property Name="isactive" Type="Int16" />
+    <Property Name="employeeId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="modeofentry" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="other_modeofentry" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="entrycomments" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="rccandidatename" Type="Int32" />
+    <Property Name="selecteddate" Type="DateTime" Precision="0" />
+    <Property Name="candidatereferredby" Type="Int32" />
+    <Property Name="company_id" Type="Int32" />
+    <Property Name="profileimg" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="jobtitle_id" Type="Int64" />
+    <NavigationProperty Name="employees" Relationship="Self.FK__employees__userI__5CA1C101" FromRole="users" ToRole="employees" />
+  </EntityType>
+  <Association Name="FK__employees__userI__5CA1C101">
+    <End Role="users" Type="Self.user" Multiplicity="0..1" />
+    <End Role="employees" Type="Self.employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="employees">
+        <PropertyRef Name="userId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="EdgeDbContext" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="employees" EntityType="Self.employee" />
+    <EntitySet Name="identityCodes" EntityType="Self.identityCode" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="users" EntityType="Self.user" />
+    <AssociationSet Name="FK__employees__userI__5CA1C101" Association="Self.FK__employees__userI__5CA1C101">
+      <End Role="users" EntitySet="users" />
+      <End Role="employees" EntitySet="employees" />
+    </AssociationSet>
+    <EntitySet Name="businessunits" EntityType="ResourceEdge2018Model.businessunit" />
+    <EntitySet Name="departments" EntityType="ResourceEdge2018Model.department" />
+    <AssociationSet Name="FK__departmen__Busin__756D6ECB" Association="ResourceEdge2018Model.FK__departmen__Busin__756D6ECB">
+      <End Role="businessunit" EntitySet="businessunits" />
+      <End Role="department" EntitySet="departments" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="businessunit">
+    <Key>
+      <PropertyRef Name="BusId" />
+    </Key>
+    <Property Name="BusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="unitname" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="unitcode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="descriptions" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="startdate" Type="DateTime" Precision="0" />
+    <Property Name="country" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="CurrentState" Type="Int32" />
+    <Property Name="city" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="address1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="address2" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="address3" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="timezone" Type="Int32" />
+    <Property Name="unithead" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="createdby" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="modifiedby" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="createddate" Type="DateTime" Precision="3" />
+    <Property Name="modifieddate" Type="DateTime" Precision="3" />
+    <Property Name="isactive" Type="Boolean" />
+    <NavigationProperty Name="departments" Relationship="ResourceEdge2018Model.FK__departmen__Busin__756D6ECB" FromRole="businessunit" ToRole="department" />
+  </EntityType>
+  <EntityType Name="department">
+    <Key>
+      <PropertyRef Name="DeptId" />
+    </Key>
+    <Property Name="DeptId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="deptname" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="deptcode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="descriptions" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="startdate" Type="DateTime" Precision="0" />
+    <Property Name="country" Type="Int32" />
+    <Property Name="CurrentState" Type="Int32" />
+    <Property Name="city" Type="Int32" />
+    <Property Name="address1" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="address2" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="address3" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="timezone" Type="Int32" />
+    <Property Name="depthead" Type="Int32" />
+    <Property Name="BusinessunitId" Type="Int32" />
+    <Property Name="createdby" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="modifiedby" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="createddate" Type="DateTime" Precision="3" />
+    <Property Name="modifieddate" Type="DateTime" Precision="3" />
+    <Property Name="isactive" Type="Boolean" />
+    <NavigationProperty Name="businessunit" Relationship="ResourceEdge2018Model.FK__departmen__Busin__756D6ECB" FromRole="department" ToRole="businessunit" />
+  </EntityType>
+  <Association Name="FK__departmen__Busin__756D6ECB">
+    <End Type="ResourceEdge2018Model.businessunit" Role="businessunit" Multiplicity="0..1" />
+    <End Type="ResourceEdge2018Model.department" Role="department" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="businessunit">
+        <PropertyRef Name="BusId" />
+      </Principal>
+      <Dependent Role="department">
+        <PropertyRef Name="BusinessunitId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

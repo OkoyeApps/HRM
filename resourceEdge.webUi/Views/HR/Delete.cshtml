@@ -1,0 +1,209 @@
+﻿@model resourceEdge.Domain.Entities.Employees
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_mainlayout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Employees</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.user.userstatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user.userstatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.emp_email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.emp_email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.date_of_joining)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.date_of_joining)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.date_of_leaving)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.date_of_leaving)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.reporting_manager)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.reporting_manager)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.emp_status_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.emp_status_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.businessunit_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.businessunit_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.department_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.department_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.jobtitle_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.jobtitle_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.position_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.position_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.years_exp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.years_exp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.holiday_group)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.holiday_group)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.prefix_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.prefix_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.extension_number)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.extension_number)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.office_number)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.office_number)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.office_faxnumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.office_faxnumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.createdby)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.createdby)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.modifiedby)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.modifiedby)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.createddate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.createddate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.modifieddate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.modifieddate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.isactive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.isactive)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.is_orghead)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.is_orghead)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.modeofEmployement)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.modeofEmployement)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

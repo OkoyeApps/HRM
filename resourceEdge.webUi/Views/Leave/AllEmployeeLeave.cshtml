@@ -1,0 +1,59 @@
+﻿@model IEnumerable<resourceEdge.Domain.Entities.EmployeeLeaves>
+
+@{
+    ViewBag.Title = "AllEmployeeLeave";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+}
+
+<h2>AllEmployeeLeave</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserId)
+        </th>
+        <th>
+            Employee ID
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmpLeaveLimit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UsedLeaves)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AllotedYear)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+         @resourceEdge.webUi.Infrastructure.UsersLogic.getEmployeeFullNameByUserId(item.UserId)
+        </td>
+        <td>
+            @resourceEdge.webUi.Infrastructure.UsersLogic.getEmployeeIdFromUserTable(item.UserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmpLeaveLimit)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UsedLeaves)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AllotedYear)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,97 @@
+﻿@model IEnumerable<resourceEdge.Domain.Entities.LeaveManagement>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table table-responsive table-bordered">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CalStartMonth)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WeekendStartDay)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WeekendEndDay)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.businessunitId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.departmentId)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.HrId)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.HoursDay)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsHalfday)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsLeaveTransfer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsSkipHolidays)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Descriptions)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Isactive)
+        </th>*@
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CalStartMonth)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WeekendStartDay)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WeekendEndDay)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.businessunitId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.departmentId)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.HrId)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.HoursDay)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsHalfday)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsLeaveTransfer)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsSkipHolidays)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Descriptions)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+        </td>
+    </tr>
+}
+
+</table>

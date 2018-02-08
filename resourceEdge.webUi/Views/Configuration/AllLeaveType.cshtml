@@ -1,0 +1,60 @@
+﻿@model IEnumerable<resourceEdge.Domain.Entities.EmployeeLeaveTypes>
+
+@{
+    ViewBag.Title = "AllLeaveType";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>AllLeaveType</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.leavetype)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.numberofdays)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.leavecode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.leavepreallocated)
+        </th>
+        <th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.leavetype)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.numberofdays)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.leavecode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.leavepreallocated)
+        </td>
+
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+        </td>
+    </tr>
+}
+
+</table>

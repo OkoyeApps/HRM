@@ -1,0 +1,148 @@
+﻿@model resourceEdge.Domain.Entities.Departments
+
+<div>
+    <h4>Departments</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.deptname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.deptname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.deptcode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.deptcode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.descriptions)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.descriptions)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.startdate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.startdate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.country)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.country)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CurrentState)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CurrentState)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.city)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.city)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.address1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.address1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.address2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.address2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.address3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.address3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.depthead)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.depthead)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BunitId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BunitId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.createdby)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.createdby)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.modifiedby)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.modifiedby)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.createddate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.createddate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.modifieddate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.modifieddate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.isactive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.isactive)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.DeptId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

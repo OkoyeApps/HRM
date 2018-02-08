@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html ng-app="appModule">
+<head>
+    <base href="/">
+    <title>Configuration</title>
+    <meta charset="utf-8" />
+    <!-- css Files -->
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <!-- angular Files -->
+    <script src="Scripts/angular/angular.js"></script>
+    <script src="Scripts/angular/angular-route.js"></script>
+    <!-- angular config/routes -->
+    <script src="app.js"></script>
+    <script src="/Public/Services/MainService.js"></script>
+    <script src="/Public/Controllers/MainCtrl.js"></script>
+    <script src="route.js"></script>
+    <!-- controllers -->
+    <!-- services -->
+</head>
+<body >
+    <a href="/businessunits">Business Units</a>
+    <p class="alert alert-info">Hello From Configuration</p>
+    <div ng-controller="MainCtrl as main" ng-init="main.allJob()">
+        
+        <select ng-model="main.status">
+            <option >---Select Renumeration--</option>
+            <option value="{{stat.empsId}}" ng-repeat="stat in main.mainStat">{{stat.EmpStatusName}}</option>
+        </select>
+        <select ng-model="main.dropDown"  class="form-control" ng-change="main.postion(main.dropDown)"> <!--ng-click="main.allJob()"-->
+            <option>-----Select job Title</option>
+          <option value="{{job.JobId}}" ng-repeat="job in main.jobs">{{job.JobName}}</option>
+        </select>
+        <select ng-model="main.pos">
+            <option>---Select Position</option>
+            <option value="{{position.PositionId}}" ng-repeat="position in main.position">{{position.PositionName}}</option>
+        </select>
+       <!-- <input class="btn btn-success" ng-click="main.allJob()" value="Click" type="button"/>-->
+        <ng-view></ng-view>
+    </div>
+</body>
+</html>

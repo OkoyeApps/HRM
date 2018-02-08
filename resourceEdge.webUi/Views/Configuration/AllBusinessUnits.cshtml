@@ -1,0 +1,123 @@
+﻿@model IEnumerable<resourceEdge.Domain.Entities.BusinessUnits>
+
+@{
+    ViewBag.Title = "AllBusinessUnits";
+}
+
+<h2>AllBusinessUnits</h2>
+
+<p>
+    @Html.ActionLink("New unit", "addBusinessUnits")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.unitname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.unitcode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.descriptions)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.startdate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.country)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CurrentState)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.city)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.address1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.address2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.address3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.unithead)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.createdby)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.modifiedby)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.createddate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.modifieddate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.isactive)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.unitname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.unitcode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.descriptions)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.startdate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.country)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CurrentState)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.city)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.address1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.address2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.address3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.unithead)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.createdby)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.modifiedby)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.createddate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.modifieddate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.isactive)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditUnit", new { id=item.BusId }) |
+            @Html.ActionLink("Details", "unitDetail", new { id=item.BusId }) |
+            @Html.ActionLink("Delete", "deleteUnit", new { id=item.BusId })
+        </td>
+    </tr>
+}
+
+</table>

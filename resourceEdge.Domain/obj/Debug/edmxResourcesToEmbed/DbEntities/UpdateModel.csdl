@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="sentrifugoDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="main_businessunits">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="unitname" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="unitcode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="startdate" Type="DateTime" Precision="0" />
+    <Property Name="country" Type="Int32" />
+    <Property Name="state" Type="Int32" />
+    <Property Name="city" Type="Int32" />
+    <Property Name="address1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="address2" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="address3" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="timezone" Type="Int32" />
+    <Property Name="unithead" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="service_desk_flag" Type="Boolean" />
+    <Property Name="createdby" Type="Int32" />
+    <Property Name="modifiedby" Type="Int32" />
+    <Property Name="createddate" Type="DateTime" Precision="3" />
+    <Property Name="modifieddate" Type="DateTime" Precision="3" />
+    <Property Name="isactive" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="main_departments">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="deptname" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="deptcode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="startdate" Type="DateTime" Precision="0" />
+    <Property Name="country" Type="Int32" />
+    <Property Name="state" Type="Int32" />
+    <Property Name="city" Type="Int32" />
+    <Property Name="address1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="address2" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="address3" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="timezone" Type="Int32" />
+    <Property Name="depthead" Type="Int32" />
+    <Property Name="unitid" Type="Int32" />
+    <Property Name="createdby" Type="Int32" />
+    <Property Name="modifiedby" Type="Int32" />
+    <Property Name="createddate" Type="DateTime" Precision="3" />
+    <Property Name="modifieddate" Type="DateTime" Precision="3" />
+    <Property Name="isactive" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="main_employees">
+    <Key>
+      <PropertyRef Name="empId" />
+    </Key>
+    <Property Name="empId" Type="Int32" Nullable="false" />
+    <Property Name="user_id" Type="Int32" />
+    <Property Name="emp_email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="date_of_joining" Type="DateTime" Precision="0" />
+    <Property Name="date_of_leaving" Type="DateTime" Precision="0" />
+    <Property Name="reporting_manager" Type="Int32" />
+    <Property Name="emp_status_id" Type="Int32" />
+    <Property Name="businessunit_id" Type="Int32" />
+    <Property Name="department_id" Type="Int32" />
+    <Property Name="jobtitle_id" Type="Int32" />
+    <Property Name="position_id" Type="Int32" />
+    <Property Name="years_exp" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="holiday_group" Type="Int32" />
+    <Property Name="prefix_id" Type="Int32" />
+    <Property Name="extension_number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="office_number" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="office_faxnumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="createdby" Type="Int32" />
+    <Property Name="modifiedby" Type="Int32" />
+    <Property Name="createddate" Type="DateTime" Precision="3" />
+    <Property Name="modifieddate" Type="DateTime" Precision="3" />
+    <Property Name="isactive" Type="Boolean" />
+    <Property Name="is_orghead" Type="Boolean" />
+    <NavigationProperty Name="main_users" Relationship="Self.FK__main_empl__user___3647D946" FromRole="main_employees" ToRole="main_users" />
+  </EntityType>
+  <EntityType Name="main_jobtitles">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="jobtitlecode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="jobtitlename" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="jobdescription" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="minexperiencerequired" Type="Double" />
+    <Property Name="jobpaygradecode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="jobpayfrequency" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="comments" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="createdby" Type="Int32" />
+    <Property Name="modifiedby" Type="Int32" />
+    <Property Name="createddate" Type="DateTime" Precision="3" />
+    <Property Name="modifieddate" Type="DateTime" Precision="3" />
+    <Property Name="isactive" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="main_positions">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="positionname" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="jobtitleid" Type="Int32" />
+    <Property Name="description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="createdby" Type="Int32" />
+    <Property Name="modifiedby" Type="Int32" />
+    <Property Name="createddate" Type="DateTime" Precision="3" />
+    <Property Name="modifieddate" Type="DateTime" Precision="3" />
+    <Property Name="isactive" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="main_prefix">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="prefix" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="createdby" Type="Int32" />
+    <Property Name="modifiedby" Type="Int32" />
+    <Property Name="createddate" Type="DateTime" Precision="3" />
+    <Property Name="modifieddate" Type="DateTime" Precision="3" />
+    <Property Name="isactive" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="main_users">
+    <Key>
+      <PropertyRef Name="userID" />
+    </Key>
+    <Property Name="userID" Type="Int32" Nullable="false" />
+    <Property Name="emprole" Type="Int32" />
+    <Property Name="userstatus" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+    <Property Name="firstname" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="lastname" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="userfullname" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="emailaddress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="contactnumber" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="backgroundchk_status" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="emptemplock" Type="Boolean" />
+    <Property Name="empreasonlocked" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="emplockeddate" Type="DateTime" Precision="0" />
+    <Property Name="emppassword" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="createdby" Type="Int32" />
+    <Property Name="modifiedby" Type="Int32" />
+    <Property Name="createddate" Type="DateTime" Precision="3" />
+    <Property Name="modifieddate" Type="DateTime" Precision="3" />
+    <Property Name="isactive" Type="Int32" />
+    <Property Name="employeeId" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="modeofentry" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="other_modeofentry" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="entrycomments" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="rccandidatename" Type="Int32" />
+    <Property Name="selecteddate" Type="DateTime" Precision="0" />
+    <Property Name="candidatereferredby" Type="Int32" />
+    <Property Name="company_id" Type="Int32" />
+    <Property Name="profileimg" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="jobtitle_id" Type="Int32" />
+    <NavigationProperty Name="main_employees" Relationship="Self.FK__main_empl__user___3647D946" FromRole="main_users" ToRole="main_employees" />
+  </EntityType>
+  <EntityType Name="tbl_employmentstatus">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="employemnt_status" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="createdby" Type="Int32" />
+    <Property Name="modifiedby" Type="Int32" />
+    <Property Name="createddate" Type="DateTime" Precision="3" />
+    <Property Name="modifieddate" Type="DateTime" Precision="3" />
+    <Property Name="isactive" Type="Boolean" />
+  </EntityType>
+  <Association Name="FK__main_empl__user___3647D946">
+    <End Role="main_users" Type="Self.main_users" Multiplicity="0..1" />
+    <End Role="main_employees" Type="Self.main_employees" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="main_users">
+        <PropertyRef Name="userID" />
+      </Principal>
+      <Dependent Role="main_employees">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="sentrifugoDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="main_businessunits" EntityType="Self.main_businessunits" />
+    <EntitySet Name="main_departments" EntityType="Self.main_departments" />
+    <EntitySet Name="main_employees" EntityType="Self.main_employees" />
+    <EntitySet Name="main_jobtitles" EntityType="Self.main_jobtitles" />
+    <EntitySet Name="main_positions" EntityType="Self.main_positions" />
+    <EntitySet Name="main_prefix" EntityType="Self.main_prefix" />
+    <EntitySet Name="main_users" EntityType="Self.main_users" />
+    <EntitySet Name="tbl_employmentstatus" EntityType="Self.tbl_employmentstatus" />
+    <AssociationSet Name="FK__main_empl__user___3647D946" Association="Self.FK__main_empl__user___3647D946">
+      <End Role="main_users" EntitySet="main_users" />
+      <End Role="main_employees" EntitySet="main_employees" />
+    </AssociationSet>
+    <EntitySet Name="main_identitycodes" EntityType="sentrifugoDBModel.main_identitycodes" />
+  </EntityContainer>
+  <EntityType Name="main_identitycodes">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+    <Property Name="employee_code" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="backgroundagency_code" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="vendors_code" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="staffing_code" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="users_code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="requisition_code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="createdBy" Type="Int32" />
+    <Property Name="createddate" Type="DateTime" Precision="3" />
+    <Property Name="modifiedBy" Type="Int32" />
+    <Property Name="modifieddate" Type="DateTime" Precision="3" />
+  </EntityType>
+</Schema>
