@@ -35,8 +35,8 @@ namespace resourceEdge.webUi.Controllers
                 userManager = value;
             }
         }
-        // GET: Employee
-        public ActionResult Index()
+        // Edit: Edit
+        public ActionResult Edit()
         {
             return View();
         }
