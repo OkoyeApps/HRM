@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Entities
 {
-    public class Payroll
+    public class EmpPayroll
     {
-        public Payroll()
+        public EmpPayroll()
         {
         }
 
+        public int Id { get; set; }
         public string BusinessUnit { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }

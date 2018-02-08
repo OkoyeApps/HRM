@@ -129,9 +129,8 @@
                                         </td>
 
                                         <td>
-                                            @Html.ActionLink("Edit", "Edit", new { id = item.empID }) |
+                                            @Html.ActionLink("Edit", "Edit", "Employee",  new { userId = item.userId }, null) |
                                             @Html.ActionLink("Details", "Details", new { id = item.empID, returnUrl = Request.Url.PathAndQuery }) |
-                                            @Html.ActionLink("Delete", "Delete", new { id = item.empID })
                                         </td>
                                     </tr>
                                 </tbody>

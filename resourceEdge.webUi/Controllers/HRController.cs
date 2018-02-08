@@ -60,8 +60,7 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult allEmployee()
         {
             
-            var employees = empRepo.getEmployees();
-
+            var employees = empRepo.getEmployees().ToList();
             return View(employees.ToList());
         }
 

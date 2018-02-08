@@ -87,10 +87,10 @@ namespace resourceEdge.webUi.Infrastructure
                         }
                         else
                         {
-                            var message = $"Welcome to Tence Your Username is {user.UserName} and Password is {password}. \n Please ensure to keep this details safe.";
-                            // await  userManager.SendEmailAsync(user.Id, "Account Creation", message);
-                            NotificationManager manager = new NotificationManager();
-                            await manager.sendEmailNotification("Tenece", "noreply@gmail.com", message, user.Email);
+                            //activate this later
+                            //var message = $"Welcome to Tence Your Username is {user.UserName} and Password is {password}. \n Please ensure to keep this details safe.";
+                            //NotificationManager manager = new NotificationManager();
+                            //await manager.sendEmailNotification("Tenece", "noreply@gmail.com", message, user.Email);
                             return user;
 
                         }

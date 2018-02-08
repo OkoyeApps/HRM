@@ -7,6 +7,8 @@ using System.Web.Mvc;
 using resourceEdge.Domain.Concrete;
 using resourceEdge.Domain.Abstracts;
 using resourceEdge.Domain.Entities;
+using Microsoft.AspNet.Identity.EntityFramework;
+using resourceEdge.webUi.Models;
 
 namespace resourceEdge.webUi.Infrastructure
 {
@@ -42,7 +44,8 @@ namespace resourceEdge.webUi.Infrastructure
             kernel.Bind<IReportManager>().To<ReprtManagerRepository>();
             kernel.Bind<ILeaveManagement>().To<LeaveManagementRepo>();
             kernel.Bind<IRequisition>().To<RequisitionRepo>();
-
+            kernel.Bind<IPayroll>().To<PayrollRepository>();
+            
         }
         }
 }

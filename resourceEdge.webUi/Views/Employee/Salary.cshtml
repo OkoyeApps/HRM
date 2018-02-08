@@ -1,37 +1,70 @@
-﻿@model resourceEdge.Domain.Entities.Payroll
+﻿@model resourceEdge.Domain.Entities.PayrollViewModel
+
+@{
+    ViewBag.Title = "Salary";
+
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            <label class="control-label">Salary</label>
+            <input type="text" placeholder="Salary" class="form-control" name="Salary" value="@Model.Salary" />
+            @Html.ValidationMessageFor(model => model.Salary, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Reimbursable</label>
+            <input type="text" placeholder="Reimbursable" class="form-control" name="Reimbursable" value="@Model.Reimbursable" />
+
+            @Html.ValidationMessageFor(model => model.Reimbursable, "", new { @class = "text-danger" })
+
+        </div>
+
+        <div class="form-group">
+       
+                <label class="control-label">Deduction</label>
+                <input type="text" placeholder="Deduction" class="form-control" name="Deduction" value="@Model.Deduction"/>
+            
+            @Html.ValidationMessageFor(model => model.Deduction, "", new { @class = "text-danger" })
+
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Loan</label>
+            <input type="text" placeholder="Loan" class="form-control" name="Loan" value="@Model.Loan" />
+            @Html.ValidationMessageFor(model => model.Loan, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Leave Allowance</label>
+            <input type="text" placeholder="Leave Allowance" class="form-control" name="LeaveAllowance" value="@Model.LeaveAllowance"/>
+            @Html.ValidationMessageFor(model => model.LeaveAllowance, "", new { @class = "text-danger" })
+
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Total</label>
+            <input type="text" placeholder="Total" class="form-control" name="Total" value="@Model.Total" />
+        </div>
+        <div class="form-group">
+            <label class="control-label">Remarks</label>
+            <textarea class="form-control" rows="3" placeholder="Remarks" name="Remarks"></textarea>
+        </div>
+
+        <div class="margiv-top-10 right">
+            <input type="submit" class="btn green" value="Save Changes" />
+        </div>
+    </div>
+}
 
 
-<form role="form" action="#">
-    <div class="form-group">
-        <label class="control-label">First Name</label>
-        <input type="text" placeholder="John" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label class="control-label">Last Name</label>
-        <input type="text" placeholder="Doe" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label class="control-label">Mobile Number</label>
-        <input type="text" placeholder="+1 646 580 DEMO (6284)" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label class="control-label">Interests</label>
-        <input type="text" placeholder="Design, Web etc." class="form-control" />
-    </div>
-    <div class="form-group">
-        <label class="control-label">Occupation</label>
-        <input type="text" placeholder="Web Developer" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label class="control-label">About</label>
-        <textarea class="form-control" rows="3" placeholder="We are KeenThemes!!!"></textarea>
-    </div>
-    <div class="form-group">
-        <label class="control-label">Website Url</label>
-        <input type="text" placeholder="http://www.mywebsite.com" class="form-control" />
-    </div>
-    <div class="margiv-top-10">
-        <a href="javascript:;" class="btn green"> Save Changes </a>
-        <a href="javascript:;" class="btn default"> Cancel </a>
-    </div>
-</form>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

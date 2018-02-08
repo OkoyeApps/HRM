@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using resourceEdge.Domain.Abstracts;
 using resourceEdge.Domain.Entities;
@@ -15,14 +16,16 @@ namespace resourceEdge.webUi.Controllers
     {
 
         private ApplicationUserManager userManager;
-        ApplicationDbContext db;
+        //ApplicationDbContext db;
         private IPayroll payRollRepo;
+        IEmployees EmployeeRepo;
 
-        public EmployeeController(ApplicationUserManager Umparam, ApplicationDbContext dbParam, IPayroll PRParam)
+        public EmployeeController(ApplicationDbContext dbParam, IPayroll PRParam, IEmployees EParam)
         {
-            UserManager = Umparam;
-            db = dbParam;
+            UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            //db = dbParam;
             payRollRepo = PRParam;
+            EmployeeRepo = EParam;
         }
         public ApplicationUserManager UserManager
         {
@@ -36,51 +39,70 @@ namespace resourceEdge.webUi.Controllers
             }
         }
         // Edit: Edit
-        public ActionResult Edit()
+        public ActionResult Edit(string userId)
         {
+            ViewBag.UserId = userId;
             return View();
         }
-
+        
         [ChildActionOnly]
-        public ActionResult Salary(string returnUrl)
+        public ActionResult Salary(string userId, string returnUrl)
         {
-            ViewBag.returnUrl = returnUrl;
-            return View();
+            var user = UserManager.FindById(userId);
+            if (user != null)
+            {
+              var empSalary = payRollRepo.GetByUserId(userId);
+                var empToSend = new PayrollViewModel()
+                {
+                    Deduction = empSalary.Deduction,
+                    LeaveAllowance = empSalary.LeaveAllowance,
+                    Loan = empSalary.Loan,
+                    Reimbursable = empSalary.Reimbursable,
+                    Salary = empSalary.Salary,
+                    Total = empSalary.Total,
+                    Remarks = empSalary.Remarks
+                };
+                ViewBag.empSalary = empSalary;
+                ViewBag.UserId = userId;
+                ViewBag.returnUrl = returnUrl;
+                return View(empToSend);
+            }
+            TempData["Error"] = "This route does not exist";
+            return RedirectToAction("allEmployee", "HR");
         }
 
-        [ValidateAntiForgeryToken]
         [HttpPost]
-        public ActionResult Salary(PayrollViewModel model, string returnUrl)
+        [ValidateAntiForgeryToken]
+        public ActionResult Salary(PayrollViewModel model, string userId, string returnUrl)
         {
             try
             {
-                var employee = userManager.FindById(model.UserId);
-                if (ModelState.IsValid && employee != null)
+                var user = userManager.FindById(userId);
+                var employee = EmployeeRepo.GetEmployeeByUserid(userId);
+                if (ModelState.IsValid && user != null && employee != null)
                 {
-                    Payroll payroll = new Payroll()
-                    {
-                        BusinessUnit = employee.businessunitId,
-                        Department = employee.departmentId,
-                        EmpName = employee.employees.FullName,
-                        UserId = employee.Id,
-                        EmpStatus = employee.employees.empStatusId,
-                        Deduction = model.Deduction,
-                        LeaveAllowance = model.LeaveAllowance,
-                        Reimbursable = model.Reimbursable,
-                        ResignationDate = model.ResignationDate,
-                        ResumptionDate = model.ResumptionDate,
-                        Loan = model.Loan,
-                        Salary = model.Salary,
-                        Total = model.Total,
-                        CreatedBy = User.Identity.GetUserId(),
-                        ModifiedBy = User.Identity.GetUserId(),
-                        CreatedDate = DateTime.Now,
-                        ModifiedDate = DateTime.Now,
-                        Remarks = model.Remarks
-                    };
-                    payRollRepo.Insert(payroll);
+                    EmpPayroll payroll = new EmpPayroll();
+                    payroll.BusinessUnit = employee.businessunitId.ToString();
+                    payroll.Department = employee.departmentId.ToString();
+                    payroll.EmpName = employee.FullName;
+                    payroll.UserId = user.Id;
+                    payroll.EmpStatus = employee.empStatusId;
+                    payroll.Deduction = model.Deduction;
+                    payroll.LeaveAllowance = model.LeaveAllowance;
+                    payroll.Reimbursable = model.Reimbursable;
+                    payroll.ResignationDate = employee.dateOfLeaving.Value;
+                    payroll.ResumptionDate = employee.dateOfJoining.Value; //Fix this later because it has to be from the employee Table
+                    payroll.Loan = model.Loan;
+                    payroll.Salary = model.Salary;
+                    payroll.Total = model.Total;
+                    payroll.CreatedBy = User.Identity.GetUserId();
+                    payroll.ModifiedBy = User.Identity.GetUserId();
+                    payroll.CreatedDate = DateTime.Now;
+                    payroll.ModifiedDate = DateTime.Now;
+                    payroll.Remarks = model.Remarks; 
+                    payRollRepo.AddORUpdate(userId, payroll);     
                     TempData["Success"] = "Operation successfull";
-                    return Redirect(returnUrl);
+                    return RedirectToAction("Edit", new { userId = userId, returnUrl = returnUrl });
                 }
             }
             catch (Exception ex)

@@ -57,8 +57,7 @@ namespace resourceEdge.Domain.Entities
        public virtual DbSet<Weeks> Weeks { get; set; }
         public virtual DbSet<EmployeeLeaveTypes> LeaveType { get; set; }
         public System.Data.Entity.DbSet<resourceEdge.Domain.Entities.Requisition> Requisition { get; set; }
-
-        public System.Data.Entity.DbSet<resourceEdge.Domain.Entities.LeaveRequestViewModel> LeaveRequestViewModels { get; set; }
+        public DbSet<EmpPayroll> Payroll { get; set; }
     }
     
 }
