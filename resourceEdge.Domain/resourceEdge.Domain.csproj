@@ -161,7 +161,6 @@
     <Compile Include="Entities\LeaveRequestSummary.cs" />
     <Compile Include="Entities\MonthList.cs" />
     <Compile Include="Entities\Months.cs" />
-    <Compile Include="Entities\Payroll.cs" />
     <Compile Include="Entities\Positions.cs" />
     <Compile Include="Entities\Prefixes.cs" />
     <Compile Include="Entities\ReportManagers.cs" />

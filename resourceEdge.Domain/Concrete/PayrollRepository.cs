@@ -8,7 +8,7 @@ using resourceEdge.Domain.Entities;
 
 namespace resourceEdge.Domain.Concrete
 {
-    class PayrollRepository : IPayroll
+   public class PayrollRepository : IPayroll
     {
         UnitofWork.UnitOfWork unitOfWork = new UnitofWork.UnitOfWork();
 
