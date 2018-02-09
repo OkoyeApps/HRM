@@ -11,11 +11,6 @@ namespace resourceEdge.Domain.Concrete
     public class RequisitionRepo : IRequisition
     {
         UnitofWork.UnitOfWork unitofWork  = new UnitofWork.UnitOfWork();
-        //public RequisitionRepo()
-        //{
-        //    unitofWork = new UnitofWork.UnitOfWork();
-        //}
-
         public void Delete(int id)
         {
             unitofWork.Requisition.Delete(id);
@@ -30,6 +25,11 @@ namespace resourceEdge.Domain.Concrete
         public Requisition GetById(int id)
         {
             return unitofWork.Requisition.GetByID(id);
+        }
+
+        public Requisition GetByUserId(string userId)
+        {
+            return unitofWork.GetDbContext().Requisition.Where(x => x.ReportingId == userId).FirstOrDefault();
         }
 
         public void Insert(Requisition entity)

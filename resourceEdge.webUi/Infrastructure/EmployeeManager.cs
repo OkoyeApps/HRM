@@ -5,23 +5,33 @@ using resourceEdge.Domain.UnitofWork;
 using resourceEdge.webUi.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace resourceEdge.webUi.Infrastructure
 {
+
+    public interface IEmployee
+    {
+
+    }
     public class EmployeeManager
     {
         UnitOfWork unitofWork = new UnitOfWork();
+        ControllerContext ctx = new ControllerContext();
+        private ILeaveManagement LeaveRepo;
+       private IFiles FileRepo;
 
-        ILeaveManagement LeaveRepo;
-        private ControllerContext CtrContext;
-        
-        public EmployeeManager() { }
-        public EmployeeManager(ControllerContext ctxParam)
+
+        public EmployeeManager() {
+
+        }
+        public EmployeeManager(IFiles fParam)
         {
-            CtrContext = ctxParam;
+            FileRepo = fParam;
         }
         public class EmployeeListItem
         {
@@ -157,6 +167,46 @@ namespace resourceEdge.webUi.Infrastructure
             return null;
         }
 
+        public void AddOrUpdateAvater(Files model, string userId, Files currentAvater, string filefullName, HttpPostedFileBase File, IFiles fileRepo)
+        {
+            if (currentAvater == null)
+            {
+
+                string fileName = Path.GetFileNameWithoutExtension(File.FileName);
+                string extenstion = Path.GetExtension(File.FileName);
+                fileName = fileName + DateTime.Now.ToString("yymmssff") + extenstion;
+                model.FilePath = "~/Files/Avatars/" + fileName;
+                fileName = Path.Combine(filefullName + fileName);
+                File.SaveAs(fileName);
+                var file = new Files()
+                {
+                    FileName = model.FileName,
+                    FilePath = model.FilePath,
+                    UserId = userId
+                };
+                fileRepo.Insert(model);
+            }
+            else
+            {
+                
+                string fileName = Path.GetFileNameWithoutExtension(File.FileName);
+                string extenstion = Path.GetExtension(File.FileName);
+                fileName = fileName + DateTime.Now.ToString("yymmssff") + extenstion;
+                model.FilePath = "~/Images/" + fileName;
+                fileName = Path.Combine(ctx.Controller.ControllerContext.HttpContext.Server.MapPath("~/Images/") + fileName);
+                File.SaveAs(fileName);
+                currentAvater.FileName = model.FileName;
+                currentAvater.FilePath = model.FilePath;               
+                fileRepo.Insert(model);
+            }
+        }
+        
+        public string getEmpAvatar(string userId)
+        {
+            //Update this method so you can check the file type later
+           return unitofWork.GetDbContext().Files.Where(x => x.UserId == userId).Select(x => x.FilePath).SingleOrDefault();
+        }
+
         public bool DoesReportManagerExist(string userId, int bUnitId)
         {
             var manager = unitofWork.GetDbContext().ReportManagers.Where(x => x.managerId == userId).ToList();
@@ -182,7 +232,8 @@ namespace resourceEdge.webUi.Infrastructure
 
         public void AddORUpdateSalary(string userId, PayrollViewModel entity,Employees employee, ApplicationUser currentUser, string systemUserId )
         {
-
+           
+            
             var CurrentPayRoll = unitofWork.GetDbContext().Payroll.Where(x => x.UserId == userId).FirstOrDefault();
             if (CurrentPayRoll != null)
             {
@@ -221,7 +272,6 @@ namespace resourceEdge.webUi.Infrastructure
                 unitofWork.Save();
             }
         }
-
 
 
 

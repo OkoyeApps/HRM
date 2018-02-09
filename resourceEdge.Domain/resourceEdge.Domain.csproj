@@ -87,6 +87,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstracts\IFiles.cs" />
     <Compile Include="Abstracts\GenericAbstract.cs" />
     <Compile Include="Abstracts\GenericInterface.cs" />
     <Compile Include="Abstracts\IBusinessUnits.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="Concrete\DepartmentRepository.cs" />
     <Compile Include="Concrete\EmployeeRepository.cs" />
     <Compile Include="Concrete\EmployementStatusRepository.cs" />
+    <Compile Include="Concrete\FileRepository.cs" />
     <Compile Include="Concrete\IdentityRepository.cs" />
     <Compile Include="Concrete\JobTitleRepository.cs" />
     <Compile Include="Concrete\LeaveManagementRepo.cs" />
@@ -152,6 +154,7 @@
     <Compile Include="Entities\EmployeeLeaveTypes.cs" />
     <Compile Include="Entities\Employees.cs" />
     <Compile Include="Entities\EmploymentStatus.cs" />
+    <Compile Include="Entities\Files.cs" />
     <Compile Include="Entities\IdentityCodes.cs" />
     <Compile Include="Entities\Jobtitles.cs" />
     <Compile Include="Entities\LeaveManagement.cs" />

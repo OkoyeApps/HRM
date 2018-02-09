@@ -58,6 +58,7 @@ namespace resourceEdge.Domain.Entities
         public virtual DbSet<EmployeeLeaveTypes> LeaveType { get; set; }
         public System.Data.Entity.DbSet<resourceEdge.Domain.Entities.Requisition> Requisition { get; set; }
         public DbSet<EmpPayroll> Payroll { get; set; }
+        public DbSet<Files> Files { get; set; }
     }
     
 }

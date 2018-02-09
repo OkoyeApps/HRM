@@ -5448,6 +5448,7 @@
     <Content Include="Views\Employee\EmployeeDetails.cshtml" />
     <Content Include="Views\Employee\Edit.cshtml" />
     <Content Include="Views\Employee\Salary.cshtml" />
+    <Content Include="Views\Employee\UpdateEmpAvater.cshtml" />
     <None Include="Views\Shared\mainLayout2.cshtml" />
     <Content Include="MainScript.js" />
     <Content Include="Plugins\Css\bootstrap-modal-bs3patch.css" />
@@ -5920,6 +5921,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="assets\apps\img\" />
     <Folder Include="assets\global\plugins\angularjs\plugins\angular-file-upload\uploads\" />
+    <Folder Include="Files\Avatars\" />
     <Folder Include="Images\Assets\" />
     <Folder Include="Images\Employee\" />
     <Folder Include="Views\Requsition\" />

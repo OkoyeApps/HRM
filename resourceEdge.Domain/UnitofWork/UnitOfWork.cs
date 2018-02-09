@@ -30,6 +30,7 @@ namespace resourceEdge.Domain.UnitofWork
         private GenericRepository<LeaveRequest> leaveRequestRepo;
         private GenericRepository<Requisition> requistionRepo;
         private GenericRepository<EmpPayroll> PayrollRepo;
+        public GenericRepository<Files> FilesRepo;
         public EdgeDbContext Context
         {
             get
@@ -120,6 +121,10 @@ namespace resourceEdge.Domain.UnitofWork
             get { return PayrollRepo ?? new GenericRepository<EmpPayroll>(Context); }
         }
 
+        public GenericRepository<Files> Files
+        {
+            get { return FilesRepo ?? new GenericRepository<Entities.Files>(Context); }
+        }
         public void Save()
         {
             myContext.SaveChanges();

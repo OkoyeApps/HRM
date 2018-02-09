@@ -15,5 +15,6 @@ namespace resourceEdge.Domain.Abstracts
         void Insert(IEntity entity);
         void Delete(int id);
         void update(IEntity entity);
+        IEntity GetByUserId(string userId);
     }
 }
