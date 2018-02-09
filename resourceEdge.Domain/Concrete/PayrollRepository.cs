@@ -12,7 +12,6 @@ namespace resourceEdge.Domain.Concrete
    public class PayrollRepository : IPayroll
     {
         UnitofWork.UnitOfWork unitOfWork = new UnitofWork.UnitOfWork();
-
         public void Delete(int id)
         {
             throw new NotImplementedException();
@@ -43,25 +42,10 @@ namespace resourceEdge.Domain.Concrete
 
         public void update(EmpPayroll entity)
         {
-            //unitOfWork.GetDbContext().Payroll.AddOrUpdate(entity);
-            //This method was used because we are assuming we are edititng the user now 
-            //but in reality the records does not exit at first so the add implements first 
-            //and the subsequently update runs
-            //unitOfWork.PayRoll.Update(entity);
+            unitOfWork.PayRoll.Update(entity);
             unitOfWork.Save();
         }
 
-        public void AddORUpdate(string userId, EmpPayroll entity)
-        {
-            var employee = unitOfWork.GetDbContext().Payroll.Where(x => x.UserId == userId).FirstOrDefault();
-            if (employee != null)
-            {
-                update(entity);      
-            }
-            else
-            {
-                Insert(entity);           
-            }
-        }
+       
     }
 }

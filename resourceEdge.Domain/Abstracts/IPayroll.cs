@@ -10,6 +10,5 @@ namespace resourceEdge.Domain.Abstracts
     public interface IPayroll : GenericInterface<EmpPayroll>
     {
         EmpPayroll GetByUserId(string UserId);
-        void AddORUpdate(string userId, EmpPayroll entity);
     }
 }

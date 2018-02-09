@@ -1623,7 +1623,9 @@
                             <div class="alert alert-error">@message</div>
                         }
                         <ul class="page-breadcrumb">
-                        
+                         <li>@RenderSection("ctr",required : false)</li>
+                            <li>@RenderSection("action", required: false)</li>
+                            <li>@RenderSection("ctr", required: false)</li>
                         </ul>
                     </div>
                     <!-- END PAGE BAR -->

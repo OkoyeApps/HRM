@@ -105,20 +105,20 @@ namespace resourceEdge.webUi.Controllers
             var EmployeeIdExist = Infrastructure.UserManager.checkEmployeeId(RealUserId);
             if (ModelState.IsValid && EmployeeIdExist != true)
             {
-                realEmployee.businessunitId = employees.businessunitId.Value;
-                realEmployee.createdby = null;
+                realEmployee.businessunitId = employees.businessunitId;
+                realEmployee.createdby = User.Identity.GetUserId();
                 realEmployee.dateOfJoining = employees.dateOfJoining;
                 realEmployee.dateOfLeaving = employees.dateOfLeaving;
-                realEmployee.departmentId = employees.departmentId.Value;
+                realEmployee.departmentId = employees.departmentId;
                 realEmployee.empEmail = employees.empEmail;
                 realEmployee.FullName = employees.FirstName + " " +  employees.lastName;
                 realEmployee.empStatusId = employees.empStatusId;
                 realEmployee.isactive = true;
-                realEmployee.jobtitleId = employees.jobtitleId.Value;
+                realEmployee.jobtitleId = employees.jobtitleId;
                 realEmployee.modeofEmployement = employees.modeofEmployement;
-                realEmployee.modifiedby = null;
+                realEmployee.modifiedby = User.Identity.GetUserId();
                 realEmployee.officeNumber = employees.officeNumber;
-                realEmployee.positionId = realEmployee.positionId;
+                realEmployee.positionId = employees.positionId;
                 realEmployee.prefixId = employees.prefixId;
                 realEmployee.yearsExp = employees.yearsExp;
                 realEmployee.isactive = true;
@@ -131,6 +131,10 @@ namespace resourceEdge.webUi.Controllers
                           employees.dateOfJoining, null, true, employees.departmentId.ToString(), employees.businessunitId.ToString());
                     if (newCreatedUser.Id != null)
                     {
+                        if (User.IsInRole("Manager"))
+                        {
+                            realEmployee.IsUnithead = true;
+                        }
                         realEmployee.empRoleId = employees.empRoleId;
                         realEmployee.userId = newCreatedUser.Id;
                         empRepo.addEmployees(realEmployee);
@@ -220,7 +224,6 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult AssignReportManager(reportmanagerViewModel model)
         {
             ReportManagers manager = new ReportManagers();
-            //var existingManager = ReportRepo.GetReportManagerById(model.userId);
             var existingManager = employeeManager.DoesReportManagerExist(model.userId, int.Parse(model.BunitId));
             if (ModelState.IsValid && existingManager == false)
             {

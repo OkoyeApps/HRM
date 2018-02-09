@@ -20,7 +20,6 @@ namespace resourceEdge.Domain.Entities
         public int empRoleId { get; set; }
         public string Firstname { get; set; }
         public string lastName { get; set; }
-
         public string FullName { get; set; }
         public string PhoneNumber { get; set; }
         public Nullable<System.DateTime> dateOfJoining { get; set; }
@@ -38,8 +37,8 @@ namespace resourceEdge.Domain.Entities
         public string extensionNumber { get; set; }
         public string officeNumber { get; set; }
         public string officeFaxnumber { get; set; }
-        public Nullable<int> createdby { get; set; }
-        public Nullable<int> modifiedby { get; set; }
+        public string createdby { get; set; }
+        public string modifiedby { get; set; }
         public Nullable<System.DateTime> createddate { get; set; }
         public Nullable<System.DateTime> modifieddate { get; set; }
         public Nullable<bool> isactive { get; set; }

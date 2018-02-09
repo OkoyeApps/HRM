@@ -4,8 +4,7 @@
     ViewBag.Title = "Salary";
 
 }
-
-@using (Html.BeginForm())
+@using (Html.BeginForm("AddOrUpdateSalary", "Employee", new { returnUrl = ViewBag.returnUrl, userId = ViewBag.UserId }, FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 

@@ -228,13 +228,13 @@ namespace resourceEdge.Domain.Entities
         [Required(ErrorMessage = "please specify the status field"), Display(Name = "Employment Status")]
         public string empStatusId { get; set; }
         [Required(ErrorMessage = "please select a business unit"), Display(Name = "Business Unit")]
-        public Nullable<int> businessunitId { get; set; }
+        public int businessunitId { get; set; }
         [Required(ErrorMessage = "please select a department"), Display(Name = "Department")]
-        public Nullable<int> departmentId { get; set; }
+        public int departmentId { get; set; }
         [Required(ErrorMessage = "please select a Job"), Display(Name = "Job Title")]
-        public Nullable<int> jobtitleId { get; set; }
+        public int jobtitleId { get; set; }
         [Required(ErrorMessage = "please select a Position"), Display(Name = "Position ")]
-        public Nullable<int> positionId { get; set; }
+        public int positionId { get; set; }
         [Display(Name = "Years of Experience")]
         public string yearsExp { get; set; }
         [Required(ErrorMessage = "please specify a prefix"), Display(Name = "Prefix")]

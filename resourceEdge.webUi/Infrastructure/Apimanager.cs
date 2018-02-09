@@ -14,7 +14,7 @@ namespace resourceEdge.webUi.Infrastructure
     {
         ///As at the time of writing this code i was too quick to use the class and property way to return specific data.
         ///This was as a result of been too much in a hurry and i wrote a whole lot of the codes here even without running the application.
-        ///For optimization and Maintance sake, The Linq select method should be used to return an anonymous property in each entity.
+        ///For optimization and Maintance sake, The Linq select method should be used to return an anonymous object with specific properties in each entity.
         ///Even if i forget to change this later, anyone who maintains this code should please change it.
 
 
@@ -254,6 +254,16 @@ namespace resourceEdge.webUi.Infrastructure
             }
             return null;
         }
+        public static List<Employees> GetEligibleManagerBybBusinessUnit(int id)
+        {
+            var employeeByUnit = unitOfWork.GetDbContext().employees.Where(x => x.businessunitId == id && x.empRoleId != 3 || x.empRoleId != 2 || x.empRoleId != 1).ToList();
+            if (employeeByUnit != null)
+            {
+                return employeeByUnit;
+            }
+            return null;
+        }
+
 
         public static List<Employees> GetReportManagerBusinessUnit(int id)
         {

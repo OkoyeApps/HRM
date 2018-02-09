@@ -1,10 +1,13 @@
-﻿using resourceEdge.Domain.Abstracts;
+﻿using Microsoft.AspNet.Identity;
+using resourceEdge.Domain.Abstracts;
 using resourceEdge.Domain.Entities;
 using resourceEdge.Domain.UnitofWork;
+using resourceEdge.webUi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace resourceEdge.webUi.Infrastructure
 {
@@ -13,9 +16,12 @@ namespace resourceEdge.webUi.Infrastructure
         UnitOfWork unitofWork = new UnitOfWork();
 
         ILeaveManagement LeaveRepo;
-        public EmployeeManager()
+        private ControllerContext CtrContext;
+        
+        public EmployeeManager() { }
+        public EmployeeManager(ControllerContext ctxParam)
         {
-            
+            CtrContext = ctxParam;
         }
         public class EmployeeListItem
         {
@@ -174,7 +180,47 @@ namespace resourceEdge.webUi.Infrastructure
             return false;
         }
 
-      
+        public void AddORUpdateSalary(string userId, PayrollViewModel entity,Employees employee, ApplicationUser currentUser, string systemUserId )
+        {
+
+            var CurrentPayRoll = unitofWork.GetDbContext().Payroll.Where(x => x.UserId == userId).FirstOrDefault();
+            if (CurrentPayRoll != null)
+            {
+                CurrentPayRoll.BusinessUnit = entity.BusinessUnit;
+                CurrentPayRoll.Deduction = entity.Deduction;
+                CurrentPayRoll.LeaveAllowance = entity.LeaveAllowance;
+                CurrentPayRoll.Loan = entity.Loan;
+                CurrentPayRoll.Reimbursable = entity.Reimbursable;
+                CurrentPayRoll.Salary = entity.Salary;
+                CurrentPayRoll.Total = entity.Total;
+                unitofWork.PayRoll.Update(CurrentPayRoll);
+                unitofWork.Save();
+            }
+            else
+            {             
+                EmpPayroll payroll = new EmpPayroll();
+                payroll.BusinessUnit = employee.businessunitId.ToString();
+                payroll.Department = employee.departmentId.ToString();
+                payroll.EmpName = employee.FullName;
+                payroll.UserId = currentUser.Id;
+                payroll.EmpStatus = employee.empStatusId;
+                payroll.Deduction = entity.Deduction;
+                payroll.LeaveAllowance = entity.LeaveAllowance;
+                payroll.Reimbursable = entity.Reimbursable;
+                payroll.ResignationDate = employee.dateOfLeaving.Value;
+                payroll.ResumptionDate = employee.dateOfJoining.Value;
+                payroll.Loan = entity.Loan;
+                payroll.Salary = entity.Salary;
+                payroll.Total = entity.Total;
+                payroll.CreatedBy = systemUserId;
+                payroll.ModifiedBy = systemUserId;
+                payroll.CreatedDate = DateTime.Now;
+                payroll.ModifiedDate = DateTime.Now;
+                payroll.Remarks = entity.Remarks;
+                unitofWork.PayRoll.Insert(payroll);
+                unitofWork.Save();
+            }
+        }
 
 
 

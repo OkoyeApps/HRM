@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using resourceEdge.Domain.Abstracts;
 using resourceEdge.Domain.Entities;
+using resourceEdge.webUi.Infrastructure;
 using resourceEdge.webUi.Models;
 using System;
 using System.Collections.Generic;
@@ -16,16 +17,16 @@ namespace resourceEdge.webUi.Controllers
     {
 
         private ApplicationUserManager userManager;
-        //ApplicationDbContext db;
         private IPayroll payRollRepo;
         IEmployees EmployeeRepo;
+        EmployeeManager EmpManager;
 
-        public EmployeeController(ApplicationDbContext dbParam, IPayroll PRParam, IEmployees EParam)
+        public EmployeeController(IPayroll PRParam, IEmployees EParam)
         {
             UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-            //db = dbParam;
             payRollRepo = PRParam;
             EmployeeRepo = EParam;
+            EmpManager = new EmployeeManager(ControllerContext);
         }
         public ApplicationUserManager UserManager
         {
@@ -73,36 +74,22 @@ namespace resourceEdge.webUi.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Salary(PayrollViewModel model, string userId, string returnUrl)
+        public string AddOrUpdateSalary(PayrollViewModel model, string userId, string returnUrl)
         {
             try
             {
                 var user = userManager.FindById(userId);
                 var employee = EmployeeRepo.GetEmployeeByUserid(userId);
                 if (ModelState.IsValid && user != null && employee != null)
-                {
-                    EmpPayroll payroll = new EmpPayroll();
-                    payroll.BusinessUnit = employee.businessunitId.ToString();
-                    payroll.Department = employee.departmentId.ToString();
-                    payroll.EmpName = employee.FullName;
-                    payroll.UserId = user.Id;
-                    payroll.EmpStatus = employee.empStatusId;
-                    payroll.Deduction = model.Deduction;
-                    payroll.LeaveAllowance = model.LeaveAllowance;
-                    payroll.Reimbursable = model.Reimbursable;
-                    payroll.ResignationDate = employee.dateOfLeaving.Value;
-                    payroll.ResumptionDate = employee.dateOfJoining.Value; //Fix this later because it has to be from the employee Table
-                    payroll.Loan = model.Loan;
-                    payroll.Salary = model.Salary;
-                    payroll.Total = model.Total;
-                    payroll.CreatedBy = User.Identity.GetUserId();
-                    payroll.ModifiedBy = User.Identity.GetUserId();
-                    payroll.CreatedDate = DateTime.Now;
-                    payroll.ModifiedDate = DateTime.Now;
-                    payroll.Remarks = model.Remarks; 
-                    payRollRepo.AddORUpdate(userId, payroll);     
+                { 
+                    EmpManager.AddORUpdateSalary(userId, model,employee, user, User.Identity.GetUserId() );     
                     TempData["Success"] = "Operation successfull";
-                    return RedirectToAction("Edit", new { userId = userId, returnUrl = returnUrl });
+                    Response.Redirect(returnUrl);
+                    //return View("Edit", new { userId = userId, returnUrl = returnUrl });
+                    return "Finished";
+                    ///I had to return a string here because asp.net mvc does not allow childActions to return a redirect 
+                    ///so i had to make use of the Response Object to redirect and just return a string.
+                    ///this might not be a best approach, will figure it out later.
                 }
             }
             catch (Exception ex)
@@ -110,7 +97,7 @@ namespace resourceEdge.webUi.Controllers
                 throw ex;
             }
             TempData["Error"] = "Something went wrong";
-            return View(model);
+            return "Finished";
         }
 
     }

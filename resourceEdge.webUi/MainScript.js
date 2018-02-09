@@ -108,40 +108,6 @@ function getidentityCode() {
     })
 };
 
-function GetEmployeeByBUnit(id) {
-    $.ajax({
-        type: 'GET',
-        url: 'http://localhost:58124/api/Settings/GetEmpByBusinessUnit/' + id,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (data) {
-            console.log('in the GetEmployeeByBusinessUnit  method');
-            console.log(data);
-            $('#userId').empty();
-            if (data != '') {
-                $('#userId').append('<option value="">' + '--Select Employee--' + '</option>');
-                $.each(data, function (index, data) {
-                    $('#userId').append('<option value="' + data.userId + '">' + data.empEmail + '</option>');
-                })
-            } else {
-
-                $('#userId').append('<option value="">' + 'No Employee For this Unit yet' + '</option>')
-            }
-        },
-        failure: function () {
-            var message = {
-                message: "Failed to load data... Try again later"
-            };
-            $('#userId').append('<option value="">' + message.message + '</option>')
-        }
-    })
-};
-
-
-
-$('#BunitId').bind('change', function () {
-    GetEmployeeByBUnit($(this).val());
-});
 
 function getHrByBusId(id) {
     $.ajax({

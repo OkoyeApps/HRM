@@ -137,7 +137,7 @@
                             <div class="tab-content">
                                 <!-- PERSONAL INFO TAB -->
                                 <div class="tab-pane active" id="tab_1_1">
-                                    @Html.Action("Salary", "Employee", new { userId = userId, returnUrl = Request.Url.AbsolutePath})
+                                    @Html.Action("Salary", "Employee", new { userId = userId, returnUrl = Request.Url.PathAndQuery})
                                 </div>
                                 <!-- END PERSONAL INFO TAB -->
                                 <!-- CHANGE AVATAR TAB -->

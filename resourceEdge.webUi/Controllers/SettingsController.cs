@@ -125,6 +125,26 @@ namespace resourceEdge.webUi.Controllers
             }
         }
 
+        [Route("api/Settings/GetEligibleReportManager/{id:int}")]
+        [HttpGet]
+        public IHttpActionResult GetEligibleReportManager(int? id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+            var result = Apimanager.GetEligibleManagerBybBusinessUnit(id.Value);
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            else
+            {
+                return Ok(result);
+            }
+        }
+
         [Route("api/Settings/GetRMByBusinessUnit/{id:int}")]
         [HttpGet]
         public IHttpActionResult GetRMByBusinessUnit(int? id)
