@@ -18,8 +18,6 @@ namespace resourceEdge.Domain.Entities
         public string userId { get; set; }
         public string empEmail { get; set; }
         public int empRoleId { get; set; }
-        public string Firstname { get; set; }
-        public string lastName { get; set; }
         public string FullName { get; set; }
         public string PhoneNumber { get; set; }
         public Nullable<System.DateTime> dateOfJoining { get; set; }
@@ -32,11 +30,8 @@ namespace resourceEdge.Domain.Entities
         public int jobtitleId { get; set; }
         public int positionId { get; set; }
         public string yearsExp { get; set; }
-        public Nullable<int> holidayGroup { get; set; }
         public prefixes prefixId { get; set; }
-        public string extensionNumber { get; set; }
         public string officeNumber { get; set; }
-        public string officeFaxnumber { get; set; }
         public string createdby { get; set; }
         public string modifiedby { get; set; }
         public Nullable<System.DateTime> createddate { get; set; }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using resourceEdge.Domain.Abstracts;
 using resourceEdge.Domain.Entities;
 using resourceEdge.Domain.UnitofWork;
@@ -14,20 +15,19 @@ using System.Web.Routing;
 namespace resourceEdge.webUi.Infrastructure
 {
 
-    public interface IEmployee
-    {
-
-    }
     public class EmployeeManager
     {
         UnitOfWork unitofWork = new UnitOfWork();
-        ControllerContext ctx = new ControllerContext();
         private ILeaveManagement LeaveRepo;
-       private IFiles FileRepo;
+        private IFiles FileRepo;
+        private ApplicationDbContext db = new ApplicationDbContext();
+        private resourceEdge.webUi.ApplicationUserManager userManager;
+        
 
 
-        public EmployeeManager() {
-
+        public EmployeeManager()
+        {
+            userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
         }
         public EmployeeManager(IFiles fParam)
         {
@@ -177,6 +177,7 @@ namespace resourceEdge.webUi.Infrastructure
                 fileName = fileName + DateTime.Now.ToString("yymmssff") + extenstion;
                 model.FilePath = "~/Files/Avatars/" + fileName;
                 fileName = Path.Combine(filefullName + fileName);
+                model.FileType = FileType.Avatar;
                 File.SaveAs(fileName);
                 var file = new Files()
                 {
@@ -193,7 +194,8 @@ namespace resourceEdge.webUi.Infrastructure
                 string extenstion = Path.GetExtension(File.FileName);
                 fileName = fileName + DateTime.Now.ToString("yymmssff") + extenstion;
                 model.FilePath = "~/Images/" + fileName;
-                fileName = Path.Combine(ctx.Controller.ControllerContext.HttpContext.Server.MapPath("~/Images/") + fileName);
+                fileName = Path.Combine(filefullName + fileName);
+                model.FileType = FileType.Avatar;
                 File.SaveAs(fileName);
                 currentAvater.FileName = model.FileName;
                 currentAvater.FilePath = model.FilePath;               
@@ -204,8 +206,27 @@ namespace resourceEdge.webUi.Infrastructure
         public string getEmpAvatar(string userId)
         {
             //Update this method so you can check the file type later
-           return unitofWork.GetDbContext().Files.Where(x => x.UserId == userId).Select(x => x.FilePath).SingleOrDefault();
+           return unitofWork.GetDbContext().Files.Where(x => x.UserId == userId && x.FileType == FileType.Avatar).Select(x => x.FilePath).SingleOrDefault();
         }
+        public Employees GetUnitHead(int unitId)
+        {
+            var unitHead = unitofWork.GetDbContext().employees.Where(x => x.businessunitId == unitId && x.IsUnithead == true).FirstOrDefault();
+            return unitHead;
+        }
+
+        
+        public Employees GetHr(int unitId)
+        {
+            var hr = unitofWork.GetDbContext().employees.Where(x => x.empRoleId == 3 && x.businessunitId == unitId).SingleOrDefault();
+            return hr;
+        }
+
+        public List<Employees> GetEmployeeUnitMembers(int unitId)
+        {
+            var members = unitofWork.GetDbContext().employees.Where(x => x.businessunitId == unitId && x.IsUnithead != true).ToList();
+            return members;
+        }
+
 
         public bool DoesReportManagerExist(string userId, int bUnitId)
         {
@@ -231,9 +252,7 @@ namespace resourceEdge.webUi.Infrastructure
         }
 
         public void AddORUpdateSalary(string userId, PayrollViewModel entity,Employees employee, ApplicationUser currentUser, string systemUserId )
-        {
-           
-            
+        {         
             var CurrentPayRoll = unitofWork.GetDbContext().Payroll.Where(x => x.UserId == userId).FirstOrDefault();
             if (CurrentPayRoll != null)
             {
@@ -273,8 +292,99 @@ namespace resourceEdge.webUi.Infrastructure
             }
         }
 
+        public List<Employees> GetUnitMembersBySearch(string userid, string searchString)
+        {
+            var userUnitId = unitofWork.GetDbContext().employees.Where(x => x.userId == userid).SingleOrDefault();
+            List<Employees> TeamMembers = new List<Employees>();
+            if (searchString.ToLower().StartsWith("tenece"))
+            {
+                var TeamByEmpId = db.Users.Where(x => x.businessunitId == userUnitId.businessunitId.ToString() && x.employeeId == searchString).FirstOrDefault();
+                if (TeamByEmpId != null)
+                {
+                    var TeamMember = unitofWork.GetDbContext().employees.Where(x => x.userId == TeamByEmpId.Id).SingleOrDefault();
+                    TeamMembers.Add(TeamMember);
+                    return TeamMembers;
+                }
+            }
+            TeamMembers = unitofWork.GetDbContext().employees.Where(x => x.businessunitId == userUnitId.businessunitId).Where(x => x.empEmail.Contains(searchString) || x.FullName.Contains(searchString)).ToList();
+                if (TeamMembers != null)
+                {
+                    return TeamMembers;
+                }
+               
+            return null;
 
+        }
 
+        //This class was used to only service the Details page for the employee.
+        //This step was used because a lot of unrelated data were needed and instead of having to hit the db always and using viewBags,
+        //This approach was used.
+        public class EmployeeDetails : EmployeeManager
+        {         
+            public Tuple<Employees, ApplicationUser, Files, Jobtitles, Positions, EmpPayroll,List<LeaveRequest>> GetAllEmpDetails(int Id)
+            {
+                
+                var employee = unitofWork.GetDbContext().employees.Find(Id);
+                if (employee != null)
+                {
+                    var empUserDetails = userManager.FindById(employee.userId);
+                    var job = unitofWork.GetDbContext().jobtitles.Find(employee.jobtitleId);
+                    var position = unitofWork.GetDbContext().positions.Find(employee.positionId);
+                    var avatar = unitofWork.GetDbContext().Files.Where(x => x.UserId == employee.userId && x.FileType == FileType.Avatar).FirstOrDefault();
+                    var Salary = unitofWork.GetDbContext().Payroll.Where(x => x.UserId == employee.userId).SingleOrDefault();
+                    var leave = unitofWork.GetDbContext().LeaveRequest.Where(x => x.UserId == employee.userId).ToList();
+                    return Tuple.Create(employee, empUserDetails, avatar, job, position, Salary, leave);
+                }
+                return null;             
+            }
+
+            public Tuple<Employees, ApplicationUser, Files> GetAllHrDetails(int unitId)
+            {
+                var members = unitofWork.GetDbContext().employees.Where(x => x.businessunitId == unitId && x.empRoleId == 3).FirstOrDefault();
+                ApplicationUser HrUserDetail  = new ApplicationUser();
+                Files Avatar = new Files();
+                if (members != null)
+                {
+                      Avatar = unitofWork.GetDbContext().Files.Where(x => x.UserId == members.userId && x.FileType == FileType.Avatar).FirstOrDefault();
+                      HrUserDetail = userManager.FindById(members.userId);
+                }
+                return Tuple.Create(members, HrUserDetail, Avatar);
+            }
+
+            public Tuple<Employees, ApplicationUser, Files> GetAllUnitHeadDetails(int unitId)
+            {
+                var members = unitofWork.GetDbContext().employees.Where(x => x.businessunitId == unitId && x.IsUnithead == true).FirstOrDefault();
+                ApplicationUser HrUserDetail = new ApplicationUser();
+                Files Avatar = new Files();
+                if (members != null)
+                {
+                    Avatar = unitofWork.GetDbContext().Files.Where(x => x.UserId == members.userId && x.FileType == FileType.Avatar).FirstOrDefault();
+                    HrUserDetail = userManager.FindById(members.userId);
+                }
+
+                return Tuple.Create(members, HrUserDetail, Avatar);
+            }
+            public Tuple<List<Employees>, List<Files>, List<ApplicationUser>> GetTeamMembersWithAvatars(int unitId)
+            {
+                List<Files> Images = new List<Files>();
+                List<Employees> TeamMembers = new List<Employees>();
+                List<ApplicationUser> TeamMemberUserDetail = new List<ApplicationUser>();
+                var members = unitofWork.GetDbContext().employees.Where(x => x.businessunitId == unitId && x.IsUnithead != true).ToList();
+                if (members != null)
+                {
+                    foreach (var item in members)
+                    {
+                        var result = unitofWork.GetDbContext().Files.Where(x => x.UserId == item.userId && x.FileType == FileType.Avatar).FirstOrDefault();
+                        var MemberUserDetail = userManager.FindById(item.userId);
+                        Images.Add(result);
+                        TeamMembers.Add(item);
+                        TeamMemberUserDetail.Add(MemberUserDetail);
+                    }
+                }
+
+                return Tuple.Create(TeamMembers, Images, TeamMemberUserDetail);
+            }
+        }
 
 
 

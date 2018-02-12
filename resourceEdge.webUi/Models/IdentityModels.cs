@@ -26,7 +26,7 @@ namespace resourceEdge.webUi.Models
         public string contactnumber { get; set; }
         public string businessunitId { get; set; }
         public string departmentId { get; set; }
-        public Nullable<int> createdby { get; set; }
+        public string createdby { get; set; }
         public string modifiedby { get; set; }
         public Nullable<System.DateTime> createddate { get; set; }
         public Nullable<System.DateTime> modifieddate { get; set; }
@@ -37,9 +37,8 @@ namespace resourceEdge.webUi.Models
         public Nullable<System.DateTime> selecteddate { get; set; }
         public string candidatereferredby { get; set; }
         public Nullable<int> company_id { get; set; }
-        public string profileimg { get; set; }
-        public int jobtitle_id { get; set; }
-        public Nullable<bool> isactive { get; set; }
+        public int JobtitleId { get; set; }
+        public Nullable<bool> Isactive { get; set; }
         public virtual Employees employees { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

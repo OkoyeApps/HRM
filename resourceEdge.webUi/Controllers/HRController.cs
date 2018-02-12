@@ -26,14 +26,15 @@ namespace resourceEdge.webUi.Controllers
         IEmploymentStatus statusRepo;
         EmployeeManager employeeManager;
         Rolemanager RoleManager;
+        IFiles FileRepo;
 
         ApplicationDbContext db;
         private ApplicationUserManager userManager;
 
-        public HRController(IEmployees empParam, IBusinessUnits busParam, IReportManager rParam, Rolemanager RoleParam, EmployeeManager EParam, ApplicationDbContext dbParam, IEmploymentStatus SParam)
+        public HRController(IEmployees empParam, IBusinessUnits busParam, IReportManager rParam, Rolemanager RoleParam, EmployeeManager EParam, ApplicationDbContext dbParam, IEmploymentStatus SParam, IFiles FParam)
         {
             db = dbParam;
-            //UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
+            UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
             empRepo = empParam;
             BunitsRepo = busParam;
             ReportRepo = rParam;
@@ -41,6 +42,7 @@ namespace resourceEdge.webUi.Controllers
             RoleManager = RoleParam;
             db = dbParam;
             statusRepo = SParam;
+            FileRepo = FParam;
         }
         public ApplicationUserManager UserManager
         {
@@ -59,9 +61,14 @@ namespace resourceEdge.webUi.Controllers
         }
         public ActionResult allEmployee()
         {
-            
+            ViewBag.Avartar = GetAllEmpImage();
             var employees = empRepo.getEmployees().ToList();
             return View(employees.ToList());
+        }
+
+        private List<Files> GetAllEmpImage()
+        {
+           return  FileRepo.Get().ToList();
         }
 
         public ActionResult EmpDetails(int? id)

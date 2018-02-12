@@ -9,8 +9,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using static resourceEdge.webUi.Infrastructure.EmployeeManager;
 
 namespace resourceEdge.webUi.Controllers
 {
@@ -19,16 +21,22 @@ namespace resourceEdge.webUi.Controllers
 
         private ApplicationUserManager userManager;
         private IPayroll payRollRepo;
-        IEmployees EmployeeRepo;        
+        IEmployees EmployeeRepo;
         IFiles FileRepo;
+        IPositions PositionRepo;
+        IJobtitles jobRepo;
         EmployeeManager EmpManager;
-        public EmployeeController(IPayroll PRParam, IEmployees EParam, IFiles fParam)
+        EmployeeDetails EmpDetails;
+        public EmployeeController(IPayroll PRParam, IEmployees EParam, IFiles fParam, IPositions PParam, IJobtitles jParam)
         {
             UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(new ApplicationDbContext()));
             payRollRepo = PRParam;
             EmployeeRepo = EParam;
             EmpManager = new EmployeeManager();
             FileRepo = fParam;
+            PositionRepo = PParam;
+            jobRepo = jParam;
+            EmpDetails = new EmployeeDetails();
         }
         public ApplicationUserManager UserManager
         {
@@ -45,11 +53,49 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult Edit(string userId)
         {
             ViewBag.UserId = userId;
-            var aa =  EmpManager.getEmpAvatar(userId);
-            ViewBag.Avartar = aa;
+            ViewBag.Avartar = EmpManager.getEmpAvatar(userId);
             return View();
         }
-        
+
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Employees employees = EmployeeRepo.getEmployeesById(id);
+
+            if (employees == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.empDetails = EmpDetails.GetAllEmpDetails(id.Value);
+            //var job = jobRepo.GetJobTitlesById(employees.jobtitleId);
+            //ViewBag.Job = job.jobtitlename;
+            //ViewBag.empAvatar = EmpManager.getEmpAvatar(employees.userId);
+            ViewBag.HrDetails = EmpDetails.GetAllHrDetails(employees.businessunitId);
+            ViewBag.unitHeadDetails = EmpDetails.GetAllUnitHeadDetails(employees.businessunitId);
+            //var unitMembers = EmpManager.GetEmployeeUnitMembers(employees.businessunitId);
+            //ViewBag.unitMembers = unitMembers;
+            var TeamMembers = EmpDetails.GetTeamMembersWithAvatars(employees.businessunitId);
+            ViewBag.TeamMembers = TeamMembers;
+            return View(employees);
+        }
+
+
+
+        public JsonResult GetTeamMember(string userId, string searchString)
+        {
+            var result = EmpManager.GetUnitMembersBySearch(userId, searchString);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetEmpAvater(string id)
+        {
+            var result = EmpManager.getEmpAvatar(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         //[ChildActionOnly]
         public ActionResult Salary(string userId, string returnUrl)
         {
@@ -57,7 +103,7 @@ namespace resourceEdge.webUi.Controllers
             PayrollViewModel empToSend = new PayrollViewModel();
             if (user != null)
             {
-              var empSalary = payRollRepo.GetByUserId(userId);
+                var empSalary = payRollRepo.GetByUserId(userId);
                 if (empSalary != null)
                 {
                     empToSend.Deduction = empSalary.Deduction.Value;
@@ -68,7 +114,7 @@ namespace resourceEdge.webUi.Controllers
                     empToSend.Total = empSalary.Total.Value;
                     empToSend.Remarks = empSalary.Remarks;
                 }
-               
+
                 ViewBag.empSalary = empSalary;
                 ViewBag.UserId = userId;
                 ViewBag.returnUrl = returnUrl;
@@ -87,10 +133,10 @@ namespace resourceEdge.webUi.Controllers
                 var user = userManager.FindById(userId);
                 var employee = EmployeeRepo.GetEmployeeByUserid(userId);
                 if (ModelState.IsValid && user != null && employee != null)
-                { 
-                    EmpManager.AddORUpdateSalary(userId, model,employee, user, User.Identity.GetUserId() );     
+                {
+                    EmpManager.AddORUpdateSalary(userId, model, employee, user, User.Identity.GetUserId());
                     TempData["Success"] = "Operation successfull";
-                    return Redirect(returnUrl); 
+                    return Redirect(returnUrl);
                     ///I had to return a string here because asp.net mvc does not allow childActions to return a redirect 
                     ///so i had to make use of the Response Object to redirect and just return a string.
                     ///this might not be a best approach, will figure it out later.
@@ -143,6 +189,6 @@ namespace resourceEdge.webUi.Controllers
             return Redirect(returnUrl);
         }
 
-        
+
     }
 }

@@ -200,7 +200,6 @@ $('#departmentId').bind('change', function () {
 
 
 
-
 //$('.date-own').datepicker({
 //    minViewMode: 2,
 //    format: 'yyyy'

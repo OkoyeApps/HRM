@@ -301,6 +301,24 @@ namespace resourceEdge.webUi.Controllers
             return Ok(result);
         }
 
+        //This is for test but the real method is in the employee controller
+        //so this can be cleaned later;
+        [Route("api/settings/GetEmpTeamMeber/{userId}/{searchstring}")]
+        [HttpGet]
+        public IHttpActionResult GetEmpTeamMeber(string userId, string searchString)
+        {
+            if (userId == null)
+            {
+                return BadRequest();
+            }
+            var result = EmpManager.GetUnitMembersBySearch(userId,searchString);
+            if (result == null)
+            {
+                return Ok("No result found");
+            }
+            return Ok(result);
+        }
+
         // POST: api/Settings
         public void Post([FromBody]string value)
         {
