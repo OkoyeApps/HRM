@@ -29,6 +29,12 @@ namespace resourceEdge.webUi.Infrastructure
             return null;
         }
 
+        public double GetEmpAvailableLeave(string userId)
+        {
+            var leave = unitofWork.GetDbContext().EmpLeaves.Where(X => X.UserId == userId).FirstOrDefault();
+            return leave.EmpLeaveLimit.Value;
+        }
+
         public List<LeaveRequest> GetPendingLeaveForManager(string userid)
         {
             var leave = unitofWork.GetDbContext().LeaveRequest.Where(x => x.RepmangId == userid && x.LeaveStatus == null).ToList();
@@ -113,12 +119,13 @@ namespace resourceEdge.webUi.Infrastructure
             }
             return false;
         }
-        public int? GetLeaveAppliedFor(string userId)
+        public double? GetLeaveAppliedFor(string userId)
         {
-            int? AppliedForNo =(int?) unitofWork.GetDbContext().LeaveRequest.Where(x => x.UserId == userId).ToList().LastOrDefault().AppliedleavesCount;
-            if (AppliedForNo != null)
+            var AppliedForNo = unitofWork.GetDbContext().LeaveRequest.Where(x => x.UserId == userId).ToList();
+            var currentLeave = AppliedForNo.LastOrDefault();
+            if (currentLeave != null)
             {
-                return AppliedForNo;
+                return currentLeave.AppliedleavesCount.Value;
             }
             return 0;
         }

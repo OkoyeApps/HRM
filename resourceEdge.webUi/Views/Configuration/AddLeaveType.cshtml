@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "AddLeaveType";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/HRLayout.cshtml";
 }
 
 <h2>AddLeaveType</h2>
@@ -65,10 +65,14 @@
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+@section Plugins{
+    <script src="~/assets/global/scripts/datatable.js" type="text/javascript"></script>
+<script src="~/assets/global/plugins/datatables/datatables.min.js" type="text/javascript"></script>
+<script src="~/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js" type="text/javascript"></script>
 
+    }
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+<script src="~/assets/pages/scripts/table-datatables-buttons.min.js" type="text/javascript"></script>
+
 }

@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using resourceEdge.webUi.Models;
 using resourceEdge.Domain.Entities;
+using resourceEdge.Domain.Abstracts;
 
 namespace resourceEdge.webUi.Controllers
 {
@@ -18,9 +19,10 @@ namespace resourceEdge.webUi.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
-        public AccountController()
+        private ILogin LoginRepo;
+        public AccountController(ILogin lParam)
         {
+            LoginRepo = lParam;
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -80,7 +82,8 @@ namespace resourceEdge.webUi.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectionUrls(model.Email);
+                    
+                    return UpdateLogin(model.Email);
                     //return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -394,6 +397,29 @@ namespace resourceEdge.webUi.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
+            var login = LoginRepo.GetByUserId(User.Identity.GetUserId());
+            if (login != null)
+            {
+            login.IsLogOut = true;
+            login.LogOutTime = DateTime.Now;
+            LoginRepo.update(login);
+            }
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult CustomLogOff(string userId)
+        {
+            var login = LoginRepo.GetByUserId(userId);
+            if (login != null)
+            {
+                login.IsLogOut = true;
+                login.LogOutTime = DateTime.Now;
+                LoginRepo.update(login);
+            }
+            var id = Session.SessionID;
+            HttpCookie cookie = new HttpCookie(".AspNet.ApplicationCookie");
+            var cc = cookie.Name;
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }
@@ -455,10 +481,9 @@ namespace resourceEdge.webUi.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        private ActionResult RedirectionUrls(string email)
+        private RedirectToRouteResult RedirectionUrls(string email)
         {
             var user = UserManager.FindByEmail(email);
-            var userId = User.Identity.GetUserId();
             if (UserManager.IsInRole(user.Id, "Employee"))
             {             
               return  RedirectToAction("Leave");
@@ -473,6 +498,42 @@ namespace resourceEdge.webUi.Controllers
             }
                 return RedirectToAction("");
         }
+
+        public ActionResult UpdateLogin(string email)
+        {
+            var user = UserManager.FindByEmail(email);
+            var isLoggedIn = CheckIfLoggedIn(user.Id);
+            if (isLoggedIn == false)
+            {
+                var LoginEntity = new Logins()
+                {
+                    IsLogIn = true,
+                    IsLogOut = false,
+                    LoginTime = DateTime.Now,
+                    LogOutTime = null,
+                    userId = user.Id
+                };
+                LoginRepo.Insert(LoginEntity);
+                return RedirectionUrls(user.Email);
+            }
+           return CustomLogOff(user.Id);
+        }
+        public bool CheckIfLoggedIn(string userId)
+        {
+            var loggedInUser = LoginRepo.GetDbContext().Logins.Where(x => x.userId == userId).ToList().LastOrDefault();
+            if (loggedInUser.IsLogOut == false)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public HttpCookie returnAllCookies()
+        {
+            var cookies = new HttpCookie(".AspNet.ApplicationCookie");
+            
+            return cookies;
+                }
 
         internal class ChallengeResult : HttpUnauthorizedResult
         {

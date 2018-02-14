@@ -11,17 +11,27 @@ namespace resourceEdge.Domain.Concrete
     public class PrefixRepository : IPrefixes
     {
         UnitofWork.UnitOfWork unitofWork = new UnitofWork.UnitOfWork();
-        public void addprefixes(Prefixes prefix)
+        public void Insert(Prefixes prefix)
         {
             unitofWork.prefix.Insert(prefix);
             unitofWork.Save();
         }
-        public void DeletePrefixes(int id)
+        public void Delete(int id)
         {
             unitofWork.prefix.Delete(id);
             unitofWork.Save();
         }
-        public IEnumerable<Prefixes> GetPrefixes() => unitofWork.prefix.Get();
-        public Prefixes GetPrefixesById(int id) => unitofWork.prefix.GetByID(id);
+        public IEnumerable<Prefixes> Get() => unitofWork.prefix.Get();
+        public Prefixes GetById(int id) => unitofWork.prefix.GetByID(id);
+
+        public void update(Prefixes entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Prefixes GetByUserId(string userId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

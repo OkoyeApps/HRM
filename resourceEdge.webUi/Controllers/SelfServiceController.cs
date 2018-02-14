@@ -38,6 +38,7 @@ namespace resourceEdge.webUi.Controllers
         {
             ViewBag.leaveType = new SelectList(leaveRepo.GetLeaveTypes().OrderBy(x => x.leavetype), "id", "leavetype", "id");
             ViewBag.userId = User.Identity.GetUserId();
+            ViewBag.AvailableLeave = leavemanagerRepo.GetEmpAvailableLeave(User.Identity.GetUserId());
             return View();
         }
         [HttpPost]

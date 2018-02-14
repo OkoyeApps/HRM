@@ -46,7 +46,7 @@ namespace resourceEdge.webUi.Infrastructure
             kernel.Bind<IRequisition>().To<RequisitionRepo>();
             kernel.Bind<IPayroll>().To<PayrollRepository>();
             kernel.Bind<IFiles>().To<FileRepository>();
-            //kernel.Bind<EmployeeManager>().ToSelf().WithConstructorArgument<FileRepository>(new FileRepository());
+            kernel.Bind<ILogin>().To<LoginRepository>();
         }
         }
 }

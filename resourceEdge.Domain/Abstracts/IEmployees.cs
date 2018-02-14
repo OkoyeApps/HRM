@@ -7,14 +7,9 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Abstracts
 {
-    public interface IEmployees
+    public interface IEmployees : GenericInterface<Employees>
     {
-        IEnumerable<Employees> getEmployees();
-        Employees getEmployeesById(int? id);
-        void addEmployees(Employees employees);
-        void UpdateEmployees(Employees employee);
-        void RemoveEmployees(int? id);
-        int GetEmployeeByEmail(string email);
-        Employees GetEmployeeByUserid(string userid);
+        Employees GetEmployeeByEmail(string email);
+
     }
 }

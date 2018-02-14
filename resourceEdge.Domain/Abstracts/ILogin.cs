@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Abstracts
 {
-   public interface IPrefixes : GenericInterface<Prefixes>
+    public interface ILogin : GenericInterface<Logins>
     {
+        EdgeDbContext GetDbContext();
     }
 }

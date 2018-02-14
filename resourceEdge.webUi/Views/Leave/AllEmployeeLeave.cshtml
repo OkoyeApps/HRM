@@ -34,10 +34,10 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-         @resourceEdge.webUi.Infrastructure.UsersLogic.getEmployeeFullNameByUserId(item.UserId)
+         @resourceEdge.webUi.Infrastructure.UserManager.getEmployeeFullNameByUserId(item.UserId)
         </td>
         <td>
-            @resourceEdge.webUi.Infrastructure.UsersLogic.getEmployeeIdFromUserTable(item.UserId)
+            @resourceEdge.webUi.Infrastructure.UserManager.getEmployeeIdFromUserTable(item.UserId)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.EmpLeaveLimit)

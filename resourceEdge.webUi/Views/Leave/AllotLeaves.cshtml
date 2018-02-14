@@ -1,7 +1,7 @@
 ﻿@*@model List<resourceEdge.Domain.Entities.EmployeeLeaves>*@
 
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/HRLayout.cshtml";
     //var currentModel = Model.ToArray();
 }
 @section css{
@@ -28,7 +28,7 @@
                 <div class="form-group">
                     @Html.Label("Business Units", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-6">
-                        @Html.DropDownList("businessunitId", (SelectList)ViewBag.businessUnits, htmlAttributes: new { @class = "form-control", placeholder = "please input business unit" })
+                        @Html.DropDownList("businessunitId", (SelectList)ViewBag.businessUnits,"Select Business Unit", htmlAttributes: new { @class = "form-control", placeholder = "please input business unit" })
                         @Html.ValidationMessage("businessunitId", "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -77,21 +77,6 @@
     </div>
 }
 
-
-    <div class="btn-group bootstrap-select">
-
-        <div class="dropdown-menu open" role="combobox" style="max-height: 154px; overflow: hidden; min-height: 42px;">
-        <div class="bs-searchbox">
-            <input type="text" class="form-control" autocomplete="off" role="textbox" aria-label="Search">
-        </div>
-        </div>
-        <select class="selectpicker" data-live-search="true" tabindex="-98">
-            <option>Hot Dog, Fries and a Soda</option>
-            <option>Burger, Shake and a Smile</option>
-            <option>Sugar, Spice and all things nice</option>
-        </select>
-    </div>
-    
     @*<div class="btn-group bootstrap-select">
         <button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" role="button" title="Hot Dog, Fries and a Soda" aria-expanded="false">
             <span class="filter-option pull-left">Hot Dog, Fries and a Soda</span>&nbsp;

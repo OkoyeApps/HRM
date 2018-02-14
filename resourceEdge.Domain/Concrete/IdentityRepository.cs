@@ -12,23 +12,28 @@ namespace resourceEdge.Domain.Concrete
    public class IdentityRepository : IidentityCodes
     {
         UnitOfWork unitofwork = new UnitOfWork();
-        public void addIdentityCode(IdentityCodes codes)
+        public void Insert(IdentityCodes codes)
         {
             unitofwork.identityCodes.Insert(codes);
             unitofwork.Save();
         }
-        public IdentityCodes GetIdentityById(int id) => unitofwork.identityCodes.GetByID(id);
-        public IEnumerable<IdentityCodes> GetIdentityCodes() => unitofwork.identityCodes.Get();
+        public IdentityCodes GetById(int id) => unitofwork.identityCodes.GetByID(id);
+        public IEnumerable<IdentityCodes> Get() => unitofwork.identityCodes.Get();
 
-        public void removeIdentityCode(IdentityCodes codes)
+        public void Delete(int id)
         {
-            unitofwork.identityCodes.Delete(codes);
+            unitofwork.identityCodes.Delete(id);
             unitofwork.Save();
         }
-        public void updateIdentityCode(IdentityCodes code)
+        public void update(IdentityCodes code)
         {
             unitofwork.identityCodes.Update(code);
             unitofwork.Save();
+        }
+
+        public IdentityCodes GetByUserId(string userId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

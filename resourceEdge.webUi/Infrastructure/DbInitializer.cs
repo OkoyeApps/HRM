@@ -104,6 +104,16 @@ namespace resourceEdge.webUi.Infrastructure
                 context.GetDbContext().positions.Add(item);
                 context.Save();
             }
+            var employmentStatus = new List<EmploymentStatus>()
+            {
+                new EmploymentStatus() { employemntStatus = "Permanent"  },
+                new EmploymentStatus() { employemntStatus = "Temporary" }
+            };
+            foreach (var item in employmentStatus)
+            {
+                context.GetDbContext().employmentstatus.Add(item);
+                context.Save();
+            }
             var identityCode = new IdentityCodes()
             {
                 employee_code = "Tenece",
@@ -115,7 +125,7 @@ namespace resourceEdge.webUi.Infrastructure
             };
             context.identityCodes.Insert(identityCode);
             context.Save();
-            var appUser = new ApplicationUser() { Email = "Admin@example.com", UserName = "Admin" };
+            var appUser = new ApplicationUser() { Email = "Admin@example.com", UserName = "Admin@example.com" };
 
             var result = userManager.Create(appUser, "1234567");
             //add the user to role later

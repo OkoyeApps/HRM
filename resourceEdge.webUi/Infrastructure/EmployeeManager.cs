@@ -321,7 +321,7 @@ namespace resourceEdge.webUi.Infrastructure
         //This approach was used.
         public class EmployeeDetails : EmployeeManager
         {         
-            public Tuple<Employees, ApplicationUser, Files, Jobtitles, Positions, EmpPayroll,List<LeaveRequest>> GetAllEmpDetails(int Id)
+            public Tuple<Employees, ApplicationUser, Files, Jobtitles, Positions, EmpPayroll,List<LeaveRequest>> GetEmpDetails(int Id)
             {
                 
                 var employee = unitofWork.GetDbContext().employees.Find(Id);
@@ -383,6 +383,23 @@ namespace resourceEdge.webUi.Infrastructure
                 }
 
                 return Tuple.Create(TeamMembers, Images, TeamMemberUserDetail);
+            }
+            public Tuple<List<Employees>, List<Files>, List<ApplicationUser>, List<Logins>> GetAllEmployeesDetails()
+            {
+                var employee = unitofWork.GetDbContext().employees.ToList();
+                List<Files> Images = new List<Files>();
+                List<ApplicationUser> empUserDetails = new List<ApplicationUser>();
+                List<Logins> AllLogins = new List<Domain.Entities.Logins>();
+                foreach (var item in employee)
+                {
+                    var ImagList = unitofWork.GetDbContext().Files.Where(x => x.UserId == item.userId).FirstOrDefault();
+                    var userlist = userManager.FindById(item.userId);
+                    var loginList = unitofWork.GetDbContext().Logins.Where(x => x.userId == item.userId && x.IsLogOut == false).FirstOrDefault();
+                    Images.Add(ImagList);
+                    empUserDetails.Add(userlist);
+                    AllLogins.Add(loginList);
+                }
+              return  Tuple.Create(employee, Images, empUserDetails, AllLogins);
             }
         }
 

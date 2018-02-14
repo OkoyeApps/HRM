@@ -36,7 +36,7 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult Create()
         {
 
-            ViewBag.businessUnits = new SelectList(BunitsRepo.GetBusinessUnit().OrderBy(x => x.BusId), "BusId", "unitname", "BusId");
+            ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.BusId), "BusId", "unitname", "BusId");
             ViewBag.Months = new SelectList(Apimanager.GetAllMonths().OrderBy(x => x.id), "MonthId", "MonthName", "MonthId");
             ViewBag.weekDays = new SelectList(Apimanager.GetWeekDays().OrderByDescending(x => x.id), "id", "DayLongCode", "id");
             return View();
@@ -72,20 +72,20 @@ namespace resourceEdge.webUi.Controllers
             {
                 throw ex;
             }
-            ViewBag.businessUnits = new SelectList(BunitsRepo.GetBusinessUnit().OrderBy(x => x.BusId), "BusId", "unitname", "BusId");
+            ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.BusId), "BusId", "unitname", "BusId");
             ViewBag.Months = new SelectList(Apimanager.GetAllMonths().OrderBy(x => x.id), "MonthId", "MonthName", "MonthId");
             ViewBag.weekDays = new SelectList(Apimanager.GetWeekDays().OrderByDescending(x => x.id), "id", "DayLongCode", "id");
             return View(model);
         }
         [Authorize(Roles = "HR")]
         public ActionResult AllEmployeeLeave()
-        {
+        {      
             return View(leaveRepo.GetAllotedLeave());
         }
         [Authorize(Roles = "HR")]
         public ActionResult AllotLeaves()
         {
-            ViewBag.businessUnits = new SelectList(BunitsRepo.GetBusinessUnit().OrderBy(x => x.BusId), "BusId", "unitname", "BusId");
+            ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.BusId), "BusId", "unitname", "BusId");
             return View();
         }
 
@@ -122,7 +122,7 @@ namespace resourceEdge.webUi.Controllers
 
             }
             TempData["Error"] = "Something went wrong, please kindly make sure you fill all fields for allocation";
-            ViewBag.businessUnits = new SelectList(BunitsRepo.GetBusinessUnit().OrderBy(x => x.BusId), "BusId", "unitname", "BusId");
+            ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.BusId), "BusId", "unitname", "BusId");
             return View();
         }
 
@@ -182,7 +182,7 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult AllLeaveRequest()
         {
             
-            return View(leaveRepo.GetLeaveRequest().Where(x=>x.LeaveStatus == null));
+            return View(leaveRepo.GetDbContext().LeaveRequest.Where(x=>x.LeaveStatus == null));
         }
 
 

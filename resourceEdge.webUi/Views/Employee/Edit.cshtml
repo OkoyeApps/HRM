@@ -2,6 +2,7 @@
 @{ 
     Layout = "~/Views/Shared/mainlayout2.cshtml";
     var userId = ViewBag.UserId;
+    var avatar = ViewBag.Avartar;
 }
 @section css{
     <link href="~/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet" type="text/css" />
@@ -22,9 +23,16 @@
             <!-- PORTLET MAIN -->
             <div class="portlet light profile-sidebar-portlet ">
                 <!-- SIDEBAR USERPIC -->
-                <div class="profile-userpic">
-                    <img src="@Url.Content(ViewBag.Avartar)" class="img-responsive" alt="">
-                </div>
+                @if (avatar != null)
+                {
+                    <div class="profile-userpic">
+                        <img src="@Url.Content(ViewBag.Avartar)" class="img-responsive" alt="">
+                    </div>
+                }
+                else
+                {
+                <img src = "~/assets/BowerTemplate/img/avatar1.jpg" />
+                }
                 <!-- END SIDEBAR USERPIC -->
                 <!-- SIDEBAR USER TITLE -->
                 <div class="profile-usertitle">

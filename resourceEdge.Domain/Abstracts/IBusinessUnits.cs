@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Abstracts
 {
-    public interface IBusinessUnits
+    public interface IBusinessUnits : GenericInterface<BusinessUnits>
     {
-        IEnumerable<BusinessUnits> GetBusinessUnit();
-        BusinessUnits GetBusinessUnitById(int? id);
-        void addbusinessunit(BusinessUnits businessunit);
-        void UpdateBusinessunit(BusinessUnits businessunit);
-        void RemoveBusinessunit(int id);
+
     }
 }

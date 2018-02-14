@@ -31,6 +31,8 @@ namespace resourceEdge.Domain.UnitofWork
         private GenericRepository<Requisition> requistionRepo;
         private GenericRepository<EmpPayroll> PayrollRepo;
         public GenericRepository<Files> FilesRepo;
+        public GenericRepository<Logins> LoginRepo;
+        public GenericRepository<Location> LocationRepo;
         public EdgeDbContext Context
         {
             get
@@ -124,6 +126,14 @@ namespace resourceEdge.Domain.UnitofWork
         public GenericRepository<Files> Files
         {
             get { return FilesRepo ?? new GenericRepository<Entities.Files>(Context); }
+        }
+        public GenericRepository<Logins> Logins
+        {
+            get { return this.LoginRepo ?? new GenericRepository<Entities.Logins>(Context); }
+        }
+        public GenericRepository<Location> Locations
+        {
+            get { return this.LocationRepo ?? new GenericRepository<Location>(Context); }
         }
         public void Save()
         {

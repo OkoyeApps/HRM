@@ -13,33 +13,33 @@ namespace resourceEdge.Domain.Concrete
     {
         UnitOfWork unitOfWork = new UnitOfWork();
 
-        public void addEmployees(Employees employees)
+        public void Insert(Employees employees)
         {
             unitOfWork.employees.Insert(employees);
             unitOfWork.Save();
         }
-        public IEnumerable<Employees> getEmployees() => unitOfWork.employees.Get();
-        public Employees getEmployeesById(int? id) => unitOfWork.employees.GetByID(id);
-        public void RemoveEmployees(int? id)
+        public IEnumerable<Employees> Get() => unitOfWork.employees.Get();
+        public Employees GetById(int id) => unitOfWork.employees.GetByID(id);
+        public void Delete(int id)
         {
             unitOfWork.employees.Delete(id);
             unitOfWork.Save();
         }
-        public void UpdateEmployees(Employees employee)
+        public void update(Employees employee)
         {
             unitOfWork.employees.Update(employee);
             unitOfWork.Save();
         }
-        public int GetEmployeeByEmail(string email)
+        public Employees GetEmployeeByEmail(string email)
         {
             var emp = unitOfWork.GetDbContext().employees.Where(x => x.empEmail == email);
-            var employee = unitOfWork.GetDbContext().employees.Find(email);
-            return employee.empID;
+            var employee = unitOfWork.GetDbContext().employees.Where(x => x.empEmail == email).FirstOrDefault();
+            return employee;
         }
 
-        public Employees GetEmployeeByUserid(string userId)
+        public Employees GetByUserId(string userId)
         {
-            List<Employees> employee = getEmployees().ToList();
+            List<Employees> employee = Get().ToList();
             var result = employee.Find(x => x.userId == userId);
             if (result != null)
             {

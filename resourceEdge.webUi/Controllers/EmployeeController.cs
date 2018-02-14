@@ -63,20 +63,15 @@ namespace resourceEdge.webUi.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employees employees = EmployeeRepo.getEmployeesById(id);
+            Employees employees = EmployeeRepo.GetById(id.Value);
 
             if (employees == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.empDetails = EmpDetails.GetAllEmpDetails(id.Value);
-            //var job = jobRepo.GetJobTitlesById(employees.jobtitleId);
-            //ViewBag.Job = job.jobtitlename;
-            //ViewBag.empAvatar = EmpManager.getEmpAvatar(employees.userId);
+            ViewBag.empDetails = EmpDetails.GetEmpDetails(id.Value);
             ViewBag.HrDetails = EmpDetails.GetAllHrDetails(employees.businessunitId);
             ViewBag.unitHeadDetails = EmpDetails.GetAllUnitHeadDetails(employees.businessunitId);
-            //var unitMembers = EmpManager.GetEmployeeUnitMembers(employees.businessunitId);
-            //ViewBag.unitMembers = unitMembers;
             var TeamMembers = EmpDetails.GetTeamMembersWithAvatars(employees.businessunitId);
             ViewBag.TeamMembers = TeamMembers;
             return View(employees);
@@ -131,7 +126,7 @@ namespace resourceEdge.webUi.Controllers
             try
             {
                 var user = userManager.FindById(userId);
-                var employee = EmployeeRepo.GetEmployeeByUserid(userId);
+                var employee = EmployeeRepo.GetByUserId(userId);
                 if (ModelState.IsValid && user != null && employee != null)
                 {
                     EmpManager.AddORUpdateSalary(userId, model, employee, user, User.Identity.GetUserId());
@@ -168,7 +163,7 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult UpdateEmpAvater(Files model, string userId, string returnUrl, HttpPostedFileBase File)
         {
             var user = userManager.FindById(userId);
-            var employee = EmployeeRepo.GetEmployeeByUserid(userId);
+            var employee = EmployeeRepo.GetByUserId(userId);
             var existingAvatar = FileRepo.GetByUserId(userId);
             try
             {

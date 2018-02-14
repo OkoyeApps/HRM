@@ -170,7 +170,7 @@ namespace resourceEdge.webUi.Infrastructure
             {
                 listItem = new EmploymentStatusListItem();
                 listItem.empsId = item.empstId;
-                listItem.EmpStatusName = item.employemnt_status;
+                listItem.EmpStatusName = item.employemntStatus;
                 result.Add(listItem);
             }
             return result;

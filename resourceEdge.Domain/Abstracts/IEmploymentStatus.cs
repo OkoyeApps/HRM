@@ -7,11 +7,7 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Abstracts
 {
-    public interface IEmploymentStatus
+    public interface IEmploymentStatus : GenericInterface<EmploymentStatus>
     {
-        void AddEmploymentStatus(EmploymentStatus status);
-        IEnumerable<EmploymentStatus> GetEmployementStatus();
-        EmploymentStatus GetEmployementStatusById(int id);
-        void RemoveEmploymentStatus(int id);
     }
 }

@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Abstracts
 {
-   public  interface IidentityCodes
+   public  interface IidentityCodes : GenericInterface<IdentityCodes>
     {
-        IEnumerable<IdentityCodes> GetIdentityCodes();
-        IdentityCodes GetIdentityById(int id);
-        void addIdentityCode(IdentityCodes codes);
-        void removeIdentityCode(IdentityCodes codes);
-        void updateIdentityCode(IdentityCodes code);
+
     }
 }

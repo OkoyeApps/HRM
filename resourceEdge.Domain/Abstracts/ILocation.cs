@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Abstracts
 {
-   public interface IPrefixes : GenericInterface<Prefixes>
+    public interface ILocation : GenericInterface<Location>
     {
     }
 }

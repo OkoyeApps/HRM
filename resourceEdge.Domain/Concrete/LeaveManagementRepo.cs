@@ -110,5 +110,10 @@ namespace resourceEdge.Domain.Concrete
             }
             return null;
         }
+
+        public EdgeDbContext GetDbContext()
+        {
+            return unitOfWork.GetDbContext();
+        }
     }
 }

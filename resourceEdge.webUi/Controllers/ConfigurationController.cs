@@ -13,7 +13,7 @@ using resourceEdge.webUi.Infrastructure;
 
 namespace resourceEdge.webUi.Controllers
 {
-    //[RoutePrefix("configurations")]
+   [Authorize(Roles = "System Admin,HR")]
     public class ConfigurationController : Controller
     {
         private ApplicationUserManager userManager;
@@ -50,7 +50,7 @@ namespace resourceEdge.webUi.Controllers
 
         public ActionResult AllCodes()
         {
-            return View(IdentityRepo.GetIdentityCodes());
+            return View(IdentityRepo.Get());
         }
         public ActionResult AddCode(string returnUrl)
         {
@@ -70,7 +70,7 @@ namespace resourceEdge.webUi.Controllers
                 //code.createdBy = int.Parse(LoggedInUser().Id);
                 code.createdBy = null;
                 code.createdBy = null;
-                IdentityRepo.addIdentityCode(code);
+                IdentityRepo.Insert(code);
                 ModelState.Clear();
                 TempData["Success"] = "Code created successfully";
                 return Redirect(returnUrl);
@@ -83,7 +83,7 @@ namespace resourceEdge.webUi.Controllers
         }
         public PartialViewResult EditCode(int id = 1)
         {
-            var code = IdentityRepo.GetIdentityById(id);
+            var code = IdentityRepo.GetById(id);
             return PartialView(code);
         }
         [HttpPost]
@@ -92,7 +92,7 @@ namespace resourceEdge.webUi.Controllers
         {
             if (ModelState.IsValid)
             {
-                IdentityRepo.updateIdentityCode(code);
+                IdentityRepo.update(code);
                 return View("AddCode");
             }
             else
@@ -118,7 +118,7 @@ namespace resourceEdge.webUi.Controllers
                 prefixes.createddate = DateTime.Now;
                 prefixes.modifiedby = null;
                 prefixes.isactive = true;
-                prefixRepo.addprefixes(prefixes);
+                prefixRepo.Insert(prefixes);
                 TempData["Success"] = string.Format($"{model.prefixName} has been created");
                 return Redirect(returnUrl);
             }
@@ -131,7 +131,7 @@ namespace resourceEdge.webUi.Controllers
         }
         public ActionResult AllBusinessUnits()
         {
-            return View(BusinessRepo.GetBusinessUnit());
+            return View(BusinessRepo.Get());
         }
         public ActionResult addBusinessUnits()
         {
@@ -151,7 +151,7 @@ namespace resourceEdge.webUi.Controllers
                 unit.modifiedby = null;
                 unit.modifieddate = DateTime.Now;
                 unit.isactive = true;
-                BusinessRepo.addbusinessunit(unit);
+                BusinessRepo.Insert(unit);
                 TempData["Success"] = string.Format($"{unit.unitname} has been created");
                 return RedirectToAction("AllBusinessUnits");
             }
@@ -169,7 +169,7 @@ namespace resourceEdge.webUi.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var unit = BusinessRepo.GetBusinessUnitById(id);
+            var unit = BusinessRepo.GetById(id.Value);
             if (unit == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
@@ -187,7 +187,7 @@ namespace resourceEdge.webUi.Controllers
             if (ModelState.IsValid)
             {
                 TempData["Success"] = string.Format($"{units.unitname} has been modified");
-                BusinessRepo.UpdateBusinessunit(units);
+                BusinessRepo.update(units);
                 return RedirectToAction("AllBusinessUnits");
             }
             else
@@ -199,19 +199,19 @@ namespace resourceEdge.webUi.Controllers
 
         public ActionResult unitDetail(int id)
         {
-            BusinessUnits unit = BusinessRepo.GetBusinessUnitById(id);
+            BusinessUnits unit = BusinessRepo.GetById(id);
             return View(unit);
         }
         public ActionResult deleteUnit(int id)
         {
-            BusinessUnits unit = BusinessRepo.GetBusinessUnitById(id);
+            BusinessUnits unit = BusinessRepo.GetById(id);
             var unitName = unit.unitname;
             if (unit == null)
             {
                 return HttpNotFound();
             }
                 TempData["unitName"] = string.Format($"{unitName} has been deleted");
-                BusinessRepo.RemoveBusinessunit(id);
+                BusinessRepo.Delete(id);
                 return RedirectToAction("AllBusinessUnits");
         }
 
@@ -222,7 +222,7 @@ namespace resourceEdge.webUi.Controllers
 
         public ActionResult addDepartment()
         {
-            ViewBag.businessUnits = new SelectList(BusinessRepo.GetBusinessUnit().OrderBy(x => x.unitname), "BusId", "unitname");
+            ViewBag.businessUnits = new SelectList(BusinessRepo.Get().OrderBy(x => x.unitname), "BusId", "unitname");
             return View(new Departments());
         }
         [HttpPost]
@@ -240,7 +240,7 @@ namespace resourceEdge.webUi.Controllers
                 return RedirectToAction("AllDepartment");
             }
 
-                ViewBag.businessUnits = new SelectList(BusinessRepo.GetBusinessUnit().OrderBy(x => x.unitname), "BusId", "unitname", "BusId");
+                ViewBag.businessUnits = new SelectList(BusinessRepo.Get().OrderBy(x => x.unitname), "BusId", "unitname", "BusId");
                 TempData["Error"] = "Something went wrong. please make sure you fill all the appropriate details";
                 return View(dept);
         }
@@ -263,7 +263,7 @@ namespace resourceEdge.webUi.Controllers
         {
             if (ModelState.IsValid)
             {
-                TempData["Success"] = String.Format($"{dept.deptname} has been Updated");
+                TempData["Success"] = string.Format($"{dept.deptname} has been Updated");
                 DeptRepo.Updatedepartment(dept);
                 return View("AllDepartment");
             }
@@ -295,7 +295,7 @@ namespace resourceEdge.webUi.Controllers
 
         public PartialViewResult allJob()
         {
-            return PartialView(JobRepo.GetJobTitles());
+            return PartialView(JobRepo.Get());
         }
 
         public PartialViewResult AddJobTitle(string returnUrl)
@@ -314,7 +314,7 @@ namespace resourceEdge.webUi.Controllers
                 Jobtitles job = jobs;
                 job.createdby = null;
                 job.modifieddate = DateTime.Now;
-                JobRepo.addJobTitles(job);
+                JobRepo.Insert(job);
                 TempData["Success"] = string.Format($"{job.jobtitlename} has been created");
                 ModelState.Clear();
                 return Redirect(returnUrl);
@@ -326,7 +326,7 @@ namespace resourceEdge.webUi.Controllers
 
         public ActionResult AllPosition()
         {
-            return PartialView(positionRepo.GetPosition());
+            return PartialView(positionRepo.Get());
         }
 
         public PartialViewResult addPosition(string returnUrl)
@@ -348,7 +348,7 @@ namespace resourceEdge.webUi.Controllers
                     position.createdby = null; // int.Parse(User.Identity.GetUserId());
                     position.modifiedby = null; //int.Parse(User.Identity.GetUserId());
                     position.modifieddate = DateTime.Now;
-                    positionRepo.AddPosition(position);
+                    positionRepo.Insert(position);
                     ModelState.Clear();
                     TempData["Success"] = string.Format($"{position.positionname} has been created");
                     return Redirect(returnUrl);
@@ -380,13 +380,13 @@ namespace resourceEdge.webUi.Controllers
                 if (ModelState.IsValid)
                 {
                     EmploymentStatus status = new EmploymentStatus();
-                    status.employemnt_status = model.employemnt_status;
+                    status.employemntStatus = model.employemnt_status;
                     status.createdby = null;
                     status.createddate = DateTime.Now;
                     status.modifiedby = null;
                     status.modifieddate = DateTime.Now;
                     status.isactive = true;
-                    statusRepo.AddEmploymentStatus(status);
+                    statusRepo.Insert(status);
                     ModelState.Clear();
                     TempData["Success"] = string.Format($"{model.employemnt_status} has been created");
                     return Redirect(returnUrl);

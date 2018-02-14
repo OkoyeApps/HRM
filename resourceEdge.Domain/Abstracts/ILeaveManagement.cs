@@ -26,5 +26,7 @@ namespace resourceEdge.Domain.Abstracts
         void AllotEmployeeLeave(EmployeeLeaves empLeave);
         EmployeeLeaves GetEmplyeeLeaveByUserId(string userId);
 
+        EdgeDbContext GetDbContext();
+
     }
 }

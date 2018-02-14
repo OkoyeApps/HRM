@@ -59,6 +59,7 @@ namespace resourceEdge.Domain.Entities
         public System.Data.Entity.DbSet<resourceEdge.Domain.Entities.Requisition> Requisition { get; set; }
         public DbSet<EmpPayroll> Payroll { get; set; }
         public DbSet<Files> Files { get; set; }
+        public DbSet<Logins> Logins { get; set; }
     }
     
 }

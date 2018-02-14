@@ -24,5 +24,11 @@ namespace resourceEdge.webUi
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+
+        protected void session_start(object sender, EventArgs e)
+        {
+            HttpCookie cookie = new HttpCookie("HR");
+            cookie.Values.Clear();
+        }
     }
 }

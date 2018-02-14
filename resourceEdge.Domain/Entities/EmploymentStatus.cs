@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Entities
 {
-    [MetadataType(typeof(employeeStatusViewModel))]
    public class EmploymentStatus
     {
         [Key]
         public int empstId { get; set; }
-        public string employemnt_status { get; set; }
+        public string employemntStatus { get; set; }
         public Nullable<int> createdby { get; set; }
         public Nullable<int> modifiedby { get; set; }
         public Nullable<System.DateTime> createddate { get; set; }

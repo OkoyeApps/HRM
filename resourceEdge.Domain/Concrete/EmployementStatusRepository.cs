@@ -12,17 +12,27 @@ namespace resourceEdge.Domain.Concrete
     {
         UnitofWork.UnitOfWork unitofWork = new UnitofWork.UnitOfWork();
 
-        public void AddEmploymentStatus(EmploymentStatus status)
+        public void Insert(EmploymentStatus status)
         {
             unitofWork.employmentStatus.Insert(status);
             unitofWork.Save();
         }
-        public IEnumerable<EmploymentStatus> GetEmployementStatus() => unitofWork.employmentStatus.Get();
-        public EmploymentStatus GetEmployementStatusById(int id)  => unitofWork.employmentStatus.GetByID(id);
-        public void RemoveEmploymentStatus(int id)
+        public IEnumerable<EmploymentStatus> Get() => unitofWork.employmentStatus.Get();
+        public EmploymentStatus GetById(int id)  => unitofWork.employmentStatus.GetByID(id);
+        public void Delete(int id)
         {
             unitofWork.employmentStatus.Delete(id);
             unitofWork.Save();
+        }
+
+        public void update(EmploymentStatus entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public EmploymentStatus GetByUserId(string userId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

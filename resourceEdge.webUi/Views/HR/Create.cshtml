@@ -1,7 +1,6 @@
 ﻿@model resourceEdge.Domain.Entities.EmployeeViewModel
 
 
-
 <div class="portlet light bordered">
     <div class="portlet-body form">
         @using (Html.BeginForm("Create", "HR", new { returnUrl = ViewBag.returnUrl }, FormMethod.Post, new { @class = "form-horizontal" }))
@@ -43,7 +42,7 @@
 
                     <div class="col-md-4">
                         @Html.Label("Role", htmlAttributes: new { @class = "control-label " })
-                        @Html.DropDownListFor(model => model.empRoleId, (SelectList)ViewBag.roles, htmlAttributes: new { @class = "form-control " })
+                        @Html.DropDownListFor(model => model.empRoleId, (SelectList)ViewBag.roles, "Select Role", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "bs-select form-control" })
                         @Html.ValidationMessageFor(model => model.empRoleId, "", new { @class = "text-danger" })
                         <br />
                         <br />
@@ -51,19 +50,19 @@
 
                     <div class="col-md-4">
                         @Html.Label("Business Unit", htmlAttributes: new { @class = "control-label " })
-                        @Html.DropDownListFor(model => model.businessunitId, (SelectList)ViewBag.businessUnits, htmlAttributes: new { @class = "form-control ", placeholder = "please input business unit" })
+                        @Html.DropDownListFor(model => model.businessunitId, (SelectList)ViewBag.businessUnits,"Select Business Unit", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "bs-select form-control ", placeholder = "please input business unit" })
                         @Html.ValidationMessageFor(model => model.businessunitId, "", new { @class = "text-danger" })
                     </div>
 
                     <div class="col-md-4">
                         @Html.Label("Department", htmlAttributes: new { @class = "control-label " })
-                        <select id="departmentId" name="departmentId" data-live-search="true" class="form-control "></select>
+                        <select id="departmentId" name="departmentId" data_live_search = "true", data_size = "4" class="form-control bs-select  "></select>
                         @Html.ValidationMessageFor(model => model.departmentId, "", new { @class = "text-danger" })
                     </div>
 
                     <div class="col-md-4">
                         @Html.Label("Employement status", htmlAttributes: new { @class = "control-label " })
-                        @Html.DropDownListFor(model => model.empStatusId, (SelectList)ViewBag.EmpStatus, htmlAttributes: new {id = "EmpStat", @class = "form-control ", placeholder = "please" })
+                        @Html.DropDownListFor(model => model.empStatusId, (SelectList)ViewBag.EmpStatus, "Select Status", htmlAttributes: new { data_live_search = "true", data_size = "4", id = "EmpStat", @class = "form-control bs-select ", placeholder = "please" })
                         @Html.ValidationMessageFor(model => model.empStatusId, "", new { @class = "text-danger" })
                         <br />
                         <br />
@@ -71,13 +70,13 @@
 
                     <div class="col-md-4">
                         @Html.Label("Job title", htmlAttributes: new { @class = "control-label " })
-                        @Html.DropDownListFor(model => model.jobtitleId, (SelectList)ViewBag.jobTitles, htmlAttributes: new { @class = "form-control " })
+                        @Html.DropDownListFor(model => model.jobtitleId, (SelectList)ViewBag.jobTitles, "Select Job", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "form-control bs-select  " })
                         @Html.ValidationMessageFor(model => model.jobtitleId, "", new { @class = "text-danger" })
 
                     </div>
                     <div class="col-md-4">
                         @Html.Label("Position", htmlAttributes: new { @class = "control-label " })
-                        <select id="positionId" name="positionId" class="form-control " >
+                        <select id="positionId" name="positionId" data_live_search = "true", data_size = "4" class="form-control bs-select " >
                             
                         </select>
                         @Html.ValidationMessageFor(model => model.positionId, "", new { @class = "text-danger" })
@@ -98,10 +97,11 @@
                                                 <i class="fa fa-calendar"></i>
                                             </button>
                                         </span>
-                                        <input type="text" name="dateOfJoining" class="form-control " >
+                                        <input type="text" name="dateOfJoining" class="form-control " id="dateJoin" >
                                     </div>
                         <span class="hide" id="error_message_dateJoin" style="color:red">Please pick a date</span>
                         @Html.ValidationMessageFor(model => model.dateOfJoining, "", new { @class = "text-danger" })
+                        <span id="join_date_error_message"></span>
                     </div>
 
                     <div class="col-md-4">
@@ -112,13 +112,13 @@
                                     <i class="fa fa-calendar"></i>
                                 </button>
                             </span>
-                            <input type="text" name="dateOfLeaving" class="form-control " readonly>
+                            <input type="text" name="dateOfLeaving" class="form-control " readonly id="dateleave">
                         </div>
                         @Html.ValidationMessageFor(model => model.dateOfLeaving, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-md-4">
                         @Html.Label("Prefix", htmlAttributes: new { @class = "control-label " })
-                        @Html.EnumDropDownListFor(model => model.prefixId, htmlAttributes: new { @class = "form-control " })
+                        @Html.EnumDropDownListFor(model => model.prefixId,"Select Prefix", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "form-control bs-select " })
                         @Html.ValidationMessageFor(model => model.prefixId, "", new { @class = "text-danger" })
                         <br />
                         <br />
