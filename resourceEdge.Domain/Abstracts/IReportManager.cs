@@ -11,5 +11,6 @@ namespace resourceEdge.Domain.Abstracts
     {
         void Delete(string UserId);
         ReportManagers GetById(string id);
+        List<ReportManagers> GetManagersByBusinessunit(int id);
     }
 }

@@ -13,15 +13,15 @@ namespace resourceEdge.webUi.Controllers
     [Authorize]
     public class SelfServiceController : Controller
     {
-        private EmployeeManager empManager;
+        //private EmployeeManager empManager;
         ILeaveManagement leaveRepo;
         LeaveManager leavemanagerRepo;
 
-        public SelfServiceController(EmployeeManager Emparam, ILeaveManagement lParam)
+        public SelfServiceController(ILeaveManagement lParam)
         {
-            empManager = Emparam;
+            //empManager = Emparam;
             leaveRepo = lParam;
-            leavemanagerRepo = new LeaveManager(leaveRepo, empManager);
+            leavemanagerRepo = new LeaveManager(leaveRepo);
         }
 
         public ActionResult Leave()
@@ -76,83 +76,6 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.userId = User.Identity.GetUserId();
             ModelState.AddModelError("", "Please make sure your leave your leave hasn't been exhausted or you can ask The HR to assign more leave for you.");
             return View(model);
-        }
-
-        [HttpGet]
-        public IEnumerable<LeaveRequest> GetEmployeePendingLeave(string userId)
-        {
-            if (userId != null)
-            {
-              var result =   leavemanagerRepo.GetEmployeePendingLeave(userId);
-                return result;
-            }
-            return null;
-        }
-        [HttpGet]
-        public IEnumerable<LeaveRequest> GetEmployeeApprovedLeave(string userId)
-        {
-            if (userId != null)
-            {
-                var result = leavemanagerRepo.GetEmployeeApprovedLeave(userId);
-                return result;
-            }
-            return null;
-        }
-        [HttpGet]
-        public IEnumerable<LeaveRequest> GetEmployeeDeniedLeave(string userId)
-        {
-            if (userId != null)
-            {
-                var result = leavemanagerRepo.GetEmployeeDeniedLeave(userId);
-                return result;
-            }
-            return null;
-        }
-        [HttpGet]
-        public IEnumerable<LeaveRequest> GetEmployeeAllLeave(string userId)
-        {
-            if (userId != null)
-            {
-                var result = leavemanagerRepo.GetEmployeeAllLeave(userId);
-                return result;
-            }
-            return null;
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // GET: SelfService/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: SelfService/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }

@@ -99,21 +99,26 @@ namespace resourceEdge.Domain.Concrete
 
         public EmployeeLeaves GetEmplyeeLeaveByUserId(string id)
         {
-            var result = unitOfWork.EmployeeLeave.Get().ToList();
+            var result = unitOfWork.EmployeeLeave.Get(filter: x=>x.UserId == id).FirstOrDefault();
             if (result != null)
             {
-              var employeeLeave =   result.Find(x => x.UserId == id);
-                if (employeeLeave != null)
-                {
-                    return employeeLeave;
-                }
+                return result;
+            }
+            return result;
+        }
+        
+        public IEnumerable<EmployeeLeaves> GetEmployeeLeaves()
+        {
+            return unitOfWork.EmployeeLeave.Get();
+        }
+        public IEnumerable<LeaveRequest> AllLeaveRequestForConfirmation()
+        {
+            var result = unitOfWork.LRequest.Get(filter: x => x.LeaveStatus == null).ToList();
+            if (result != null)
+            {
+                return result;
             }
             return null;
-        }
-
-        public EdgeDbContext GetDbContext()
-        {
-            return unitOfWork.GetDbContext();
         }
     }
 }

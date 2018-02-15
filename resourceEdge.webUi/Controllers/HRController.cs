@@ -33,14 +33,14 @@ namespace resourceEdge.webUi.Controllers
         ApplicationDbContext db;
         private ApplicationUserManager userManager;
 
-        public HRController(IEmployees empParam, IBusinessUnits busParam, IReportManager rParam, Rolemanager RoleParam, EmployeeManager EParam, ApplicationDbContext dbParam, IEmploymentStatus SParam, IFiles FParam)
+        public HRController(IEmployees empParam, IBusinessUnits busParam, IReportManager rParam, Rolemanager RoleParam, ApplicationDbContext dbParam, IEmploymentStatus SParam, IFiles FParam)
         {
             db = dbParam;
             UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
             empRepo = empParam;
             BunitsRepo = busParam;
             ReportRepo = rParam;
-            employeeManager = EParam;
+            employeeManager = new EmployeeManager(empParam,rParam);
             RoleManager = RoleParam;
             db = dbParam;
             statusRepo = SParam;
@@ -101,7 +101,6 @@ namespace resourceEdge.webUi.Controllers
             var result = statusRepo.Get().Select(x => new { name = x.employemntStatus, id = x.empstId });
             ViewBag.EmpStatus = new SelectList(statusRepo.Get().Select(x => new { name = x.employemntStatus, id = x.empstId }), "id", "name", "id");
             ViewBag.roles = new SelectList(GetRoles().OrderBy(x => x.Name).Where(u => !u.Name.Contains("System Admin") && !u.Name.Contains("Management")).Select(x => new { name = x.Name, id = x.Id }), "Id", "name", "Id");
-             ViewBag.TestRoles = GetRoles().OrderBy(x => x.Name).Where(u => !u.Name.Contains("System Admin") && !u.Name.Contains("Management")).ToList();
             ViewBag.prefix = new SelectList(Apimanager.PrefixeList(), "prefixId", "prefixName", "prefixId");
             ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.BusId), "BusId", "unitname", "BusId");
             ViewBag.jobTitles = new SelectList(Apimanager.JobList().OrderBy(x => x.JobName), "JobId", "JobName", "JobId");
@@ -169,6 +168,7 @@ namespace resourceEdge.webUi.Controllers
 
         }
 
+        [ChildActionOnly]
         public bool validateDates(DateTime dateOfJoining, DateTime dateOfLeaveing)
         {
             if (dateOfJoining > dateOfLeaveing)

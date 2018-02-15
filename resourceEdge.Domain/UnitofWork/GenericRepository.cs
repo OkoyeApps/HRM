@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq.Expressions;
 using resourceEdge.Domain.Entities;
+using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.UnitofWork
 {
@@ -80,5 +81,55 @@ namespace resourceEdge.Domain.UnitofWork
             context.Entry(entityToUpdate).State = EntityState.Modified;
         }
     }
+
+    public class AsyncGenericRepository<TEntity> where TEntity : class
+    {
+        internal EdgeDbContext context;
+        internal DbSet<TEntity> dbSet;
+
+        public AsyncGenericRepository(EdgeDbContext context)
+        {
+            this.context = context;
+            this.dbSet = context.Set<TEntity>();
+
+        }
+        public virtual async Task<TEntity> GetByID(object id)
+        {
+            return await dbSet.FindAsync(id);
+        }
+        public virtual void Insert(TEntity entity)
+        {
+            dbSet.Add(entity);
+        }
+
+        public virtual async Task<IEnumerable<TEntity>> Get
+(Expression<Func<TEntity, bool>> filter = null,
+    Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+    string includeProperties = "")
+        {
+            IQueryable<TEntity> query = dbSet;
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            foreach (var includeProperty in includeProperties.Split
+                (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+
+            if (orderBy != null)
+            {
+                return orderBy(query).ToList();
+            }
+            else
+            {
+                return query.ToList();
+            }
+        }
+    }
+
     }
 

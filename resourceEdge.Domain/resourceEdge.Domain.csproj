@@ -105,6 +105,7 @@
     <Compile Include="Abstracts\Iproduct.cs" />
     <Compile Include="Abstracts\IReportManager.cs" />
     <Compile Include="Abstracts\IRequisition.cs" />
+    <Compile Include="Abstracts\ILocation.cs" />
     <Compile Include="Concrete\BusinessRepository.cs" />
     <Compile Include="Concrete\DepartmentRepository.cs" />
     <Compile Include="Concrete\EmployeeRepository.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="Concrete\IdentityRepository.cs" />
     <Compile Include="Concrete\JobTitleRepository.cs" />
     <Compile Include="Concrete\LeaveManagementRepo.cs" />
+    <Compile Include="Concrete\LocationRepository.cs" />
     <Compile Include="Concrete\LoginRepository.cs" />
     <Compile Include="Concrete\PayrollRepository.cs" />
     <Compile Include="Concrete\PositionRepository.cs" />
@@ -164,6 +166,7 @@
     <Compile Include="Entities\LeaveRequest.cs" />
     <Compile Include="Entities\LeaveRequestHistory.cs" />
     <Compile Include="Entities\LeaveRequestSummary.cs" />
+    <Compile Include="Entities\Location.cs" />
     <Compile Include="Entities\Logins.cs" />
     <Compile Include="Entities\MonthList.cs" />
     <Compile Include="Entities\Months.cs" />

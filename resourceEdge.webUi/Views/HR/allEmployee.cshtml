@@ -16,169 +16,123 @@
     <link href="~/assets/BowerTemplate/bower_components/slick-carousel/slick/slick.css" rel="stylesheet" />
     <link href="~/assets/BowerTemplate/css/main5f48.css" rel="stylesheet" />
     <link href="~/assets/BowerTemplate/bower_components/dragula.js/dist/dragula.min.css" rel="stylesheet" />
-    <link href="~/assets/BowerTemplate/bower_components/dragula.js/dist/dragula.min.css" rel="stylesheet" />
 </head>
 <body>
-
     <div class="white">
-        <div class="all-wrapper menu-side">
-            <div class="layout-w">
-                <div class="content-i">
-                    <div class="content-box">
-                        <div class="pipelines-w">
-                            <div class="row">
-                                <div class="col-lg-10 col-xxl-3">
-                                    <!--------------------START - Pipeline-------------------->
-                                    <div class="pipeline white lined-primary">
-                                        <div class="pipeline-header">
-                                            <h5 class="pipeline-name">All Employees</h5>
-                                            <div class="pipeline-header-numbers">
-                                                <div class="pipeline-value">@empdetail.Item1.Where(x => x.IsUnithead == true).Count()</div>
 
-                                                <div class="pipeline-count">@empdetail.Item1.Count() Employees</div>
-                                            </div>
-                                            <div class="pipeline-settings os-dropdown-trigger">
-                                                <i class="os-icon os-icon-hamburger-menu-1"></i>
-                                                <div class="os-dropdown">
-                                                    <div class="icon-w">
-                                                        <i class="os-icon os-icon-ui-46"></i>
-                                                    </div>
-                                                    @*<ul>
-                                                            <li>
-                                                                <a href="#">
-                                                                    <i class="os-icon os-icon-ui-49"></i>
-                                                                    <span>Edit Record</span>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    <i class="os-icon os-icon-grid-10"></i>
-                                                                    <span>Duplicate Item</span>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    <i class="os-icon os-icon-ui-15"></i>
-                                                                    <span>Remove Item</span>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    <i class="os-icon os-icon-ui-44"></i>
-                                                                    <span>Archive Project</span>
-                                                                </a>
-                                                            </li>
-                                                        </ul>*@
+
+        <div class="white">
+            <div class="all-wrapper menu-side">
+                <div class="layout-w">
+                    <div class="content-i">
+                        <div class="content-box">
+                            <div class="pipelines-w">
+                                <div class="row">
+                                    <div class="col-lg-10 col-xxl-3">
+                                        <!--------------------START - Pipeline-------------------->
+                                        <div class="pipeline white lined-primary">
+                                            <div class="pipeline-header">
+                                                <h5 class="pipeline-name">All Employees</h5>
+                                                <div class="pipeline-header-numbers">
+                                                    <div class="pipeline-value">@empdetail.Item1.Count() Employees</div>
+
+                                                    <div class="pipeline-count">@empdetail.Item1.Where(x => x.IsUnithead == true).Count() Business Head (s)     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        @foreach (var item in empdetail.Item1)
-                                        {
-                                            <div class="pipeline-body">
-                                                <div class="pipeline-item">
-                                                    <div class="pi-controls">
-                                                        <div class="pi-settings os-dropdown-trigger">
-                                                            <i class="os-icon os-icon-ui-46"></i>
-                                                            <div class="os-dropdown">
-                                                                <div class="icon-w">
-                                                                    <i class="os-icon os-icon-ui-46"></i>
-                                                                </div>
-                                                                <ul>
-                                                                    <li>
-                                                                        <a href="@Url.Action("Edit", "Employee", new { userId = item.userId }, null)">
-                                                                            <i class="os-icon os-icon-ui-49"></i>
-                                                                            <span>Edit Records</span>
-                                                                        </a>
-
-                                                                    </li>
-                                                                    <li>
-                                                                        <a href="@Url.Action("Details", "Employee", new { id = item.empID},null)">
-                                                                            <i class="os-icon os-icon-grid-10"></i>
-                                                                            <span>View Details </span>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li>
-                                                                    </li>
-                                                                    <li>
-
-                                                                    </li>
-                                                                </ul>
+                                                @*<div class="pipeline-settings os-dropdown-trigger">
+                                                        <i class="os-icon os-icon-hamburger-menu-1"></i>
+                                                        <div class="os-dropdown">
+                                                            <div class="icon-w">
+                                                                <i class="os-icon os-icon-ui-46"></i>
                                                             </div>
                                                         </div>
-                                                        @if (empdetail.Item4.FirstOrDefault() != null)
-                                                        {
-                                                            var online = empdetail.Item4.Select(x => x).Where(x => x != null).ToList();
+                                                    </div>*@
+                                            </div>
+                                            @foreach (var item1 in empdetail.Item1)
+                                            {
+                                                <div class="pipeline-body">
+                                                    <div class="pipeline-item">
+                                                        <div class="pi-controls">
+                                                            <div class="pi-settings os-dropdown-trigger">
+                                                                <i class="os-icon os-icon-ui-46"></i>
+                                                                <div class="os-dropdown">
+                                                                    <div class="icon-w">
+                                                                        <i class="os-icon os-icon-ui-46"></i>
+                                                                    </div>
+                                                                    <ul>
+                                                                        <li>
+                                                                            <a href="@Url.Action("Edit", "Employee", new { key = item1.userId }, null)">
+                                                                                <i class="os-icon os-icon-ui-49"></i>
+                                                                                <span>Edit Records</span>
+                                                                            </a>
 
-                                                            if (online != null)
-                                                            {
-                                                                foreach (var val in online)
-                                                                {
-                                                                    if (val.IsLogOut != true)
-                                                                    {
-                                                                        <div class="status status-green" data-placement="top" data-toggle="tooltip" title="Active Status">
-                                                                        </div>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <div class="status status-red" data-placement="top" data-toggle="tooltip" title="Active Status">
-                                                                        </div>
-                                                                    }
-                                                                }
+                                                                        </li>
+                                                                        <li>
+                                                                            <a href="@Url.Action("Details", "Employee", new { key = item1.empID }, null)">
+                                                                                <i class="os-icon os-icon-grid-10"></i>
+                                                                                <span>View Details </span>
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                        </li>
+                                                                        <li>
+
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+
+                                                            @{
+                                                                var statusItem = empdetail.Item4.Where(x => x != null).Select(x => x).ToList();
+                                                                var status = statusItem.Find(x => x.userId == item1.userId);
+                                                                var imageItem = empdetail.Item2.Where(x => x != null).Select(x => x).ToList();
+                                                                var image = imageItem.Find(x => x.UserId == item1.userId);
 
                                                             }
-                                                        }
-                                                        @*else
-                                                        {
-                                                            <div class="status status-red" data-placement="top" data-toggle="tooltip" title="Active Status">
-                                                            </div>
-                                                        }*@
-
-
-                                                    </div>
-                                                    <div class="pi-body">
-                                                        <div class="avatar">
-
-                                                            @if (empdetail.Item2.FirstOrDefault() != null)
+                                                            @if (status != null && status.IsLogOut != true)
                                                             {
-                                                                var image = empdetail.Item2.Where(x => x.UserId == item.userId).Select(x => x.FilePath).SingleOrDefault();
-                                                                if (image != null)
-                                                                {
-                                                                    <img src="@Url.Content(image)" />
-                                                                }
-                                                                else
-                                                                {
-
-                                                                    <img src="~/assets/BowerTemplate/img/avatar1.jpg" />
-                                                                }
+                                                                <div class="status status-green" data-placement="top" data-toggle="tooltip" title="Active Status">
+                                                                </div>
                                                             }
                                                             else
                                                             {
-                                                                <img src="~/assets/BowerTemplate/img/avatar1.jpg" />
+                                                                <div class="status status-red" data-placement="top" data-toggle="tooltip" title="Active Status">
+                                                                </div>
                                                             }
 
-
                                                         </div>
-                                                        <div class="pi-info">
-                                                            <div class="h6 pi-name">@item.FullName</div>
-                                                            <div class="pi-sub">@item.empID</div>
+                                                        <div class="pi-body">
+                                                            <div class="avatar">
+                                                                @if (image != null)
+                                                                {
+                                                                    <img src="@Url.Content(image.FilePath)" />
+                                                                }
+                                                                else
+                                                                {
+                                                                    <img src="~/assets/BowerTemplate/img/avatar1.jpg" />
+                                                                }
+                                                            </div>
+                                                            <div class="pi-info">
+                                                                <div class="h6 pi-name">@item1.FullName</div>
+                                                                <div class="pi-sub">@item1.empID</div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="pi-foot">
+                                                            <div class="tags">
+                                                                <a class="tag" href="#">@item1.Departments.BusinessUnits.unitname</a>
+                                                                <a class="tag" href="#">@item1.Departments.deptname</a>
+                                                            </div>
+                                                            <a class="extra-info" href="#">
+                                                                <i class="os-icon os-icon-mail-12"></i>
+                                                                <span>8 Notes</span>
+                                                            </a>
                                                         </div>
                                                     </div>
-
-                                                    <div class="pi-foot">
-                                                        <div class="tags">
-                                                            <a class="tag" href="#">@item.Departments.BusinessUnits.unitname</a>
-                                                            <a class="tag" href="#">@item.Departments.deptname</a>
-                                                        </div>
-                                                        <a class="extra-info" href="#">
-                                                            <i class="os-icon os-icon-mail-12"></i>
-                                                            <span>8 Notes</span>
-                                                        </a>
-                                                    </div>
+                                                    <br />
                                                 </div>
-                                                <br />
-                                            </div>
-                                        }
-                                        <!--------------------END - Pipeline-------------------->
+                                                                }
+                                            <!--------------------END - Pipeline-------------------->
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -187,6 +141,7 @@
                 </div>
             </div>
         </div>
+    </div>
 
         @*<script src="~/assets/BowerTemplate/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
             <script src="~/assets/BowerTemplate/bower_components/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js"></script>

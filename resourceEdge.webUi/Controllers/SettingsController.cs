@@ -12,7 +12,6 @@ namespace resourceEdge.webUi.Controllers
     //[RoutePrefix("api/Settings")]
     public class SettingsController : ApiController
     {
-        EmployeeManager EmpManager = new EmployeeManager();
 
         [Route("api/Settings/GetempStatus")]
         [HttpGet]
@@ -311,7 +310,7 @@ namespace resourceEdge.webUi.Controllers
             {
                 return BadRequest();
             }
-            var result = EmpManager.GetUnitMembersBySearch(userId,searchString);
+            var result = Apimanager.GetUnitMembersBySearch(userId,searchString);
             if (result == null)
             {
                 return Ok("No result found");

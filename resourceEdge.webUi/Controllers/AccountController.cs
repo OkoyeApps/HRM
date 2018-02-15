@@ -521,7 +521,7 @@ namespace resourceEdge.webUi.Controllers
         public bool CheckIfLoggedIn(string userId)
         {
             var loggedInUser = LoginRepo.GetDbContext().Logins.Where(x => x.userId == userId).ToList().LastOrDefault();
-            if (loggedInUser.IsLogOut == false)
+            if (loggedInUser != null && loggedInUser.IsLogOut == false)
             {
                 return true;
             }

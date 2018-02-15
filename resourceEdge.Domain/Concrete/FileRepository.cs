@@ -30,9 +30,15 @@ namespace resourceEdge.Domain.Concrete
             unitOfWork.Files.Delete(id);
             unitOfWork.Save();
         }
-       
 
-
-        
+        public Files GetFileByUserId(string userId, FileType type)
+        {
+            var result = unitOfWork.Files.Get(filter: x => x.UserId == userId && x.FileType == FileType.Avatar).FirstOrDefault();
+            if (result != null)
+            {
+                return result;
+            }
+            return null;
+        }
     }
 }

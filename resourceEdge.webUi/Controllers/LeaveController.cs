@@ -19,11 +19,14 @@ namespace resourceEdge.webUi.Controllers
         private ILeaveManagement leaveRepo;
         private IBusinessUnits BunitsRepo;
         LeaveManager leavemanagerRepo;
+        public LeaveController()
+        {
+
+        }
         public LeaveController(ILeaveManagement lParam, IBusinessUnits bparam)
         {
             leaveRepo = lParam;
             BunitsRepo = bparam;
-            leavemanagerRepo = new LeaveManager(leaveRepo, new EmployeeManager());
         }
 
         [Authorize(Roles = "HR")]
@@ -181,8 +184,7 @@ namespace resourceEdge.webUi.Controllers
 
         public ActionResult AllLeaveRequest()
         {
-            
-            return View(leaveRepo.GetDbContext().LeaveRequest.Where(x=>x.LeaveStatus == null));
+            return View(leaveRepo.AllLeaveRequestForConfirmation());
         }
 
 

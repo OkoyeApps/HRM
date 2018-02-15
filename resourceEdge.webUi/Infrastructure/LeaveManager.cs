@@ -13,11 +13,10 @@ namespace resourceEdge.webUi.Infrastructure
         private ILeaveManagement LeaveRepo;
         UnitOfWork unitofWork;
         EmployeeManager EmpLogic;
-        public LeaveManager(ILeaveManagement lParam, EmployeeManager ELParam)
+        public LeaveManager(ILeaveManagement lParam)
         {
             LeaveRepo = lParam;
             unitofWork = new UnitOfWork();
-            EmpLogic = ELParam;
         }
         public EmployeeLeaveTypes GetLeaveDetails(int id)
         {
@@ -31,7 +30,9 @@ namespace resourceEdge.webUi.Infrastructure
 
         public double GetEmpAvailableLeave(string userId)
         {
-            var leave = unitofWork.GetDbContext().EmpLeaves.Where(X => X.UserId == userId).FirstOrDefault();
+            //var leave = unitofWork.GetDbContext().EmpLeaves.Where(X => X.UserId == userId).FirstOrDefault();
+           // var leave = LeaveRepo.GetEmployeeLeaves().Where(x => x.UserId == userId).FirstOrDefault();
+            var leave = LeaveRepo.GetEmplyeeLeaveByUserId(userId);
             return leave.EmpLeaveLimit.Value;
         }
 
@@ -50,7 +51,7 @@ namespace resourceEdge.webUi.Infrastructure
             var leaveRequest = unitofWork.GetDbContext().LeaveRequest.Find(leaveId);
             if (leaveRequest != null)
             {
-                var EmpLeave = EmpLogic.getEmpLeaveByUserId(userId);
+                var EmpLeave = LeaveRepo.GetEmplyeeLeaveByUserId(userId);
                 if (EmpLeave != null)
                 {
                     int usedLeave;
@@ -72,7 +73,7 @@ namespace resourceEdge.webUi.Infrastructure
             var CurrentleaveRequest = unitofWork.LRequest.Get().ToList().Find(x => x.id == leaveId);
             if (CurrentleaveRequest != null)
             {
-                var EmpLeave = EmpLogic.getEmpLeaveByUserId(userId);
+                var EmpLeave = LeaveRepo.GetEmplyeeLeaveByUserId(userId);
                 var LastLeaveReuest = unitofWork.LRequest.Get().LastOrDefault();
                 if (EmpLeave != null)
                 {
@@ -165,6 +166,10 @@ namespace resourceEdge.webUi.Infrastructure
                 return result;
             }
             return null;
+        }
+        public List<LeaveRequest> AllLeaveRequestForConfirmation()
+        {
+           return LeaveRepo.AllLeaveRequestForConfirmation().ToList();
         }
     }
 }

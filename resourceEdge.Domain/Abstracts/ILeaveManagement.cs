@@ -14,6 +14,7 @@ namespace resourceEdge.Domain.Abstracts
         IEnumerable<LeaveManagement> GetLeave();
         IEnumerable<EmployeeLeaves> GetAllotedLeave();
         void UpdateEmployeeLeave(EmployeeLeaves empLeave);
+        EmployeeLeaves GetEmplyeeLeaveByUserId(string userId);
         void AddLeaveTypes(EmployeeLeaveTypes leaveType);
         IEnumerable<EmployeeLeaveTypes> GetLeaveTypes();
         LeaveManagement GetLeaveById(int? id);
@@ -24,9 +25,8 @@ namespace resourceEdge.Domain.Abstracts
         void DeleteLeaveRequest(int id);
         void updateLeaveRequest(LeaveRequest leaveRequest);
         void AllotEmployeeLeave(EmployeeLeaves empLeave);
-        EmployeeLeaves GetEmplyeeLeaveByUserId(string userId);
-
-        EdgeDbContext GetDbContext();
+        IEnumerable<EmployeeLeaves> GetEmployeeLeaves();
+        IEnumerable<LeaveRequest> AllLeaveRequestForConfirmation();
 
     }
 }

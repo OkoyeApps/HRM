@@ -79,6 +79,7 @@
                         <select id="positionId" name="positionId" data_live_search = "true", data_size = "4" class="form-control bs-select " >
                             
                         </select>
+                        <span>@Html.Action("addPosition", "Configuration", new { returnUrl = Request.Url.PathAndQuery })</span>
                         @Html.ValidationMessageFor(model => model.positionId, "", new { @class = "text-danger" })
                     </div>
 

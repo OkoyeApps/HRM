@@ -50,7 +50,22 @@ namespace resourceEdge.Domain.Concrete
 
         public ReportManagers GetByUserId(string userId)
         {
-            throw new NotImplementedException();
+          var result =   unitOfWork.ReportManager.Get(filter: x => x.managerId == userId).FirstOrDefault();
+            if (result != null)
+            {
+                return result;
+            }
+            return null;
+        }
+
+        public List<ReportManagers> GetManagersByBusinessunit(int id)
+        {
+            var result = unitOfWork.ReportManager.Get(filter: x => x.BusinessUnitId == id).ToList();
+            if (result != null)
+            {
+                return result;
+            }
+            return null;
         }
     }
 }

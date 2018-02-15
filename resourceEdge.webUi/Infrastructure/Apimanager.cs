@@ -382,6 +382,31 @@ namespace resourceEdge.webUi.Infrastructure
             }
             return null;
         }
+
+        public static List<Employees> GetUnitMembersBySearch(string userId, string searchString)
+        {
+            var userUnitId = unitOfWork.GetDbContext().employees.Where(x => x.userId == userId).SingleOrDefault();
+            List<Employees> TeamMembers = new List<Employees>();
+            if (searchString.ToLower().StartsWith("tenece"))
+            {
+                var TeamByEmpId = db.Users.Where(x => x.businessunitId == userUnitId.businessunitId.ToString() && x.employeeId == searchString).FirstOrDefault();
+                if (TeamByEmpId != null)
+                {
+                    var TeamMember = unitOfWork.GetDbContext().employees.Where(x => x.userId == TeamByEmpId.Id).SingleOrDefault();
+                   TeamMembers.Add(TeamMember);
+                    return TeamMembers;
+                }
+            }
+             TeamMembers = unitOfWork.GetDbContext().employees.Where(x => x.businessunitId == userUnitId.businessunitId).Where(x => x.empEmail.Contains(searchString) || x.FullName.Contains(searchString)).ToList();
+           if (TeamMembers != null)
+            {
+                return TeamMembers;
+            }
+
+            return null;
+
+        }
+
         public static List<Months> GetAllMonths()
         {
            return unitOfWork.GetDbContext().Months.ToList();

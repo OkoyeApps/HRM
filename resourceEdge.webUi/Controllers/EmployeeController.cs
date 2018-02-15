@@ -27,16 +27,19 @@ namespace resourceEdge.webUi.Controllers
         IJobtitles jobRepo;
         EmployeeManager EmpManager;
         EmployeeDetails EmpDetails;
-        public EmployeeController(IPayroll PRParam, IEmployees EParam, IFiles fParam, IPositions PParam, IJobtitles jParam)
+        EmployeeEdit EmpEdit;
+        ILeaveManagement leaveRepo;
+        public EmployeeController(IPayroll PRParam, IEmployees EParam, IFiles fParam, IPositions PParam, IJobtitles jParam, ILeaveManagement LParam,IPayroll payParam )
         {
             UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(new ApplicationDbContext()));
             payRollRepo = PRParam;
             EmployeeRepo = EParam;
-            EmpManager = new EmployeeManager();
+            EmpManager = new EmployeeManager(EParam,fParam, LParam, payParam);
             FileRepo = fParam;
             PositionRepo = PParam;
             jobRepo = jParam;
             EmpDetails = new EmployeeDetails();
+            EmpEdit = new EmployeeEdit(EParam,fParam,LParam,payParam);
         }
         public ApplicationUserManager UserManager
         {
@@ -50,10 +53,10 @@ namespace resourceEdge.webUi.Controllers
             }
         }
         // Edit: Edit
-        public ActionResult Edit(string userId)
+        public ActionResult Edit(string key)
         {
-            ViewBag.UserId = userId;
-            ViewBag.Avartar = EmpManager.getEmpAvatar(userId);
+            ViewBag.UserId = key;
+            ViewBag.Avartar = EmpEdit.getEmpAvatar(key);
             return View();
         }
 
@@ -87,11 +90,10 @@ namespace resourceEdge.webUi.Controllers
 
         public JsonResult GetEmpAvater(string id)
         {
-            var result = EmpManager.getEmpAvatar(id);
+            var result = EmpEdit.getEmpAvatar(id);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        //[ChildActionOnly]
         public ActionResult Salary(string userId, string returnUrl)
         {
             var user = UserManager.FindById(userId);
@@ -129,7 +131,7 @@ namespace resourceEdge.webUi.Controllers
                 var employee = EmployeeRepo.GetByUserId(userId);
                 if (ModelState.IsValid && user != null && employee != null)
                 {
-                    EmpManager.AddORUpdateSalary(userId, model, employee, user, User.Identity.GetUserId());
+                    EmpEdit.AddORUpdateSalary(userId, model, employee, user, User.Identity.GetUserId());
                     TempData["Success"] = "Operation successfull";
                     return Redirect(returnUrl);
                     ///I had to return a string here because asp.net mvc does not allow childActions to return a redirect 
@@ -167,17 +169,19 @@ namespace resourceEdge.webUi.Controllers
             var existingAvatar = FileRepo.GetByUserId(userId);
             try
             {
-                if (ModelState.IsValid && employee != null)
+                if (ModelState.IsValid && employee != null && File.ContentLength >0)
                 {
 
                     string fileFullName = Server.MapPath("~/Files/Avatars/");
-                    EmpManager.AddOrUpdateAvater(model, userId, existingAvatar, fileFullName, File, FileRepo);
+                    EmpEdit.AddOrUpdateAvater(model, userId, existingAvatar, fileFullName, File, FileRepo);
                     TempData["Success"] = "Operation successfull";
                     return Redirect(returnUrl);
                 }
             }
             catch (Exception ex)
             {
+                TempData["Error"] = "Something went wrong";
+                return Redirect(returnUrl);
                 throw ex;
             }
             TempData["Error"] = "Something went wrong";
