@@ -317,6 +317,17 @@ namespace resourceEdge.webUi.Controllers
             }
             return Ok(result);
         }
+        [Route("api/settings/GetBusinessunitByLocation/")]
+        [HttpGet]
+        public IHttpActionResult GetBusinessunitByLocation(int? id=null)
+        {
+            var result = Apimanager.GetBusinessunitByLocation(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
 
         // POST: api/Settings
         public void Post([FromBody]string value)

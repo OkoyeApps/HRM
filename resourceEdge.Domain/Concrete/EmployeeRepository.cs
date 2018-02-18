@@ -59,14 +59,14 @@ namespace resourceEdge.Domain.Concrete
             return null;
         }
 
-        public bool CheckIfEmployeeExistByUserId(string userId)
+        public Employees CheckIfEmployeeExistByUserId(string userId)
         {
-            var result = unitOfWork.employees.Get(filter: x => x.userId == userId).Any(x => x.userId == userId);
-            if (result == true)
+            var result = unitOfWork.employees.Get(filter: x => x.userId == userId).FirstOrDefault();
+            if (result != null)
             {
-                return true;
+                return result;
             }
-            return false;
+            return null;
         }
         public List<Employees> GetEmployeeByDepts(int dept)
         {

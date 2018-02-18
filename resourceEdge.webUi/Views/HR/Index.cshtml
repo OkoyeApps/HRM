@@ -122,7 +122,7 @@
         //$("#btnSubmit").onclick(function () {
         //    validateDateOfJoining();
         //})
-
+        //this does the Front-End Validation
         function ValidateDateofJoingAndLeaving(date1, date2) {
             var error = $('#error_message_dateJoin');
             
@@ -135,16 +135,99 @@
             }
             else if (newDate1 < newDate2) {
                 error.removeClass('show');
-                error.addclass('hide');
+                error.addClass('hide');
                 $('#btnSubmit').prop('disabled', false);
             }
-            
-            $('#dateleave').input( function () {
-                var date1 = $('dateJoin').val();
-                var date2 = $('#dateleave').val();
-                ValidateDateofJoingAndLeaving(date1,date2);
-            })
-            
+ 
         }
+        $('#dateleave').on('change',function () {
+            var date1 = $('#dateJoin').val();
+            var date2 = $('#dateleave').val();
+            //ValidateDateofJoingAndLeaving(date1, date2);
+            ValidateDatesFromBackend(date1, date2)
+        })
+ 
+
+
+        //this method does the backend validation
+        function ValidateDatesFromBackend(date1, date2) {
+            console.log("#########################")
+            console.log(date1);
+            var newdate1 = date1.split('-');
+            var currentDay1 = newdate1[1] + '/' + newdate1[0] + '/' + newdate1[2];
+            var newdate2 = date2.split('-');
+            var currentDay2 = newdate2[1] + '/' + newdate2[0] + '/' + newdate2[2];
+            console.log(currentDay1);
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:58124/validation/validatedate?date1=' + currentDay1 + '&date2=' + currentDay2,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                        console.log(data);
+                        if (data.message == false) {
+                            $('#dateSpan').html(
+                            `
+                        <i class ="fa fa-check tooltips" data-original-title="success input!"></i>
+                        `)
+                    }
+                        else {
+                            $('#dateSpan').removeClass('fa fa-calendar');
+                            $('#dateSpan').addClass("fa fa-check tooltips"); $('#dateSpan').attr("data-original-title", "success input!");
+                        
+                        //`<div class="alert alert-success>Valid date/div>`
+                    }
+                },
+                failure: function () {
+                    console.log("Failed");
+                    var message = {
+                        message: "Failed to load data... Try again later"
+                    };
+                    //$('#position').append('<option value="">' + message.message + '</option>')
+                }
+            })
+        }
+
+
+        function getUnitByLocation(id) {
+            var currentId = id;
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:58124/api/settings/GetBusinessunitByLocation/' + id,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    console.log('in the Get unit by Location method');
+                    console.log(currentId);
+                    console.log(data);
+                    $('#businessunitId').empty();
+                    if (data != '') {
+                        $('#businessunitId').append('<option class="centre" value="">' + 'Select Business Unit' + '</option>');
+                        $.each(data, function (index, val) {
+                            $('#businessunitId').append('<option value="' + val.BusId + '">' + val.unitname + '</option>');
+                        })
+                    } else {
+                        $('#businessunitId').append('<option value="">' + 'No Unit for this Location yet' + '</option>')
+                    }
+                },
+                failure: function () {
+                    var message = {
+                        message: "Failed to load data... Try again later"
+                    };
+                    $('#businessunitId').append('<option value="">' + message.message + '</option>')
+                }
+            })
+        }
+
+        $('#Location').on('change', function () {
+            getUnitByLocation($(this).val());
+        })
+        function addElement() {
+            $('#Location').append('<option class="centre" value="">' + 'No Location For now' + '</option>')
+            $('#businessunitId').append('<option class="centre" value="">' + 'Please select a Location' + '</option>');
+            $('#departmentId').append('<option class="centre" value="">' + 'Please select a Business Unit' + '</option>');
+        }
+        window.onload(addElement())
     </script>
     }
+

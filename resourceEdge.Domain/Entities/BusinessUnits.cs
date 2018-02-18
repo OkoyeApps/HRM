@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace resourceEdge.Domain.Entities
 {
-    [MetadataType(typeof (BusinessUnitsVIewModel))]
+    //[MetadataType(typeof (BusinessUnitsVIewModel))]
     public class BusinessUnits
     {
         [Key]
@@ -17,22 +17,17 @@ namespace resourceEdge.Domain.Entities
         public string unitname { get; set; }
         public string unitcode { get; set; }
         public string descriptions { get; set; }
-        public Nullable<System.DateTime> startdate { get; set; }
-        public string country { get; set; }
-        public string CurrentState { get; set; }
-        public string city { get; set; }
-        public string address1 { get; set; }
-        public string address2 { get; set; }
-        public string address3 { get; set; }
-        public string unithead { get; set; }
-        [ForeignKey("ReportManager")]
+        public DateTime? startdate { get; set; }
+        [ForeignKey("Employee")]
         public string reportManager1 { get; set; }
         public string reportManager2 { get; set; }
+        public int? LocationId { get; set; }
         public string createdby { get; set; }
         public string modifiedby { get; set; }
         public Nullable<System.DateTime> createddate { get; set; }
         public Nullable<System.DateTime> modifieddate { get; set; }
         public Nullable<bool> isactive { get; set; }
-        public virtual ICollection<Employees> ReportManager { get; set; }
+        public virtual ICollection<Employees> Employee { get; set; }
+        public virtual Location Location { get; set; }
     }
 }

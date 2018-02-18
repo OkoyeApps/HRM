@@ -11,7 +11,7 @@ namespace resourceEdge.Domain.Abstracts
     {
         Employees GetEmployeeByEmail(string email);
         List<Employees> GetEmpByBusinessUnit(int id);
-        bool CheckIfEmployeeExistByUserId(string userId);
+        Employees CheckIfEmployeeExistByUserId(string userId);
         List<Employees> GetEmployeeByDepts(int dept);
         List<Employees> GetUnitHead(int unitId);
         List<Employees> GetHrs();

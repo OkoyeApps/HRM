@@ -3,6 +3,7 @@ using resourceEdge.Domain.Entities;
 using resourceEdge.Domain.UnitofWork;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -11,11 +12,13 @@ namespace resourceEdge.webUi.Infrastructure
     public class LeaveManager
     {
         private ILeaveManagement LeaveRepo;
+        IEmployees EmpRepo;
         UnitOfWork unitofWork;
         EmployeeManager EmpLogic;
-        public LeaveManager(ILeaveManagement lParam)
+        public LeaveManager(IEmployees Eparam, ILeaveManagement lParam)
         {
             LeaveRepo = lParam;
+            EmpRepo = Eparam;
             unitofWork = new UnitOfWork();
         }
         public EmployeeLeaveTypes GetLeaveDetails(int id)
@@ -30,15 +33,13 @@ namespace resourceEdge.webUi.Infrastructure
 
         public double GetEmpAvailableLeave(string userId)
         {
-            //var leave = unitofWork.GetDbContext().EmpLeaves.Where(X => X.UserId == userId).FirstOrDefault();
-           // var leave = LeaveRepo.GetEmployeeLeaves().Where(x => x.UserId == userId).FirstOrDefault();
             var leave = LeaveRepo.GetEmplyeeLeaveByUserId(userId);
             return leave.EmpLeaveLimit.Value;
         }
 
         public List<LeaveRequest> GetPendingLeaveForManager(string userid)
         {
-            var leave = unitofWork.GetDbContext().LeaveRequest.Where(x => x.RepmangId == userid && x.LeaveStatus == null).ToList();
+            var leave = unitofWork.LRequest.Get(filter: x => x.RepmangId == userid && x.LeaveStatus == null).ToList();
             if (leave != null)
             {
                 return leave;
@@ -46,23 +47,37 @@ namespace resourceEdge.webUi.Infrastructure
             return null;
         }
 
-        public bool Approveleave(int leaveId, string userId)
+        public bool Approveleave(int leaveId, string userId, string ApproveeId)
         {
-            var leaveRequest = unitofWork.GetDbContext().LeaveRequest.Find(leaveId);
+            var leaveRequest = unitofWork.LRequest.GetByID(leaveId);
+            var Approvee = unitofWork.employees.Get(filter: x => x.userId == ApproveeId).FirstOrDefault();
+
             if (leaveRequest != null)
             {
                 var EmpLeave = LeaveRepo.GetEmplyeeLeaveByUserId(userId);
                 if (EmpLeave != null)
                 {
-                    int usedLeave;
-                    if (EmpLeave.UsedLeaves == null)
-                        usedLeave = 0;
-                    else usedLeave = (int)EmpLeave.UsedLeaves;
-                    EmpLeave.UsedLeaves = leaveRequest.requestDaysNo + usedLeave;
-                    LeaveRepo.UpdateEmployeeLeave(EmpLeave);
-                    leaveRequest.LeaveStatus = true;
-                    LeaveRepo.updateLeaveRequest(leaveRequest);
-                    return true;
+                    ///this check is for the Hr and the unit manager. 
+                    ///The unit manager has to approve first before the Hr.
+                    ///at first it is the Unit Head then the Hr.
+                    if (Approvee.empRoleId == 2)
+                    {
+                        leaveRequest.Approval1 = true;
+                        LeaveRepo.updateLeaveRequest(leaveRequest);
+                        return true;
+                    }
+                    else if(Approvee.empRoleId == 3)
+                    {
+                        int usedLeave;
+                        if (EmpLeave.UsedLeaves == null)
+                            usedLeave = 0;
+                        else usedLeave = (int)EmpLeave.UsedLeaves;
+                        EmpLeave.UsedLeaves = leaveRequest.requestDaysNo + usedLeave;
+                        LeaveRepo.UpdateEmployeeLeave(EmpLeave);
+                        leaveRequest.LeaveStatus = true;
+                        LeaveRepo.updateLeaveRequest(leaveRequest);
+                        return true;
+                    }            
                 }
             }
             return false;
@@ -70,19 +85,18 @@ namespace resourceEdge.webUi.Infrastructure
 
         public bool DenyLeave(int leaveId, string userId)
         {
-            var CurrentleaveRequest = unitofWork.LRequest.Get().ToList().Find(x => x.id == leaveId);
+            var CurrentleaveRequest = unitofWork.LRequest.Get(filter: x=>x.id==leaveId).FirstOrDefault();
             if (CurrentleaveRequest != null)
             {
                 var EmpLeave = LeaveRepo.GetEmplyeeLeaveByUserId(userId);
-                var LastLeaveReuest = unitofWork.LRequest.Get().LastOrDefault();
+                var LastLeaveRequest = unitofWork.LRequest.Get().LastOrDefault();
                 if (EmpLeave != null)
                 {
-                    //EmpLeave.UsedLeaves = EmpLeave.UsedLeaves - CurrentleaveRequest.requestDaysNo;
                     LeaveRepo.UpdateEmployeeLeave(EmpLeave);
                     CurrentleaveRequest.LeaveStatus = false;
-                    LastLeaveReuest.AppliedleavesCount = LastLeaveReuest.AppliedleavesCount - CurrentleaveRequest.requestDaysNo; 
+                    LastLeaveRequest.AppliedleavesCount = LastLeaveRequest.AppliedleavesCount - CurrentleaveRequest.requestDaysNo; 
                     LeaveRepo.updateLeaveRequest(CurrentleaveRequest);
-                    LeaveRepo.updateLeaveRequest(LastLeaveReuest);
+                    LeaveRepo.updateLeaveRequest(LastLeaveRequest);
                     return true;
 
                     ///in Order to understand the logic  applied here, you must consider that at first as we apply for a leave
@@ -100,8 +114,8 @@ namespace resourceEdge.webUi.Infrastructure
 
         public bool CheckIfLeaveIsFinished(string userId, int currentLeave, int AllotedLeave)
         {
-            var leave = unitofWork.GetDbContext().EmpLeaves.Where(X => X.UserId == userId).SingleOrDefault();
-            var LeaveRequest = unitofWork.GetDbContext().LeaveRequest.Where(x => x.UserId == userId).ToList().LastOrDefault();
+            var leave = unitofWork.EmployeeLeave.Get(filter: x => x.UserId == userId).SingleOrDefault();
+            var LeaveRequest = unitofWork.LRequest.Get(filter: x => x.UserId == userId).ToList().LastOrDefault();
             if (LeaveRequest != null)
             {
                 int totalLeave = (int)LeaveRequest.AppliedleavesCount + currentLeave;
@@ -122,7 +136,7 @@ namespace resourceEdge.webUi.Infrastructure
         }
         public double? GetLeaveAppliedFor(string userId)
         {
-            var AppliedForNo = unitofWork.GetDbContext().LeaveRequest.Where(x => x.UserId == userId).ToList();
+            var AppliedForNo = LeaveRepo.GetempLeaveRequestsBtUserId(userId).ToList();
             var currentLeave = AppliedForNo.LastOrDefault();
             if (currentLeave != null)
             {
@@ -133,7 +147,7 @@ namespace resourceEdge.webUi.Infrastructure
 
         public List<LeaveRequest> GetEmployeePendingLeave(string userId)
         {
-            var result = unitofWork.GetDbContext().LeaveRequest.Where(x => x.LeaveStatus == null).ToList();
+            var result = LeaveRepo.GetEmployeePendingLeave(userId).ToList();
             if (result != null)
             {
                 return result;
@@ -142,7 +156,7 @@ namespace resourceEdge.webUi.Infrastructure
         }
         public List<LeaveRequest> GetEmployeeApprovedLeave(string userId)
         {
-            var result = unitofWork.GetDbContext().LeaveRequest.Where(x => x.UserId == userId &&  x.LeaveStatus == true).ToList();
+            var result = LeaveRepo.GetEmployeeApprovedLeaveRequest(userId).ToList();
             if (result != null)
             {
                 return result;
@@ -151,7 +165,7 @@ namespace resourceEdge.webUi.Infrastructure
         }
         public List<LeaveRequest> GetEmployeeDeniedLeave(string userId)
         {
-            var result = unitofWork.GetDbContext().LeaveRequest.Where(x => x.UserId == userId && x.LeaveStatus == false).ToList();
+            var result = LeaveRepo.GetEmployeeDeniedLeaveRequest(userId).ToList();
             if (result != null)
             {
                 return result;
@@ -160,7 +174,7 @@ namespace resourceEdge.webUi.Infrastructure
         }
         public List<LeaveRequest> GetEmployeeAllLeave(string userId)
         {
-            var result = unitofWork.GetDbContext().LeaveRequest.Where(x => x.UserId == userId).ToList();
+            var result = LeaveRepo.GetEmployeeAllLeaveRequest(userId).ToList();
             if (result != null)
             {
                 return result;

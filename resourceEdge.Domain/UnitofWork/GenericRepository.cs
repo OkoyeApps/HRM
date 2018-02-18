@@ -93,19 +93,10 @@ namespace resourceEdge.Domain.UnitofWork
             this.dbSet = context.Set<TEntity>();
 
         }
-        public virtual async Task<TEntity> GetByID(object id)
-        {
-            return await dbSet.FindAsync(id);
-        }
-        public virtual void Insert(TEntity entity)
-        {
-            dbSet.Add(entity);
-        }
-
         public virtual async Task<IEnumerable<TEntity>> Get
-(Expression<Func<TEntity, bool>> filter = null,
-    Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-    string includeProperties = "")
+        (Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            string includeProperties = "")
         {
             IQueryable<TEntity> query = dbSet;
 
@@ -122,13 +113,46 @@ namespace resourceEdge.Domain.UnitofWork
 
             if (orderBy != null)
             {
-                return orderBy(query).ToList();
+                return await orderBy(query).ToListAsync();
             }
             else
             {
-                return query.ToList();
+                return await query.ToListAsync();
             }
         }
+        public virtual async Task<TEntity> GetByID(object id)
+        {
+            return await dbSet.FindAsync(id);
+        }
+        public virtual Task<TEntity> Insert(TEntity entity) 
+        {         
+            dbSet.Add(entity);
+            return Task.FromResult(entity);
+        }
+
+        public virtual async void Delete(object id)
+        {
+            TEntity entityToDelete = await dbSet.FindAsync(id);
+            Delete(entityToDelete);
+        }
+
+        public virtual void Delete(TEntity entityToDelete)
+        {
+            if (context.Entry(entityToDelete).State == EntityState.Detached)
+            {
+                dbSet.Attach(entityToDelete);
+            }
+            dbSet.Remove(entityToDelete);
+        }
+
+
+        public virtual async Task<TEntity> Update(TEntity entityToUpdate)
+        {
+            dbSet.Attach(entityToUpdate);
+            context.Entry(entityToUpdate).State = EntityState.Modified;
+            return await Task.FromResult(entityToUpdate);
+        }
+
     }
 
     }

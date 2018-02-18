@@ -39,7 +39,14 @@ namespace resourceEdge.webUi.Infrastructure
         private ApplicationDbContext db = new ApplicationDbContext();
         private resourceEdge.webUi.ApplicationUserManager userManager;
 
-
+        /// <summary>
+        /// This class initializes Several constructors
+        /// this is so because as a result of programming to the interface any implementing 
+        /// class can provide only implementation of those related to the class
+        /// <example>If the Employee class needs to implement this we only use the constructor that provides implementation
+        /// of details related to the employee
+        /// </example>
+        /// </summary>
 
         public EmployeeManager()
         {
@@ -108,12 +115,10 @@ namespace resourceEdge.webUi.Infrastructure
         /// <returns></returns>
         public List<Employees> GetAllEmployees()
         {
-            //unitofWork.employees.Get().ToList();
             return EmployeeRepo.Get().ToList();
         }
         public List<Employees> GetEmpByBusinessUnit(int id)
         {
-            //var employeeByUnit = unitofWork.GetDbContext().employees.Where(x => x.businessunitId == id).ToList();
             var employeeByUnit = EmployeeRepo.GetEmpByBusinessUnit(id);
             if (employeeByUnit != null)
             {
@@ -146,37 +151,32 @@ namespace resourceEdge.webUi.Infrastructure
         }
         public Employees GetEmployeeByUserId(string userid)
         {
-            //var employee = unitofWork.GetDbContext().employees.Where(x => x.userId == userid).SingleOrDefault();
             return EmployeeRepo.GetByUserId(userid);
         }
-        //Change This later to the interface
-        public bool CheckIfEmployeeExistByUserId(string userId)
+
+        public Employees CheckIfEmployeeExistByUserId(string userId)
         {
-            //var employee = unitofWork.GetDbContext().employees.Any(x => x.userId == userId);
+            
             return EmployeeRepo.CheckIfEmployeeExistByUserId(userId);
         }
-        //Change This later to the interface
+
         public List<Employees> GetEmployeeByDept(int dept)
         {
-            //return unitofWork.GetDbContext().employees.Where(x => x.departmentId == dept).ToList();
-            return EmployeeRepo.GetEmployeeByDepts(dept);
+        return EmployeeRepo.GetEmployeeByDepts(dept);
         }
 
         public List<Employees> GetUnitHeads(int unitId)
         {
-             //var unitHead = unitofWork.GetDbContext().employees.Where(x => x.businessunitId == unitId && x.IsUnithead == true).FirstOrDefault();
             return EmployeeRepo.GetUnitHead(unitId);
         }
 
         public List<Employees> GetHr()
         {
-            //var hr = unitofWork.GetDbContext().employees.Where(x => x.empRoleId == 3 && x.businessunitId == unitId).SingleOrDefault();
                 return EmployeeRepo.GetHrs();
         }
 
         public List<Employees> GetEmployeeUnitMembers(int unitId)
         {
-            //var members = unitofWork.GetDbContext().employees.Where(x => x.businessunitId == unitId && x.IsUnithead != true).ToList();
             var members = EmployeeRepo.GetEmployeeUnitMembers(unitId);
             return members;
         }
@@ -184,7 +184,6 @@ namespace resourceEdge.webUi.Infrastructure
         //Although this method originally called by the ApiManager, its still left here just if there is a need to use it
         public List<Employees> GetUnitMembersBySearch(string userId, string searchString)
         {
-            //var userUnitId = unitofWork.GetDbContext().employees.Where(x => x.userId == userId).SingleOrDefault();
             var userUnitId = EmployeeRepo.GetByUserId(userId);
             List<Employees> TeamMembers = new List<Employees>();
             if (searchString.ToLower().StartsWith("tenece"))
@@ -192,13 +191,11 @@ namespace resourceEdge.webUi.Infrastructure
                 var TeamByEmpId = db.Users.Where(x => x.businessunitId == userUnitId.businessunitId.ToString() && x.employeeId == searchString).FirstOrDefault();
                 if (TeamByEmpId != null)
                 {
-                    //var TeamMember = unitofWork.GetDbContext().employees.Where(x => x.userId == TeamByEmpId.Id).SingleOrDefault();
                     var TeamMember = EmployeeRepo.GetByUserId(TeamByEmpId.Id);
                     TeamMembers.Add(TeamMember);
                     return TeamMembers;
                 }
             }
-           // TeamMembers = unitofWork.GetDbContext().employees.Where(x => x.businessunitId == userUnitId.businessunitId).Where(x => x.empEmail.Contains(searchString) || x.FullName.Contains(searchString)).ToList();
             TeamMembers = EmployeeRepo.GetEmpByBusinessUnit(userUnitId.businessunitId).Where(x => x.empEmail.Contains(searchString) || x.FullName.Contains(searchString)).ToList();
             if (TeamMembers != null)
             {
@@ -208,23 +205,27 @@ namespace resourceEdge.webUi.Infrastructure
             return null;
 
         }
+        //This code was used to service the employee Creation if manager role was created immediately
+        //this was not used in the assign reportmanager action Method becausethe repository was invoked
+        public bool AssignReportManager(ReportManagers manager)
+        {
+            try
+            {
+                ReportManagerRepo.Insert(manager);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+                throw ex;    
+            }
+        }
 
         /// <summary>
         /// This section is the EmployeeLeaves section
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-
-        //public EmployeeLeaves getEmpLeaveByUserId(string userId)
-        //{
-        //    //var employee = unitofWork.GetDbContext().EmpLeaves.Where(x => x.UserId == userId).SingleOrDefault();
-        //    var employee = lea
-        //    if (employee != null)
-        //    {
-        //        return employee;
-        //    }
-        //    return null;
-        //}
         public EmployeeLeaveTypes LeaveTypeById(int id)
         {
             var leave = unitofWork.GetDbContext().LeaveType.Where(x => x.id == id).SingleOrDefault();
@@ -243,7 +244,6 @@ namespace resourceEdge.webUi.Infrastructure
 
         public ReportManagers getReportManagerByUserId(string userId)
         {
-            //var manager = unitofWork.GetDbContext().ReportManagers.Where(x => x.managerId == userid).SingleOrDefault();
             var manager = ReportManagerRepo.GetByUserId(userId);
             if (manager != null)
             {
@@ -255,12 +255,11 @@ namespace resourceEdge.webUi.Infrastructure
         public List<EmployeeListItem> GetReportManagrbyUserId(string userId)
         {
             List<EmployeeListItem> managers = new List<EmployeeListItem>();
-            var employee = UserManager.getEmployeeIdFromUserTable(userId); //Check this check actually checks the user table
+            var employee = UserManager.getEmployeeIdFromUserTable(userId); //Check if this check actually checks the user table
             if (employee != null)
             {
                 EmployeeListItem listItem;
-                int BuintId = (Int32.Parse(employee.businessunitId));
-                //var Reportmanager = unitofWork.GetDbContext().ReportManagers.Where(x => x.BusinessUnitId == BuintId).ToList();
+                int BuintId = int.Parse(employee.businessunitId);
                 var Reportmanager = ReportManagerRepo.GetManagersByBusinessunit(BuintId);
                 if (Reportmanager != null)
                 {
@@ -285,28 +284,23 @@ namespace resourceEdge.webUi.Infrastructure
             }
             return null;
         }
-        public bool DoesReportManagerExist(string userId, int UnitId)
+        public List<ReportManagers> ExistingReportManager(string userId, int UnitId)
         {
-            // var manager = unitofWork.GetDbContext().ReportManagers.Where(x => x.managerId == userId).ToList();
-            var manager = ReportManagerRepo.GetManagersByBusinessunit(UnitId).Find(x=>x.managerId == userId);
-            //if (manager.Count > 1)
-            //{
-            //    List<int> bUnit = new List<int>();
-            //    int businessunit;
-            //    foreach (var item in manager)
-            //    {
-            //        businessunit = item.BusinessUnitId;
-            //        bUnit.Add(businessunit);
-            //        if (!bUnit.Contains(businessunit))
-            //        {
-            //            return false;
-            //        }
-            //        return true;
-            //    }
-
-            //    return true;
-            //}
-            if (manager != null)
+            var validManager = ReportManagerCount(userId);
+            if (validManager != true)
+            {
+                var manager = ReportManagerRepo.GetManagersByBusinessunit(UnitId);
+                if (manager != null)
+                {
+                    return manager;
+                }
+            }     
+            return null;
+        }
+        public bool ReportManagerCount(string userId)
+        {
+            var result = ReportManagerRepo.GetReportmanagerCount(userId);
+            if (result.Count >= 2)
             {
                 return true;
             }
@@ -373,8 +367,6 @@ namespace resourceEdge.webUi.Infrastructure
 
             public string getEmpAvatar(string userId)
             {
-                //Update this method so you can check the file type later
-                // return unitofWork.GetDbContext().Files.Where(x => x.UserId == userId && x.FileType == FileType.Avatar).Select(x => x.FilePath).SingleOrDefault();
                 var avatar = FileRepo.GetFileByUserId(userId, FileType.Avatar);
                 if (avatar != null)
                 {
@@ -397,8 +389,6 @@ namespace resourceEdge.webUi.Infrastructure
                     CurrentPayRoll.Salary = entity.Salary;
                     CurrentPayRoll.Total = entity.Total;
                     PayrollRepo.update(CurrentPayRoll);
-                    //unitofWork.PayRoll.Update(CurrentPayRoll);
-                    //unitofWork.Save();
                 }
                 else
                 {
@@ -422,8 +412,6 @@ namespace resourceEdge.webUi.Infrastructure
                     payroll.ModifiedDate = DateTime.Now;
                     payroll.Remarks = entity.Remarks;
                     PayrollRepo.Insert(payroll);
-                    //unitofWork.PayRoll.Insert(payroll);
-                    //unitofWork.Save();
                 }
             }
 
@@ -449,11 +437,11 @@ namespace resourceEdge.webUi.Infrastructure
                 if (employee != null)
                 {
                     var empUserDetails = userManager.FindById(employee.userId);
-                    var job = unitofWork.GetDbContext().jobtitles.Find(employee.jobtitleId);
-                    var position = unitofWork.GetDbContext().positions.Find(employee.positionId);
-                    var avatar = unitofWork.GetDbContext().Files.Where(x => x.UserId == employee.userId && x.FileType == FileType.Avatar).FirstOrDefault();
-                    var Salary = unitofWork.GetDbContext().Payroll.Where(x => x.UserId == employee.userId).SingleOrDefault();
-                    var leave = unitofWork.GetDbContext().LeaveRequest.Where(x => x.UserId == employee.userId).ToList();
+                    var job = unitofWork.jobTitles.GetByID(employee.jobtitleId);
+                    var position = unitofWork.positions.GetByID(employee.positionId);
+                    var avatar = unitofWork.Files.Get(filter: x => x.UserId == employee.userId && x.FileType == FileType.Avatar).FirstOrDefault();
+                    var Salary = unitofWork.PayRoll.Get(filter:  x => x.UserId == employee.userId).SingleOrDefault();
+                    var leave = unitofWork.LRequest.Get(filter: x => x.UserId == employee.userId).ToList();
                     return Tuple.Create(employee, empUserDetails, avatar, job, position, Salary, leave);
                 }
                 return null;
@@ -461,13 +449,12 @@ namespace resourceEdge.webUi.Infrastructure
 
             public Tuple<Employees, ApplicationUser, Files> GetAllHrDetails(int unitId)
             {
-                var members = unitofWork.GetDbContext().employees.Where(x => x.businessunitId == unitId && x.empRoleId == 3).FirstOrDefault();
-                unitofWork.employees.Get();
+                var members = unitofWork.employees.Get(filter: x => x.businessunitId == unitId && x.empRoleId == 3).FirstOrDefault();
                 ApplicationUser HrUserDetail = new ApplicationUser();
                 Files Avatar = new Files();
                 if (members != null)
                 {
-                    Avatar = unitofWork.GetDbContext().Files.Where(x => x.UserId == members.userId && x.FileType == FileType.Avatar).FirstOrDefault();
+                    Avatar = unitofWork.Files.Get(filter: x => x.UserId == members.userId && x.FileType == FileType.Avatar).FirstOrDefault();
                     HrUserDetail = userManager.FindById(members.userId);
                 }
                 return Tuple.Create(members, HrUserDetail, Avatar);
@@ -475,12 +462,12 @@ namespace resourceEdge.webUi.Infrastructure
 
             public Tuple<Employees, ApplicationUser, Files> GetAllUnitHeadDetails(int unitId)
             {
-                var members = unitofWork.GetDbContext().employees.Where(x => x.businessunitId == unitId && x.IsUnithead == true).FirstOrDefault();
+                var members = unitofWork.employees.Get(filter: x => x.businessunitId == unitId && x.IsUnithead == true).FirstOrDefault();
                 ApplicationUser HrUserDetail = new ApplicationUser();
                 Files Avatar = new Files();
                 if (members != null)
                 {
-                    Avatar = unitofWork.GetDbContext().Files.Where(x => x.UserId == members.userId && x.FileType == FileType.Avatar).FirstOrDefault();
+                    Avatar = unitofWork.Files.Get(filter: x => x.UserId == members.userId && x.FileType == FileType.Avatar).FirstOrDefault();
                     HrUserDetail = userManager.FindById(members.userId);
                 }
 
@@ -491,12 +478,12 @@ namespace resourceEdge.webUi.Infrastructure
                 List<Files> Images = new List<Files>();
                 List<Employees> TeamMembers = new List<Employees>();
                 List<ApplicationUser> TeamMemberUserDetail = new List<ApplicationUser>();
-                var members = unitofWork.GetDbContext().employees.Where(x => x.businessunitId == unitId && x.IsUnithead != true).ToList();
+                var members = unitofWork.employees.Get(x => x.businessunitId == unitId && x.IsUnithead != true).ToList();
                 if (members != null)
                 {
                     foreach (var item in members)
                     {
-                        var result = unitofWork.GetDbContext().Files.Where(x => x.UserId == item.userId && x.FileType == FileType.Avatar).FirstOrDefault();
+                        var result = unitofWork.Files.Get(filter: x => x.UserId == item.userId && x.FileType == FileType.Avatar).FirstOrDefault();
                         var MemberUserDetail = userManager.FindById(item.userId);
                         Images.Add(result);
                         TeamMembers.Add(item);
@@ -508,43 +495,20 @@ namespace resourceEdge.webUi.Infrastructure
             }
             public Tuple<List<Employees>, List<Files>, List<ApplicationUser>, List<Logins>> GetAllEmployeesDetails()
             {
-                var employee = unitofWork.GetDbContext().employees.ToList();
+                var employee = unitofWork.employees.Get().ToList();
                 List<Files> Images = new List<Files>();
                 List<ApplicationUser> empUserDetails = new List<ApplicationUser>();
                 List<Logins> AllLogins = new List<Domain.Entities.Logins>();
                 foreach (var item in employee)
                 {
-                    var ImagList = unitofWork.GetDbContext().Files.Where(x => x.UserId == item.userId).FirstOrDefault();
+                    var ImagList = unitofWork.Files.Get(filter: x => x.UserId == item.userId).FirstOrDefault();
                     var userlist = userManager.FindById(item.userId);
-                    var loginList = unitofWork.GetDbContext().Logins.Where(x => x.userId == item.userId && x.IsLogOut == false).FirstOrDefault();
+                    var loginList = unitofWork.Logins.Get(filter: x => x.userId == item.userId && x.IsLogOut == false).FirstOrDefault();
                     Images.Add(ImagList);
                     empUserDetails.Add(userlist);
                     AllLogins.Add(loginList);
                 }
                 return Tuple.Create(employee, Images, empUserDetails, AllLogins);
             }
-        }
-
-
-
-        //private bool disposed = false;
-
-        //protected virtual void Dispose(bool disposing)
-        //{
-        //    if (!this.disposed)
-        //    {
-        //        if (disposing)
-        //        {
-        //            unitofWork.Dispose();
-        //        }
-        //    }
-        //    this.disposed = true;
-        //}
-
-        //public void Dispose()
-        //{
-        //    Dispose();
-        //    // GC.SuppressFinalize(this);
-        //}
     }
 }

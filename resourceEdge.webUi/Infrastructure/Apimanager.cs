@@ -3,6 +3,7 @@ using resourceEdge.Domain.UnitofWork;
 using resourceEdge.webUi.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -256,11 +257,15 @@ namespace resourceEdge.webUi.Infrastructure
         }
         public static List<Employees> GetEligibleManagerBybBusinessUnit(int id)
         {
-            var employeeByUnit = unitOfWork.GetDbContext().employees.Where(x => x.businessunitId == id && x.empRoleId != 3 || x.empRoleId != 2 || x.empRoleId != 1).ToList();
+            var unit = unitOfWork.BusinessUnit.GetByID(id); //This gets the business unit by ID 
+            var employeeByUnit = unitOfWork.GetDbContext().employees.Where(x => x.businessunitId == id && x.Location == unit.LocationId && x.empRoleId != 3 || x.empRoleId != 2 || x.empRoleId != 1).ToList();
             if (employeeByUnit != null)
             {
                 return employeeByUnit;
             }
+            //although i used 0 to check the location, it might not be best practice but for now its fine
+            var employeeWithoutLocation = unitOfWork.GetDbContext().employees.Where(x => x.businessunitId == id && x.Location == 0 && x.empRoleId != 3 || x.empRoleId != 2 || x.empRoleId != 1).ToList();
+
             return null;
         }
 
@@ -385,28 +390,53 @@ namespace resourceEdge.webUi.Infrastructure
 
         public static List<Employees> GetUnitMembersBySearch(string userId, string searchString)
         {
-            var userUnitId = unitOfWork.GetDbContext().employees.Where(x => x.userId == userId).SingleOrDefault();
+            var userUnitId = unitOfWork.employees.Get(x => x.userId == userId).FirstOrDefault();
+            string searchparam = searchString.ToLower();
             List<Employees> TeamMembers = new List<Employees>();
-            if (searchString.ToLower().StartsWith("tenece"))
+            if (searchparam.StartsWith("tenece"))
             {
-                var TeamByEmpId = db.Users.Where(x => x.businessunitId == userUnitId.businessunitId.ToString() && x.employeeId == searchString).FirstOrDefault();
+                var TeamByEmpId = db.Users.Where(x => x.businessunitId == userUnitId.businessunitId.ToString() && x.employeeId == searchparam).FirstOrDefault();
                 if (TeamByEmpId != null)
                 {
-                    var TeamMember = unitOfWork.GetDbContext().employees.Where(x => x.userId == TeamByEmpId.Id).SingleOrDefault();
-                   TeamMembers.Add(TeamMember);
+                    var TeamMember = unitOfWork.employees.Get(x => x.userId == TeamByEmpId.Id).SingleOrDefault();
+                    TeamMembers.Add(TeamMember);
                     return TeamMembers;
                 }
             }
-             TeamMembers = unitOfWork.GetDbContext().employees.Where(x => x.businessunitId == userUnitId.businessunitId).Where(x => x.empEmail.Contains(searchString) || x.FullName.Contains(searchString)).ToList();
+            if (searchparam.Contains("@"))
+            {
+                TeamMembers = unitOfWork.employees.Get(X => X.businessunitId == userUnitId.businessunitId && X.empEmail.Contains(searchparam)).ToList();
+                return TeamMembers;
+            }
+             TeamMembers = unitOfWork.employees.Get(x => x.businessunitId == userUnitId.businessunitId && x.FullName.Contains(searchparam)).ToList();
            if (TeamMembers != null)
             {
                 return TeamMembers;
             }
-
+            var a = GetBusinessunitByLocation(userUnitId.businessunitId);
+            
             return null;
 
         }
 
+        public static List<BusinessUnits> GetBusinessunitByLocation(int? location = null)
+        {
+            if (location == null)
+            {
+                var unitWithOutLocation = unitOfWork.BusinessUnit.Get(x => x.LocationId == null).ToList();
+                if (unitWithOutLocation != null)
+                {
+                    return unitWithOutLocation;
+                }
+                return null;
+            }
+            var units = unitOfWork.BusinessUnit.Get(x => x.LocationId == location).ToList();
+            if (units != null)
+            {
+                return units;
+            }
+            return null;
+        }
         public static List<Months> GetAllMonths()
         {
            return unitOfWork.GetDbContext().Months.ToList();

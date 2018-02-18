@@ -18,9 +18,9 @@ namespace resourceEdge.Domain.Entities
         public string staffing_code { get; set; }
         public string users_code { get; set; }
         public string requisition_code { get; set; }
-        public Nullable<int> createdBy { get; set; }
+        public string createdBy { get; set; }
         public Nullable<System.DateTime> createddate { get; set; }
-        public Nullable<int> modifiedBy { get; set; }
+        public string modifiedBy { get; set; }
         public Nullable<System.DateTime> modifieddate { get; set; }
     }
 }

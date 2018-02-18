@@ -56,7 +56,6 @@ $('#businessunitId').bind('change', function () {
 })
 
 function getDepartmentByBusinessUnit(id) {
-    console.log(id);
     $.ajax({
         type: 'GET',
         url: 'http://localhost:58124/api/Settings/GetDepartmentsById/' + id,
@@ -65,9 +64,11 @@ function getDepartmentByBusinessUnit(id) {
         success: function (data) {
 
             console.log('in the Get department method');
-            console.log(data);
+            console.log(data)
+            console.log($('#businessunitId'))
             $('#departmentId').empty();
-            $('#departmentId').append('<option value="">' + '--Select department--' + '</option>');
+            $('#departmentId').attr({ 'data-live-search': "true", 'data-size' : "4"})
+            $('#departmentId').append('<option value="">' + 'Select department' + '</option>');
             $.each(data, function (index, val) {
                 $('#departmentId').append('<option value="' + val.deptId + '">' + val.deptName + '</option>');
             })

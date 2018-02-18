@@ -106,31 +106,33 @@ namespace resourceEdge.Domain.Entities
         [DataType(DataType.MultilineText), Display(Name = "Description")]
         public string descriptions { get; set; }
 
-        [Required(ErrorMessage = "Please speciffy the state of th current business unit")]
-        [Display(Name = "State")]
-        [StringLength(20, ErrorMessage = "State name exceeds 20 characters", MinimumLength = 2)]
-        public string CurrentState { get; set; }
+        //[Required(ErrorMessage = "Please speciffy the state of th current business unit")]
+        //[Display(Name = "State")]
+        //[StringLength(20, ErrorMessage = "State name exceeds 20 characters", MinimumLength = 2)]
+        //public string CurrentState { get; set; }
 
-        [Required(ErrorMessage = "Please fil the country field")]
-        [StringLength(20, ErrorMessage = "Country name exceeds 20 characters", MinimumLength = 3), Display(Name = "Country")]
-        public string country { get; set; }
+        //[Required(ErrorMessage = "Please fil the country field")]
+        //[StringLength(20, ErrorMessage = "Country name exceeds 20 characters", MinimumLength = 3), Display(Name = "Country")]
+        //public string country { get; set; }
 
-        [Required(ErrorMessage = "please specify the city name")]
-        [StringLength(20, ErrorMessage = "city value exceeds 20 characters or is less tha 3", MinimumLength = 3), Display(Name = "City")]
-        public string city { get; set; }
+        //[Required(ErrorMessage = "please specify the city name")]
+        //[StringLength(20, ErrorMessage = "city value exceeds 20 characters or is less tha 3", MinimumLength = 3), Display(Name = "City")]
+        //public string city { get; set; }
 
-        [Required(ErrorMessage = "please enter an address")]
-        [StringLength(100, ErrorMessage = "address value exceeds 100 characters"), Display(Name = "Address 1")]
-        public string address1 { get; set; }
-        [Display(Name = "Address 2")]
-        public string address2 { get; set; }
-        [Display(Name = "Address 3")]
-        public string address3 { get; set; }
+        //[Required(ErrorMessage = "please enter an address")]
+        //[StringLength(100, ErrorMessage = "address value exceeds 100 characters"), Display(Name = "Address 1")]
+        //public string address1 { get; set; }
+        //[Display(Name = "Address 2")]
+        //public string address2 { get; set; }
+        //[Display(Name = "Address 3")]
+        //public string address3 { get; set; }
+        //[Required(ErrorMessage ="Select a location for the unit")]
+        public int? LocationId { get; set; }
         [DataType(DataType.Date)]
         public Nullable<System.DateTime> startdate { get; set; }
     }
 
-    public class DeptViewModel
+    public class DepartmentViewModel
     {
         [HiddenInput(DisplayValue = false)]
         public int DeptId { get; set; }
@@ -146,28 +148,18 @@ namespace resourceEdge.Domain.Entities
         [StringLength(50, ErrorMessage = "length exceeds 50 characters")]
         public string descriptions { get; set; }
 
-        [Required(ErrorMessage = "please specify the Country name"), Display(Name = "Country"), StringLength(20, ErrorMessage = "Name exceeds 20 characters or less than 5", MinimumLength = 5)]
-        public string country { get; set; }
-
-        [Required(ErrorMessage = "please specify the State")]
-        [Display(Name = "State"), StringLength(20, ErrorMessage = "Exceeds 20 characters or less than 3", MinimumLength = 3)]
-        public string CurrentState { get; set; }
-
-        [Required(ErrorMessage = "please specify the City")]
-        [Display(Name = "City"), StringLength(20, ErrorMessage = "Exceeds 20 characters or less than 3", MinimumLength = 3)]
-        public Nullable<int> city { get; set; }
 
         [Required(ErrorMessage = "Please provide atleast address1 "), Display(Name = "Address 1")]
-        public string address1 { get; set; }
-        [Display(Name = "Address 1")]
-        public string address2 { get; set; }
-        [Display(Name = "Address 1")]
-        public string address3 { get; set; }
+        //public string address1 { get; set; }
+        //[Display(Name = "Address 1")]
+        //public string address2 { get; set; }
+        //[Display(Name = "Address 1")]
+        //public string address3 { get; set; }
         public Nullable<int> BunitId { get; set; }
         [DataType(DataType.Date)]
-        public Nullable<System.DateTime> createddate { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
         [DataType(DataType.Date)]
-        public Nullable<System.DateTime> startdate { get; set; }
+        public Nullable<System.DateTime> StartDate { get; set; }
     }
     public class positionViewModel
     {
@@ -235,6 +227,10 @@ namespace resourceEdge.Domain.Entities
         public int jobtitleId { get; set; }
         [Required(ErrorMessage = "please select a Position"), Display(Name = "Position ")]
         public int positionId { get; set; }
+        [Required(ErrorMessage ="Please Select a level"), Display(Name ="Level")]
+        public int Level { get; set; }
+        [Display(Name ="Location")]
+        public int Location { get; set; }
         [Display(Name = "Years of Experience")]
         public string yearsExp { get; set; }
         [Required(ErrorMessage = "please specify a prefix"), Display(Name = "Prefix")]
@@ -391,5 +387,42 @@ namespace resourceEdge.Domain.Entities
         public DateTime ResumptionDate { get; set; }
         public DateTime ResignationDate { get; set; }
         public string Remarks { get; set; }
+    }
+
+    public class LevelsViewModel
+    {
+        [Required(ErrorMessage ="Please input a level no"),Display(Name ="Level no")]
+        public int levelNo { get; set; }
+        [Required(ErrorMessage ="Please Provide a level Name"), Display(Name ="Level Name")]
+        public string LevelName { get; set; }
+        [Required (ErrorMessage ="Please input eligibilty years"), Display(Name ="Eligible Years")]
+        public int EligibleYears { get; set; }
+    }
+    public class CareerViewModel
+    {
+        [Required(ErrorMessage ="Please input a Name"), Display(Name = "Career Name")]
+        public string CareerName { get; set; }
+        [Required(ErrorMessage ="Please provide a short code")]
+        public string ShortCode { get; set; }
+    }
+    public class CareerPathViewModel
+    {
+        [Required(ErrorMessage ="Please select a Career")]
+        public int CarreerId { get; set; }
+        [Required(ErrorMessage ="Please assign a Level to this Career")]
+        public int LevelId { get; set; }
+    }
+    public class LocationViewModel
+    {
+        [Required(ErrorMessage ="Please input a State")]
+        public string State { get; set; }
+        [Required(ErrorMessage ="City Value is empty")]
+        public string City { get; set; }
+        [Required(ErrorMessage ="Please input a Country")]
+        public string Country { get; set; }
+        [Required(ErrorMessage ="Please provide at least one address"), DataType(DataType.MultilineText)]
+        public string Address1 { get; set; }
+        [DataType(DataType.MultilineText)]
+        public string Address2 { get; set; }
     }
 }

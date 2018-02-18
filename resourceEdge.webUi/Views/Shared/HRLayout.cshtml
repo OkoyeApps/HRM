@@ -631,15 +631,15 @@
                 <!-- END THEME PANEL -->
                 <!-- BEGIN PAGE BAR -->
                 <div class="page-bar">
-                    @if ((string)TempData["Success"] != null)
+                    @if ((string)ViewBag.Success != null)
                     {
-                        var message = (string)TempData["Success"];
-                        <div class="alert alert-success">@message</div>
+                        //var message = (string)TempData["Success"];
+                        <div class="alert alert-success">@ViewBag.Success</div>
                     }
-                    @if ((string)TempData["Error"] != null)
+                    @if ((string)ViewBag.Error != null)
                     {
-                        var message = (string)TempData["Error"];
-                        <div class="alert alert-error">@message</div>
+                        //var message = (string)TempData["Error"];
+                        <div style="text-align:center"><span class="alert alert-danger">@ViewBag.Error</span></div>
                     }
                     <ul class="page-breadcrumb">
 

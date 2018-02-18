@@ -1,0 +1,46 @@
+﻿@model resourceEdge.Domain.Entities.CareerViewModel
+
+<div class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
+    <div class="clearfix"> </div>
+    <div class="page-container">
+        <a class="link" data-toggle="modal" href="#career">Add Career </a>
+        <div id="career" class="modal fade" tabindex="-1" data-width="1000" data-backdrop="static" data-keyboard="true">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title succ">Add Location </h4>
+            </div>
+
+
+            <div class="modal-body" id="empFrm">
+                @using (Ajax.BeginForm("AddCareer", "Configuration", new { returnurl = ViewBag.returnUrl }, new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "body" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-horizontal">
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.Label("Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.CareerName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.CareerName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("Short Name",  htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.ShortCode, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ShortCode, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="reset" data-dismiss="modal" class="btn btn-outline dark">Close</button>
+                            <input type="submit" class="btn btn-success" value="Create">
+                        </div>
+                    </div>
+
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

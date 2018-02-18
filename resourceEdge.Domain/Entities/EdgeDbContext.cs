@@ -56,10 +56,15 @@ namespace resourceEdge.Domain.Entities
         public virtual DbSet<WeekDays> WeekDays { get; set; }
        public virtual DbSet<Weeks> Weeks { get; set; }
         public virtual DbSet<EmployeeLeaveTypes> LeaveType { get; set; }
-        public System.Data.Entity.DbSet<resourceEdge.Domain.Entities.Requisition> Requisition { get; set; }
+        public DbSet<Requisition> Requisition { get; set; }
         public DbSet<EmpPayroll> Payroll { get; set; }
         public DbSet<Files> Files { get; set; }
         public DbSet<Logins> Logins { get; set; }
+        public DbSet<Levels> Levels { get; set; }
+        public DbSet<Careers> Careers { get; set; }
+        public DbSet<CareerPath> CareerPath { get; set; }
+        public DbSet<Location> Location { get; set; }
+
     }
     
 }

@@ -34,6 +34,25 @@ namespace resourceEdge.Domain.Concrete
         {
             throw new NotImplementedException();
         }
-        
+
+        public BusinessUnits DoesUnitExitByName(string Name)
+        {
+            var unit = unitOfWork.BusinessUnit.Get(filter: x=> x.unitname.Contains(Name)).FirstOrDefault();
+            if (unit != null)
+            {
+                return unit;
+            }
+            return null;
+        }
+
+        public BusinessUnits GetUnitByLocation(int locationId, string unitName)
+        {
+            var result = unitOfWork.BusinessUnit.Get(filter: x => x.LocationId == locationId && x.unitname.Contains(unitName)).FirstOrDefault();
+            if (result != null)
+            {
+                return result;
+            }
+            return null;
+        }
     }
 }

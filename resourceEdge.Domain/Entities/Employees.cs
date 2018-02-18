@@ -30,6 +30,8 @@ namespace resourceEdge.Domain.Entities
         public int jobtitleId { get; set; }
         public int positionId { get; set; }
         public string yearsExp { get; set; }
+        public int LevelId { get; set; }
+        public int? Location { get; set; }
         public prefixes prefixId { get; set; }
         public string officeNumber { get; set; }
         public string createdby { get; set; }
@@ -42,6 +44,7 @@ namespace resourceEdge.Domain.Entities
         public Nullable<bool> IsUnithead { get; set; }
         public Nullable<bool> IsDepthead { get; set; }
         public virtual Departments Departments { get; set; }
+        public virtual Levels Level { get; set; }
         
     }
 }

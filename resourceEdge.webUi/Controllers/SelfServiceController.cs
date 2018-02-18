@@ -17,11 +17,11 @@ namespace resourceEdge.webUi.Controllers
         ILeaveManagement leaveRepo;
         LeaveManager leavemanagerRepo;
 
-        public SelfServiceController(ILeaveManagement lParam)
+        public SelfServiceController(ILeaveManagement lParam, IEmployees EmpParam)
         {
             //empManager = Emparam;
             leaveRepo = lParam;
-            leavemanagerRepo = new LeaveManager(leaveRepo);
+            leavemanagerRepo = new LeaveManager(EmpParam,leaveRepo);
         }
 
         public ActionResult Leave()

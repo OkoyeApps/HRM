@@ -22,20 +22,20 @@ namespace resourceEdge.webUi.Infrastructure
             {
                 new BusinessUnits()
                 {
-                unitname = "TestUnit1", unitcode = "Test111", country = "Nigeria",city = "Enugu",
-                descriptions = "Tesing Business Unit Description",address1 = "Address1", CurrentState = "Enugu", isactive = true,startdate = DateTime.Now,
+                unitname = "TestUnit1", unitcode = "Test111",
+                descriptions = "Tesing Business Unit Description",  isactive = true,startdate = DateTime.Now,
                 },
 
                 new BusinessUnits()
                 {
-                 unitname = "TestUnit2", unitcode = "Test111", country = "Nigeria",city = "Enugu",
-                descriptions = "Tesing Business Unit Description",address1 = "Address1", CurrentState = "Enugu", isactive = true,startdate = DateTime.Now,
+                 unitname = "TestUnit2", unitcode = "Test111",
+                descriptions = "Tesing Business Unit Description",  isactive = true,startdate = DateTime.Now,
                },
 
                 new BusinessUnits()
                 {
-                unitname = "TestUnit3", unitcode = "Test111", country = "Nigeria",city = "Enugu",
-                descriptions = "Tesing Business Unit Description",address1 = "Address1", CurrentState = "Enugu", isactive = true,startdate = DateTime.Now,
+                unitname = "TestUnit3", unitcode = "Test111",
+                descriptions = "Tesing Business Unit Description",  isactive = true,startdate = DateTime.Now,
 
                 }
 
@@ -49,18 +49,17 @@ namespace resourceEdge.webUi.Infrastructure
             {
                 new Departments()
                 {
-                     deptname = "TestDept",deptcode = "Test101",BunitId = 1,country = "Nigeria",city = "Enugu",
-                     address1 = "Address1", CurrentState = "Enugu", isactive = true, startdate = DateTime.Now
+                     deptname = "TestDept",deptcode = "Test101",BunitId = 1,
+                      Isactive = true, startdate = DateTime.Now
                 },
                    new Departments()
                 {
-                     deptname = "TestDept2",deptcode = "Test101", BunitId = 1, country = "Nigeria",
-                     city = "Enugu", address1 = "Address1", CurrentState = "Enugu", isactive = true, startdate = DateTime.Now
+                     deptname = "TestDept2",deptcode = "Test101", BunitId = 1, 
+                     Isactive = true, startdate = DateTime.Now
                 },
                       new Departments()
                 {
-                     deptname = "TestDept3", deptcode = "Test101", BunitId = 2, country = "Nigeria",city = "Enugu",
-                     address1 = "Address1", CurrentState = "Enugu", isactive = true, startdate = DateTime.Now
+                     deptname = "TestDept3", deptcode = "Test101", BunitId = 2 ,Isactive = true, startdate = DateTime.Now
                 }
             };
             foreach (var item in department)

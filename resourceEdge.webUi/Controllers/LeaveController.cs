@@ -19,10 +19,6 @@ namespace resourceEdge.webUi.Controllers
         private ILeaveManagement leaveRepo;
         private IBusinessUnits BunitsRepo;
         LeaveManager leavemanagerRepo;
-        public LeaveController()
-        {
-
-        }
         public LeaveController(ILeaveManagement lParam, IBusinessUnits bparam)
         {
             leaveRepo = lParam;
@@ -187,16 +183,21 @@ namespace resourceEdge.webUi.Controllers
             return View(leaveRepo.AllLeaveRequestForConfirmation());
         }
 
+        [Authorize(Roles ="Manager")]
+        public ActionResult leaveRequests()
+        {
+            var requests = leaveRepo.GetLeaveRequestsForManager(User.Identity.GetUserId());
+            return View(requests);
+        }
 
-
-        [Authorize(Roles ="Manager, HR")]
+        [Authorize(Roles ="HR")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public RedirectResult ApproveLeave(int? id, string userId, string returnUrl)
         {
             if (id != null && userId != null)
             {
-               var result =  leavemanagerRepo.Approveleave(id.Value, userId);
+               var result =  leavemanagerRepo.Approveleave(id.Value, userId, User.Identity.GetUserId());
                 if (result != false)
                 {
                    return Redirect(returnUrl);

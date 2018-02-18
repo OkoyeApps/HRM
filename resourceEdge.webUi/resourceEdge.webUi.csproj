@@ -216,10 +216,13 @@
     <Compile Include="Controllers\ConfigurationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ValidationController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Apimanager.cs" />
+    <Compile Include="Infrastructure\BackendValidationManager.cs" />
+    <Compile Include="Infrastructure\ConfigurationManager.cs" />
     <Compile Include="Infrastructure\DbInitializer.cs" />
     <Compile Include="Infrastructure\EmployeeManager.cs" />
     <Compile Include="Infrastructure\LeaveManager.cs" />
@@ -5625,6 +5628,10 @@
     <Content Include="Views\Employee\Details.cshtml" />
     <Content Include="Views\Shared\EmployeeLayout.cshtml" />
     <Content Include="Views\Shared\HRLayout.cshtml" />
+    <Content Include="Views\Shared\AddLocation.cshtml" />
+    <Content Include="Views\Shared\AddCareer.cshtml" />
+    <Content Include="Views\Shared\AddLevel.cshtml" />
+    <Content Include="Views\Leave\leaveRequests.cshtml" />
     <None Include="Views\Shared\mainLayout2.cshtml" />
     <Content Include="MainScript.js" />
     <Content Include="Plugins\Css\bootstrap-modal-bs3patch.css" />
@@ -6098,8 +6105,8 @@
     <Folder Include="Files\Avatars\" />
     <Folder Include="Images\Assets\" />
     <Folder Include="Images\Employee\" />
-    <Folder Include="NewFolder1\" />
     <Folder Include="Views\Requsition\" />
+    <Folder Include="Views\Validation\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

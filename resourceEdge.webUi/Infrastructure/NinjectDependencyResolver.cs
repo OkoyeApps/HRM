@@ -14,22 +14,22 @@ namespace resourceEdge.webUi.Infrastructure
 {
     public class NinjectDependencyResolver : IDependencyResolver
     {
-          private IKernel kernel;
-            public NinjectDependencyResolver(IKernel kernelParam)
-            {
-                kernel = kernelParam;
-                AddBindings();
-            }
-            public object GetService(Type serviceType)
-            {
-                return kernel.TryGet(serviceType);
-            }
-            public IEnumerable<object> GetServices(Type serviceType)
-            {
-                return kernel.GetAll(serviceType);
-            }
-            private void AddBindings()
-            {
+        private IKernel kernel;
+        public NinjectDependencyResolver(IKernel kernelParam)
+        {
+            kernel = kernelParam;
+            AddBindings();
+        }
+        public object GetService(Type serviceType)
+        {
+            return kernel.TryGet(serviceType);
+        }
+        public IEnumerable<object> GetServices(Type serviceType)
+        {
+            return kernel.GetAll(serviceType);
+        }
+        private void AddBindings()
+        {
             // put bindings here
             kernel.Bind<IDbContext>().To<Domain.UnitofWork.UnitOfWork>();
             kernel.Bind<Iproduct>().To<ProductRepository>();
@@ -47,6 +47,10 @@ namespace resourceEdge.webUi.Infrastructure
             kernel.Bind<IPayroll>().To<PayrollRepository>();
             kernel.Bind<IFiles>().To<FileRepository>();
             kernel.Bind<ILogin>().To<LoginRepository>();
+            kernel.Bind<ILevels>().To<LevelRepository>();
+            kernel.Bind<ICareers>().To<CareerRepository>();
+            kernel.Bind<ICareerPath>().To<CareerPathRepository>();
+            kernel.Bind<ILocation>().To<LocationRepository>();
         }
-        }
+    }
 }

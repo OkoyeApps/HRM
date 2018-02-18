@@ -25,6 +25,10 @@ namespace resourceEdge.webUi.Controllers
         IPrefixes prefixRepo;
         IEmploymentStatus statusRepo;
         ILeaveManagement leaveRepo;
+        ILevels levelRepo;
+        ICareers careerRepo;
+        ILocation LocationRepo;
+        ConfigurationManager ConfigManager;
         public ApplicationUserManager UserManager
         {
             get {return userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); }
@@ -32,7 +36,14 @@ namespace resourceEdge.webUi.Controllers
         }
         public ApplicationUser LoggedInUser() {return UserManager.FindById(User.Identity.GetUserId());}
 
-        public ConfigurationController(IBusinessUnits BParam, IDepartments DParam, IidentityCodes idCodes, IJobtitles jParam, IPositions pParam, IPrefixes prparam, IEmploymentStatus status, ILeaveManagement lParam)
+        public ConfigurationController()
+        {
+
+        }
+
+        public ConfigurationController(IBusinessUnits BParam, IDepartments DParam, IidentityCodes idCodes, IJobtitles jParam, 
+            IPositions pParam, IPrefixes prparam, IEmploymentStatus status, ILeaveManagement lParam, ILevels levelParam, 
+            ILocation locationParam, ICareers CareerParam)
         {
             this.BusinessRepo = BParam;
             this.DeptRepo = DParam;
@@ -42,6 +53,10 @@ namespace resourceEdge.webUi.Controllers
             this.prefixRepo = prparam;
             this.statusRepo = status;
             this.leaveRepo = lParam;
+            this.careerRepo = CareerParam;
+            this.levelRepo = levelParam;
+            LocationRepo = locationParam;
+            ConfigManager = new ConfigurationManager(BParam);
         }
         public ActionResult Index()
         {
@@ -66,8 +81,8 @@ namespace resourceEdge.webUi.Controllers
             if (ModelState.IsValid)
             {
                 code.createddate = DateTime.Now;
-                //code.modifiedBy = int.Parse(LoggedInUser().Id);
-                //code.createdBy = int.Parse(LoggedInUser().Id);
+                code.modifiedBy = User.Identity.GetUserId();
+                code.createdBy = User.Identity.GetUserId();
                 code.createdBy = null;
                 code.createdBy = null;
                 IdentityRepo.Insert(code);
@@ -108,16 +123,22 @@ namespace resourceEdge.webUi.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult addPrefix(Prefixes model, string returnUrl)
+        public ActionResult addPrefix(prefixViewModel model, string returnUrl)
         {
 
-            Prefixes prefixes = model;
+            
             if (ModelState.IsValid)
             {
-                prefixes.createdby = null;
-                prefixes.createddate = DateTime.Now;
-                prefixes.modifiedby = null;
-                prefixes.isactive = true;
+                Prefixes prefixes = new Prefixes()
+                {
+                    prefixName = model.prefixName,
+                    prefixId = model.prefixId,
+                    createdby = null,
+                    createddate = DateTime.Now,
+                    modifiedby = null,
+                    isactive = true
+                };
+             
                 prefixRepo.Insert(prefixes);
                 TempData["Success"] = string.Format($"{model.prefixName} has been created");
                 return Redirect(returnUrl);
@@ -135,31 +156,57 @@ namespace resourceEdge.webUi.Controllers
         }
         public ActionResult addBusinessUnits()
         {
+            ViewBag.Locations = new SelectList(LocationRepo.Get().OrderBy(x => x.State), "Id", "State", "Id");
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult addBusinessUnits(BusinessUnits units)
+        public ActionResult addBusinessUnits(BusinessUnitsVIewModel model)
         {
-            BusinessUnits unit = units;
-            if (ModelState.IsValid)
+           try
             {
-                unit.unithead = "";
-                unit.createdby = null;
-                unit.createddate = DateTime.Now;
-                unit.modifiedby = null;
-                unit.modifieddate = DateTime.Now;
-                unit.isactive = true;
-                BusinessRepo.Insert(unit);
-                TempData["Success"] = string.Format($"{unit.unitname} has been created");
-                return RedirectToAction("AllBusinessUnits");
+                if (ModelState.IsValid)
+                {
+                    var existingUnit = ConfigManager.DoesUnitExstInLocation(model.LocationId.Value, model.unitname);
+                    int? location = null;
+                    BusinessUnits unit = new BusinessUnits();
+                    if (model.LocationId.HasValue)
+                    {
+                        location = model.LocationId.Value;
+                    }
+                    if (existingUnit)
+                    {
+                        //ModelState.AddModelError("", "Please Unit alreasy existing with same name in this location");
+                        ViewBag.Error = "Please Unit alreasy existing with same name in this location. Kindly try using another name or a different Location";
+                        ViewBag.Locations = new SelectList(LocationRepo.Get().OrderBy(x => x.State), "Id", "State", "Id");
+                        return View(model);
+                    }
+                    unit.LocationId = location ?? null;
+                    unit.descriptions = model.descriptions;
+                    unit.unitcode = model.unitcode;
+                    unit.unitname = model.unitname;
+                    unit.startdate = unit.startdate;
+                    unit.createdby = User.Identity.GetUserId();
+                    unit.createddate = DateTime.Now;
+                    unit.modifiedby = User.Identity.GetUserId();
+                    unit.modifieddate = DateTime.Now;
+                    unit.isactive = true;
+                    BusinessRepo.Insert(unit);
+
+                    TempData["Success"] = string.Format($"{unit.unitname} has been created");
+                    return RedirectToAction("AllBusinessUnits");
+                }
             }
-            else
+            catch (Exception ex)
             {
+                ModelState.AddModelError("", ex.Message);
+                throw ex;
+            }
+            
                 TempData["Error"] = "Something went wrong. please make sure you fill all the appropriate details";
-                return View();
-            }
+            ViewBag.Locations = new SelectList(LocationRepo.Get().OrderBy(x => x.State), "Id", "State", "Id");
+            return View();
         }
 
         public ActionResult EditUnit(int? id)
@@ -227,22 +274,32 @@ namespace resourceEdge.webUi.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult addDepartment(Departments dept)
+        public ActionResult addDepartment(DepartmentViewModel model)
         {
             if (ModelState.IsValid)
             {
-                Departments depts = dept;
-                depts.createdby = null;
-                dept.modifiedby = null;
-                depts.modifieddate = DateTime.Now;
+                Departments depts = new Departments()
+                {
+                    BunitId = model.BunitId.Value,
+                    deptcode = model.deptcode,
+                    deptname = model.deptname,
+                    startdate = model.StartDate,
+                    CreatedDate = model.CreatedDate,
+                    descriptions = model.descriptions,
+                    CreatedBy = User.Identity.GetUserId(),
+                    ModifiedBy = User.Identity.GetUserId(),
+                    ModifiedDate = DateTime.Now,
+                    Isactive = true
+
+                };
                 DeptRepo.addepartment(depts);
-                TempData["Success"] = string.Format($"{dept.deptname} has been created");
+                TempData["Success"] = string.Format($"{depts.deptname} has been created");
                 return RedirectToAction("AllDepartment");
             }
 
                 ViewBag.businessUnits = new SelectList(BusinessRepo.Get().OrderBy(x => x.unitname), "BusId", "unitname", "BusId");
                 TempData["Error"] = "Something went wrong. please make sure you fill all the appropriate details";
-                return View(dept);
+                return View(model);
         }
 
         public ActionResult EditDepartment(int id)
@@ -254,7 +311,7 @@ namespace resourceEdge.webUi.Controllers
             }
             else
             {
-                return PartialView(dept);
+                return View(dept);
             }
         }
         [HttpPost]
@@ -430,10 +487,117 @@ namespace resourceEdge.webUi.Controllers
                 leaveType.modifieddate = DateTime.Now;
                 leaveType.isactive = true;
                 leaveRepo.AddLeaveTypes(leaveType);
+                ModelState.Clear();
                return RedirectToAction("AllLeaveType");
             }
             ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
             TempData["Error"] = "Something went wrong try again later";
+            return View(model);
+        }
+
+        public ActionResult AddLevel(string retunUrl)
+        {
+            ViewBag.returnUrl = retunUrl;
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddLevel(LevelsViewModel model, string returnUrl)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    Levels level = new Levels();
+                    level.LevelName = model.LevelName;
+                    level.levelNo = model.levelNo;
+                    level.EligibleYears = model.EligibleYears;
+                    level.CreatedBy = User.Identity.GetUserId();
+                    level.ModifiedBy = User.Identity.GetUserId();
+                    level.CreatedOn = DateTime.Now;
+                    level.ModifiedOn = DateTime.Now;
+                    levelRepo.Insert(level);
+                    ModelState.Clear();
+                    return Redirect(returnUrl);
+                }
+            }
+            catch(Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return View(model);
+                //throw ex;
+            }
+            ModelState.AddModelError("", "Please review the form and resend");
+            return View(model);
+        }
+
+        public ActionResult AddLocation(string returnUrl)
+        {
+            ViewBag.returnUrl = returnUrl;
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddLocation(LocationViewModel model, string returnUrl)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    Location location = new Location();
+                    location.City = model.City;
+                    location.Country = model.Country;
+                    location.State = model.State;
+                    location.Address1 = model.Address1;
+                    location.Address2 = model.Address2;
+                    location.CreatedBy = User.Identity.GetUserId();
+                    location.ModifiedBy = User.Identity.GetUserId();
+                    location.CreatedOn = DateTime.Now;
+                    location.ModifiedOn = DateTime.Now;
+                    LocationRepo.Insert(location);
+                    ModelState.Clear();
+                    return Redirect(returnUrl);
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                throw ex;
+            }
+            ModelState.AddModelError("", "please refill the form and make try submitting again");
+            return View(model);
+        }
+        public ActionResult AddCareer(string returnUrl)
+        {
+            ViewBag.returnUrl = returnUrl;
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddCareer(CareerViewModel model, string returnUrl)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    Careers career = new Careers();
+                    career.CareerName = model.CareerName;
+                    career.ShortCode = model.ShortCode;
+                    career.CreatedBy = User.Identity.GetUserId();
+                    career.ModifiedBy = User.Identity.GetUserId();
+                    career.CreatedOn = DateTime.Now;
+                    career.ModifiedOn = DateTime.Now;
+                    careerRepo.Insert(career);
+                    ModelState.Clear();
+                    return Redirect(returnUrl);
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                throw ex;
+            }
+            ModelState.AddModelError("", "please refill the form and make try submitting again");
             return View(model);
         }
     }

@@ -113,7 +113,66 @@ namespace resourceEdge.Domain.Concrete
         }
         public IEnumerable<LeaveRequest> AllLeaveRequestForConfirmation()
         {
-            var result = unitOfWork.LRequest.Get(filter: x => x.LeaveStatus == null).ToList();
+            var result = unitOfWork.LRequest.Get(filter: x => x.LeaveStatus == null && x.Approval1 == true).ToList();
+            if (result != null)
+            {
+                return result;
+            }
+            return null;
+        }
+
+        public IEnumerable<LeaveRequest> GetempLeaveRequestsBtUserId(string userId)
+        {
+            var result = unitOfWork.LRequest.Get(filter: x => x.UserId == userId);
+            if (result != null)
+            {
+                return result;
+            }
+            return null;
+        }
+
+        public IEnumerable<LeaveRequest> GetEmployeePendingLeave(string userId)
+        {
+            var result = unitOfWork.LRequest.Get(filter: x => x.UserId == userId && x.LeaveStatus == null);
+            if (result != null)
+            {
+                return result;
+            }
+            return null;
+        }
+
+        public IEnumerable<LeaveRequest> GetEmployeeApprovedLeaveRequest(string userId)
+        {
+            var result = unitOfWork.LRequest.Get(filter: x => x.UserId == userId && x.LeaveStatus == true);
+            if (result != null)
+            {
+                return result;
+            }
+            return null;
+        }
+
+        public IEnumerable<LeaveRequest> GetEmployeeDeniedLeaveRequest(string userId)
+        {
+            var result = unitOfWork.LRequest.Get(filter: x => x.UserId == userId && x.LeaveStatus == false);
+            if (result != null)
+            {
+                return result;
+            }
+            return null;
+        }
+        public IEnumerable<LeaveRequest> GetEmployeeAllLeaveRequest(string userId)
+        {
+            var result = unitOfWork.LRequest.Get(filter: x => x.UserId == userId);
+            if (result != null)
+            {
+                return result;
+            }
+            return null;
+        }
+
+        public IEnumerable<LeaveRequest> GetLeaveRequestsForManager(string userId)
+        {
+            var result = unitOfWork.LRequest.Get(filter: x => x.RepmangId == userId);
             if (result != null)
             {
                 return result;

@@ -24,6 +24,8 @@ namespace resourceEdge.Domain.Entities
         public Nullable<double> AppliedleavesCount { get; set; }
         public int Availableleave { get; set; }
         public int requestDaysNo { get; set; }
+        public bool? Approval1 { get; set; }
+        public bool? Approval2 { get; set; }
         public string createdby { get; set; }
         public string modifiedby { get; set; }
         public Nullable<System.DateTime> createddate { get; set; }

@@ -33,6 +33,9 @@ namespace resourceEdge.Domain.UnitofWork
         public GenericRepository<Files> FilesRepo;
         public GenericRepository<Logins> LoginRepo;
         public GenericRepository<Location> LocationRepo;
+        public GenericRepository<Levels> levelRepo;
+        public GenericRepository<Careers> careerRepo;
+        public GenericRepository<CareerPath> careerPathRepo;
         public EdgeDbContext Context
         {
             get
@@ -134,6 +137,18 @@ namespace resourceEdge.Domain.UnitofWork
         public GenericRepository<Location> Locations
         {
             get { return this.LocationRepo ?? new GenericRepository<Location>(Context); }
+        }
+        public GenericRepository<Levels> Levels
+        {
+            get { return this.levelRepo ?? new GenericRepository<Entities.Levels>(Context); }
+        }
+        public GenericRepository<Careers> Careers
+        {
+            get { return this.careerRepo ?? new GenericRepository<Entities.Careers>(Context); }
+        }
+        public GenericRepository<CareerPath> CareerPath
+        {
+            get { return this.careerPathRepo ?? new GenericRepository<Entities.CareerPath>(Context); }
         }
         public void Save()
         {

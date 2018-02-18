@@ -67,5 +67,15 @@ namespace resourceEdge.Domain.Concrete
             }
             return null;
         }
+
+        public List<ReportManagers> GetReportmanagerCount(string userId)
+        {
+            var result = unitOfWork.ReportManager.Get(filter: x => x.managerId == userId).ToList();
+            if (result != null)
+            {
+                return result;
+            }
+            return null;
+        }
     }
 }

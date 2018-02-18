@@ -29,11 +29,15 @@ namespace resourceEdge.webUi.Controllers
         Rolemanager RoleManager;
         EmployeeManager.EmployeeDetails empdetail;
         IFiles FileRepo;
+        ILevels levelRepo;
+        ILocation LocationRepo;
 
         ApplicationDbContext db;
         private ApplicationUserManager userManager;
 
-        public HRController(IEmployees empParam, IBusinessUnits busParam, IReportManager rParam, Rolemanager RoleParam, ApplicationDbContext dbParam, IEmploymentStatus SParam, IFiles FParam)
+
+        public HRController(IEmployees empParam, IBusinessUnits busParam, IReportManager rParam, Rolemanager RoleParam, 
+            ApplicationDbContext dbParam, IEmploymentStatus SParam, IFiles FParam, ILocation LRepo, ILevels levelParam)
         {
             db = dbParam;
             UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
@@ -46,6 +50,8 @@ namespace resourceEdge.webUi.Controllers
             statusRepo = SParam;
             FileRepo = FParam;
             empdetail = new EmployeeManager.EmployeeDetails();
+            levelRepo = levelParam;
+            LocationRepo = LRepo;
         }
         public ApplicationUserManager UserManager
         {
@@ -98,12 +104,13 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult Create(string returnUrl)
         {
             ViewBag.returnUrl = returnUrl;
-            var result = statusRepo.Get().Select(x => new { name = x.employemntStatus, id = x.empstId });
             ViewBag.EmpStatus = new SelectList(statusRepo.Get().Select(x => new { name = x.employemntStatus, id = x.empstId }), "id", "name", "id");
             ViewBag.roles = new SelectList(GetRoles().OrderBy(x => x.Name).Where(u => !u.Name.Contains("System Admin") && !u.Name.Contains("Management")).Select(x => new { name = x.Name, id = x.Id }), "Id", "name", "Id");
             ViewBag.prefix = new SelectList(Apimanager.PrefixeList(), "prefixId", "prefixName", "prefixId");
             ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.BusId), "BusId", "unitname", "BusId");
             ViewBag.jobTitles = new SelectList(Apimanager.JobList().OrderBy(x => x.JobName), "JobId", "JobName", "JobId");
+            ViewBag.Levels = new SelectList(levelRepo.Get().OrderBy(x=>x.levelNo), "Id","LevelNo","Id");
+            ViewBag.Locations = new SelectList(LocationRepo.Get().OrderBy(x => x.State), "Id", "State", "Id");
             return View();
         }
 
@@ -112,53 +119,75 @@ namespace resourceEdge.webUi.Controllers
         public async Task<ActionResult> Create(EmployeeViewModel employees, string returnUrl)
         {
             Employees realEmployee = new Employees();
+            ReportManagers manager = null;
             var RealUserId = employees.identityCode + employees.empUserId;
             var EmployeeIdExist = Infrastructure.UserManager.checkEmployeeId(RealUserId);
             var validDate = validateDates(employees.dateOfJoining.Value, employees.dateOfLeaving.Value);
-            if (ModelState.IsValid && EmployeeIdExist != true && validDate != false)
+            if (ModelState.IsValid)
             {
-                realEmployee.businessunitId = employees.businessunitId;
-                realEmployee.createdby = User.Identity.GetUserId();
-                realEmployee.dateOfJoining = employees.dateOfJoining;
-                realEmployee.dateOfLeaving = employees.dateOfLeaving;
-                realEmployee.departmentId = employees.departmentId;
-                realEmployee.empEmail = employees.empEmail;
-                realEmployee.FullName = employees.FirstName + " " +  employees.lastName;
-                realEmployee.empStatusId = employees.empStatusId;
-                realEmployee.isactive = true;
-                realEmployee.jobtitleId = employees.jobtitleId;
-                realEmployee.modeofEmployement = employees.modeofEmployement;
-                realEmployee.modifiedby = User.Identity.GetUserId();
-                realEmployee.officeNumber = employees.officeNumber;
-                realEmployee.positionId = employees.positionId;
-                realEmployee.prefixId = employees.prefixId;
-                realEmployee.yearsExp = employees.yearsExp;
-                realEmployee.isactive = true;
-                var CreatedDate = realEmployee.createddate = DateTime.Now;
-                var modifiedDate = realEmployee.modifieddate = DateTime.Now;
-                try
+                if (EmployeeIdExist != true)
                 {
-                    var newCreatedUser = await Infrastructure.UserManager.CreateUser(employees.empEmail, employees.empRoleId.ToString(), employees.empStatusId, employees.FirstName, employees.lastName, employees.officeNumber,
-                         RealUserId, employees.jobtitleId.ToString(), null, null, User.Identity.GetUserId(), employees.modeofEmployement.ToString(),
-                          employees.dateOfJoining, null, true, employees.departmentId.ToString(), employees.businessunitId.ToString());
-                    if (newCreatedUser.Id != null)
+                    if (validDate != false)
                     {
-                        if (User.IsInRole("Manager"))
+                        var unitDetail = BunitsRepo.GetById(employees.businessunitId);
+                        realEmployee.businessunitId = employees.businessunitId;
+                        realEmployee.createdby = User.Identity.GetUserId();
+                        realEmployee.dateOfJoining = employees.dateOfJoining;
+                        realEmployee.dateOfLeaving = employees.dateOfLeaving;
+                        realEmployee.departmentId = employees.departmentId;
+                        realEmployee.empEmail = employees.empEmail;
+                        realEmployee.FullName = employees.FirstName + " " + employees.lastName;
+                        realEmployee.empStatusId = employees.empStatusId;
+                        realEmployee.isactive = true;
+                        realEmployee.jobtitleId = employees.jobtitleId;
+                        realEmployee.modeofEmployement = employees.modeofEmployement;
+                        realEmployee.modifiedby = User.Identity.GetUserId();
+                        realEmployee.officeNumber = employees.officeNumber;
+                        realEmployee.positionId = employees.positionId;
+                        realEmployee.prefixId = employees.prefixId;
+                        realEmployee.yearsExp = employees.yearsExp;
+                        realEmployee.LevelId = employees.Level;
+                        realEmployee.Location = unitDetail.LocationId.Value;
+                        realEmployee.isactive = true;
+                        var CreatedDate = realEmployee.createddate = DateTime.Now;
+                        var modifiedDate = realEmployee.modifieddate = DateTime.Now;
+                        try
                         {
-                            realEmployee.IsUnithead = true;
+                            var newCreatedUser = await Infrastructure.UserManager.CreateUser(employees.empEmail, employees.empRoleId.ToString(), employees.empStatusId, employees.FirstName, employees.lastName, employees.officeNumber,
+                                 RealUserId, employees.jobtitleId.ToString(), null, null, User.Identity.GetUserId(), employees.modeofEmployement.ToString(),
+                                  employees.dateOfJoining, null, true, employees.departmentId.ToString(), employees.businessunitId.ToString());
+                            if (newCreatedUser.Id != null)
+                            {  
+                                if (User.IsInRole("Manager"))
+                                {
+                                    realEmployee.IsUnithead = true;
+                                    manager = new ReportManagers();
+                                }
+                                realEmployee.empRoleId = employees.empRoleId;
+                                realEmployee.userId = newCreatedUser.Id;
+                                empRepo.Insert(realEmployee);
+                                if (manager != null)
+                                {
+                                    employeeManager.AssignReportManager(manager);
+                                }
+                               
+                            }
                         }
-                        realEmployee.empRoleId = employees.empRoleId;
-                        realEmployee.userId = newCreatedUser.Id;
-                        empRepo.Insert(realEmployee);
+                        catch (Exception ex)
+                        {
+                            ViewBag.Error = "Sorry Employee was not created. Please try Again";
+                            throw ex;
+                        }
+                        ViewBag.Success = "Employee Created Successfully";
+                        return Redirect(returnUrl);
                     }
+                    ViewBag.Error = "Sorry, Please the entry date must not be less than or equal to the Exit Date Please try Again";
+                    return Redirect(returnUrl);
                 }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+                ViewBag.Error = $"Sorry Employee with this Id { employees.empID } already exist in the System Please try Again";
                 return Redirect(returnUrl);
             }
-            TempData["Error"] = String.Format($"The employee id already { employees.empUserId} exist in the system");
+            ViewBag.Error = $"The employee {RealUserId} already exist in the system";
             ViewBag.EmpStatus = new SelectList(statusRepo.Get().Select(x => new { name = x.employemntStatus, id = x.empstId }).OrderBy(x => x.name), "id", "name", "id");
             ViewBag.roles = new SelectList(GetRoles().OrderBy(x => x.Name).Where(u => !u.Name.Contains("System Admin") && !u.Name.Contains("Management") && !u.Name.Contains("Manager")).Select(x=>new { name = x.Name, id = x.Id }), "Id", "name", "Id");
             ViewBag.prefix = new SelectList(Apimanager.PrefixeList(), "prefixId", "prefixName", "prefixId");
@@ -181,63 +210,6 @@ namespace resourceEdge.webUi.Controllers
             }
             return false;
         }
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Employees employees = empRepo.GetById(id.Value);
-            if (employees == null)
-            {
-                return HttpNotFound();
-            }
-            return View(employees);
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "empID,userId,emp_email,date_of_joining,date_of_leaving,reporting_manager,emp_status_id,businessunit_id,department_id,jobtitle_id,position_id,years_exp,holiday_group,prefix_id,extension_number,office_number,office_faxnumber,createdby,modifiedby,createddate,modifieddate,isactive,is_orghead,modeofEmployement")] Employees employees)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    empRepo.update(employees);
-                    TempData["Success"] = "New Employee Created";
-                    return RedirectToAction("Index");
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-            }
-            TempData["Error"] = "please make sure all fields are filled";
-            return View(employees);
-        }
-
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Employees employees = empRepo.GetById(id.Value);
-            if (employees == null)
-            {
-                return HttpNotFound();
-            }
-            return View(employees);
-        }
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Employees employees = empRepo.GetById(id);
-            TempData["Success"] = "Employee deleted successfully";
-            return RedirectToAction("Index");
-        }
-
-
         public ActionResult AssignReportManager()
         {
             ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.BusId), "BusId", "unitname", "BusId");
@@ -249,39 +221,44 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult AssignReportManager(reportmanagerViewModel model)
         {
             ReportManagers manager = new ReportManagers();
-            var existingManager = employeeManager.DoesReportManagerExist(model.userId, int.Parse(model.BunitId));
-            if (ModelState.IsValid && existingManager == false)
+            var existingManager = employeeManager.ExistingReportManager(model.userId, int.Parse(model.BunitId));
+            if (ModelState.IsValid && existingManager == null)
             {
-                manager.BusinessUnitId = int.Parse(model.BunitId);
-                manager.managerId = model.userId;
-                var employee = employeeManager.CheckIfEmployeeExistByUserId(model.userId);
-                if (employee != false)
+                if (existingManager.Count < 2)
                 {
-                    var result = empRepo.GetByUserId(model.userId);
-                    manager.employeeId = result.empID;
-                    manager.DepartmentId = result.departmentId;
-                    manager.FullName = result.FullName;
-                    result.IsUnithead = true;
-                    result.empRoleId = 2;
-                    empRepo.update(result); //fix this later by making this update the employee table
-                   var resultRole =  userManager.RemoveFromRole(result.userId, "Employee"); //Fix this later and make sure the adding and removing is workin well.
-                    if (resultRole.Succeeded)
+                    manager.BusinessUnitId = int.Parse(model.BunitId);
+                    manager.managerId = model.userId;
+                    var employee = employeeManager.CheckIfEmployeeExistByUserId(model.userId);
+                    if (employee != null && employee.empID != 2)
                     {
-                        userManager.AddToRole(result.userId, "Manager");
-                        ReportRepo.Insert(manager);
+                        var result = empRepo.GetByUserId(model.userId);
+                        manager.employeeId = result.empID;
+                        manager.DepartmentId = result.departmentId;
+                        manager.FullName = result.FullName;
+                        result.IsUnithead = true;
+                        result.empRoleId = 2;
+                        empRepo.update(result); //fix this later by making this update the employee table
+                        var resultRole = userManager.RemoveFromRole(result.userId, "Employee"); //Fix this later and make sure the adding and removing is workin well.
+                        if (resultRole.Succeeded)
+                        {
+                            userManager.AddToRole(result.userId, "Manager");
+                            ReportRepo.Insert(manager);
+                        }
+                        return RedirectToAction("allEmployee");
                     }
-                    return RedirectToAction("allEmployee");
+                    else
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                    }
                 }
-                else
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.NotFound);
-                }
+                ViewBag.Error = "Cannot Assign More Than two managers to a Business Unit";
+                return RedirectToAction("AssignReportManager");
             }
             else
             {
                 ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.BusId), "BusId", "unitname", "BusId");
-                TempData["Error"] = "Make sure that the report Manager does not exist already for the business unit";
-                TempData["Warning"] = "Also make sure thatyou don't add an employee twice for particlar business unit";
+                ViewBag.Error = "Make sure that the report Manager does not exist already for the business unit";
+                ViewBag.Warning = "Also make sure that you don't add an employee twice for particlar business unit";
                 return View();
             }
         }

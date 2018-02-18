@@ -6,20 +6,16 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Entities
 {
-  public class Location
+   public class CareerPath
     {
         public int Id { get; set; }
-        public string State { get; set; }
-        public string City { get; set; }
-        public string Country { get; set; }
-        public string Address1 { get; set; }
-        public string Address2 { get; set; }
-        public string LocationHead1 { get; set; }
-        public string LocationHead2 { get; set; }
-        public string LocationHead3 { get; set; }
+        public int CarreerId { get; set; }
+        public int LevelId { get; set; }
         public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }
+        public Careers CarrierName { get; set; }
+        public Levels level { get; set; }
     }
 }

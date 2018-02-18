@@ -87,6 +87,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstracts\ICareers.cs" />
+    <Compile Include="Abstracts\ICareerPath.cs" />
     <Compile Include="Abstracts\IFiles.cs" />
     <Compile Include="Abstracts\GenericAbstract.cs" />
     <Compile Include="Abstracts\GenericInterface.cs" />
@@ -98,6 +100,7 @@
     <Compile Include="Abstracts\IidentityCodes.cs" />
     <Compile Include="Abstracts\IJobtitles.cs" />
     <Compile Include="Abstracts\ILeaveManagement.cs" />
+    <Compile Include="Abstracts\ILevels.cs" />
     <Compile Include="Abstracts\ILogin.cs" />
     <Compile Include="Abstracts\IPayroll.cs" />
     <Compile Include="Abstracts\IPositions.cs" />
@@ -107,6 +110,8 @@
     <Compile Include="Abstracts\IRequisition.cs" />
     <Compile Include="Abstracts\ILocation.cs" />
     <Compile Include="Concrete\BusinessRepository.cs" />
+    <Compile Include="Concrete\CareerPathRepository.cs" />
+    <Compile Include="Concrete\CareerRepository.cs" />
     <Compile Include="Concrete\DepartmentRepository.cs" />
     <Compile Include="Concrete\EmployeeRepository.cs" />
     <Compile Include="Concrete\EmployementStatusRepository.cs" />
@@ -114,6 +119,7 @@
     <Compile Include="Concrete\IdentityRepository.cs" />
     <Compile Include="Concrete\JobTitleRepository.cs" />
     <Compile Include="Concrete\LeaveManagementRepo.cs" />
+    <Compile Include="Concrete\LevelRepository.cs" />
     <Compile Include="Concrete\LocationRepository.cs" />
     <Compile Include="Concrete\LoginRepository.cs" />
     <Compile Include="Concrete\PayrollRepository.cs" />
@@ -151,6 +157,8 @@
       <DependentUpon>Requisition.edmx</DependentUpon>
     </Compile>
     <Compile Include="Entities\BusinessUnits.cs" />
+    <Compile Include="Entities\CareerPath.cs" />
+    <Compile Include="Entities\Careers.cs" />
     <Compile Include="Entities\EdgeDbContext.cs" />
     <Compile Include="Entities\Departments.cs" />
     <Compile Include="Entities\EmpHolidays.cs" />
@@ -166,6 +174,7 @@
     <Compile Include="Entities\LeaveRequest.cs" />
     <Compile Include="Entities\LeaveRequestHistory.cs" />
     <Compile Include="Entities\LeaveRequestSummary.cs" />
+    <Compile Include="Entities\Levels.cs" />
     <Compile Include="Entities\Location.cs" />
     <Compile Include="Entities\Logins.cs" />
     <Compile Include="Entities\MonthList.cs" />
