@@ -43,5 +43,14 @@ namespace resourceEdge.Domain.Concrete
             unitOfWork.Locations.Update(entity);
             unitOfWork.Save();
         }
+        public IEnumerable<Location> GetLocationByGroup(int id)
+        {
+            var result = unitOfWork.Locations.Get(filter: x => x.GroupId == id);
+            if (result != null)
+            {
+                return result;
+            }
+            return null;
+        }
     }
 }

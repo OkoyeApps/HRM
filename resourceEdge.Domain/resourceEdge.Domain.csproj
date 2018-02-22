@@ -11,6 +11,21 @@
     <AssemblyName>resourceEdge.Domain</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -87,16 +102,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstracts\Appraisal\EmployeeRating.cs" />
+    <Compile Include="Abstracts\Appraisal\IAppraisalMode.cs" />
+    <Compile Include="Abstracts\Appraisal\IAppraisalRating.cs" />
+    <Compile Include="Abstracts\Appraisal\IAppraisalStatus.cs" />
+    <Compile Include="Abstracts\Appraisal\IAppriaslPeriods.cs" />
+    <Compile Include="Abstracts\Appraisal\IParameter.cs" />
+    <Compile Include="Abstracts\Appraisal\IQuestions.cs" />
+    <Compile Include="Abstracts\Appraisal\IRating.cs" />
+    <Compile Include="Abstracts\Appraisal\ISkills.cs" />
+    <Compile Include="Abstracts\IActivityLog.cs" />
     <Compile Include="Abstracts\ICareers.cs" />
     <Compile Include="Abstracts\ICareerPath.cs" />
     <Compile Include="Abstracts\IFiles.cs" />
-    <Compile Include="Abstracts\GenericAbstract.cs" />
     <Compile Include="Abstracts\GenericInterface.cs" />
     <Compile Include="Abstracts\IBusinessUnits.cs" />
     <Compile Include="Abstracts\IDbContext.cs" />
     <Compile Include="Abstracts\IDepartments.cs" />
     <Compile Include="Abstracts\IEmployees.cs" />
     <Compile Include="Abstracts\IEmploymentStatus.cs" />
+    <Compile Include="Abstracts\IGroups.cs" />
     <Compile Include="Abstracts\IidentityCodes.cs" />
     <Compile Include="Abstracts\IJobtitles.cs" />
     <Compile Include="Abstracts\ILeaveManagement.cs" />
@@ -109,6 +134,16 @@
     <Compile Include="Abstracts\IReportManager.cs" />
     <Compile Include="Abstracts\IRequisition.cs" />
     <Compile Include="Abstracts\ILocation.cs" />
+    <Compile Include="Concrete\ActivityLogRepo.cs" />
+    <Compile Include="Concrete\Appraisal\AppraisalModeRepository.cs" />
+    <Compile Include="Concrete\Appraisal\AppraisalPeriodRepository.cs" />
+    <Compile Include="Concrete\Appraisal\AppraisalRatingRepository.cs" />
+    <Compile Include="Concrete\Appraisal\AppraisalStatusRepository.cs" />
+    <Compile Include="Concrete\Appraisal\EmployeeRatingRepository.cs" />
+    <Compile Include="Concrete\Appraisal\ParameterRepository.cs" />
+    <Compile Include="Concrete\Appraisal\QuestionRepository.cs" />
+    <Compile Include="Concrete\Appraisal\RatingRepository.cs" />
+    <Compile Include="Concrete\Appraisal\SkillRepository.cs" />
     <Compile Include="Concrete\BusinessRepository.cs" />
     <Compile Include="Concrete\CareerPathRepository.cs" />
     <Compile Include="Concrete\CareerRepository.cs" />
@@ -116,6 +151,7 @@
     <Compile Include="Concrete\EmployeeRepository.cs" />
     <Compile Include="Concrete\EmployementStatusRepository.cs" />
     <Compile Include="Concrete\FileRepository.cs" />
+    <Compile Include="Concrete\GroupRepository.cs" />
     <Compile Include="Concrete\IdentityRepository.cs" />
     <Compile Include="Concrete\JobTitleRepository.cs" />
     <Compile Include="Concrete\LeaveManagementRepo.cs" />
@@ -128,34 +164,58 @@
     <Compile Include="Concrete\ProductRepository.cs" />
     <Compile Include="Concrete\ReprtManagerRepository.cs" />
     <Compile Include="Concrete\RequisitionRepo.cs" />
-    <Compile Include="DbEntities\main_request_history.cs">
-      <DependentUpon>Requisition.tt</DependentUpon>
+    <Compile Include="DbEntities\Appraisal.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Appraisal.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="DbEntities\main_requisition.cs">
-      <DependentUpon>Requisition.tt</DependentUpon>
+    <Compile Include="DbEntities\Appraisal.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Appraisal.tt</DependentUpon>
     </Compile>
-    <Compile Include="DbEntities\main_requisition_history.cs">
-      <DependentUpon>Requisition.tt</DependentUpon>
+    <Compile Include="DbEntities\Appraisal.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Appraisal.edmx</DependentUpon>
     </Compile>
-    <Compile Include="DbEntities\main_requisition_summary.cs">
-      <DependentUpon>Requisition.tt</DependentUpon>
+    <Compile Include="DbEntities\main_pa_appraisalhistory.cs">
+      <DependentUpon>Appraisal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbEntities\main_pa_category.cs">
+      <DependentUpon>Appraisal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbEntities\main_pa_employee_ratings.cs">
+      <DependentUpon>Appraisal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbEntities\main_pa_ff_employee_ratings.cs">
+      <DependentUpon>Appraisal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbEntities\main_pa_questions.cs">
+      <DependentUpon>Appraisal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbEntities\main_pa_questions_privileges.cs">
+      <DependentUpon>Appraisal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbEntities\main_pa_ratings.cs">
+      <DependentUpon>Appraisal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbEntities\main_pa_skills.cs">
+      <DependentUpon>Appraisal.tt</DependentUpon>
     </Compile>
     <Compile Include="DbEntities\products.cs" />
-    <Compile Include="DbEntities\Requisition.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Requisition.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DbEntities\Requisition.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Requisition.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DbEntities\Requisition.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Requisition.edmx</DependentUpon>
-    </Compile>
+    <Compile Include="Entities\ActivityLogs.cs" />
+    <Compile Include="Entities\AppraisalPeriods.cs" />
+    <Compile Include="Entities\Appraisal\AppraisalHistory.cs" />
+    <Compile Include="Entities\Appraisal\AppraisalMode.cs" />
+    <Compile Include="Entities\Appraisal\AppraisalRating.cs" />
+    <Compile Include="Entities\Appraisal\AppraisalStatus.cs" />
+    <Compile Include="Entities\Appraisal\AppriasalConfiguration.cs" />
+    <Compile Include="Entities\Appraisal\EmployeeRating.cs" />
+    <Compile Include="Entities\Appraisal\Parameters.cs" />
+    <Compile Include="Entities\Appraisal\Questions.cs" />
+    <Compile Include="Entities\Appraisal\Ratings.cs" />
+    <Compile Include="Entities\Appraisal\Skills.cs" />
     <Compile Include="Entities\BusinessUnits.cs" />
     <Compile Include="Entities\CareerPath.cs" />
     <Compile Include="Entities\Careers.cs" />
@@ -167,6 +227,7 @@
     <Compile Include="Entities\Employees.cs" />
     <Compile Include="Entities\EmploymentStatus.cs" />
     <Compile Include="Entities\Files.cs" />
+    <Compile Include="Entities\Groups.cs" />
     <Compile Include="Entities\IdentityCodes.cs" />
     <Compile Include="Entities\Jobtitles.cs" />
     <Compile Include="Entities\LeaveManagement.cs" />
@@ -197,12 +258,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <EntityDeploy Include="DbEntities\Requisition.edmx">
+    <EntityDeploy Include="DbEntities\Appraisal.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Requisition.Designer.cs</LastGenOutput>
+      <LastGenOutput>Appraisal.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="DbEntities\Requisition.edmx.diagram">
-      <DependentUpon>Requisition.edmx</DependentUpon>
+    <None Include="DbEntities\Appraisal.edmx.diagram">
+      <DependentUpon>Appraisal.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
@@ -210,16 +271,29 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DbEntities\Requisition.Context.tt">
+    <Content Include="DbEntities\Appraisal.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Requisition.edmx</DependentUpon>
-      <LastGenOutput>Requisition.Context.cs</LastGenOutput>
+      <DependentUpon>Appraisal.edmx</DependentUpon>
+      <LastGenOutput>Appraisal.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="DbEntities\Requisition.tt">
+    <Content Include="DbEntities\Appraisal.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Requisition.edmx</DependentUpon>
-      <LastGenOutput>Requisition.cs</LastGenOutput>
+      <DependentUpon>Appraisal.edmx</DependentUpon>
+      <LastGenOutput>Appraisal.cs</LastGenOutput>
     </Content>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

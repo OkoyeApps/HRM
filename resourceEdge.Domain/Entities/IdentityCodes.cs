@@ -18,9 +18,11 @@ namespace resourceEdge.Domain.Entities
         public string staffing_code { get; set; }
         public string users_code { get; set; }
         public string requisition_code { get; set; }
+        public int GroupId { get; set; }
         public string createdBy { get; set; }
         public Nullable<System.DateTime> createddate { get; set; }
         public string modifiedBy { get; set; }
         public Nullable<System.DateTime> modifieddate { get; set; }
+        public Groups Groups { get; set; }
     }
 }

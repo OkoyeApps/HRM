@@ -29,9 +29,8 @@ namespace resourceEdge.Domain.Concrete
 
         public Logins GetByUserId(string userId)
         {
-            var AllLogin = unitofWork.Logins.Get();
-            var CurrentLogin = AllLogin.Where(x => x.userId == userId && x.LogOutTime == null && x.IsLogOut == false).FirstOrDefault();
-            return CurrentLogin;
+            var AllUserLogin = unitofWork.Logins.Get(x => x.userId == userId && x.LogOutTime == null && x.IsLogOut == false).FirstOrDefault();
+            return AllUserLogin; 
         }
 
         public EdgeDbContext GetDbContext()
@@ -50,5 +49,11 @@ namespace resourceEdge.Domain.Concrete
             unitofWork.Logins.Update(entity);
             unitofWork.Save();
         }
+        public Logins GetUserLastLogin(string userId)
+        {
+            var user = unitofWork.Logins.Get(filter: x => x.userId == userId).ToList().LastOrDefault();
+            return user ?? null;
+        }
+
     }
 }

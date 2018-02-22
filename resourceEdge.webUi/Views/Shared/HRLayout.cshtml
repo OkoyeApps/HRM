@@ -390,10 +390,11 @@
                                     <i class="icon-lock"></i> Lock Screen
                                 </a>
                             </li>
-                            <li>
-                                @Html.Partial("_LoginPartial")
-                                <i class="icon-key"></i> Log In </a>
-                            </li>
+                            @*<li>
+                                <a>
+                                <i class="icon-key"></i></a>
+                            </li>*@
+                            @Html.Partial("_LoginPartial") 
                         </ul>
                     </li>
                     <!-- END USER LOGIN DROPDOWN -->
@@ -514,6 +515,7 @@
                                         @Html.ActionLink("Add Leave Type", "AddLeaveType","Configuration", null, new { @class = "nav-link  title" })
                                     </li>
                                 </ul>
+
                             </li>
                         </ul>
                     </li>
@@ -530,6 +532,25 @@
                                 </a>
                             </li>
 
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="javascript:;" class="nav-link nav-toggle">
+                            <i class="icon-puzzle"></i>
+                            <span class="title">Appraisal</span>
+                            <span class="arrow"></span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li class="nav-item">
+                                @Html.ActionLink("Appraisal", "AllLeaveType", "Configuration", null, new { @class = "nav-link  title" })
+                            </li>
+                            <li class="nav-item ">
+                                @if (User.IsInRole("Head HR"))
+                                {
+                                    @Html.ActionLink("Add Questions", "AddLeaveType", "Configuration", null, new { @class = "nav-link  title" })
+                                }
+                               
+                            </li>
                         </ul>
                     </li>
                     <li class="heading">
@@ -1284,7 +1305,7 @@
     <script src="~/assets/global/plugins/jquery.blockui.min.js"></script>
     <script src="~/assets/global/plugins/uniform/jquery.uniform.min.js"></script>
     <script src="~/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
-    <script src="~/MainScript.js"></script>
+    @*<script src="~/MainScript.js"></script>*@
     <!-- END CORE PLUGINS -->
     <!-- BEGIN PAGE LEVEL PLUGINS -->
     @RenderSection("Plugins", required: false)

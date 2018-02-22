@@ -24,6 +24,16 @@ namespace resourceEdge.webUi.Infrastructure
            var roles =  roleManager.Roles.ToList();
             return roles;
         }
+        public IdentityRole GetRoleById(string id)
+        {
+            var role = roleManager.FindById(id);
+            return role ?? null;
+        }
+        public IdentityRole GetRoleByName(string name)
+        {
+            var role = roleManager.FindByName(name); 
+            return role ?? null;
+        }
 
         public void CreateRoles()
         {
@@ -61,6 +71,24 @@ namespace resourceEdge.webUi.Infrastructure
                 var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
                 role.Name = "System Admin";
                 roleManager.Create(role);
+            }
+            if (!roleManager.RoleExists("Head HR"))
+            {
+                var role = new IdentityRole();
+                role.Name = "Head HR";
+                role.Id = "5";
+                roleManager.Create(role);
+            }
+            if (!roleManager.RoleExists("Head Of Unit"))
+            {
+                var role = new IdentityRole();
+                role.Name = "Head OF Unit";
+                role.Id = "6";
+                roleManager.Create(role);
+            }
+            if (!roleManager.RoleExists("Location Head"))
+            {
+                var role = new IdentityRole() { Name = "Location Head", Id = "7" };
             }
         }
         //private bool disposed = false;

@@ -1,0 +1,82 @@
+﻿@{
+    ViewBag.Title = "AddParameter";
+    //Layout = "~/Views/Shared/HRLayout.cshtml";
+}
+
+@using (Html.BeginForm("AddRating", "Appraisal", new { returnUrl = ViewBag.returnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    <div class="form-horizontal">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div>
+            <label for="ratingValue" class="col-md-2">Rating Value</label>
+            <input name="ratingNo[0]" class="col-md-4 form-control" disabled type="text" value="1" />
+            <label for="ratingValue" class="col-md-2">Rating Text</label>
+            <input name="ratingText[0]" class="col-md-4 form-control" type="text" />
+        </div>
+
+        <div>
+            <label for="ratingValue" class="col-md-2">Rating Value</label>
+            <input name="ratingNo[1]" class="col-md-4 form-control" disabled type="text" value="2" />
+            <label for="ratingValue" class="col-md-2">Rating Text</label>
+            <input name="ratingText[1]" class="col-md-4 form-control" type="text" />
+        </div>
+
+        <div>
+            <label for="ratingValue" class="col-md-2">Rating Value</label>
+            <input name="ratingNo[2]" class="col-md-4 form-control" disabled type="text" value="3" />
+            <label for="ratingValue" class="col-md-2">Rating Text</label>
+            <input name="ratingText[2]" class="col-md-4 form-control" type="text" />
+        </div>
+
+        <div>
+            <label for="ratingValue" class="col-md-2">Rating Value</label>
+            <input name="ratingNo[3]" class="col-md-4 form-control" disabled type="text" value="4" />
+            <label for="ratingValue" class="col-md-2">Rating Text</label>
+            <input name="ratingText[3]" class="col-md-4 form-control" type="text" />
+        </div>
+
+        <div>
+            <label for="ratingValue" class="col-md-2">Rating Value</label>
+            <input name="ratingNo[4]" class="col-md-4 form-control" disabled type="text" value="5" />
+            <label for="ratingValue" class="col-md-2">Rating Text</label>
+            <input name="ratingText[4]" class="col-md-4 form-control" type="text" />
+        </div>
+
+        <div>
+            <label for="ratingValue" class="col-md-2">Rating Value</label>
+            <input name="ratingNo[5]" class="col-md-4 form-control" disabled type="text" value="6" />
+            <label for="ratingValue" class="col-md-2">Rating Text</label>
+            <input name="ratingText[5]" class="col-md-4 form-control" type="text" />
+        </div>
+
+        <div>
+            <label for="ratingValue" class="col-md-2">Rating Value</label>
+            <input name="ratingNo[6]" class="col-md-4 form-control" disabled type="text" value="7" />
+            <label for="ratingValue" class="col-md-2">Rating Text</label>
+            <input name="ratingText[6]" class="col-md-4 form-control" type="text" />
+        </div>
+
+        <div>
+            <label for="ratingValue" class="col-md-2">Rating Value</label>
+            <input name="ratingNo[7]" class="col-md-4 form-control" disabled type="text" value="8" />
+            <label for="ratingValue" class="col-md-2">Rating Text</label>
+            <input name="ratingText[7]" class="col-md-4 form-control" type="text" />
+        </div>
+
+        <div>
+            <label for="ratingValue" class="col-md-2">Rating Value</label>
+            <input name="ratingNo[8]" class="col-md-4 form-control" disabled type="text" value="9" />
+            <label for="ratingValue" class="col-md-2">Rating Text</label>
+            <input name="ratingText[8]" class="col-md-4 form-control" type="text" />
+        </div>
+        <div>
+            <label for="ratingValue" class="col-md-2">Rating Value</label>
+            <input name="ratingNo[9]" class="col-md-4 form-control" disabled type="text" value="10" />
+            <label for="ratingValue" class="col-md-2">Rating Text</label>
+            <input name="ratingText[9]" class="col-md-4 form-control" type="text" />
+        </div>
+        <input type="submit" class="btn btn-success" />
+</div>
+        }

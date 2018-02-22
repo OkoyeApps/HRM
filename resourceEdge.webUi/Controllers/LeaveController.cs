@@ -92,33 +92,27 @@ namespace resourceEdge.webUi.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AllotLeaves(FormCollection collection)
         {
-            var time = collection["Emp"];
+            var Days = collection["Emp"];
             var userid = collection["id"];
             var year = collection["year"];
             var array = new string[] { };
-            if (time.Contains(",") && userid.Contains(","))
+            if (Days.Contains(",") && userid.Contains(","))
             {
-              var TimeArray =   time.Split(',');
+              var allotedDays =   Days.Split(',');
               var splitId = userid.Split(',');
-                if (TimeArray != null && splitId != null)
+              var result =   leavemanagerRepo.AllotCollectiveLeave(allotedDays, splitId, year, User.Identity.GetUserId());
+                if (result != false)
                 {
-                    EmployeeLeaves leave = new EmployeeLeaves();
-                    for (int id = 0, allotTime = 0; id < splitId.Length; id++,allotTime++)
-                    {
-                            leave.UserId = splitId[id];
-                            leave.AllotedYear = int.Parse(year);
-                            leave.EmpLeaveLimit = double.Parse(TimeArray[allotTime]);
-                            leave.Createdby = User.Identity.GetUserId();
-                            leave.Modifiedby = User.Identity.GetUserId();
-                            leave.UsedLeaves = null;
-                            leave.Isactive = true;
-                            leave.IsLeaveTrasnferSet = null;
-                            leaveRepo.AllotEmployeeLeave(leave);
-                            RedirectToAction("Index");
-
-                    }
+                    RedirectToAction("Index");
                 }
-
+            }
+            else
+            {
+                var result = leavemanagerRepo.allotIndividualLeave(Days, userid, year, User.Identity.GetUserId());
+                if (result != false)
+                {
+                    RedirectToAction("Index");
+                }
             }
             TempData["Error"] = "Something went wrong, please kindly make sure you fill all fields for allocation";
             ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.BusId), "BusId", "unitname", "BusId");

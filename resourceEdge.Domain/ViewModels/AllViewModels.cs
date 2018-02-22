@@ -105,29 +105,8 @@ namespace resourceEdge.Domain.Entities
         [StringLength(100, ErrorMessage = "description exceeds 100 characters")]
         [DataType(DataType.MultilineText), Display(Name = "Description")]
         public string descriptions { get; set; }
-
-        //[Required(ErrorMessage = "Please speciffy the state of th current business unit")]
-        //[Display(Name = "State")]
-        //[StringLength(20, ErrorMessage = "State name exceeds 20 characters", MinimumLength = 2)]
-        //public string CurrentState { get; set; }
-
-        //[Required(ErrorMessage = "Please fil the country field")]
-        //[StringLength(20, ErrorMessage = "Country name exceeds 20 characters", MinimumLength = 3), Display(Name = "Country")]
-        //public string country { get; set; }
-
-        //[Required(ErrorMessage = "please specify the city name")]
-        //[StringLength(20, ErrorMessage = "city value exceeds 20 characters or is less tha 3", MinimumLength = 3), Display(Name = "City")]
-        //public string city { get; set; }
-
-        //[Required(ErrorMessage = "please enter an address")]
-        //[StringLength(100, ErrorMessage = "address value exceeds 100 characters"), Display(Name = "Address 1")]
-        //public string address1 { get; set; }
-        //[Display(Name = "Address 2")]
-        //public string address2 { get; set; }
-        //[Display(Name = "Address 3")]
-        //public string address3 { get; set; }
-        //[Required(ErrorMessage ="Select a location for the unit")]
         public int? LocationId { get; set; }
+        public int GroupId { get; set; }
         [DataType(DataType.Date)]
         public Nullable<System.DateTime> startdate { get; set; }
     }
@@ -240,6 +219,8 @@ namespace resourceEdge.Domain.Entities
 
         [Required(ErrorMessage = "please select a mode of entry")]
         public ModeOfEmployement modeofEmployement { get; set; }
+        [Required(ErrorMessage = "please select a Group")]
+        public int GroupId { get; set; }
     }
 
     public class LeaveManagementViewModel
@@ -424,5 +405,67 @@ namespace resourceEdge.Domain.Entities
         public string Address1 { get; set; }
         [DataType(DataType.MultilineText)]
         public string Address2 { get; set; }
+        [Required(ErrorMessage ="Select a Group")]
+        public int GroupId { get; set; }
+    }
+    public class GroupViewModel
+    {
+        [Required(ErrorMessage ="Please enter a Group Name")]
+        public string GroupName { get; set; }
+        [DataType(DataType.MultilineText)]
+        public string Descriptions { get; set; }
+    }
+    public class QuestionViewModel
+    {
+        [Key, HiddenInput(DisplayValue =false)]
+        public int Id { get; set; }
+        [Required(ErrorMessage = "Select Parameter")]
+        public string ParamaterId { get; set; }
+        public string Question { get; set; }
+        public string Description { get; set; }
+        public string Createdby { get; set; }
+        public Nullable<int> CreatedbyRole { get; set; }
+    }
+    public class RatingViewModel
+    {
+        public string PaConfiguredId { get; set; }
+        public string PaInitializationId { get; set; }
+        public string RatingType { get; set; }
+        public Nullable<int> RatingValue { get; set; }
+        public string RatingText { get; set; }
+    }
+    public class SkillViewModel
+    {
+        [Required(ErrorMessage ="Please specify a name for the skill")]
+        public string SkillName { get; set; }
+        [DataType(DataType.MultilineText)]
+        public string Description { get; set; }
+    }
+    public class ParameterViewModel
+    {
+        [Required(ErrorMessage ="Please provide a paramater Name")]
+        public string ParameterName { get; set; }
+        [DataType(DataType.MultilineText)]
+        public string Descriptions { get; set; }
+    }
+
+    public class AppraisalInitilizationViewModel
+    {
+        public int id { get; set; }
+        public int GroupId { get; set; }
+        public int? LocationId { get; set; }
+        public int? BusinessUnitId { get; set; }
+        public int? DepartmentId { get; set; }
+        public DateTime FromYear { get; set; }
+        public DateTime ToYear { get; set; }
+        public int AppraisalMode { get; set; }
+        public int Period { get; set; }
+        public int AppraisalStatus { get; set; }
+        public int EnableTo { get; set; }
+        public DateTime DueDate { get; set; }
+        public SelectListItem Eligibility { get; set; }
+        public SelectListItem Parameters { get; set; }
+        public string RatingType { get; set; }
+        public bool? Enabled { get; set; }
     }
 }

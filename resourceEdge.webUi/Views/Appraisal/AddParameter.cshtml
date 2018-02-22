@@ -1,0 +1,35 @@
+﻿@model resourceEdge.Domain.Entities.ParameterViewModel
+@{
+    ViewBag.Title = "AddParameter";
+    Layout = "~/Views/Shared/mainLayout2.cshtml";
+}
+
+@using (Html.BeginForm("addEmploymentStatus", "Configuration",FormMethod.Post, new { returnurl = ViewBag.returnUrl }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.ParameterName, htmlAttributes: new { @class = "control-label col-md-2", required = "required" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ParameterName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ParameterName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Descriptions, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <textarea cols="2" name="Descriptions" class="form-control" required></textarea>
+                @*@Html.EditorFor(model => model.Descriptions, new { htmlAttributes = new { @class = "form-control", required = "required" } })*@
+                @Html.ValidationMessageFor(model => model.Descriptions, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <input type="submit" class="btn btn-success" value="Create">
+        </div>
+    </div>
+
+}
+

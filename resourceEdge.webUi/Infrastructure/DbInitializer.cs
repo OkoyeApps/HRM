@@ -207,6 +207,50 @@ namespace resourceEdge.webUi.Infrastructure
                 context.GetDbContext().Weeks.Add(item);
                 context.Save();
             }
+
+            var AppraisalStatus = new List<AppraisalStatus>()
+            {
+                 new Domain.Entities.AppraisalStatus() { Name = "Open" },
+                 new Domain.Entities.AppraisalStatus() { Name = "Closed" },
+                 new Domain.Entities.AppraisalStatus() { Name = "InProgress" }
+            };
+            foreach (var item in AppraisalStatus)
+            {
+                context.GetDbContext().AppraisalStatus.Add(item);
+                context.Save();
+            }
+            var AppraisalMode = new List<AppraisalMode>()
+            {
+                new Domain.Entities.AppraisalMode() { Name= "Quarterly" },
+                 new Domain.Entities.AppraisalMode() { Name = "Half-Year" },
+                 new Domain.Entities.AppraisalMode() {Name = "Yearly" }
+            };
+            foreach (var item in AppraisalMode)
+            {
+                context.GetDbContext().AppraisalMode.Add(item);
+                context.Save();
+            }
+            var AppraisalRating = new List<AppraisalRating>()
+            {
+                new Domain.Entities.AppraisalRating() { Name = "1-5" },
+                new Domain.Entities.AppraisalRating() { Name = "1-10" }
+            };
+            foreach (var item in AppraisalRating)
+            {
+                context.GetDbContext().ApprasialRatings.Add(item);
+                context.Save();
+            }
+            var periods = new List<AppraisalPeriods>()
+            {
+                new AppraisalPeriods() { Name = "Q1" },
+                new AppraisalPeriods() {Name = "H1" },
+                new AppraisalPeriods() {Name = "Yearly" }
+            };
+            foreach (var item in periods)
+            {
+                context.GetDbContext().AppraisalPeriods.Add(item);
+                context.Save();
+            }
         }
     }
     // base.Seed(context);

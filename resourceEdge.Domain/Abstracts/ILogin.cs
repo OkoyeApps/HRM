@@ -9,6 +9,6 @@ namespace resourceEdge.Domain.Abstracts
 {
     public interface ILogin : GenericInterface<Logins>
     {
-        EdgeDbContext GetDbContext();
+        Logins GetUserLastLogin(string userId);
     }
 }

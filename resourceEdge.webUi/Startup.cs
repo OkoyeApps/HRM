@@ -8,11 +8,12 @@ namespace resourceEdge.webUi
 {
     public partial class Startup
     {
-      //  public resourceEdge.Domain.Entities.EdgeDbContext db = new Domain.Entities.EdgeDbContext();
+        
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
-            CreateDeafaultRoles();           
+            CreateDeafaultRoles();
+            app.MapSignalR();           
         }
         
         public void CreateDeafaultRoles()

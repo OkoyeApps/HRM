@@ -18,7 +18,7 @@ namespace resourceEdge.Domain.Entities
         public int BusinessUnitId { get; set; }
         public int employeeId { get; set; }
         public string FullName { get; set; }
-        public virtual Departments Departments { get; set; }
+        public  Departments Departments { get; set; }
 
         //Consider adding a manager Id for every employee that is a manager, which would help in getting a list of managers
 

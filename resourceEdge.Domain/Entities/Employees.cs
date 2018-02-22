@@ -18,6 +18,7 @@ namespace resourceEdge.Domain.Entities
         public string userId { get; set; }
         public string empEmail { get; set; }
         public int empRoleId { get; set; }
+        public int GroupId { get; set; }
         public string FullName { get; set; }
         public string PhoneNumber { get; set; }
         public Nullable<System.DateTime> dateOfJoining { get; set; }
@@ -43,8 +44,9 @@ namespace resourceEdge.Domain.Entities
         public ModeOfEmployement modeofEmployement { get; set; }
         public Nullable<bool> IsUnithead { get; set; }
         public Nullable<bool> IsDepthead { get; set; }
-        public virtual Departments Departments { get; set; }
-        public virtual Levels Level { get; set; }
+        public  Departments Departments { get; set; }
+        public  Levels Level { get; set; }
+        public  Groups Groups { get; set; }
         
     }
 }

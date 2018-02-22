@@ -14,6 +14,7 @@ namespace resourceEdge.Domain.Entities
     {
         [Key]
         public int BusId { get; set; }
+        public int GroupId { get; set; }
         public string unitname { get; set; }
         public string unitcode { get; set; }
         public string descriptions { get; set; }
@@ -27,7 +28,7 @@ namespace resourceEdge.Domain.Entities
         public Nullable<System.DateTime> createddate { get; set; }
         public Nullable<System.DateTime> modifieddate { get; set; }
         public Nullable<bool> isactive { get; set; }
-        public virtual ICollection<Employees> Employee { get; set; }
-        public virtual Location Location { get; set; }
+        public  ICollection<Employees> Employee { get; set; }
+        public  Location Location { get; set; }
     }
 }

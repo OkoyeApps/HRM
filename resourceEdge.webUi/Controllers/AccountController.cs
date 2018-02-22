@@ -11,6 +11,9 @@ using Microsoft.Owin.Security;
 using resourceEdge.webUi.Models;
 using resourceEdge.Domain.Entities;
 using resourceEdge.Domain.Abstracts;
+using Fluentx.Mvc;
+using System.Collections.Generic;
+using resourceEdge.Domain.Concrete;
 
 namespace resourceEdge.webUi.Controllers
 {
@@ -19,10 +22,10 @@ namespace resourceEdge.webUi.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        private ILogin LoginRepo;
-        public AccountController(ILogin lParam)
+        private ILogin LoginRepo = new LoginRepository();
+        public AccountController()
         {
-            LoginRepo = lParam;
+            
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -83,8 +86,8 @@ namespace resourceEdge.webUi.Controllers
             {
                 case SignInStatus.Success:
                     
-                    return UpdateLogin(model.Email);
-                    //return RedirectToLocal(returnUrl);
+                   // return UpdateLogin(model.Email, model.Password);
+                    return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -408,20 +411,44 @@ namespace resourceEdge.webUi.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult CustomLogOff(string userId)
+        public ActionResult CustomLogOff(string userId, string email, string password)
         {
-            var login = LoginRepo.GetByUserId(userId);
+            var login = LoginRepo.GetUserLastLogin(userId);
             if (login != null)
             {
                 login.IsLogOut = true;
                 login.LogOutTime = DateTime.Now;
                 LoginRepo.update(login);
+                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            Dictionary<string, object> postData = new Dictionary<string, object>();
+            postData.Add("email", email);
+            postData.Add("password", password);
+            RedirectAndPostActionResult.RedirectAndPost("http://localhost:58124/Account/CustomLogin", postData);
+                //return new RedirectAndPostActionResult("http://localhost:58124/Account/CustomLogin", postData);
+                return RedirectionUrls(email);
             }
-            var id = Session.SessionID;
-            HttpCookie cookie = new HttpCookie(".AspNet.ApplicationCookie");
-            var cc = cookie.Name;
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectionUrls(email);
+            ///<summary>
+            ///The RedirectAndPostActionResult method is an external method that was used to redirect to a post event.
+            ///i did this so as to check and if the user is logged in another browser and log him out of the system 
+            ///then at the same time log him into the system on the new browser without having him reenter his details.
+            ///<param name="email"></param>
+            ///<param name="password"></param>
+            ///Note never use the customLogin method to collect values from a form because it is a security risk because it does not validate antiforgery tokens;
+            /// </summary>
+        }
+        [HttpPost]
+        public async Task<ActionResult> CustomLogin(LoginViewModel model)
+        {
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            switch (result)
+            {
+                case SignInStatus.Success:
+                    return UpdateLogin(model.Email, model.Password);
+                default:
+                    ModelState.AddModelError("", "Invalid login attempt.");
+                    return View(model);
+            }
         }
 
         //
@@ -499,7 +526,7 @@ namespace resourceEdge.webUi.Controllers
                 return RedirectToAction("");
         }
 
-        public ActionResult UpdateLogin(string email)
+        public ActionResult UpdateLogin(string email,string password)
         {
             var user = UserManager.FindByEmail(email);
             var isLoggedIn = CheckIfLoggedIn(user.Id);
@@ -516,11 +543,11 @@ namespace resourceEdge.webUi.Controllers
                 LoginRepo.Insert(LoginEntity);
                 return RedirectionUrls(user.Email);
             }
-           return CustomLogOff(user.Id);
+           return CustomLogOff(user.Id, email, password);
         }
         public bool CheckIfLoggedIn(string userId)
         {
-            var loggedInUser = LoginRepo.GetDbContext().Logins.Where(x => x.userId == userId).ToList().LastOrDefault();
+            var loggedInUser = LoginRepo.GetUserLastLogin(userId);
             if (loggedInUser != null && loggedInUser.IsLogOut == false)
             {
                 return true;
@@ -528,12 +555,6 @@ namespace resourceEdge.webUi.Controllers
             return false;
         }
 
-        public HttpCookie returnAllCookies()
-        {
-            var cookies = new HttpCookie(".AspNet.ApplicationCookie");
-            
-            return cookies;
-                }
 
         internal class ChallengeResult : HttpUnauthorizedResult
         {

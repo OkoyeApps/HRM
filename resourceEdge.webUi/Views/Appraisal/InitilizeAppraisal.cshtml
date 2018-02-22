@@ -1,0 +1,122 @@
+﻿
+@model resourceEdge.Domain.Entities.AppraisalInitilizationViewModel
+@{
+    ViewBag.Title = "InitilizeAppraisal";
+    Layout = "~/Views/Shared/mainLayout2.cshtml";
+}
+
+<div class="portlet light bordered">
+    <div class="portlet-body form">
+        @using (Html.BeginForm("Create", "HR", new { returnUrl = ViewBag.returnUrl }, FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        @Html.Label("Group", htmlAttributes: new { @class = "control-label" })
+                        @*@Html.DropDownListFor(model => model.identityCode, (SelectList)ViewBag.Groups, "Select Group", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "bs-select form-control" })*@
+                        <select name="GroupId" class="form-control"></select>
+                    </div>
+                    <div class="col-md-4">
+                        @Html.Label("Identity Code", htmlAttributes: new { @class = "control-label" })
+                        @*@Html.EditorFor(x => x.identityCode, new { htmlAttributes = new { @readonly = "readonly", @class = "form-control " } })*@
+                        <select name="LocationId" class="form-control"></select>
+                    </div>
+
+
+
+                    <div class="col-md-4">
+                        @Html.Label("Location", htmlAttributes: new { @class = "control-label " })
+                        <select id="BusinessUnitId" name="BusinessUnitId" class="form-control"></select>
+                        @Html.ValidationMessageFor(model => model.BusinessUnitId, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-4">
+                        @Html.Label("Employee Id", htmlAttributes: new { @class = "control-label " })
+                        @*@Html.EditorFor(model => model.empUserId, new { htmlAttributes = new { id = "mask_number", placeholder = "Employee Id", @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.empUserId, "", new { @class = "text-danger" })*@
+                        <select name="DepartmentId" class="form-control"></select>
+                        <br />
+                        <br />
+                    </div>
+
+                    <div class="col-md-4">
+                        @Html.Label("First name", htmlAttributes: new { @class = "control-label " })
+                        @Html.EditorFor(model => model.FromYear, new { htmlAttributes = new { @class = "form-control " } })
+                        @Html.ValidationMessageFor(model => model.FromYear, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-4">
+                        @Html.Label("Last name", htmlAttributes: new { @class = "control-label " })
+                        @Html.EditorFor(model => model.ToYear, new { htmlAttributes = new { @class = "form-control " } })
+                        @Html.ValidationMessageFor(model => model.ToYear, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-4">
+                        @Html.Label("Email", htmlAttributes: new { @class = "control-label " })
+                        @*@Html.EditorFor(model => model.empEmail, new { htmlAttributes = new { @class = "form-control " } })
+                            @Html.ValidationMessageFor(model => model.empEmail, "", new { @class = "text-danger" })*@
+                        <select name="AppraisalMode" class="form-control" required></select>
+                        <br />
+                        <br />
+                    </div>
+
+                    <div class="col-md-4">
+                        @Html.Label("Role", htmlAttributes: new { @class = "control-label " })
+                        <select name="Period" class="form-control" required></select>
+                    </div>
+
+                    <div class="col-md-4">
+                        @Html.Label("Business Unit", htmlAttributes: new { @class = "control-label " })
+                        @*@Html.DropDownListFor(model => model.businessunitId, (SelectList)ViewBag.businessUnits,"Select Business Unit", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "bs-select form-control ", placeholder = "please input business unit" })*@
+                        <select id="AppraisalStatus" name="AppraisalStatus" data_live_search="true" , data_size="4" class="form-control  "></select>
+                        @* @Html.ValidationMessageFor(model => model.businessunitId, "", new { @class = "text-danger" })*@
+                    </div>
+
+                    <div class="col-md-4">
+                        @Html.Label("Department", htmlAttributes: new { @class = "control-label " })
+                        <select id="EnableTo" name="EnableTo" data_live_search="true" , data_size="4" class="form-control  "></select>
+                        @* @Html.ValidationMessageFor(model => model.departmentId, "", new { @class = "text-danger" })*@
+                        <br />
+                        <br />
+                    </div>
+
+                    <div class="col-md-4">
+                        @Html.Label("Employement status", htmlAttributes: new { @class = "control-label " })
+                        @*@Html.DropDownListFor(model => model.empStatusId, (SelectList)ViewBag.EmpStatus, "Select Status", htmlAttributes: new { data_live_search = "true", data_size = "4", id = "EmpStat", @class = "form-control bs-select ", placeholder = "please" })*@
+                        @* @Html.ValidationMessageFor(model => model.empStatusId, "", new { @class = "text-danger" })*@
+                        <input type="date" name="DueDate" class="form-control" required />
+                    </div>
+                    <div class="col-md-4">
+                        @Html.Label("Job title", htmlAttributes: new { @class = "control-label " })
+                        @Html.DropDownList("Eligibility", (SelectList)ViewBag.jobTitles, "Select Job", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "form-control bs-select  " })
+                        @Html.ValidationMessage("Eligibility", "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-4">
+                        @Html.Label("Parameters", htmlAttributes: new { @class = "control-label " })
+                        @Html.DropDownList("EligibParametersility", (SelectList)ViewBag.jobTitles, "Select Job", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "form-control bs-select  " })
+                        @Html.ValidationMessage("Parameters", "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-4">
+                        @Html.Label("RatingType", htmlAttributes: new { @class = "control-label " })
+                        @Html.DropDownList("RatingType", (SelectList)ViewBag.jobTitles, "Select Job", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "form-control bs-select  " })
+                        @Html.ValidationMessage("RatingType", "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-4">
+                        @Html.Label("Enabled", htmlAttributes: new { @class = "control-label " })
+                        @Html.DropDownList("Enabled", (SelectList)ViewBag.jobTitles, "Select Job", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "form-control bs-select  " })
+                        @Html.ValidationMessage("Enabled", "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-actions right">
+                        <input type="submit" id="hrSubmit" onclick="validateDateOfJoining" class="btn blue" value="Save" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

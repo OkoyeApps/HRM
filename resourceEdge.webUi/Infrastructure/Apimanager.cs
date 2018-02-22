@@ -202,28 +202,23 @@ namespace resourceEdge.webUi.Infrastructure
             }
             return Result;
         }
-        public static List<IdentityCodeListItem> GetIdntityList()
+        public static IdentityCodeListItem GetIdntityListByGroup(int groupId)
         {
-            List<IdentityCodeListItem> result = new List<IdentityCodeListItem>();
-            IdentityCodeListItem listItem;
+            //List<IdentityCodeListItem> result = new List<IdentityCodeListItem>();
+            IdentityCodeListItem listItem = new IdentityCodeListItem();
             try
             {
-                var identityCode = unitOfWork.identityCodes.Get();
+                var identityCode = unitOfWork.GetDbContext().identityCodes.Where(x=>x.GroupId == groupId).SingleOrDefault();
                 if (identityCode != null)
                 {
-                    foreach (var item in unitOfWork.identityCodes.Get())
-                    {
-                        listItem = new IdentityCodeListItem();
-                        listItem.Employeeid = item.codeId;
-                        listItem.EmployeeCode = item.employee_code;
-                        listItem.RequisitionCode = item.requisition_code;
-                        result.Add(listItem);
-                    }
-                    return result;
+                        listItem.Employeeid = identityCode.codeId;
+                        listItem.EmployeeCode = identityCode.employee_code;
+                        listItem.RequisitionCode = identityCode.requisition_code;
+                    return listItem;
                 }
                 else
                 {
-                    return result;
+                    return listItem;
                 }
             }
             catch (Exception ex)
@@ -426,16 +421,21 @@ namespace resourceEdge.webUi.Infrastructure
                 var unitWithOutLocation = unitOfWork.BusinessUnit.Get(x => x.LocationId == null).ToList();
                 if (unitWithOutLocation != null)
                 {
-                    return unitWithOutLocation;
+                    return unitWithOutLocation ?? null;
                 }
-                return null;
             }
             var units = unitOfWork.BusinessUnit.Get(x => x.LocationId == location).ToList();
-            if (units != null)
-            {
-                return units;
-            }
-            return null;
+            return units ?? null;
+        }
+        public static List<Location> GetLocationByGroup(int id)
+        {
+            var result = unitOfWork.GetDbContext().Location.Where(x => x.GroupId == id).ToList();
+            return result ?? null;
+        }
+        public static List<Employees> GetAllHrsByGroup(int id)
+        {
+            var result = unitOfWork.GetDbContext().employees.Where(X => X.GroupId == id && X.empRoleId == 3).ToList();
+            return result ?? null;
         }
         public static List<Months> GetAllMonths()
         {

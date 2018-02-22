@@ -36,6 +36,17 @@ namespace resourceEdge.Domain.UnitofWork
         public GenericRepository<Levels> levelRepo;
         public GenericRepository<Careers> careerRepo;
         public GenericRepository<CareerPath> careerPathRepo;
+        public GenericRepository<ActivityLogs> activityLogRepo;
+        public GenericRepository<Groups> GroupRepo;
+        public GenericRepository<EmployeeRating> EmpRatingRepo;
+        public GenericRepository<AppraisalRating> RatingRepo;
+        public GenericRepository<Questions> QuestionRepo;
+        public GenericRepository<Skills> SkillRepo;
+        public GenericRepository<Parameters> parameterRepo;
+        public GenericRepository<AppraisalMode> AppraisalModeRepo;
+        public GenericRepository<AppraisalPeriods> AppraisalPeriodRepo;
+        public GenericRepository<AppraisalRating> AppraisalRatinRepo;
+        public GenericRepository<AppraisalStatus> AppraisalStatusRepo;
         public EdgeDbContext Context
         {
             get
@@ -149,6 +160,50 @@ namespace resourceEdge.Domain.UnitofWork
         public GenericRepository<CareerPath> CareerPath
         {
             get { return this.careerPathRepo ?? new GenericRepository<Entities.CareerPath>(Context); }
+        }
+        public GenericRepository<ActivityLogs> ActivityLogs
+        {
+            get { return activityLogRepo ?? new GenericRepository<Entities.ActivityLogs>(Context); }
+        }
+        public GenericRepository<Groups> Groups
+        {
+            get { return GroupRepo ?? new GenericRepository<Entities.Groups>(Context); }
+        }
+        public GenericRepository<Questions> Questions
+        {
+            get { return this.QuestionRepo ?? new GenericRepository<Entities.Questions>(Context); }
+        }
+        public GenericRepository<Skills> Skills
+        {
+            get { return this.SkillRepo ?? new GenericRepository<Entities.Skills>(Context); }
+        }
+        public GenericRepository<EmployeeRating> EmployeeRatings
+        {
+            get { return this.EmpRatingRepo ?? new GenericRepository<EmployeeRating>(Context); }
+        }
+        public GenericRepository<AppraisalRating> Ratings
+        {
+            get { return this.RatingRepo ?? new GenericRepository<AppraisalRating>(Context); }
+        }
+        public GenericRepository<Parameters> Parameters
+        {
+            get { return this.parameterRepo ?? new GenericRepository<Entities.Parameters>(Context); }
+        }
+        public GenericRepository<AppraisalMode> AppraisalMode
+        {
+            get { return this.AppraisalModeRepo ?? new GenericRepository<Entities.AppraisalMode>(Context); }
+        }
+        public GenericRepository<AppraisalPeriods> AppraisalPeriod
+        {
+            get { return this.AppraisalPeriodRepo ?? new GenericRepository<AppraisalPeriods>(Context); }
+        }
+        public GenericRepository<AppraisalRating> AppraislRating
+        {
+            get { return this.AppraisalRatinRepo ?? new GenericRepository<AppraisalRating>(Context); }
+        }
+        public GenericRepository<AppraisalStatus> AppraisalStatus
+        {
+            get { return this.AppraisalStatusRepo ?? new GenericRepository<Entities.AppraisalStatus>(Context); }
         }
         public void Save()
         {

@@ -28,7 +28,6 @@ namespace resourceEdge.webUi.Controllers
         EmployeeManager EmpManager;
         EmployeeDetails EmpDetails;
         EmployeeEdit EmpEdit;
-        ILeaveManagement leaveRepo;
         public EmployeeController(IPayroll PRParam, IEmployees EParam, IFiles fParam, IPositions PParam, IJobtitles jParam, ILeaveManagement LParam,IPayroll payParam )
         {
             UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(new ApplicationDbContext()));

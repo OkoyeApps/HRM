@@ -9,6 +9,7 @@ namespace resourceEdge.Domain.Entities
   public class Location
     {
         public int Id { get; set; }
+        public int GroupId { get; set; }
         public string State { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
@@ -21,5 +22,6 @@ namespace resourceEdge.Domain.Entities
         public string ModifiedBy { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }
+        public  Groups Groups { get; set; }
     }
 }

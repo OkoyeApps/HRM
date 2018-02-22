@@ -13,6 +13,24 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
+           
+
+            <div class="form-group">
+                @Html.Label("Group", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.GroupId, (SelectList)ViewBag.Groups, "Select Group", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "bs-select form-control" })
+                    @Html.ValidationMessageFor(model => model.GroupId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Location", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @*@Html.DropDownListFor(model => model.LocationId, (SelectList)ViewBag.Locations, "Select Location", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "bs-select form-control" })*@
+                    <select id="location" name="LocationId" class="bs-select form-control" ></select>
+                    @Html.ValidationMessageFor(model => model.LocationId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
             @Html.Label("Unit Name",htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.unitname, new { htmlAttributes = new { @class = "form-control" } })
@@ -75,13 +93,7 @@
                 @Html.ValidationMessageFor(model => model.address3, "", new { @class = "text-danger" })
             </div>
         </div>*@
-        <div class="form-group">
-            @Html.Label("Location", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.LocationId, (SelectList)ViewBag.Locations, "Select Location", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "bs-select form-control" })
-                @Html.ValidationMessageFor(model => model.LocationId, "", new { @class = "text-danger" })
-                </div>
-            </div>
+      
                 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
@@ -97,4 +109,5 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+<script src="~/Scripts/Pages/JS/Configuration/addunit.js"></script>
 }

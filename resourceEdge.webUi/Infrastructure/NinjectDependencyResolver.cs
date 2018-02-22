@@ -51,6 +51,16 @@ namespace resourceEdge.webUi.Infrastructure
             kernel.Bind<ICareers>().To<CareerRepository>();
             kernel.Bind<ICareerPath>().To<CareerPathRepository>();
             kernel.Bind<ILocation>().To<LocationRepository>();
-        }
+            kernel.Bind<IGroups>().To<GroupRepository>();
+            kernel.Bind<IParameter>().To<ParameterRepository>();
+            kernel.Bind<ISkills>().To<SkillRepository>();
+            kernel.Bind<IQuestions>().To<QuestionRepository>();
+            kernel.Bind<IRating>().To<RatingRepository>();
+            kernel.Bind<IAppraisalStatus>().To<AppraisalStatusRepository>();
+            kernel.Bind<IAppraisalMode>().To<AppraisalModeRepository>();
+            kernel.Bind<IAppriaslPeriods>().To<AppraisalPeriodRepository>();
+            kernel.Bind<IAppraisalRating>().To<AppraisalRatingRepository>();
+
+;        }
     }
 }

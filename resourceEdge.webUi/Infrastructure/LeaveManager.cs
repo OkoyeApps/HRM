@@ -185,5 +185,44 @@ namespace resourceEdge.webUi.Infrastructure
         {
            return LeaveRepo.AllLeaveRequestForConfirmation().ToList();
         }
+        public bool AllotCollectiveLeave(string[] allotedDays, string[] splitId, string AllotYear, string userId) //Change this allot year to a dateTime and also change this to a dictionary
+        {
+            if (allotedDays != null && splitId != null)
+            {
+                EmployeeLeaves leave = new EmployeeLeaves();
+                for (int id = 0, allotTime = 0; id < splitId.Length; id++, allotTime++)
+                {
+                    leave.UserId = splitId[id];
+                    leave.AllotedYear = int.Parse(AllotYear);
+                    leave.EmpLeaveLimit = double.Parse(allotedDays[allotTime]);
+                    leave.Createdby = userId;
+                    leave.Modifiedby = userId;
+                    leave.UsedLeaves = null;
+                    leave.Isactive = true;
+                    leave.IsLeaveTrasnferSet = null;
+                    LeaveRepo.AllotEmployeeLeave(leave);
+                }
+                    return true;
+            }
+            return false;
+        }
+        public bool allotIndividualLeave(string allotDays, string id, string year, string userId)
+        {
+            EmployeeLeaves leave = new EmployeeLeaves();
+            if (allotDays != null && id != null && userId != null)
+            {
+                leave.UserId = id;
+                leave.AllotedYear = int.Parse(year);
+                leave.EmpLeaveLimit = double.Parse(allotDays);
+                leave.Createdby = userId;
+                leave.Modifiedby = userId;
+                leave.UsedLeaves = null;
+                leave.Isactive = true;
+                leave.IsLeaveTrasnferSet = null;
+                LeaveRepo.AllotEmployeeLeave(leave);
+                return true;
+            }
+            return false;
+        }
     }
 }

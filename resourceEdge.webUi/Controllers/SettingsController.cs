@@ -51,15 +51,19 @@ namespace resourceEdge.webUi.Controllers
 
         [Route("api/Settings/GetEmployeeCode")]
         [HttpGet]
-        public IHttpActionResult EmployeeCode()
-        {
-            return Ok(Apimanager.GetIdntityList());
-        }
-        [Route("api/Settings/GetEmployeeCode/{id:int}")]
-        [HttpGet]
         public IHttpActionResult EmployeeCode(int id)
         {
-            return Ok(Apimanager.GetIdntityList());
+            return Ok(Apimanager.GetIdntityListByGroup(id));
+        }
+        [Route("api/Settings/GetEmployeeCodeByGroup/{id:int}")]
+        [HttpGet]
+        public IHttpActionResult EmployeeCodeById(int? id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+            return Ok(Apimanager.GetIdntityListByGroup(id.Value));
         }
 
         [Route("api/Settings/GetBusinessUnit")]
@@ -317,7 +321,7 @@ namespace resourceEdge.webUi.Controllers
             }
             return Ok(result);
         }
-        [Route("api/settings/GetBusinessunitByLocation/")]
+        [Route("api/settings/GetBusinessunitByLocation/{id}")]
         [HttpGet]
         public IHttpActionResult GetBusinessunitByLocation(int? id=null)
         {
@@ -328,6 +332,38 @@ namespace resourceEdge.webUi.Controllers
             }
             return Ok(result);
         }
+        [Route("api/settings/GetLocationByGroup/{id:int}")]
+        [HttpGet]
+        public IHttpActionResult GetLocationByGroup(int? id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+            var result = Apimanager.GetLocationByGroup(id.Value);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
+
+        [Route("api/settings/GetAllHrsByGroup/{id:int}")]
+        [HttpGet]
+        public IHttpActionResult GetAllHrsByGroup(int? id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+            var result = Apimanager.GetAllHrsByGroup(id.Value);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
+        
 
         // POST: api/Settings
         public void Post([FromBody]string value)

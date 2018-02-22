@@ -38,4 +38,16 @@ namespace resourceEdge.Domain.Infrastructures
     {
         High = 1, Low, Medium
     }
+    public enum EnableTo
+    {
+        Manager = 1, Employee
+    }
+    public enum AppraisalMode
+    {
+        Quarterly = 1, Half_Yearly, Yearly
+    }
+    public enum AppraisalStatus
+    {
+        Open = 1, Closed, In_Progress
+    }
 }

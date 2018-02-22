@@ -64,6 +64,12 @@ namespace resourceEdge.Domain.Entities
         public DbSet<Careers> Careers { get; set; }
         public DbSet<CareerPath> CareerPath { get; set; }
         public DbSet<Location> Location { get; set; }
+        public DbSet<ActivityLogs> ActivityLog { get; set; }
+        public DbSet<Groups> Groups { get; set; }
+        public DbSet<AppraisalMode> AppraisalMode { get; set; }
+        public DbSet<AppraisalPeriods> AppraisalPeriods { get; set; }
+        public DbSet<AppraisalRating> ApprasialRatings { get; set; }
+        public DbSet<AppraisalStatus> AppraisalStatus { get; set; }
 
     }
     

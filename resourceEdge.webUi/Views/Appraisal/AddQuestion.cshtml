@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Contact";
+    Layout = "~/Views/Shared/HRLayout.cshtml";
+}
+<div class="alert alert-danger hidden" id="overload">
+    <span>Sorry you can't add more than Ten(10) questions at a time. kindly submit and then add again</span>
+</div>
+
+@using (Html.BeginForm("AddQuestion", "Appraisal", FormMethod.Post, new { returnurl = ViewBag.returnUrl }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal" >
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="col-md-4">
+            @Html.Label("Parameters", htmlAttributes: new { @class = "control-label " })
+            <div>
+                @Html.DropDownList("parameters", (SelectList)ViewBag.parameter, "Select Parameter", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "form-control bs-select" })
+                @Html.ValidationMessage("parameter", "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <label for="questions" class="control-label col-md-2">Question</label>
+            <textarea cols="2" name="question[0]" id="questionid" class="form-control" required ></textarea>
+        </div>
+        <div class="col-md-4">
+            <label for="description" class="control-label col-md-2">Description</label>
+            <textarea cols="2" name="description[0]" id="questionid" class="form-control col-md-4" required></textarea>
+        </div>
+        <br />
+        <div id="questionId">
+
+        </div>
+        <button class="btn btn-primary blue icon icon-book-open" id="addquestion">Add New Question</button>
+        <div class="modal-footer">
+            <input type="submit" class="btn btn-success" value="Create">
+        </div>
+
+    </div>
+}
+
+@section Scripts{   
+<script src="~/Scripts/Pages/JS/Appraisal/Questions.js"></script>
+    }

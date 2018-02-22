@@ -67,7 +67,7 @@ namespace resourceEdge.webUi.Infrastructure
             EmployeeRepo = eParam;
             LeaveRepo = Lparam;
         }
-        public EmployeeManager(IEmployees EParam,IFiles fParam, ILeaveManagement lParam)
+        public EmployeeManager(IEmployees EParam, IFiles fParam, ILeaveManagement lParam)
         {
             FileRepo = fParam;
             LeaveRepo = lParam;
@@ -88,7 +88,7 @@ namespace resourceEdge.webUi.Infrastructure
             EmployeeRepo = EParam;
             ReportManagerRepo = RParam;
         }
-    
+
         public class EmployeeListItem
         {
             public int empID { get; set; }
@@ -138,10 +138,10 @@ namespace resourceEdge.webUi.Infrastructure
                 if (employees != null)
                 {
                     return employees;
-                }              
+                }
                 EmployeeRepo.GetReportManagers(ReportManagers.FirstOrDefault().managerId, ReportManagers.FirstOrDefault().BusinessUnitId);
                 // var employee = context.employees.Where(x => x.businessunitId == ReportManager.BusinessUnitId && x.empRoleId == 2).ToList();
-               // var employee = EmployeeRepo.GetReportManagers();
+                // var employee = EmployeeRepo.GetReportManagers();
                 //if (employee != null)
                 //{
                 //    return employee;
@@ -156,13 +156,13 @@ namespace resourceEdge.webUi.Infrastructure
 
         public Employees CheckIfEmployeeExistByUserId(string userId)
         {
-            
+
             return EmployeeRepo.CheckIfEmployeeExistByUserId(userId);
         }
 
         public List<Employees> GetEmployeeByDept(int dept)
         {
-        return EmployeeRepo.GetEmployeeByDepts(dept);
+            return EmployeeRepo.GetEmployeeByDepts(dept);
         }
 
         public List<Employees> GetUnitHeads(int unitId)
@@ -172,7 +172,7 @@ namespace resourceEdge.webUi.Infrastructure
 
         public List<Employees> GetHr()
         {
-                return EmployeeRepo.GetHrs();
+            return EmployeeRepo.GetHrs();
         }
 
         public List<Employees> GetEmployeeUnitMembers(int unitId)
@@ -217,7 +217,7 @@ namespace resourceEdge.webUi.Infrastructure
             catch (Exception ex)
             {
                 return false;
-                throw ex;    
+                throw ex;
             }
         }
 
@@ -294,7 +294,7 @@ namespace resourceEdge.webUi.Infrastructure
                 {
                     return manager;
                 }
-            }     
+            }
             return null;
         }
         public bool ReportManagerCount(string userId)
@@ -325,7 +325,7 @@ namespace resourceEdge.webUi.Infrastructure
             public EmployeeEdit()
             {
             }
-            public EmployeeEdit(IEmployees eParam, IFiles fParam, ILeaveManagement lParam, IPayroll payParam) : base(eParam, fParam,lParam,payParam)
+            public EmployeeEdit(IEmployees eParam, IFiles fParam, ILeaveManagement lParam, IPayroll payParam) : base(eParam, fParam, lParam, payParam)
             {
 
             }
@@ -440,7 +440,7 @@ namespace resourceEdge.webUi.Infrastructure
                     var job = unitofWork.jobTitles.GetByID(employee.jobtitleId);
                     var position = unitofWork.positions.GetByID(employee.positionId);
                     var avatar = unitofWork.Files.Get(filter: x => x.UserId == employee.userId && x.FileType == FileType.Avatar).FirstOrDefault();
-                    var Salary = unitofWork.PayRoll.Get(filter:  x => x.UserId == employee.userId).SingleOrDefault();
+                    var Salary = unitofWork.PayRoll.Get(filter: x => x.UserId == employee.userId).SingleOrDefault();
                     var leave = unitofWork.LRequest.Get(filter: x => x.UserId == employee.userId).ToList();
                     return Tuple.Create(employee, empUserDetails, avatar, job, position, Salary, leave);
                 }
@@ -510,5 +510,6 @@ namespace resourceEdge.webUi.Infrastructure
                 }
                 return Tuple.Create(employee, Images, empUserDetails, AllLogins);
             }
+        }
     }
 }

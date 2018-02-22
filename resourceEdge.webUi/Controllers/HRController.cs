@@ -31,13 +31,13 @@ namespace resourceEdge.webUi.Controllers
         IFiles FileRepo;
         ILevels levelRepo;
         ILocation LocationRepo;
-
+        IGroups GroupRepo;
         ApplicationDbContext db;
         private ApplicationUserManager userManager;
 
 
         public HRController(IEmployees empParam, IBusinessUnits busParam, IReportManager rParam, Rolemanager RoleParam, 
-            ApplicationDbContext dbParam, IEmploymentStatus SParam, IFiles FParam, ILocation LRepo, ILevels levelParam)
+            ApplicationDbContext dbParam, IEmploymentStatus SParam, IFiles FParam, ILocation LRepo, ILevels levelParam, IGroups gParam)
         {
             db = dbParam;
             UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
@@ -52,6 +52,7 @@ namespace resourceEdge.webUi.Controllers
             empdetail = new EmployeeManager.EmployeeDetails();
             levelRepo = levelParam;
             LocationRepo = LRepo;
+            GroupRepo = gParam;
         }
         public ApplicationUserManager UserManager
         {
@@ -111,6 +112,7 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.jobTitles = new SelectList(Apimanager.JobList().OrderBy(x => x.JobName), "JobId", "JobName", "JobId");
             ViewBag.Levels = new SelectList(levelRepo.Get().OrderBy(x=>x.levelNo), "Id","LevelNo","Id");
             ViewBag.Locations = new SelectList(LocationRepo.Get().OrderBy(x => x.State), "Id", "State", "Id");
+            ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(X => X.Id), "Id", "GroupName", "Id");
             return View();
         }
 
@@ -121,7 +123,7 @@ namespace resourceEdge.webUi.Controllers
             Employees realEmployee = new Employees();
             ReportManagers manager = null;
             var RealUserId = employees.identityCode + employees.empUserId;
-            var EmployeeIdExist = Infrastructure.UserManager.checkEmployeeId(RealUserId);
+            var EmployeeIdExist = Infrastructure.UserManager.checkEmployeeId(RealUserId, employees.empEmail);
             var validDate = validateDates(employees.dateOfJoining.Value, employees.dateOfLeaving.Value);
             if (ModelState.IsValid)
             {
@@ -148,6 +150,7 @@ namespace resourceEdge.webUi.Controllers
                         realEmployee.yearsExp = employees.yearsExp;
                         realEmployee.LevelId = employees.Level;
                         realEmployee.Location = unitDetail.LocationId.Value;
+                        realEmployee.GroupId = employees.GroupId;
                         realEmployee.isactive = true;
                         var CreatedDate = realEmployee.createddate = DateTime.Now;
                         var modifiedDate = realEmployee.modifieddate = DateTime.Now;
@@ -157,8 +160,9 @@ namespace resourceEdge.webUi.Controllers
                                  RealUserId, employees.jobtitleId.ToString(), null, null, User.Identity.GetUserId(), employees.modeofEmployement.ToString(),
                                   employees.dateOfJoining, null, true, employees.departmentId.ToString(), employees.businessunitId.ToString());
                             if (newCreatedUser.Id != null)
-                            {  
-                                if (User.IsInRole("Manager"))
+                            {
+                               var role =  db.Roles.Find(employees.empRoleId.ToString());
+                                if (role.Name.ToLower() == "manager" )
                                 {
                                     realEmployee.IsUnithead = true;
                                     manager = new ReportManagers();
@@ -168,6 +172,11 @@ namespace resourceEdge.webUi.Controllers
                                 empRepo.Insert(realEmployee);
                                 if (manager != null)
                                 {
+                                    manager.BusinessUnitId = employees.businessunitId;
+                                    manager.DepartmentId = employees.departmentId;
+                                    manager.employeeId = realEmployee.empID;
+                                    manager.FullName = realEmployee.FullName;
+                                    manager.managerId = realEmployee.userId;
                                     employeeManager.AssignReportManager(manager);
                                 }
                                
@@ -179,13 +188,16 @@ namespace resourceEdge.webUi.Controllers
                             throw ex;
                         }
                         ViewBag.Success = "Employee Created Successfully";
+                        ModelState.AddModelError("", "Employee Created Successfully");
                         return Redirect(returnUrl);
                     }
                     ViewBag.Error = "Sorry, Please the entry date must not be less than or equal to the Exit Date Please try Again";
+                    ModelState.AddModelError("", "Sorry, Please the entry date must not be less than or equal to the Exit Date Please try Again");
                     return Redirect(returnUrl);
                 }
                 ViewBag.Error = $"Sorry Employee with this Id { employees.empID } already exist in the System Please try Again";
-                return Redirect(returnUrl);
+                ModelState.AddModelError("", "Sorry Employee with this Id { employees.empID } already exist in the System Please try Again");
+                //return Redirect(returnUrl);
             }
             ViewBag.Error = $"The employee {RealUserId} already exist in the system";
             ViewBag.EmpStatus = new SelectList(statusRepo.Get().Select(x => new { name = x.employemntStatus, id = x.empstId }).OrderBy(x => x.name), "id", "name", "id");
@@ -279,58 +291,35 @@ namespace resourceEdge.webUi.Controllers
 
 
 //Call the Dispose method later
-        public void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-               Dispose();
-            }
-            if (empRepo != null)
-            {
-                empRepo = null;
-            }
-            if (BunitsRepo != null)
-            {
-                BunitsRepo = null;
-            }
-            if (ReportRepo != null)
-            {
-                ReportRepo = null;
-            }
-            if (employeeManager != null)
-            {
-                employeeManager = null;
-            }
-            if (RoleManager != null)
-            {
-                RoleManager = null;
-            }
-            this.Dispose();
-        }
+        //public void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //       Dispose();
+        //    }
+        //    if (empRepo != null)
+        //    {
+        //        empRepo = null;
+        //    }
+        //    if (BunitsRepo != null)
+        //    {
+        //        BunitsRepo = null;
+        //    }
+        //    if (ReportRepo != null)
+        //    {
+        //        ReportRepo = null;
+        //    }
+        //    if (employeeManager != null)
+        //    {
+        //        employeeManager = null;
+        //    }
+        //    if (RoleManager != null)
+        //    {
+        //        RoleManager = null;
+        //    }
+        //    this.Dispose();
+        //}
     }
-    //protected override void Dispose(bool disposing)
-    //{
-    //    if (disposing)
-    //    {
-    //        if ( RoleManager != null)
-    //        {
-    //            RoleManager.Dispose();
-    //            RoleManager = null;
-    //        }
 
-    //        if (employeeManager != null)
-    //        {
-    //            employeeManager.Dispose();
-    //            employeeManager = null;
-    //        }
-    //        if (userManager != null)
-    //        {
-    //            userManager.Dispose();
-    //            userManager = null;
-    //        }
-    //    }
-
-    //    base.Dispose(disposing);
-    //}
 }
 

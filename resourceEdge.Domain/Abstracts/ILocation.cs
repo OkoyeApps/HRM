@@ -9,5 +9,6 @@ namespace resourceEdge.Domain.Abstracts
 {
     public interface ILocation : GenericInterface<Location>
     {
+       IEnumerable<Location> GetLocationByGroup(int id);
     }
 }

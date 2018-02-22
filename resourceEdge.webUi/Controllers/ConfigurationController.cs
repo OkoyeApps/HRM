@@ -28,6 +28,7 @@ namespace resourceEdge.webUi.Controllers
         ILevels levelRepo;
         ICareers careerRepo;
         ILocation LocationRepo;
+        IGroups GroupRepo;
         ConfigurationManager ConfigManager;
         public ApplicationUserManager UserManager
         {
@@ -36,14 +37,14 @@ namespace resourceEdge.webUi.Controllers
         }
         public ApplicationUser LoggedInUser() {return UserManager.FindById(User.Identity.GetUserId());}
 
-        public ConfigurationController()
-        {
+        //public ConfigurationController()
+        //{
 
-        }
+        //}
 
         public ConfigurationController(IBusinessUnits BParam, IDepartments DParam, IidentityCodes idCodes, IJobtitles jParam, 
             IPositions pParam, IPrefixes prparam, IEmploymentStatus status, ILeaveManagement lParam, ILevels levelParam, 
-            ILocation locationParam, ICareers CareerParam)
+            ILocation locationParam, ICareers CareerParam, IGroups Gparam)
         {
             this.BusinessRepo = BParam;
             this.DeptRepo = DParam;
@@ -56,6 +57,7 @@ namespace resourceEdge.webUi.Controllers
             this.careerRepo = CareerParam;
             this.levelRepo = levelParam;
             LocationRepo = locationParam;
+            this.GroupRepo = Gparam;
             ConfigManager = new ConfigurationManager(BParam);
         }
         public ActionResult Index()
@@ -70,6 +72,7 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult AddCode(string returnUrl)
         {
             ViewBag.returnUrl = returnUrl;
+            ViewBag.Groups =new SelectList(GroupRepo.Get().OrderBy(X=>X.Id), "Id", "GroupName", "Id");
             return PartialView(new IdentityCodes());
         }
         [HttpPost]
@@ -157,6 +160,7 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult addBusinessUnits()
         {
             ViewBag.Locations = new SelectList(LocationRepo.Get().OrderBy(x => x.State), "Id", "State", "Id");
+            ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(x => x.GroupName), "Id", "GroupName", "Id");
             return View();
         }
 
@@ -186,7 +190,8 @@ namespace resourceEdge.webUi.Controllers
                     unit.descriptions = model.descriptions;
                     unit.unitcode = model.unitcode;
                     unit.unitname = model.unitname;
-                    unit.startdate = unit.startdate;
+                    unit.startdate = model.startdate;
+                    unit.GroupId = model.GroupId;
                     unit.createdby = User.Identity.GetUserId();
                     unit.createddate = DateTime.Now;
                     unit.modifiedby = User.Identity.GetUserId();
@@ -206,7 +211,7 @@ namespace resourceEdge.webUi.Controllers
             
                 TempData["Error"] = "Something went wrong. please make sure you fill all the appropriate details";
             ViewBag.Locations = new SelectList(LocationRepo.Get().OrderBy(x => x.State), "Id", "State", "Id");
-            return View();
+            return View(model);
         }
 
         public ActionResult EditUnit(int? id)
@@ -534,6 +539,7 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult AddLocation(string returnUrl)
         {
             ViewBag.returnUrl = returnUrl;
+            ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(X => X.Id), "Id", "GroupName", "Id");
             return View();
         }
         [HttpPost]
@@ -554,6 +560,7 @@ namespace resourceEdge.webUi.Controllers
                     location.ModifiedBy = User.Identity.GetUserId();
                     location.CreatedOn = DateTime.Now;
                     location.ModifiedOn = DateTime.Now;
+                    location.GroupId = model.GroupId;
                     LocationRepo.Insert(location);
                     ModelState.Clear();
                     return Redirect(returnUrl);
@@ -588,6 +595,40 @@ namespace resourceEdge.webUi.Controllers
                     career.CreatedOn = DateTime.Now;
                     career.ModifiedOn = DateTime.Now;
                     careerRepo.Insert(career);
+                    ModelState.Clear();
+                    return Redirect(returnUrl);
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                throw ex;
+            }
+            ModelState.AddModelError("", "please refill the form and make try submitting again");
+            return View(model);
+        }
+
+        public ActionResult AddGroup(string returnUrl)
+        {
+            ViewBag.returnUrl = returnUrl;
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddGroup(GroupViewModel model, string returnUrl)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    Groups Group = new Groups();
+                    Group.GroupName = model.GroupName;
+                    Group.Descriptions = model.Descriptions;
+                    Group.CreatedBy = User.Identity.GetUserId();
+                    Group.ModifiedBy = User.Identity.GetUserId();
+                    Group.CreatedDate = DateTime.Now;
+                    Group.ModifiedDate = DateTime.Now;
+                    GroupRepo.Insert(Group);
                     ModelState.Clear();
                     return Redirect(returnUrl);
                 }

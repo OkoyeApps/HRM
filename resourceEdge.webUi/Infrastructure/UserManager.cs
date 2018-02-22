@@ -114,10 +114,10 @@ namespace resourceEdge.webUi.Infrastructure
                 throw ex;
             }
         }
-        public static bool checkEmployeeId(string id)
+        public static bool checkEmployeeId(string id, string email)
         {
-            var user = context.Users.Any(x => x.employeeId == id);
-            if (user == true)
+            var user = context.Users.Where(x => x.employeeId == id || x.Email == email).FirstOrDefault();
+            if (user != null)
             {
                 return true;
             }

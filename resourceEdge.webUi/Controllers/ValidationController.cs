@@ -1,4 +1,5 @@
-﻿using resourceEdge.webUi.Infrastructure;
+﻿using Microsoft.AspNet.Identity;
+using resourceEdge.webUi.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,8 +38,6 @@ namespace resourceEdge.webUi.Controllers
         }
         public JsonResult validateDate(DateTime? Date1, DateTime? Date2)
         {
-           //var mainDate1 =  DateTime.Parse(Date1);
-           // var mainDate2 = DateTime.Parse(Date2);
             if (Date1 != null && Date2 != null)
             {
             var result = validation.validateDates(Date1.Value, Date2.Value);
