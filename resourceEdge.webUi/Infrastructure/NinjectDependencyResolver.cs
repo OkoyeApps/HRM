@@ -60,7 +60,8 @@ namespace resourceEdge.webUi.Infrastructure
             kernel.Bind<IAppraisalMode>().To<AppraisalModeRepository>();
             kernel.Bind<IAppriaslPeriods>().To<AppraisalPeriodRepository>();
             kernel.Bind<IAppraisalRating>().To<AppraisalRatingRepository>();
-
-;        }
+            kernel.Bind<IAppraisalInitialization>().To<AppraisalInitializationRepository>();
+            kernel.Bind<IAppraisalConfiguration>().To<AppraisalConfigurationRepository>();
+        }
     }
 }

@@ -248,6 +248,7 @@
     </Compile>
     <Compile Include="Infrastructure\AdminManager.cs" />
     <Compile Include="Infrastructure\Apimanager.cs" />
+    <Compile Include="Infrastructure\AppraisalManager.cs" />
     <Compile Include="Infrastructure\BackendValidationManager.cs" />
     <Compile Include="Infrastructure\ConfigurationManager.cs" />
     <Compile Include="Infrastructure\DbInitializer.cs" />
@@ -5590,6 +5591,7 @@
     <Content Include="Scripts\jquery.signalR-2.2.2.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.min.js" />
     <Content Include="Scripts\Pages\JS\Admin\AssignHeadHr.js" />
+    <Content Include="Scripts\Pages\JS\Appraisal\initilize.js" />
     <Content Include="Scripts\Pages\JS\Appraisal\Questions.js" />
     <Content Include="Scripts\Pages\JS\Configuration\addunit.js" />
     <Content Include="Scripts\Pages\JS\Employee\Details.js" />
@@ -5679,6 +5681,7 @@
     <Content Include="Views\Appraisal\AddParameter.cshtml" />
     <Content Include="Views\Appraisal\AddRating.cshtml" />
     <Content Include="Views\Appraisal\InitilizeAppraisal.cshtml" />
+    <Content Include="Views\Appraisal\AllInitializedAppraisal.cshtml" />
     <None Include="Views\Shared\mainLayout2.cshtml" />
     <Content Include="MainScript.js" />
     <Content Include="Plugins\Css\bootstrap-modal-bs3patch.css" />

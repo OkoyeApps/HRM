@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNet.Identity;
 using resourceEdge.Domain.Abstracts;
 using resourceEdge.Domain.Entities;
+using resourceEdge.webUi.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -13,24 +15,38 @@ namespace resourceEdge.webUi.Controllers
     {
         IParameter ParameterRepo;
         IQuestions QuestionRepo;
+        IGroups GroupRepo;
         ISkills skillRepo;
         IRating RatingRepo;
-        IGroups GroupRepo;
-        public AppraisalController(IParameter param, IQuestions questParam, ISkills skillParam, IRating RParam, IGroups GParam)
+        IAppraisalMode ApraisalModeRepo;
+        IAppraisalStatus AppraisalStatusRepo;
+        IAppraisalRating AppraisalRatingRepo;
+        IAppraisalMode AppraisalMode;
+        IAppraisalInitialization InitializtionRepo;
+        AppraisalManager AppraisalManager;
+        public AppraisalController(IParameter param, IQuestions questParam, ISkills skillParam, IRating RParam, IGroups GParam,
+            IAppraisalMode ModeParam, IAppraisalStatus statusParams, IAppraisalRating appratingParam, IAppraisalMode AppMode,
+            IAppraisalInitialization InitializtionParam
+            )
         {
             ParameterRepo = param;
             QuestionRepo = questParam;
             skillRepo = skillParam;
             RatingRepo = RParam;
             GroupRepo = GParam;
+            ApraisalModeRepo = ModeParam;
+            AppraisalStatusRepo = statusParams;
+            AppraisalRatingRepo = appratingParam;
+            AppraisalMode = AppMode;
+            InitializtionRepo = InitializtionParam;
+            AppraisalManager = new AppraisalManager();
         }
         public ActionResult AddParameter()
         {
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult AddParameter(ParameterViewModel model, string returnUrl)
         {
             try
@@ -66,8 +82,7 @@ namespace resourceEdge.webUi.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult AddQuestion(FormCollection collection, string returnUrl)
         {
             Dictionary<string, object> myDictionary = new Dictionary<string, object>();
@@ -106,8 +121,7 @@ namespace resourceEdge.webUi.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult AddSkills(SkillViewModel model)
         {
             try
@@ -143,8 +157,7 @@ namespace resourceEdge.webUi.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult AddRating(FormCollection collection)
         {
             Dictionary<string, object> myDictionary = new Dictionary<string, object>();
@@ -158,7 +171,7 @@ namespace resourceEdge.webUi.Controllers
                     for (int i = 0; i < allquestions.Count; i++)
                     {
                         var question = myDictionary[allquestions[i]].ToString();
-                        AppraisalRating Rating = new AppraisalRating()
+                        Ratings Rating = new Ratings()
                         {
                             RatingValue = i,
                             RatingText = myDictionary[allquestions[i]].ToString(),
@@ -181,21 +194,72 @@ namespace resourceEdge.webUi.Controllers
             return View();
         }
 
+        public ActionResult AllInitializedAppraisal()
+        {
+            return View(AppraisalManager.GetAllInitialization());
+        }
+
         public ActionResult InitilizeAppraisal()
         {
             ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(x => x.GroupName), "Id", "GroupName", "Id");
-            //ViewBag.Eligibility = 
+            ViewBag.RatingType = new SelectList(AppraisalRatingRepo.Get().OrderBy(x => x.Name), "Id", "Name", "Id");
+            ViewBag.appStatus = new SelectList(AppraisalStatusRepo.Get().OrderBy(x => x.Name), "Id", "Name", "Id");
+            ViewBag.appMode = new SelectList(AppraisalMode.Get().OrderBy(X => X.Name), "Id", "Name", "Id");
             return View();
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult InitilizeAppraisal(AppraisalInitilizationViewModel model)
+        {
+            var aa =AppraisalManager.InitializationCodeGeneration(10, false);
+            var period = AppraisalManager.GetPeriodByName(model.Period);
+            if (ModelState.IsValid)
+            {
+                AppraisalInitialization initilize = new AppraisalInitialization()
+                {
+                    GroupId = model.Group,
+                    AppraisalMode = model.AppraisalMode,
+                    AppraisalStatus = model.AppraisalStatus,
+                    DueDate = model.DueDate,
+                    FromYear = model.FromYear.Year,
+                    InitilizationCode = aa,
+                    Period = period.Id,
+                    RatingType = model.RatingType,
+                    ToYear = model.ToYear.Year,
+                    CreatedBy = User.Identity.GetUserId(),
+                    ModifiedBy = User.Identity.GetUserId(),
+                    CreatedDate = DateTime.Now
+                };
+                InitializtionRepo.Insert(initilize);
+                ModelState.Clear();
+                ViewBag.Success = "Appraisal Initilzation Successful";
+                return RedirectToAction("AllInitializedAppraisal");
+            }
+            return RedirectToAction("InitilizeAppraisal");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult InitilizeAppraisal(AppraisalInitilizationViewModel model)
+        public ActionResult EnableAppraisal(int InitilizationId)
         {
-            if (ModelState.IsValid)
+            bool result = AppraisalManager.EnableAppraisal(InitilizationId);
+            if (result != false)
             {
-
+                ViewBag.Success = "Sucessfuly Enabled the Appraisal, Please wait while it is on-going";
+                return View("AllInitializedAppraisal");
             }
+            ViewBag.Error = "Something went wrong, please Try enabling again";
+            return View("AllInitializedAppraisal");
+        }
+
+        public ActionResult ConfigueAppraisal()
+        {
+            return View();
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult ConfigureAppraisal()
+        {
             return View();
         }
     }

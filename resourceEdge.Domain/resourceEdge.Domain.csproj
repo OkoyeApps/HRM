@@ -102,7 +102,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstracts\Appraisal\EmployeeRating.cs" />
+    <Compile Include="Abstracts\Appraisal\IAppraisalConfiguration.cs" />
+    <Compile Include="Abstracts\Appraisal\IAppraisalInitialization.cs" />
+    <Compile Include="Abstracts\Appraisal\IEmployeeRating.cs" />
     <Compile Include="Abstracts\Appraisal\IAppraisalMode.cs" />
     <Compile Include="Abstracts\Appraisal\IAppraisalRating.cs" />
     <Compile Include="Abstracts\Appraisal\IAppraisalStatus.cs" />
@@ -135,6 +137,8 @@
     <Compile Include="Abstracts\IRequisition.cs" />
     <Compile Include="Abstracts\ILocation.cs" />
     <Compile Include="Concrete\ActivityLogRepo.cs" />
+    <Compile Include="Concrete\Appraisal\AppraisalConfigurationRepository.cs" />
+    <Compile Include="Concrete\Appraisal\AppraisalInitializationRepository.cs" />
     <Compile Include="Concrete\Appraisal\AppraisalModeRepository.cs" />
     <Compile Include="Concrete\Appraisal\AppraisalPeriodRepository.cs" />
     <Compile Include="Concrete\Appraisal\AppraisalRatingRepository.cs" />
@@ -207,6 +211,7 @@
     <Compile Include="Entities\ActivityLogs.cs" />
     <Compile Include="Entities\AppraisalPeriods.cs" />
     <Compile Include="Entities\Appraisal\AppraisalHistory.cs" />
+    <Compile Include="Entities\Appraisal\AppraisalInitialization.cs" />
     <Compile Include="Entities\Appraisal\AppraisalMode.cs" />
     <Compile Include="Entities\Appraisal\AppraisalRating.cs" />
     <Compile Include="Entities\Appraisal\AppraisalStatus.cs" />

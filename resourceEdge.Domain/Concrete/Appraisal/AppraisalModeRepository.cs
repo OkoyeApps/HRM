@@ -16,25 +16,25 @@ namespace resourceEdge.Domain.Concrete
             throw new NotImplementedException();
         }
 
-        public IEnumerable<AppraisalStatus> Get() => unitOfWork.AppraisalStatus.Get();
+        public IEnumerable<AppraisalMode> Get() => unitOfWork.AppraisalMode.Get();
 
-        public AppraisalStatus GetById(int id)
+        public AppraisalMode GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public AppraisalStatus GetByUserId(string userId)
+        public AppraisalMode GetByUserId(string userId)
         {
             throw new NotImplementedException();
         }
 
-        public void Insert(AppraisalStatus entity)
+        public void Insert(AppraisalMode entity)
         {
-             unitOfWork.AppraisalStatus.Insert(entity);
+             unitOfWork.AppraisalMode.Insert(entity);
             unitOfWork.Save();
         }
 
-        public void update(AppraisalStatus entity)
+        public void update(AppraisalMode entity)
         {
             throw new NotImplementedException();
         }

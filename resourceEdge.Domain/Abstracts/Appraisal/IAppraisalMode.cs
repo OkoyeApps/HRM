@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Abstracts
 {
-    public interface IAppraisalMode : GenericInterface<AppraisalStatus>
+    public interface IAppraisalMode : GenericInterface<AppraisalMode>
     {
     }
 }

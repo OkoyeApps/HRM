@@ -451,21 +451,39 @@ namespace resourceEdge.Domain.Entities
 
     public class AppraisalInitilizationViewModel
     {
-        public int id { get; set; }
-        public int GroupId { get; set; }
-        public int? LocationId { get; set; }
-        public int? BusinessUnitId { get; set; }
-        public int? DepartmentId { get; set; }
+        [Key,HiddenInput(DisplayValue =false)]
+        public int Id { get; set; }
+        [Required(ErrorMessage = "Please this field is required")]
+        public int Group { get; set; }
+        [Required(ErrorMessage = "Please this field is required")]
         public DateTime FromYear { get; set; }
+        [Required(ErrorMessage = "Please this field is required")]
         public DateTime ToYear { get; set; }
+        [Required(ErrorMessage = "Please this field is required")]
         public int AppraisalMode { get; set; }
-        public int Period { get; set; }
-        public int AppraisalStatus { get; set; }
-        public int EnableTo { get; set; }
+        [Required(ErrorMessage = "Please this field is required")]
+        public string Period { get; set; }
+        [Required(ErrorMessage = "Please this field is required")]
         public DateTime DueDate { get; set; }
+        [Required(ErrorMessage = "Please this field is required")]
+        public string RatingType { get; set; }
+        [Required(ErrorMessage = "Please this field is required")]
+        public int AppraisalStatus { get; set; }
+    }
+    public class AppraisalConfigratuion
+    {
+        [Key,HiddenInput(DisplayValue =false)]
+        public int id { get; set; }
+        
+        public int? Location { get; set; }
+        public int? BusinessUnit { get; set; }
+        public int? Department { get; set; }
+        public int AppraisalStatus { get; set; }
+        [Required(ErrorMessage = "Please this field is required")]
+        public int EnableTo { get; set; }
+        [Required(ErrorMessage = "Please this field is required")]
         public SelectListItem Eligibility { get; set; }
         public SelectListItem Parameters { get; set; }
-        public string RatingType { get; set; }
         public bool? Enabled { get; set; }
     }
 }

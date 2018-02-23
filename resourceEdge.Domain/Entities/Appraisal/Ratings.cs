@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Entities
 {
-   public class AppraisalRating
+   public class Ratings
     {
         public int Id { get; set; }
         //public string PaConfiguredId { get; set; }

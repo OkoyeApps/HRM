@@ -10,18 +10,18 @@ namespace resourceEdge.Domain.Entities
         public EdgeDbContext()
             : base("name=ResourceDbContext")
         {
-            
+
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-           Configuration.LazyLoadingEnabled = false;
-          
+            Configuration.LazyLoadingEnabled = false;
+
             modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
-            
+
             modelBuilder.Entity<Employees>()
-                .HasRequired(x=>x.Departments)
+                .HasRequired(x => x.Departments)
                 .WithMany()
                 .HasForeignKey(x => x.departmentId)
                 .WillCascadeOnDelete(false);
@@ -33,7 +33,7 @@ namespace resourceEdge.Domain.Entities
                 .WillCascadeOnDelete(false);
 
             base.OnModelCreating(modelBuilder);
-                // throw new UnintentionalCodeFirstException();
+            // throw new UnintentionalCodeFirstException();
         }
 
         public virtual DbSet<Employees> employees { get; set; }
@@ -54,7 +54,7 @@ namespace resourceEdge.Domain.Entities
         public virtual DbSet<MonthList> MonthList { get; set; }
         public virtual DbSet<Months> Months { get; set; }
         public virtual DbSet<WeekDays> WeekDays { get; set; }
-       public virtual DbSet<Weeks> Weeks { get; set; }
+        public virtual DbSet<Weeks> Weeks { get; set; }
         public virtual DbSet<EmployeeLeaveTypes> LeaveType { get; set; }
         public DbSet<Requisition> Requisition { get; set; }
         public DbSet<EmpPayroll> Payroll { get; set; }
@@ -70,7 +70,10 @@ namespace resourceEdge.Domain.Entities
         public DbSet<AppraisalPeriods> AppraisalPeriods { get; set; }
         public DbSet<AppraisalRating> ApprasialRatings { get; set; }
         public DbSet<AppraisalStatus> AppraisalStatus { get; set; }
-
+        public DbSet<Ratings> Ratings { get; set; }
+        public DbSet<AppraisalConfiguration> AppraisalConfiguration { get;set;}
+        public DbSet<AppraisalInitialization> AppraisalInitialization { get; set; }
+        public DbSet<Parameters> Parameter { get; set; }
     }
     
 }

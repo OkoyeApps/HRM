@@ -8,7 +8,7 @@ using resourceEdge.Domain.Entities;
 
 namespace resourceEdge.Domain.Concrete
 {
-    public class RatingRepository : IRating
+    public class AppraisalInitializationRepository : IAppraisalInitialization
     {
         UnitofWork.UnitOfWork unitOfWork = new UnitofWork.UnitOfWork();
         public void Delete(int id)
@@ -16,30 +16,24 @@ namespace resourceEdge.Domain.Concrete
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Ratings> Get()
-        {
-            return unitOfWork.Ratings.Get();
-        }
+        public IEnumerable<AppraisalInitialization> Get() => unitOfWork.AppraisalInitialization.Get();
 
-        public Ratings GetById(int id)
-        {
-            return unitOfWork.Ratings.GetByID(id);
-        }
+        public AppraisalInitialization GetById(int id) => unitOfWork.AppraisalInitialization.GetByID(id);
 
-        public Ratings GetByUserId(string userId)
+        public AppraisalInitialization GetByUserId(string userId)
         {
             throw new NotImplementedException();
         }
 
-        public void Insert(Ratings entity)
+        public void Insert(AppraisalInitialization entity)
         {
-            unitOfWork.Ratings.Insert(entity);
+            unitOfWork.AppraisalInitialization.Insert(entity);
             unitOfWork.Save();
         }
 
-        public void update(Ratings entity)
+        public void update(AppraisalInitialization entity)
         {
-            unitOfWork.Ratings.Update(entity);
+            unitOfWork.AppraisalInitialization.Update(entity);
             unitOfWork.Save();
         }
     }

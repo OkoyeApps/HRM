@@ -365,6 +365,23 @@ namespace resourceEdge.webUi.Controllers
         }
         
 
+        [Route("api/settings/GetPeriodForAppraisal/{id:int}")]
+        [HttpGet]
+        public IHttpActionResult GetPeriodForAppraisal(int? id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+            var result = Apimanager.GetPeriodForAppraisal(id.Value);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
+
+
         // POST: api/Settings
         public void Post([FromBody]string value)
         {

@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Abstracts
 {
-    public interface IRating : GenericInterface<Ratings>
+  public  interface IAppraisalConfiguration : GenericInterface<AppraisalConfiguration>
     {
+        
     }
 }

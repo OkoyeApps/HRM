@@ -14,7 +14,7 @@ namespace resourceEdge.Domain.UnitofWork
     {
 
         private EdgeDbContext myContext;
-        private GenericRepository<BusinessUnits> businessRepo;
+        private GenericRepository<BusinessUnits> BusinessRepo;
         private GenericRepository<Departments> departmentRepo;
         private GenericRepository<Employees> employeesRepo;
         private GenericRepository<EmploymentStatus> employementStatusRepo;
@@ -30,23 +30,25 @@ namespace resourceEdge.Domain.UnitofWork
         private GenericRepository<LeaveRequest> leaveRequestRepo;
         private GenericRepository<Requisition> requistionRepo;
         private GenericRepository<EmpPayroll> PayrollRepo;
-        public GenericRepository<Files> FilesRepo;
-        public GenericRepository<Logins> LoginRepo;
-        public GenericRepository<Location> LocationRepo;
-        public GenericRepository<Levels> levelRepo;
-        public GenericRepository<Careers> careerRepo;
-        public GenericRepository<CareerPath> careerPathRepo;
-        public GenericRepository<ActivityLogs> activityLogRepo;
-        public GenericRepository<Groups> GroupRepo;
-        public GenericRepository<EmployeeRating> EmpRatingRepo;
-        public GenericRepository<AppraisalRating> RatingRepo;
-        public GenericRepository<Questions> QuestionRepo;
-        public GenericRepository<Skills> SkillRepo;
-        public GenericRepository<Parameters> parameterRepo;
-        public GenericRepository<AppraisalMode> AppraisalModeRepo;
-        public GenericRepository<AppraisalPeriods> AppraisalPeriodRepo;
-        public GenericRepository<AppraisalRating> AppraisalRatinRepo;
-        public GenericRepository<AppraisalStatus> AppraisalStatusRepo;
+        private GenericRepository<Files> FilesRepo;
+        private GenericRepository<Logins> LoginRepo;
+        private GenericRepository<Location> LocationRepo;
+        private GenericRepository<Levels> levelRepo;
+        private GenericRepository<Careers> careerRepo;
+        private GenericRepository<CareerPath> careerPathRepo;
+        private GenericRepository<ActivityLogs> activityLogRepo;
+        private GenericRepository<Groups> GroupRepo;
+        private GenericRepository<EmployeeRating> EmpRatingRepo;
+        private GenericRepository<Ratings> RatingRepo;
+        private GenericRepository<Questions> QuestionRepo;
+        private GenericRepository<Skills> SkillRepo;
+        private GenericRepository<Parameters> parameterRepo;
+        private GenericRepository<AppraisalMode> AppraisalModeRepo;
+        private GenericRepository<AppraisalPeriods> AppraisalPeriodRepo;
+        private GenericRepository<AppraisalRating> AppraisalRatinRepo;
+        private GenericRepository<AppraisalStatus> AppraisalStatusRepo;
+        private GenericRepository<AppraisalInitialization> AppraisalInitilizationRepo;
+        private GenericRepository<AppraisalConfiguration> AppraisalConfigurationRepo;
         public EdgeDbContext Context
         {
             get
@@ -69,7 +71,7 @@ namespace resourceEdge.Domain.UnitofWork
 
         public GenericRepository<BusinessUnits> BusinessUnit
         {
-            get { return this.businessRepo ?? new GenericRepository<BusinessUnits>(Context); }
+            get { return this.BusinessRepo ?? new GenericRepository<BusinessUnits>(Context); }
         }
         public GenericRepository<Departments> Department
         {
@@ -124,7 +126,7 @@ namespace resourceEdge.Domain.UnitofWork
         }
         public GenericRepository<LeaveRequest> LRequest
         {
-            get { return this.leaveRequestRepo ?? new GenericRepository<LeaveRequest>(Context); }
+            get { return leaveRequestRepo ?? new GenericRepository<LeaveRequest>(Context); }
         }
 
         public GenericRepository<Requisition> Requisition
@@ -181,9 +183,9 @@ namespace resourceEdge.Domain.UnitofWork
         {
             get { return this.EmpRatingRepo ?? new GenericRepository<EmployeeRating>(Context); }
         }
-        public GenericRepository<AppraisalRating> Ratings
+        public GenericRepository<Ratings> Ratings
         {
-            get { return this.RatingRepo ?? new GenericRepository<AppraisalRating>(Context); }
+            get { return this.RatingRepo ?? new GenericRepository<Ratings>(Context); }
         }
         public GenericRepository<Parameters> Parameters
         {
@@ -204,6 +206,14 @@ namespace resourceEdge.Domain.UnitofWork
         public GenericRepository<AppraisalStatus> AppraisalStatus
         {
             get { return this.AppraisalStatusRepo ?? new GenericRepository<Entities.AppraisalStatus>(Context); }
+        }
+        public GenericRepository<AppraisalInitialization> AppraisalInitialization
+        {
+            get { return this.AppraisalInitilizationRepo ?? new GenericRepository<Entities.AppraisalInitialization>(Context); }
+        }
+        public GenericRepository<AppraisalConfiguration> AppraisalConfiguration
+        {
+            get { return this.AppraisalConfiguration ?? new GenericRepository<AppraisalConfiguration>(Context); }
         }
         public void Save()
         {

@@ -427,6 +427,7 @@ namespace resourceEdge.webUi.Infrastructure
             var units = unitOfWork.BusinessUnit.Get(x => x.LocationId == location).ToList();
             return units ?? null;
         }
+
         public static List<Location> GetLocationByGroup(int id)
         {
             var result = unitOfWork.GetDbContext().Location.Where(x => x.GroupId == id).ToList();
@@ -437,6 +438,29 @@ namespace resourceEdge.webUi.Infrastructure
             var result = unitOfWork.GetDbContext().employees.Where(X => X.GroupId == id && X.empRoleId == 3).ToList();
             return result ?? null;
         }
+
+        public static AppraisalPeriods GetPeriodForAppraisal(int appraisalModeId)
+        {
+            var result = unitOfWork.GetDbContext().AppraisalMode.Where(x => x.Id == appraisalModeId).SingleOrDefault();
+            var period = unitOfWork.GetDbContext().AppraisalPeriods.ToList();
+            if (result != null)
+            {
+                if (result.Name.StartsWith("Q"))
+                {
+                    return period.Find(x => x.Name.StartsWith("Q"));
+                }
+                if (result.Name.StartsWith("H"))
+                {
+                    return period.Find(x => x.Name.StartsWith("H"));
+                }
+                if (result.Name.StartsWith("Y"))
+                {
+                    return period.Find(x => x.Name.StartsWith("Y"));
+                }
+            }
+            return null;
+        }
+
         public static List<Months> GetAllMonths()
         {
            return unitOfWork.GetDbContext().Months.ToList();
