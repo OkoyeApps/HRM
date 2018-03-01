@@ -74,6 +74,7 @@ namespace resourceEdge.Domain.Entities
         public DbSet<AppraisalConfiguration> AppraisalConfiguration { get;set;}
         public DbSet<AppraisalInitialization> AppraisalInitialization { get; set; }
         public DbSet<Parameters> Parameter { get; set; }
+        public DbSet<SubscribedAppraisal> SubscribedAppraisal { get; set; }
     }
     
 }

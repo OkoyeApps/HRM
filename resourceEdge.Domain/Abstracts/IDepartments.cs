@@ -14,5 +14,6 @@ namespace resourceEdge.Domain.Abstracts
         void addepartment(Departments department);
         void Updatedepartment(Departments department);
         void DeleteDepartment(int id);
+        List<Departments> GetDepartmentByUnit(int id);
     }
 }

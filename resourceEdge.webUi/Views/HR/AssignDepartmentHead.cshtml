@@ -1,0 +1,56 @@
+﻿@model resourceEdge.Domain.Entities.DepartmentHeadViewModel
+
+@{
+    Layout = "~/Views/Shared/HRLayout.cshtml";
+    var unit = ViewBag.businessUnits;
+}
+
+@using (Html.BeginForm())
+{
+
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>LeaveManagementViewModel</h4>
+        <hr />
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.Label("Business Unit", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (unit != null)
+                {
+                    @Html.DropDownListFor(x => x.BunitId, (SelectList)unit, htmlAttributes: new { @class = "form-control" })
+                }
+                @Html.ValidationMessageFor(model => model.BunitId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class = "control-label col-md-2">Department</label>
+            <div class="col-md-10">
+                <select class="form-control" id="departmentId"><option value="">Select Department</option></select>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Employee", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select id="Employees" name="userId" class="form-control"><option value="">Select Employee</option></select>
+                @Html.ValidationMessageFor(model => model.userId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/Pages/JS/HR/AssignManagers.js"></script>
+    <script src="~/Scripts/Pages/JS/HR/AssignDeptHead.js"></script>
+}
+
+

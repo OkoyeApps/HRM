@@ -28,5 +28,11 @@ namespace resourceEdge.Domain.Concrete
             unitOfWork.Department.Update(department);
             unitOfWork.Save();
         }
+
+        public List<Departments> GetDepartmentByUnit(int id)
+        {
+            var result = unitOfWork.Department.Get(filter: x => x.BunitId == id).ToList();
+            return result ?? null;
+        }
     }
 }

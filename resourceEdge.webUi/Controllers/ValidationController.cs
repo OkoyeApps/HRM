@@ -14,7 +14,7 @@ namespace resourceEdge.webUi.Controllers
         /// This Controller is used to only provide front end validation with the backend.
         /// It can be removed and yet no harm would be brought to the the project.
         /// i used this controller in order to use Ajax to perform validations from the backend
-        /// therefore this controller only return json result 
+        /// therefore this controller only return results 
         /// </summary>
         /// <returns >The result is always bool (True or False) where true means valid and false means not valid</returns>
         /// 
@@ -48,6 +48,12 @@ namespace resourceEdge.webUi.Controllers
                 return Json(new { messge = "True" }, JsonRequestBehavior.AllowGet);
             }
             return Json(new { message = "Invalid" }, JsonRequestBehavior.AllowGet);
+        }
+        [Route("subcription")]
+        public ViewResult NotSubscribed(string returnUrl)
+        {
+            ViewBag.returnUrl = returnUrl;
+            return View("NotSubscribed");
         }
     }
 }

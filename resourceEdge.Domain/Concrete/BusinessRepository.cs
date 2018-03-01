@@ -54,5 +54,11 @@ namespace resourceEdge.Domain.Concrete
             }
             return null;
         }
+
+        public List<BusinessUnits> GetUnitsByLocation(int locationId)
+        {
+            var result = unitOfWork.BusinessUnit.Get(filter: x => x.LocationId == locationId).ToList();
+            return result ?? null;
+        }
     }
 }

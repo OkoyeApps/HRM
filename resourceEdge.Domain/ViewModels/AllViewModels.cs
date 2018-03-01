@@ -257,8 +257,18 @@ namespace resourceEdge.Domain.Entities
     {
         
         [Required(ErrorMessage ="Please select an Employee ")]
-        public string userId { get; set; }
+        public string ManagerId { get; set; }
         [Required(ErrorMessage ="please select a Business unit")]
+        public string BunitId { get; set; }
+        public string EmpID { get; set; }
+    }
+
+    public class DepartmentHeadViewModel
+    {
+
+        [Required(ErrorMessage = "Please select an Employee ")]
+        public string userId { get; set; }
+        [Required(ErrorMessage = "please select a Business unit")]
         public string BunitId { get; set; }
         public string empID { get; set; }
     }
@@ -470,20 +480,24 @@ namespace resourceEdge.Domain.Entities
         [Required(ErrorMessage = "Please this field is required")]
         public int AppraisalStatus { get; set; }
     }
-    public class AppraisalConfigratuion
+    public class AppraisalConfigratuionViewModel
     {
-        [Key,HiddenInput(DisplayValue =false)]
-        public int id { get; set; }
+        public string id { get; set; }
         
         public int? Location { get; set; }
         public int? BusinessUnit { get; set; }
         public int? Department { get; set; }
         public int AppraisalStatus { get; set; }
         [Required(ErrorMessage = "Please this field is required")]
-        public int EnableTo { get; set; }
+        public EnableTo EnableTo { get; set; }
         [Required(ErrorMessage = "Please this field is required")]
-        public SelectListItem Eligibility { get; set; }
-        public SelectListItem Parameters { get; set; }
+        public int Eligibility { get; set; }
+        public int Parameters { get; set; }
+        [StringLength(10, ErrorMessage = "Please your code must be Ten(10) characters long", MinimumLength =10)]
+        public string Code { get; set; }
         public bool? Enabled { get; set; }
+        public string LineManager1 { get; set; }
+        public string LineManager2 { get; set; }
+        public string LineManager3 { get; set; }
     }
 }

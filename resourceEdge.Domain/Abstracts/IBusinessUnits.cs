@@ -10,6 +10,7 @@ namespace resourceEdge.Domain.Abstracts
     public interface IBusinessUnits : GenericInterface<BusinessUnits>
     {
        BusinessUnits DoesUnitExitByName(string Name);
-        BusinessUnits GetUnitByLocation(int locationId, string unitName);
+       BusinessUnits GetUnitByLocation(int locationId, string unitName);
+       List<BusinessUnits> GetUnitsByLocation(int locationId);
     }
 }

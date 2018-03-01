@@ -221,6 +221,7 @@
     <Compile Include="Entities\Appraisal\Questions.cs" />
     <Compile Include="Entities\Appraisal\Ratings.cs" />
     <Compile Include="Entities\Appraisal\Skills.cs" />
+    <Compile Include="Entities\Appraisal\SubscribedAppraisal.cs" />
     <Compile Include="Entities\BusinessUnits.cs" />
     <Compile Include="Entities\CareerPath.cs" />
     <Compile Include="Entities\Careers.cs" />

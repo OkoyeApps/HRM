@@ -99,5 +99,11 @@ namespace resourceEdge.Domain.Concrete
         {
             throw new NotImplementedException();
         }
+
+        public Employees GetEmployeeLazily(string userId)
+        {
+            var result = unitOfWork.employees.Get(filter: x=>x.userId == userId, includeProperties: "Location,Deparments, Levels,Groups").FirstOrDefault();
+            return result;
+        }
     }
 }

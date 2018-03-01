@@ -14,6 +14,7 @@ using resourceEdge.Domain.Abstracts;
 using Fluentx.Mvc;
 using System.Collections.Generic;
 using resourceEdge.Domain.Concrete;
+using resourceEdge.webUi.Infrastructure.Handlers;
 
 namespace resourceEdge.webUi.Controllers
 {
@@ -23,6 +24,7 @@ namespace resourceEdge.webUi.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private ILogin LoginRepo = new LoginRepository();
+       
         public AccountController()
         {
             
@@ -69,6 +71,7 @@ namespace resourceEdge.webUi.Controllers
 
         //
         // POST: /Account/Login
+        [AccountHandler]
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -85,8 +88,11 @@ namespace resourceEdge.webUi.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    
-                   // return UpdateLogin(model.Email, model.Password);
+
+                    // return UpdateLogin(model.Email, model.Password);
+                    var userId = SignInManager.AuthenticationManager.AuthenticationResponseGrant.Identity.GetUserId();
+                    TempData["UserId"] = userId;
+
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");

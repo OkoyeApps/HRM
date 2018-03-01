@@ -32,7 +32,7 @@ namespace resourceEdge.Domain.Entities
         public int positionId { get; set; }
         public string yearsExp { get; set; }
         public int LevelId { get; set; }
-        public int? Location { get; set; }
+        public int? LocationId { get; set; }
         public prefixes prefixId { get; set; }
         public string officeNumber { get; set; }
         public string createdby { get; set; }
@@ -47,6 +47,7 @@ namespace resourceEdge.Domain.Entities
         public  Departments Departments { get; set; }
         public  Levels Level { get; set; }
         public  Groups Groups { get; set; }
+        public Location Location { get; set; }
         
     }
 }

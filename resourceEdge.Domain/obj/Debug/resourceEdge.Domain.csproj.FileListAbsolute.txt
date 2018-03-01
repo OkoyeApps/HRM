@@ -1,4 +1,3 @@
-C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.csprojResolveAssemblyReference.cache
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\bin\Debug\resourceEdge.Domain.dll.config
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\bin\Debug\resourceEdge.Domain.dll
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\bin\Debug\resourceEdge.Domain.pdb
@@ -25,3 +24,4 @@ C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdg
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\bin\Debug\System.Web.WebPages.Razor.xml
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.dll
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.pdb
+C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.csprojResolveAssemblyReference.cache

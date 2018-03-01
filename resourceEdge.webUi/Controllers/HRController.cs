@@ -32,12 +32,13 @@ namespace resourceEdge.webUi.Controllers
         ILevels levelRepo;
         ILocation LocationRepo;
         IGroups GroupRepo;
+        IDepartments DepartmentRepo;
         ApplicationDbContext db;
         private ApplicationUserManager userManager;
 
 
         public HRController(IEmployees empParam, IBusinessUnits busParam, IReportManager rParam, Rolemanager RoleParam, 
-            ApplicationDbContext dbParam, IEmploymentStatus SParam, IFiles FParam, ILocation LRepo, ILevels levelParam, IGroups gParam)
+            ApplicationDbContext dbParam, IEmploymentStatus SParam, IFiles FParam, ILocation LRepo, ILevels levelParam, IGroups gParam, IDepartments deptParam)
         {
             db = dbParam;
             UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
@@ -53,6 +54,7 @@ namespace resourceEdge.webUi.Controllers
             levelRepo = levelParam;
             LocationRepo = LRepo;
             GroupRepo = gParam;
+            DepartmentRepo = deptParam;
         }
         public ApplicationUserManager UserManager
         {
@@ -149,7 +151,7 @@ namespace resourceEdge.webUi.Controllers
                         realEmployee.prefixId = employees.prefixId;
                         realEmployee.yearsExp = employees.yearsExp;
                         realEmployee.LevelId = employees.Level;
-                        realEmployee.Location = unitDetail.LocationId.Value;
+                        realEmployee.LocationId = unitDetail.LocationId.Value;
                         realEmployee.GroupId = employees.GroupId;
                         realEmployee.isactive = true;
                         var CreatedDate = realEmployee.createddate = DateTime.Now;
@@ -224,7 +226,8 @@ namespace resourceEdge.webUi.Controllers
         }
         public ActionResult AssignReportManager()
         {
-            ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.BusId), "BusId", "unitname", "BusId");
+            var CurrentEmployee = empRepo.GetByUserId(User.Identity.GetUserId());
+            ViewBag.businessUnits = new SelectList(BunitsRepo.GetUnitsByLocation(CurrentEmployee.LocationId.Value).OrderBy(x => x.BusId), "BusId", "unitname", "BusId");
             return View();
         }
 
@@ -233,17 +236,17 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult AssignReportManager(reportmanagerViewModel model)
         {
             ReportManagers manager = new ReportManagers();
-            var existingManager = employeeManager.ExistingReportManager(model.userId, int.Parse(model.BunitId));
+            var existingManager = employeeManager.ExistingReportManager(model.ManagerId, int.Parse(model.BunitId));
             if (ModelState.IsValid && existingManager == null)
             {
                 if (existingManager.Count < 2)
                 {
                     manager.BusinessUnitId = int.Parse(model.BunitId);
-                    manager.managerId = model.userId;
-                    var employee = employeeManager.CheckIfEmployeeExistByUserId(model.userId);
+                    manager.managerId = model.ManagerId;
+                    var employee = employeeManager.CheckIfEmployeeExistByUserId(model.ManagerId);
                     if (employee != null && employee.empID != 2)
                     {
-                        var result = empRepo.GetByUserId(model.userId);
+                        var result = empRepo.GetByUserId(model.ManagerId);
                         manager.employeeId = result.empID;
                         manager.DepartmentId = result.departmentId;
                         manager.FullName = result.FullName;
@@ -263,16 +266,13 @@ namespace resourceEdge.webUi.Controllers
                         return new HttpStatusCodeResult(HttpStatusCode.NotFound);
                     }
                 }
-                ViewBag.Error = "Cannot Assign More Than two managers to a Business Unit";
-                return RedirectToAction("AssignReportManager");
+                ViewBag.Error = "Cannot Assign More Than two managers to a Business Unit";  
             }
-            else
-            {
+
                 ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.BusId), "BusId", "unitname", "BusId");
                 ViewBag.Error = "Make sure that the report Manager does not exist already for the business unit";
                 ViewBag.Warning = "Also make sure that you don't add an employee twice for particlar business unit";
-                return View();
-            }
+                return RedirectToAction("AssignReportManager");
         }
 
         public ActionResult DeleteReportManager(string userId)
@@ -289,36 +289,22 @@ namespace resourceEdge.webUi.Controllers
             }
         }
 
+        [Authorize]
+        public ActionResult AssignDepartmentHead()
+        {
+            var UserFromSession = (SessionModel) Session["_ResourceEdgeTeneceIdentity"];
+            if (UserFromSession != null)
+            {
+                ViewBag.businessUnits = new SelectList(BunitsRepo.GetUnitsByLocation(UserFromSession.LocationId).OrderBy(x => x.BusId), "BusId", "unitname", "BusId");
+            }
+            return View();
+        }
 
-//Call the Dispose method later
-        //public void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //       Dispose();
-        //    }
-        //    if (empRepo != null)
-        //    {
-        //        empRepo = null;
-        //    }
-        //    if (BunitsRepo != null)
-        //    {
-        //        BunitsRepo = null;
-        //    }
-        //    if (ReportRepo != null)
-        //    {
-        //        ReportRepo = null;
-        //    }
-        //    if (employeeManager != null)
-        //    {
-        //        employeeManager = null;
-        //    }
-        //    if (RoleManager != null)
-        //    {
-        //        RoleManager = null;
-        //    }
-        //    this.Dispose();
-        //}
+        [HttpPost]
+        public ActionResult AssignDepartmentHead(DepartmentHeadViewModel model)
+        {
+            return View();
+        }
     }
 
 }

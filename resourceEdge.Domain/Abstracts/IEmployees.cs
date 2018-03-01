@@ -9,6 +9,7 @@ namespace resourceEdge.Domain.Abstracts
 {
     public interface IEmployees : GenericInterface<Employees>
     {
+        Employees GetEmployeeLazily(string userId);
         Employees GetEmployeeByEmail(string email);
         List<Employees> GetEmpByBusinessUnit(int id);
         Employees CheckIfEmployeeExistByUserId(string userId);

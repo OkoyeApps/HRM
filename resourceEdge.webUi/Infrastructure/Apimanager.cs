@@ -253,13 +253,13 @@ namespace resourceEdge.webUi.Infrastructure
         public static List<Employees> GetEligibleManagerBybBusinessUnit(int id)
         {
             var unit = unitOfWork.BusinessUnit.GetByID(id); //This gets the business unit by ID 
-            var employeeByUnit = unitOfWork.GetDbContext().employees.Where(x => x.businessunitId == id && x.Location == unit.LocationId && x.empRoleId != 3 || x.empRoleId != 2 || x.empRoleId != 1).ToList();
+            var employeeByUnit = unitOfWork.GetDbContext().employees.Where(x => x.businessunitId == id && x.LocationId == unit.LocationId && x.empRoleId != 3 && x.empRoleId != 2 && x.empRoleId != 1).ToList();
             if (employeeByUnit != null)
             {
                 return employeeByUnit;
             }
             //although i used 0 to check the location, it might not be best practice but for now its fine
-            var employeeWithoutLocation = unitOfWork.GetDbContext().employees.Where(x => x.businessunitId == id && x.Location == 0 && x.empRoleId != 3 || x.empRoleId != 2 || x.empRoleId != 1).ToList();
+            var employeeWithoutLocation = unitOfWork.GetDbContext().employees.Where(x => x.businessunitId == id && x.LocationId == 0 && x.empRoleId != 3 || x.empRoleId != 2 || x.empRoleId != 1).ToList();
 
             return null;
         }
@@ -459,6 +459,33 @@ namespace resourceEdge.webUi.Infrastructure
                 }
             }
             return null;
+        }
+
+        public static Location GetUserLocation(string userId)
+        {
+            var employee = unitOfWork.GetDbContext().employees.Where( x => x.userId == userId).FirstOrDefault();
+            if (employee != null && employee.LocationId != null)
+            {
+                return employee.Location;
+            }
+            return null;
+        }
+
+        public static List<Employees> GetDeptHeadByUnit(int id)
+        {
+            var employee = GetEmpByBusinessUnit(id);
+            if (employee != null)
+            {
+                var deptHead = employee.Where(X => X.IsDepthead == true).ToList();
+                return deptHead;
+            }
+            return null;
+        }
+
+        public static List<Employees> GetAllEmployessInGroup(int groupId)
+        {
+            var allEmployeeInGroup = unitOfWork.employees.Get(x => x.GroupId == groupId).ToList();
+            return allEmployeeInGroup ?? null;
         }
 
         public static List<Months> GetAllMonths()

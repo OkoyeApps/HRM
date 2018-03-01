@@ -1,0 +1,428 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="resourceEdge.webUi.BundleConfig" Collapsed="true">
+    <Position X="13.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\BundleConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.FilterConfig" Collapsed="true">
+    <Position X="12" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\FilterConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.EmailService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\IdentityConfig.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="resourceEdge.webUi.SmsService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\IdentityConfig.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="resourceEdge.webUi.ApplicationUserManager" Collapsed="true">
+    <Position X="20.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\IdentityConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.ApplicationSignInManager" Collapsed="true">
+    <Position X="17.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\IdentityConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.RouteConfig" Collapsed="true">
+    <Position X="17.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\RouteConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Startup" Collapsed="true">
+    <Position X="13.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAgAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\Startup.Auth.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.WebApiConfig" Collapsed="true">
+    <Position X="13.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\WebApiConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.MvcApplication" Collapsed="true">
+    <Position X="17.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACBIAAAAAAAIEACAAAIAAAAAAABEAIEAAAAAAAAAA=</HashCode>
+      <FileName>Global.asax.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.App_Start.NinjectWebCommon" Collapsed="true">
+    <Position X="20.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAACAAAQACAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\NinjectWebCommon.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Controllers.AccountController" Collapsed="true">
+    <Position X="8.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAChACAAAAAAAANgkgAQBAABMKIAADMRAAQgAAA=</HashCode>
+      <FileName>Controllers\AccountController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Controllers.AppraisalController" Collapsed="true">
+    <Position X="8.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>wsAQAAAAAAAEBAAAAAACGECCAAKAQCACAAAgCAAAAgA=</HashCode>
+      <FileName>Controllers\AppraisalController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Controllers.ConfigurationController" Collapsed="true">
+    <Position X="17.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIYAIACGoAQIOCAABEEAAhAAABEyAACIAQFAyASWACA=</HashCode>
+      <FileName>Controllers\ConfigurationController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Controllers.EmployeeController" Collapsed="true">
+    <Position X="17.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AKCAACCAQABBBAAAAgAAEAAAIAAQAEAiAAAAAAABAAA=</HashCode>
+      <FileName>Controllers\EmployeeController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Controllers.HomeController" Collapsed="true">
+    <Position X="17.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEACAEAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\HomeController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Controllers.HRController" Collapsed="true">
+    <Position X="19" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BIAGEACBQCAQCAAAAAAAgIAJIBAAAEAAAAEESAEAAAA=</HashCode>
+      <FileName>Controllers\HRController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Controllers.LeaveController" Collapsed="true">
+    <Position X="8.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACACAAAAACgQAACAAAAAAAABJAkAAEACAAEAAAAAACA=</HashCode>
+      <FileName>Controllers\LeaveController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Controllers.ManageController" Collapsed="true">
+    <Position X="13.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABACAQiAAgAAAAEFhAAAAAAEAIMIAAEEEgAAkAAA=</HashCode>
+      <FileName>Controllers\ManageController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Controllers.RequisitionController" Collapsed="true">
+    <Position X="12" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAIBBAAAAAAAAAAABABEAAEACAAEAAAAAAQA=</HashCode>
+      <FileName>Controllers\RequisitionController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Controllers.SelfServiceController" Collapsed="true">
+    <Position X="19" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAAAkAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Controllers\SelfServiceController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Controllers.SettingsController" Collapsed="true">
+    <Position X="10.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAACAAECAQAggAoEGQAFQAAGAkQAAAAACAQAoAQACg=</HashCode>
+      <FileName>Controllers\SettingsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Controllers.SystemAdminController" Collapsed="true">
+    <Position X="19" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAEAAAAAEAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Controllers\SystemAdminController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Controllers.ValidationController" Collapsed="true">
+    <Position X="8.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAACAAAABAAABA=</HashCode>
+      <FileName>Controllers\ValidationController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Infrastructure.AdminManager" Collapsed="true">
+    <Position X="12" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BKAAAAAAAAAQAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\AdminManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Infrastructure.Apimanager" Collapsed="true">
+    <Position X="13.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>oAAAAAAIuCxQAAQEAAQACACAEAgSiAAFgDAAAJAAQKA=</HashCode>
+      <FileName>Infrastructure\Apimanager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Infrastructure.AppraisalManager" Collapsed="true">
+    <Position X="10.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAUBAAAACACAAAACAAAEAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\AppraisalManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Infrastructure.BackendValidationManager" Collapsed="true">
+    <Position X="12" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAASAAAAAAAAAAQAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\BackendValidationManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Infrastructure.ConfigurationManager" Collapsed="true">
+    <Position X="19" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\ConfigurationManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Infrastructure.DbInitializer" Collapsed="true">
+    <Position X="13.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\DbInitializer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Infrastructure.EmployeeManager" Collapsed="true">
+    <Position X="19" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gIAEAAgACABQAIAAAAACAEAAKAAQCABFAAATIBACQAA=</HashCode>
+      <FileName>Infrastructure\EmployeeManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Infrastructure.LeaveManager" Collapsed="true">
+    <Position X="10.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IEAAAAQAAAoAAAAAAAyAAAQAEAgAgBAgBAACIEAAAAA=</HashCode>
+      <FileName>Infrastructure\LeaveManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Infrastructure.NinjectDependencyResolver" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="19" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAEI=</HashCode>
+      <FileName>Infrastructure\NinjectDependencyResolver.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="resourceEdge.webUi.Infrastructure.NotificationManager" Collapsed="true">
+    <Position X="8.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\NotificationManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Infrastructure.Rolemanager" Collapsed="true">
+    <Position X="15.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAQAAAgAAAAgAACAAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\RoleManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Infrastructure.StatManager" Collapsed="true">
+    <Position X="15.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAACQAAAAAIAAAAAgAAAAAAA=</HashCode>
+      <FileName>Infrastructure\StatManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Infrastructure.UserManager" Collapsed="true">
+    <Position X="20.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIACAQCAAQAAAAAAAAAAAAGAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\UserManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Infrastructure.Handlers.SubscriptionFilter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAIAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Infrastructure\Handlers\Handlers.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="resourceEdge.webUi.Models.ExternalLoginConfirmationViewModel" Collapsed="true">
+    <Position X="20.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Models.ExternalLoginListViewModel" Collapsed="true">
+    <Position X="8.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Models.SendCodeViewModel" Collapsed="true">
+    <Position X="20.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAIAAAAAAAAAAAAAAAAAAIAAAAgAAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Models.VerifyCodeViewModel" Collapsed="true">
+    <Position X="10.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAEAAAAAAAgAAAAAAAAAAAAAAIAAAAgAAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Models.ForgotViewModel" Collapsed="true">
+    <Position X="15.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Models.LoginViewModel" Collapsed="true">
+    <Position X="12" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAACAAAAAAAgAAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Models.RegisterViewModel" Collapsed="true">
+    <Position X="10.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAACBMApABAAICBAIBBIACAAAAAIDEAIAEBBAAAg=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Models.ResetPasswordViewModel" Collapsed="true">
+    <Position X="13.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAgAAAAAAAAAAACAAAAAAAAIAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Models.ForgotPasswordViewModel" Collapsed="true">
+    <Position X="13.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Models.ApplicationUser" Collapsed="true">
+    <Position X="19" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAACAGAhABAAIEJAIBAIAAAAAAAIBEAIAABAAAAg=</HashCode>
+      <FileName>Models\IdentityModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Models.ApplicationDbContext" Collapsed="true">
+    <Position X="15.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\IdentityModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Models.dbInit" Collapsed="true">
+    <Position X="12" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\IdentityModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Models.IndexViewModel" Collapsed="true">
+    <Position X="20.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAQAAAAAAAAAAAAAAQAAAEAEA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Models.ManageLoginsViewModel" Collapsed="true">
+    <Position X="15.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Models.FactorViewModel" Collapsed="true">
+    <Position X="10.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Models.SetPasswordViewModel" Collapsed="true">
+    <Position X="8.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Models.ChangePasswordViewModel" Collapsed="true">
+    <Position X="15.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAEAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Models.AddPhoneNumberViewModel" Collapsed="true">
+    <Position X="10.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Models.VerifyPhoneNumberViewModel" Collapsed="true">
+    <Position X="12" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Models.ConfigureTwoFactorViewModel" Collapsed="true">
+    <Position X="20.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Security.CustomValidators.CustomUserValidator" Collapsed="true">
+    <Position X="10.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Security\CustomValidators\CustomUserValidator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="resourceEdge.webUi.Security.CustomValidators.CustomPasswordValidator" Collapsed="true">
+    <Position X="8.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Security\CustomValidators\PasswordValidator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

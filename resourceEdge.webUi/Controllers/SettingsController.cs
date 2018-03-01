@@ -1,4 +1,6 @@
-﻿using resourceEdge.webUi.Infrastructure;
+﻿using Microsoft.AspNet.Identity;
+using resourceEdge.Domain.Entities;
+using resourceEdge.webUi.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -381,6 +383,67 @@ namespace resourceEdge.webUi.Controllers
             return Ok(result);
         }
 
+        [Route("api/settings/GetUserLocation/{userId}")]
+        [HttpGet]
+        public IHttpActionResult GetUserLocation(string userId)
+        {
+            if (userId == null)
+            {
+                return BadRequest();
+            }
+            var result = Apimanager.GetUserLocation(userId);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
+
+        [Route("api/settings/GetDeptHeadByUnit/{Id:int}")]
+        [HttpGet]
+        public IHttpActionResult GetDeptHeadByUnit(int? Id)
+        {
+            if (Id == null)
+            {
+                return BadRequest();
+            }
+            var result = Apimanager.GetDeptHeadByUnit(Id.Value);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
+
+        [Route("api/settings/GetLineManagers/{Id:int}")]
+        [HttpGet]
+        public IHttpActionResult GetLineManagers(int? Id)
+        {
+            if (Id == null)
+            {
+                return BadRequest();
+            }
+           List<Employees> result = null;
+           var groupId = Apimanager.GetEmployeeByUserId(User.Identity.GetUserId());
+            switch (Id.Value.ToString())
+            {
+                case "1":
+                    result = Apimanager.GetDeptHeadByUnit(groupId.GroupId);
+                    break;
+                case "2":
+
+                   result = Apimanager.GetEmpByBusinessUnit(groupId.GroupId);
+                    break;
+                case "3":
+                    result = Apimanager.GetAllEmployessInGroup(groupId.GroupId);
+                    break;
+                default:
+                    break;
+            }
+            return Ok(result);
+        }
+        
+        
 
         // POST: api/Settings
         public void Post([FromBody]string value)

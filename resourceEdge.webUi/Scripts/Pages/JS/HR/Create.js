@@ -13,9 +13,7 @@
             $('#btnSubmit').prop('disabled', false);
         }
     }
-    //$("#btnSubmit").onclick(function () {
-    //    validateDateOfJoining();
-    //})
+ 
     //this does the Front-End Validation
     function ValidateDateofJoingAndLeaving(date1, date2) {
         var error = $('#error_message_dateJoin');
@@ -37,11 +35,8 @@
     $('#dateleave').on('change', function () {
         var date1 = $('#dateJoin').val();
         var date2 = $('#dateleave').val();
-        //ValidateDateofJoingAndLeaving(date1, date2);
         ValidateDatesFromBackend(date1, date2)
     })
-
-
 
     //this method does the backend validation
     function ValidateDatesFromBackend(date1, date2) {
@@ -150,7 +145,7 @@
 };
    
 
-        function getLocationByGroup(id) {
+    function getLocationByGroup(id) {
         $.ajax({
             type: 'GET',
             url: 'http://localhost:58124/api/settings/GetLocationByGroup/' + id,
@@ -179,7 +174,7 @@
     }
 
 
-        function getJobs() {
+    function getJobs() {
             $.ajax({
                 type: 'GET',
                 url: 'http://localhost:58124/api/settings/getjobs',
@@ -229,9 +224,6 @@
             }
         })
     }
-
- 
-
     function getDepartmentByBusinessUnit(id) {
         $.ajax({
             type: 'GET',
@@ -253,10 +245,6 @@
         })
     }
 
-
-
-
-
  $('#GroupId').on('change', function () {
         getidentityCode($(this).val());
         getLocationByGroup($(this).val());
@@ -264,5 +252,5 @@
  $('#businessunitId').bind('change', function () {
      getDepartmentByBusinessUnit($(this).val());
  })
-
+ window.onload(addElement())
 })()

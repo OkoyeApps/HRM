@@ -2,6 +2,7 @@
 using resourceEdge.Domain.Abstracts;
 using resourceEdge.Domain.Entities;
 using resourceEdge.webUi.Infrastructure;
+using resourceEdge.webUi.Infrastructure.Handlers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,8 @@ namespace resourceEdge.webUi.Controllers
 {
     public class AppraisalController : Controller
     {
+        
+        IEmployees  EmpRepo;
         IParameter ParameterRepo;
         IQuestions QuestionRepo;
         IGroups GroupRepo;
@@ -22,11 +25,14 @@ namespace resourceEdge.webUi.Controllers
         IAppraisalStatus AppraisalStatusRepo;
         IAppraisalRating AppraisalRatingRepo;
         IAppraisalMode AppraisalMode;
+        IAppraisalConfiguration AppraisalConfigRepo;
         IAppraisalInitialization InitializtionRepo;
+        IEmploymentStatus StatusRepo;
         AppraisalManager AppraisalManager;
+        
         public AppraisalController(IParameter param, IQuestions questParam, ISkills skillParam, IRating RParam, IGroups GParam,
             IAppraisalMode ModeParam, IAppraisalStatus statusParams, IAppraisalRating appratingParam, IAppraisalMode AppMode,
-            IAppraisalInitialization InitializtionParam
+            IAppraisalInitialization InitializtionParam, IEmploymentStatus statusParam, IEmployees EmpParam, IAppraisalConfiguration AppConfigParam
             )
         {
             ParameterRepo = param;
@@ -39,7 +45,10 @@ namespace resourceEdge.webUi.Controllers
             AppraisalRatingRepo = appratingParam;
             AppraisalMode = AppMode;
             InitializtionRepo = InitializtionParam;
-            AppraisalManager = new AppraisalManager();
+            StatusRepo = statusParam;
+            AppraisalConfigRepo = AppConfigParam;
+            EmpRepo = EmpParam;
+            AppraisalManager = new AppraisalManager(EmpParam, AppConfigParam);
         }
         public ActionResult AddParameter()
         {
@@ -200,7 +209,7 @@ namespace resourceEdge.webUi.Controllers
         }
 
         public ActionResult InitilizeAppraisal()
-        {
+        {    
             ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(x => x.GroupName), "Id", "GroupName", "Id");
             ViewBag.RatingType = new SelectList(AppraisalRatingRepo.Get().OrderBy(x => x.Name), "Id", "Name", "Id");
             ViewBag.appStatus = new SelectList(AppraisalStatusRepo.Get().OrderBy(x => x.Name), "Id", "Name", "Id");
@@ -252,15 +261,46 @@ namespace resourceEdge.webUi.Controllers
             return View("AllInitializedAppraisal");
         }
 
-        public ActionResult ConfigueAppraisal()
+        public ActionResult SubscribeToAppraisal(string Code)
         {
+            if (Code != null)
+            {
+                var result = AppraisalManager.SubscribeToAppraisal(Code, User.Identity.GetUserId());
+                if (result != false)
+                {
+                    return View("");
+                }
+            }
             return View();
         }
-
-        [HttpPost, ValidateAntiForgeryToken]
+       
+       // [Authorize/*(Roles = "System Admin, HR")*/]
+        
         public ActionResult ConfigureAppraisal()
         {
-            return View();
+            ViewBag.BusinessUnit = new SelectList(AppraisalManager.GetBusinessUnitsByLocation(User.Identity.GetUserId()), "BusId", "unitname", "BusId");
+            ViewBag.AppraisalStatus = new SelectList(AppraisalStatusRepo.Get().OrderBy(x => x.Name).ToList(), "Id", "Name", "Id");
+            ViewBag.Eligibility = new SelectList(StatusRepo.Get().OrderBy(X => X.employemntStatus).Select(x =>new { Text = x.employemntStatus, Value = x.empstId }).ToList(), "Value", "Text", "Value");
+            ViewBag.parameter = new SelectList(ParameterRepo.Get().OrderBy(x => x.ParameterName).Select(x => new  { Text = x.ParameterName, Value = x.Id}), "Value", "Text", "Value");
+            return View("FormWizard");
+        }
+
+        [SubscriptionFilter]
+        [HttpPost, ValidateAntiForgeryToken]
+        public JsonResult ConfigureAppraisal(FormCollection model)
+        {
+            if (ModelState.IsValid)
+            {
+                //var result = AppraisalManager.AddOrUpdateAppraisalConfiguration(model, User.Identity.GetUserId());
+                //if (result != false)
+                //{
+                //    ModelState.Clear();
+                //    ViewBag.Success = "Appraisal Configured Successfully, Please Add line Managers";
+                //    return Json(new { success = "True" }, JsonRequestBehavior.AllowGet);
+                //}
+            }
+            ViewBag.Error = "Something went wrong, Appraisal not configured";
+            return Json(new { message = "False" });
         }
     }
 }
