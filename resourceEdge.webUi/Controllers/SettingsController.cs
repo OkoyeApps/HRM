@@ -7,13 +7,14 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-
+using static resourceEdge.webUi.Infrastructure.Apimanager;
 
 namespace resourceEdge.webUi.Controllers
 {
     //[RoutePrefix("api/Settings")]
     public class SettingsController : ApiController
     {
+        Apimanager Apimanager = new Apimanager();
 
         [Route("api/Settings/GetempStatus")]
         [HttpGet]
@@ -350,6 +351,23 @@ namespace resourceEdge.webUi.Controllers
             return Ok(result);
         }
 
+        
+        [Route("api/settings/GetLocationDetails/{id:int}")]
+        [HttpGet]
+        public IHttpActionResult GetLocationDetails(int? id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+            var result = Apimanager.GetLocationHeadDetails(id.Value);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
+
         [Route("api/settings/GetAllHrsByGroup/{id:int}")]
         [HttpGet]
         public IHttpActionResult GetAllHrsByGroup(int? id)
@@ -415,35 +433,51 @@ namespace resourceEdge.webUi.Controllers
             return Ok(result);
         }
 
-        [Route("api/settings/GetLineManagers/{Id:int}")]
+        [Route("api/settings/GetLineManagers/{Id:int}/{option}")]
         [HttpGet]
-        public IHttpActionResult GetLineManagers(int? Id)
+        public IHttpActionResult GetLineManagers(int? Id, char option)
         {
             if (Id == null)
             {
                 return BadRequest();
             }
-           List<Employees> result = null;
+           List<EmployeeListItem> result = null;
            var groupId = Apimanager.GetEmployeeByUserId(User.Identity.GetUserId());
-            switch (Id.Value.ToString())
+            switch (option)
             {
-                case "1":
-                    result = Apimanager.GetDeptHeadByUnit(groupId.GroupId);
+                case 'D':
+                    result = Apimanager.GetDeptHeadByUnit(Id.Value);
                     break;
-                case "2":
+                case 'U':
 
-                   result = Apimanager.GetEmpByBusinessUnit(groupId.GroupId);
+                   result = Apimanager.GetEmpByBusinessUnit(Id.Value);
                     break;
-                case "3":
-                    result = Apimanager.GetAllEmployessInGroup(groupId.GroupId);
+                case 'G':
+                    result = Apimanager.GetAllEmployessInGroup(Id.Value);
                     break;
                 default:
                     break;
             }
             return Ok(result);
         }
-        
-        
+
+        [Route("api/settings/GetUnitHeadForAppraisal/{queryString}")]
+        [HttpGet]
+        public IHttpActionResult GetUnitHeadForAppraisal(string queryString)
+        {
+            int cc = 0;
+            int.TryParse(queryString, out cc);
+            if (queryString == null)
+            {
+                return BadRequest();
+            }
+            var  result = Apimanager.GetUnitHeadsForAppraisal(queryString);           
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
 
         // POST: api/Settings
         public void Post([FromBody]string value)

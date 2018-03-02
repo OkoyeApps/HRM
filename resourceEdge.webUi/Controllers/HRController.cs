@@ -35,7 +35,7 @@ namespace resourceEdge.webUi.Controllers
         IDepartments DepartmentRepo;
         ApplicationDbContext db;
         private ApplicationUserManager userManager;
-
+        Apimanager Apimanager;
 
         public HRController(IEmployees empParam, IBusinessUnits busParam, IReportManager rParam, Rolemanager RoleParam, 
             ApplicationDbContext dbParam, IEmploymentStatus SParam, IFiles FParam, ILocation LRepo, ILevels levelParam, IGroups gParam, IDepartments deptParam)
@@ -55,6 +55,7 @@ namespace resourceEdge.webUi.Controllers
             LocationRepo = LRepo;
             GroupRepo = gParam;
             DepartmentRepo = deptParam;
+            Apimanager = new Apimanager();
         }
         public ApplicationUserManager UserManager
         {

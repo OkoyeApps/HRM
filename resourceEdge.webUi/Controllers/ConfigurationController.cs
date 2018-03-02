@@ -30,6 +30,7 @@ namespace resourceEdge.webUi.Controllers
         ILocation LocationRepo;
         IGroups GroupRepo;
         ConfigurationManager ConfigManager;
+        Apimanager Apimanager;
         public ApplicationUserManager UserManager
         {
             get {return userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); }
@@ -59,6 +60,7 @@ namespace resourceEdge.webUi.Controllers
             LocationRepo = locationParam;
             this.GroupRepo = Gparam;
             ConfigManager = new ConfigurationManager(BParam);
+            Apimanager = new Apimanager();
         }
         public ActionResult Index()
         {

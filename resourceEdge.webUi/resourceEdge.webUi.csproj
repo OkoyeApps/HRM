@@ -6510,6 +6510,7 @@
     <Content Include="Views\Appraisal\ConfigureAppraisal.cshtml" />
     <Content Include="ClassDiagram1.cd" />
     <Content Include="Views\HR\AssignDepartmentHead.cshtml" />
+    <Content Include="Views\Shared\Layouts\_HrLayout.cshtml" />
     <None Include="Views\Shared\mainLayout2.cshtml" />
     <Content Include="MainScript.js" />
     <Content Include="Plugins\Css\bootstrap-modal-bs3patch.css" />

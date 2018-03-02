@@ -12,6 +12,7 @@ namespace resourceEdge.webUi.Models
         public int LocationId { get; set; }
         public int GroupId { get; set; }
         public int UnitId { get; set; }
+        public string UnitName { get; set; }
         public DateTime IssuedDate { get; set; }
     }
 }

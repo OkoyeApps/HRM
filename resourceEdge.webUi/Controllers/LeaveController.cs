@@ -19,10 +19,12 @@ namespace resourceEdge.webUi.Controllers
         private ILeaveManagement leaveRepo;
         private IBusinessUnits BunitsRepo;
         LeaveManager leavemanagerRepo;
+        Apimanager Apimanager;
         public LeaveController(ILeaveManagement lParam, IBusinessUnits bparam)
         {
             leaveRepo = lParam;
             BunitsRepo = bparam;
+            Apimanager = new Apimanager();
         }
 
         [Authorize(Roles = "HR")]

@@ -71,7 +71,7 @@ namespace resourceEdge.webUi.Controllers
 
         //
         // POST: /Account/Login
-        [AccountHandler]
+        [EdgeIdentityHandler]
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]

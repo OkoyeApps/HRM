@@ -12,6 +12,7 @@ using System.Web.Mvc;
 
 namespace resourceEdge.webUi.Controllers
 {
+    [EdgeIdentityHandler]
     public class AppraisalController : Controller
     {
         
@@ -275,9 +276,10 @@ namespace resourceEdge.webUi.Controllers
         }
        
        // [Authorize/*(Roles = "System Admin, HR")*/]
-        
+        [EdgeIdentityHandler]
         public ActionResult ConfigureAppraisal()
         {
+            
             ViewBag.BusinessUnit = new SelectList(AppraisalManager.GetBusinessUnitsByLocation(User.Identity.GetUserId()), "BusId", "unitname", "BusId");
             ViewBag.AppraisalStatus = new SelectList(AppraisalStatusRepo.Get().OrderBy(x => x.Name).ToList(), "Id", "Name", "Id");
             ViewBag.Eligibility = new SelectList(StatusRepo.Get().OrderBy(X => X.employemntStatus).Select(x =>new { Text = x.employemntStatus, Value = x.empstId }).ToList(), "Value", "Text", "Value");

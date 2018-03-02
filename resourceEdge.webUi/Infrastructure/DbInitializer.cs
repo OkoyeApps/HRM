@@ -169,22 +169,27 @@ namespace resourceEdge.webUi.Infrastructure
             {
                 new ApplicationUser() { Email = "Test1@example.com", UserName = "Test1@example.com" },
                 new ApplicationUser() {Email = "Hr@example.com", UserName = "Hr@example.com" },
-                new ApplicationUser() {Email = "Manager@example.com", UserName = "Manager@example.com" }
+                new ApplicationUser() {Email = "Manager@example.com", UserName = "Manager@example.com" },
+                new ApplicationUser() {Email = "DeptHead@example.com", UserName = "DeptHead@example.com" }
             };
             var Employees = new Employees[]
             {
                 new Domain.Entities.Employees() { businessunitId = 1, departmentId = 2, empEmail = "Test1@example.com",
-                    empRoleId = 4, empStatusId = "Test User", GroupId = 1, LevelId = 1,
+                    empRoleId = 4, empStatusId = "Test User", GroupId = 1, LevelId = 1, FullName = "Test User",
                     positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
                     jobtitleId = 1, isactive = true   },
                 new Domain.Entities.Employees() { businessunitId = 1, departmentId = 2, empEmail = "Hr@example.com",
-                    empRoleId = 3, empStatusId = "Test Hr", GroupId = 1, LevelId = 1,
+                    empRoleId = 3, empStatusId = "Test Hr", GroupId = 1, LevelId = 1,FullName = "Test HR",
                     positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
                     jobtitleId = 1, isactive = true   },
                 new Domain.Entities.Employees() { businessunitId = 1, departmentId = 2, empEmail = "Manager@example.com",
-                    empRoleId = 2, empStatusId = "Test User", GroupId = 1, LevelId = 1,
+                    empRoleId = 2, empStatusId = "Test User", GroupId = 1, LevelId = 1,FullName = "Test Manager",
                     positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
                     jobtitleId = 1, isactive = true   },
+                  new Domain.Entities.Employees() { businessunitId = 1, departmentId = 2, empEmail = "DeptHead@example.com",
+                    empRoleId = 2, empStatusId = "Test User", GroupId = 1, LevelId = 1,FullName = "Test Dept",
+                    positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
+                    jobtitleId = 1, IsDepthead = true, isactive = true   },
             };
             for (int i = 0, j = 0; i < TestUser1.Count; i++,j++)
             {
@@ -206,7 +211,6 @@ namespace resourceEdge.webUi.Infrastructure
                 }
                 Employees[i].userId = TestUser1[i].Id;
                 context.employees.Insert(Employees[j]);
-                
              }
             context.Save();
             var MonthsList = new List<MonthList>()

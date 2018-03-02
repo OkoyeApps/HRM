@@ -89,6 +89,7 @@ namespace resourceEdge.webUi.Infrastructure
             if (!roleManager.RoleExists("Location Head"))
             {
                 var role = new IdentityRole() { Name = "Location Head", Id = "7" };
+                roleManager.Create(role);
             }
         }
         //private bool disposed = false;
