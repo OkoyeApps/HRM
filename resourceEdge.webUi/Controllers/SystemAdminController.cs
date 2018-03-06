@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using resourceEdge.Domain.Abstracts;
 using resourceEdge.webUi.Infrastructure;
+using resourceEdge.webUi.Infrastructure.Handlers;
 using resourceEdge.webUi.Models;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace resourceEdge.webUi.Controllers
 {
     [Authorize(Roles ="System Admin")]
     [RoutePrefix("Admin")]
+    [EdgeIdentityFilter]
     public class SystemAdminController : Controller
     {
         IEmployees empRepo;

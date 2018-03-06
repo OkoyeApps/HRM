@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Entities
 {
-    [MetadataType(typeof(JobtitlesVIewModel))]
+    //[MetadataType(typeof(JobtitlesVIewModel))]
     public class Jobtitles
     {
         [Key]

@@ -31,10 +31,14 @@ namespace resourceEdge.webUi.Infrastructure
             return null;
         }
 
-        public double GetEmpAvailableLeave(string userId)
+        public double? GetEmpAvailableLeave(string userId)
         {
             var leave = LeaveRepo.GetEmplyeeLeaveByUserId(userId);
-            return leave.EmpLeaveLimit.Value;
+            if (leave != null)
+            {
+                return leave.EmpLeaveLimit;
+            }
+            return null;
         }
 
         public List<LeaveRequest> GetPendingLeaveForManager(string userid)

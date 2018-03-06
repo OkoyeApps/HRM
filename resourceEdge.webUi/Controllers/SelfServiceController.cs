@@ -2,6 +2,7 @@
 using resourceEdge.Domain.Abstracts;
 using resourceEdge.Domain.Entities;
 using resourceEdge.webUi.Infrastructure;
+using resourceEdge.webUi.Infrastructure.Handlers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,22 +11,23 @@ using System.Web.Mvc;
 
 namespace resourceEdge.webUi.Controllers
 {
+    
     [Authorize]
+    [EdgeIdentityFilter]
     public class SelfServiceController : Controller
     {
-        //private EmployeeManager empManager;
         ILeaveManagement leaveRepo;
         LeaveManager leavemanagerRepo;
 
         public SelfServiceController(ILeaveManagement lParam, IEmployees EmpParam)
         {
-            //empManager = Emparam;
             leaveRepo = lParam;
             leavemanagerRepo = new LeaveManager(EmpParam,leaveRepo);
         }
 
         public ActionResult Leave()
         {
+            ViewBag.PageTitle = "LEAVE DASHBOARD";
             ViewBag.UserId = User.Identity.GetUserId();
             ViewBag.Approved = leavemanagerRepo.GetEmployeeApprovedLeave(User.Identity.GetUserId());
             ViewBag.Denied = leavemanagerRepo.GetEmployeeDeniedLeave(User.Identity.GetUserId());
@@ -36,6 +38,7 @@ namespace resourceEdge.webUi.Controllers
 
         public ActionResult RequestLeave()
         {
+            ViewBag.PageTitle = "Request Leave";
             ViewBag.leaveType = new SelectList(leaveRepo.GetLeaveTypes().OrderBy(x => x.leavetype), "id", "leavetype", "id");
             ViewBag.userId = User.Identity.GetUserId();
             ViewBag.AvailableLeave = leavemanagerRepo.GetEmpAvailableLeave(User.Identity.GetUserId());
@@ -46,12 +49,12 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult RequestLeave(LeaveRequestViewModel model)
         {
             var leaveName = leavemanagerRepo.GetLeaveDetails(model.LeavetypeId.Value);
-            var getPreviousAppliedDateNo = leavemanagerRepo.GetLeaveAppliedFor(model.UserId);
-            var validLeave = leavemanagerRepo.CheckIfLeaveIsFinished(model.UserId,(int) model.requestDays,int.Parse(model.AvailableLeave));
+            var getPreviousAppliedDateNo = leavemanagerRepo.GetLeaveAppliedFor(model.userKey);
+            var validLeave = leavemanagerRepo.CheckIfLeaveIsFinished(model.userKey,(int) model.requestDays,int.Parse(model.AvailableLeave));
             if (ModelState.IsValid && leaveName != null && validLeave != true)
             {       
                 LeaveRequest leave = new LeaveRequest();
-                leave.UserId = model.UserId.ToString();
+                leave.UserId = model.userKey;
                 leave.RepmangId = model.RepmangId;
                 leave.NoOfDays = model.LeaveNoOfDays;
                 leave.ToDate = model.ToDate;
@@ -71,7 +74,7 @@ namespace resourceEdge.webUi.Controllers
                 leaveRepo.AddLeaveRequest(leave);
                 return RedirectToAction("Leave", "selfService"); //redirect to employee selservice page for him to see his requests
             }
-            TempData["Error"] = "Something went wrong";
+            ViewBag.Error = "Something went wrong";
             ViewBag.leaveType = new SelectList(leaveRepo.GetLeaveTypes().OrderBy(x => x.leavetype), "id", "leavetype", "id");
             ViewBag.userId = User.Identity.GetUserId();
             ModelState.AddModelError("", "Please make sure your leave your leave hasn't been exhausted or you can ask The HR to assign more leave for you.");

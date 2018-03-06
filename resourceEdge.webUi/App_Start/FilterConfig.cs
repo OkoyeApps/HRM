@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using resourceEdge.webUi.Infrastructure.Handlers;
+using System.Web;
 using System.Web.Mvc;
 
 namespace resourceEdge.webUi
@@ -7,8 +8,9 @@ namespace resourceEdge.webUi
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new HandleErrorAttribute());
-            //filters.Add(new RequireHttpsAttribute());
+            filters.Add(new HandleErrorAttribute(),2);
+            filters.Add(new EdgeIdentityFilter(),1);
+            
         }
     }
 }

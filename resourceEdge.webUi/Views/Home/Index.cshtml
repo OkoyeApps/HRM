@@ -2,29 +2,50 @@
 
 @{
     ViewBag.Title = "Home Page";
-    Layout = "~/Views/Shared/mainLayout2.cshtml";
+    //Layout = "~/Views/Shared/mainLayout2.cshtml";
     //Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@section css{
+
     <link href="~/Plugins/Css/bootstrap-modal-bs3patch.css" rel="stylesheet" />
     <link href="~/Plugins/Css/bootstrap-modal.css" rel="stylesheet" />
-}
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/jBox.css" rel="stylesheet" />
+    <link href="~/assets/AdminTemplate/assets/plugins/parsley/src/parsley.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.2.1.js"></script>
+    <script src="~/Scripts/jBox.min.js"></script>
 
-@if ((string)TempData["Success"] != null)
-{
-    string message = TempData["Success"].ToString();
-    <div class="alert alert-success" style="text-align : center">@message</div>
-}
+<span onclick="Code.open()" class="jBox-pointer">Add Code</span> <br/>
+<span onclick="career.open()" class="jBox-pointer">Add Career</span> <br />
+<span onclick="stat.open()">Addd Status</span><br />
+<span onclick="group1.open()">Add Group</span><br />
+<span onclick="job.open()">Add Job</span><br />
+<span onclick="level.open()">Add Level</span><br />
+<span onclick="locmodal.open()">Add Location</span><br />
+<span onclick="position.open()">Add Position</span><br />
+<span onclick="">Add Prefix</span>
+<span onclick="">Add Status</span>
+<span onclick="">Add Status</span>
+<span onclick="">Add Status</span>
+<span onclick="">Add Status</span>
 
-@Html.Action("AddJobTitle", "Configuration", new { returnUrl = Request.Url.PathAndQuery })
-@Html.Action("addPosition", "Configuration", new { returnUrl = Request.Url.PathAndQuery })
-@Html.Action("AddCode", "Configuration", new { returnUrl = Request.Url.PathAndQuery })
-@Html.Action("addPrefix", "Configuration", new { returnUrl = Request.Url.PathAndQuery })
-@Html.Action("addEmploymentStatus", "Configuration", new { returnUrl = Request.Url.PathAndQuery })
-@Html.Action("AddLevel", "Configuration", new { returnUrl = Request.Url.PathAndQuery })
-@Html.Action("AddCareer", "Configuration", new { returnUrl = Request.Url.PathAndQuery })
-@Html.Action("AddLocation", "Configuration", new { returnUrl = Request.Url.PathAndQuery })
-@Html.Action("AddGroup", "Configuration", new { returnUrl = Request.Url.PathAndQuery })
+
+
+
+
+
+
+
+<div class="hide">
+    @Html.Action("AddJobTitle", "Configuration", new { returnUrl = Request.Url.PathAndQuery })
+    @Html.Action("addPosition", "Configuration", new { returnUrl = Request.Url.PathAndQuery })
+    @Html.Action("AddCode", "Configuration", new { returnUrl = Request.Url.PathAndQuery })
+    @Html.Action("addPrefix", "Configuration", new { returnUrl = Request.Url.PathAndQuery })
+    @Html.Action("addEmploymentStatus", "Configuration", new { returnUrl = Request.Url.PathAndQuery })
+    @Html.Action("AddLevel", "Configuration", new { returnUrl = Request.Url.PathAndQuery })
+    @Html.Action("AddCareer", "Configuration", new { returnUrl = Request.Url.PathAndQuery })
+    @Html.Action("AddLocation", "Configuration", new { returnUrl = Request.Url.PathAndQuery })
+    @Html.Action("AddGroup", "Configuration", new { returnUrl = Request.Url.PathAndQuery })
+</div>
 @section Plugins{
     <script src="~/Scripts/jquery.validate.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
@@ -32,6 +53,7 @@
     <script src="~/assets/global/plugins/bootstrap-modal/js/bootstrap-modalmanager.js"></script>
     <script src="~/assets/global/plugins/bootstrap-modal/js/bootstrap-modal.js"></script>
 }
-@section Scripts{
-    <script src="~/assets/pages/scripts/ui-extended-modals.min.js"></script>
-}
+
+    @*<script src="~/assets/pages/scripts/ui-extended-modals.min.js"></script>*@
+    <script src="~/Scripts/Pages/JS/PartailPages/Modal.js"></script>
+<script src="~/assets/AdminTemplate/assets/plugins/parsley/dist/parsley.js"></script>

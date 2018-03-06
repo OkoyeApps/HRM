@@ -4,7 +4,7 @@
             function getJobs() {
                 $.ajax({
                     type: 'GET',
-                    url: 'http://localhost:58124/api/settings/getjobs',
+                    url: '/api/settings/getjobs',
                     success: function (data) {
                         console.log('data returned from getJobs')
                         console.log(data)
@@ -27,7 +27,7 @@
         var currentId = id;
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:58124/api/Settings/GetPositionById/' + id,
+            url: '/api/Settings/GetPositionById/' + id,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
@@ -62,7 +62,7 @@
         console.log(id);
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:58124/api/Settings/GetDepartmentsById/' + id,
+            url: '/api/Settings/GetDepartmentsById/' + id,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
@@ -87,7 +87,7 @@
     function getReportManagerByBusId(id) {
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:58124/api/Settings/GetHrByBusinessUnit/' + id,
+            url: '/api/Settings/GetHrByBusinessUnit/' + id,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {

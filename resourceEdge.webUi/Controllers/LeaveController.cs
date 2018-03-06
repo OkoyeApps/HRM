@@ -10,9 +10,11 @@ using resourceEdge.Domain.Entities;
 using resourceEdge.Domain.Abstracts;
 using Microsoft.AspNet.Identity;
 using resourceEdge.webUi.Infrastructure;
+using resourceEdge.webUi.Infrastructure.Handlers;
 
 namespace resourceEdge.webUi.Controllers
 {
+    [EdgeIdentityFilter]
     public class LeaveController : Controller
     {
         private EdgeDbContext db = new EdgeDbContext();
@@ -86,6 +88,7 @@ namespace resourceEdge.webUi.Controllers
         [Authorize(Roles = "HR")]
         public ActionResult AllotLeaves()
         {
+            ViewBag.PageTitle = "Allot Leave";
             ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.BusId), "BusId", "unitname", "BusId");
             return View();
         }
@@ -176,6 +179,7 @@ namespace resourceEdge.webUi.Controllers
 
         public ActionResult AllLeaveRequest()
         {
+            ViewBag.PageTitle = "All Leave Request";
             return View(leaveRepo.AllLeaveRequestForConfirmation());
         }
 

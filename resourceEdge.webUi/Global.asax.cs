@@ -15,6 +15,7 @@ using resourceEdge.Domain.Concrete;
 using System.Net;
 using System.IO;
 using Microsoft.AspNet.Identity;
+using resourceEdge.webUi.Infrastructure;
 
 namespace resourceEdge.webUi
 {
@@ -73,7 +74,6 @@ namespace resourceEdge.webUi
         //}
         protected void Application_Start()
         {
-            
             Database.SetInitializer(new resourceEdge.webUi.Infrastructure.DbInitializer());
             GlobalConfiguration.Configure(WebApiConfig.Register);
             AreaRegistration.RegisterAllAreas();

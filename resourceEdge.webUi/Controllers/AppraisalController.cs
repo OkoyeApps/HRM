@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace resourceEdge.webUi.Controllers
 {
-    [EdgeIdentityHandler]
+    [EdgeIdentityFilter]
     public class AppraisalController : Controller
     {
         
@@ -88,7 +88,7 @@ namespace resourceEdge.webUi.Controllers
 
         public ActionResult AddQuestion()
         {
-            //ViewBag.parameter = new SelectList(ParameterRepo.Get().OrderBy(x => x.Id), "Id", "ParameterName", "Id");
+            ViewBag.parameter = new SelectList(ParameterRepo.Get().OrderBy(x => x.Id), "Id", "ParameterName", "Id");
             return View();
         }
 
@@ -97,9 +97,9 @@ namespace resourceEdge.webUi.Controllers
         {
             Dictionary<string, object> myDictionary = new Dictionary<string, object>();
             collection.CopyTo(myDictionary);
-            var aa = myDictionary.Keys.ToList();
-            var allquestions = aa.Where(x => x.ToLower().StartsWith("quest")).ToList();
-            var alldescriptions = aa.Where(x => x.ToLower().StartsWith("desc")).ToList();
+            var allKeys = myDictionary.Keys.ToList();
+            var allquestions = allKeys.Where(x => x.ToLower().StartsWith("quest")).ToList();
+            var alldescriptions = allKeys.Where(x => x.ToLower().StartsWith("desc")).ToList();
             if (alldescriptions.Count != 0 && allquestions.Count != 0)
             {
                 for (int i = 0; i < allquestions.Count; i++)
@@ -123,7 +123,7 @@ namespace resourceEdge.webUi.Controllers
             }
 
             ViewBag.Error = "Sorry Something went wrong, Please enter the Questions again";
-            return View();
+            return RedirectToAction("AddQuestion");
         }
 
         public ActionResult AddSkills()
@@ -276,7 +276,7 @@ namespace resourceEdge.webUi.Controllers
         }
        
        // [Authorize/*(Roles = "System Admin, HR")*/]
-        [EdgeIdentityHandler]
+        [EdgeIdentityFilter]
         public ActionResult ConfigureAppraisal()
         {
             

@@ -1,8 +1,7 @@
 ﻿@model IEnumerable<resourceEdge.Domain.Entities.Employees>
 @{
     ViewBag.Title = "Index";
-    var empdetail = (Tuple<List<resourceEdge.Domain.Entities.Employees>, List<resourceEdge.Domain.Entities.Files>, List<resourceEdge.webUi.Models.ApplicationUser>, List<resourceEdge.Domain.Entities.Logins>>)ViewBag.employeeDetails;
-    List<resourceEdge.Domain.Entities.Files> EmpImage = ViewBag.Avartar;
+    var empdetail = new resourceEdge.webUi.Infrastructure.EmployeeManager.EmployeeDetails().GetAllEmployeesDetails();
 }
 <html>
 <head>
@@ -34,9 +33,9 @@
                                             <div class="pipeline-header">
                                                 <h5 class="pipeline-name">All Employees</h5>
                                                 <div class="pipeline-header-numbers">
-                                                    <div class="pipeline-value">@empdetail.Item1.Count() Employees</div>
+                                                    <div class="pipeline-value">@empdetail.Count() Employees</div>
 
-                                                    <div class="pipeline-count">@empdetail.Item1.Where(x => x.IsUnithead == true).Count() Business Head (s)     </div>
+                                                    <div class="pipeline-count">@empdetail.Where(x => x.IsUnitHead == true).Count() Business Head (s)     </div>
                                                 </div>
                                                 @*<div class="pipeline-settings os-dropdown-trigger">
                                                         <i class="os-icon os-icon-hamburger-menu-1"></i>
@@ -47,7 +46,7 @@
                                                         </div>
                                                     </div>*@
                                             </div>
-                                            @foreach (var item1 in empdetail.Item1)
+                                            @foreach (var item1 in empdetail)
                                             {
                                                 <div class="pipeline-body">
                                                     <div class="pipeline-item">
@@ -60,14 +59,14 @@
                                                                     </div>
                                                                     <ul>
                                                                         <li>
-                                                                            <a href="@Url.Action("Edit", "Employee", new { key = item1.userId }, null)">
+                                                                            <a href="@Url.Action("Edit", "Employee", new { key = item1.UserId }, null)">
                                                                                 <i class="os-icon os-icon-ui-49"></i>
                                                                                 <span>Edit Records</span>
                                                                             </a>
 
                                                                         </li>
                                                                         <li>
-                                                                            <a href="@Url.Action("Details", "Employee", new { key = item1.empID }, null)">
+                                                                            <a href="@Url.Action("Details", "Employee", new { key = item1.EmployeeId }, null)">
                                                                                 <i class="os-icon os-icon-grid-10"></i>
                                                                                 <span>View Details </span>
                                                                             </a>
@@ -80,15 +79,7 @@
                                                                     </ul>
                                                                 </div>
                                                             </div>
-
-                                                            @{
-                                                                var statusItem = empdetail.Item4.Where(x => x != null).Select(x => x).ToList();
-                                                                var status = statusItem.Find(x => x.userId == item1.userId);
-                                                                var imageItem = empdetail.Item2.Where(x => x != null).Select(x => x).ToList();
-                                                                var image = imageItem.Find(x => x.UserId == item1.userId);
-
-                                                            }
-                                                            @if (status != null && status.IsLogOut != true)
+                                                            @if (item1.Login != null && item1.Login != true)
                                                             {
                                                                 <div class="status status-green" data-placement="top" data-toggle="tooltip" title="Active Status">
                                                                 </div>
@@ -102,9 +93,9 @@
                                                         </div>
                                                         <div class="pi-body">
                                                             <div class="avatar">
-                                                                @if (image != null)
+                                                                @if (item1.ImageUrl != null)
                                                                 {
-                                                                    <img src="@Url.Content(image.FilePath)" />
+                                                                    <img src="@Url.Content(item1.ImageUrl)" />
                                                                 }
                                                                 else
                                                                 {
@@ -113,14 +104,14 @@
                                                             </div>
                                                             <div class="pi-info">
                                                                 <div class="h6 pi-name">@item1.FullName</div>
-                                                                <div class="pi-sub">@item1.empID</div>
+                                                                <div class="pi-sub">@item1.EmployeeId</div>
                                                             </div>
                                                         </div>
 
                                                         <div class="pi-foot">
                                                             <div class="tags">
-                                                                <a class="tag" href="#">@item1.Departments.BusinessUnits.unitname</a>
-                                                                <a class="tag" href="#">@item1.Departments.deptname</a>
+                                                                <a class="tag" href="#">@item1.DepartmentName</a>
+                                                                <a class="tag" href="#">@item1.DepartmentName</a>
                                                             </div>
                                                             <a class="extra-info" href="#">
                                                                 <i class="os-icon os-icon-mail-12"></i>

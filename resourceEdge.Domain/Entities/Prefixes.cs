@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Entities
 {
-    [MetadataType(typeof(prefixViewModel))]
+    //[MetadataType(typeof(prefixViewModel))]
     public class Prefixes
     {
         [Key]

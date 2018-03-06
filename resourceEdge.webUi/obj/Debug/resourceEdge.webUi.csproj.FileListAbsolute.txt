@@ -1,4 +1,3 @@
-C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.webUi\obj\Debug\resourceEdge.webUi.csprojResolveAssemblyReference.cache
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.webUi\bin\roslyn\csc.exe
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.webUi\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.webUi\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
@@ -98,5 +97,6 @@ C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdg
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.webUi\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.webUi\bin\es\Hangfire.Core.resources.dll
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.webUi\bin\zh\Hangfire.Core.resources.dll
+C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.webUi\obj\Debug\resourceEdge.webUi.csprojResolveAssemblyReference.cache
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.webUi\obj\Debug\resourceEdge.webUi.dll
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.webUi\obj\Debug\resourceEdge.webUi.pdb

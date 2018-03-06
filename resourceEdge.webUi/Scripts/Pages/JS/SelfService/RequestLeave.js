@@ -2,31 +2,29 @@
 (function () {
 
         window.onload = function () {
-            //  var id = $('#userIdDiv')[0].innerHTML;
-            GetRmByUserId("@ViewBag.userId");
-            GetempLeaveAmount("@ViewBag.userId");
+            var id = $('#key')[0].innerHTML;
+            GetRmByUserId(id);
+            GetempLeaveAmount(id);
         };
-    document.onload = function () {
 
-    }
     function GetempLeaveAmount(userId) {
         console.log("Method entered");
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:58124/api/settings/GetempLeaveAmount/' + userId,
+            url: '/api/settings/GetempLeaveAmount/' + userId,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
                 console.log('in the GetempLeaveAmount method');
                 console.log(data);
-                if (data.length != 0) {
+                if (data != null) {
                     $('#AvailableLeave').html(data.EmpLeaveLimit);
                     $('#AvailableLeave').val(data.EmpLeaveLimit);
-                    return data;
                         
                 } else {
-                    $('#AvailableLeave').html("please configure Employee leave")
-                    $('#AvailableLeave').val("Please configure Employee leave");
+                    $('#AvailableLeave').html("No leave for you yet.")
+                    $('#AvailableLeave').val("No leave for you yet");
+                    $('#btnSubmit').prop('disabled', true);
                     //write the jquery to check agaist JQHxr
                 }
             },
@@ -43,7 +41,7 @@
         console.log("Method entered");
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:58124/api/Settings/GetempLeaveTypeAmount/' + id,
+            url: '/api/Settings/GetempLeaveTypeAmount/' + id,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
@@ -110,16 +108,19 @@
     }
 
     $("#ToDate").change(function () {
+        if ($('#FromDate').val() != '' && $('#LeaveNoOfDays').val() != '') {
         var result = dateDifference($('#FromDate').val(), $('#ToDate').val());
-        $()
         console.log("Result is: " + result)
         checkTimeAgainstDate(result);
         ValidateTotalRequestDay($('#requestDays').val());
+        }
     });
     $('#FromDate').change(function () {
+        if ($('#ToDate').val() != null) {
         var result = dateDifference($('#FromDate').val(), $('#ToDate').val());
         checkTimeAgainstDate(result);
         ValidateTotalRequestDay($('#requestDays').val());
+        }
     })
 
 
@@ -188,6 +189,7 @@
         var Date_error_message = false;
         var realNoofDays = $('#LeaveNoOfDays').val();
         console.log(daysPicked + "is days picked");
+        if (realNoofDays != null || realNoofDays != '') {
         if (daysPicked <= Number(realNoofDays)) {
             Date_error_message = false;
             console.log("in the else method");
@@ -196,14 +198,13 @@
             $('#requestDays').val(daysPicked);
 
         } else {
-
             $('#Date_error_message').html("The Days exceeds the alloted date for the specified leave");
             $('#Date_error_message').addClass("show");
             $('#btnSubmit').prop('disabled', true);
             Date_error_message = true;
             console.log('got here');
         }
-
+        }
     }
 
 
@@ -212,14 +213,14 @@
         console.log("GetRmByUserId Method entered");
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:58124/api/Settings/GetRmByUserId/' + id,
+            url: '/hr/api/Settings/GetRmByUserId/' + id,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
                 console.log('in the GetRmByUserId method');
                 console.log(data);
-                if (data != '') {
-                    $('#RepmangId').append('<option value="">' + '--Select Employee--' + '</option>');
+                if (data.length > 0) {
+                    $('#RepmangId').append('<option value="">' + 'Select Employee' + '</option>');
                     $.each(data, function (index, data) {
                         $('#RepmangId').append('<option value="' + data.userId + '">' + data.FullName + '</option>');
                     })

@@ -126,24 +126,10 @@ namespace resourceEdge.webUi.Infrastructure
                 return false;
             }
         }
-
-        public static string getEmployeeFullNameByUserId(string userid)
-        {
-            if (userid != null)
-            {
-                return unitOfWork.GetDbContext().employees.Where(X => X.userId == userid).Select(x => x.FullName).SingleOrDefault();
-
-            }
-            return null;
-        }
         public static ApplicationUser getEmployeeIdFromUserTable(string userid)
         {
             var result = context.Users.Find(userid);
-            if (result != null)
-            {
-                return result;
-            }
-            return null;
+            return result ?? null;
         }
 
     }

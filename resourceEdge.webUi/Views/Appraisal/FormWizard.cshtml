@@ -1,12 +1,11 @@
 ﻿@model resourceEdge.Domain.Entities.AppraisalConfigratuionViewModel
-@*@{ var usersessionObject = (resourceEdge.webUi.Models.SessionModel)Session["_ResourceEdgeTeneceIdentity"];}*@
 
 @{ 
     Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+    var usersessionObject = (resourceEdge.webUi.Models.SessionModel)Session["_ResourceEdgeTeneceIdentity"];
 }
 
 @section css{
-    <!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
     <link href="~/assets/AdminTemplate/assets/plugins/bootstrap-wizard/css/bwizard.min.css" rel="stylesheet" />
     <link href="~/assets/AdminTemplate/assets/plugins/parsley/src/parsley.css" rel="stylesheet" />
     <link href="~/assets/AdminTemplate/assets/plugins/ionRangeSlider/css/ion.rangeSlider.css" rel="stylesheet" />
@@ -23,9 +22,8 @@
 
     <link href="~/assets/AdminTemplate/assets/plugins/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" />
     <link href="~/assets/AdminTemplate/assets/plugins/select2/dist/css/select2.min.css" rel="stylesheet" />
-    <!-- ================== END PAGE LEVEL STYLE ================== -->
     }
-
+<span id="group">@usersessionObject.GroupId</span>
                             <form action="http://seantheme.com/" method="POST" data-parsley-validate="true" name="form-wizard">
                                 @Html.AntiForgeryToken()
                                 <div id="wizard">

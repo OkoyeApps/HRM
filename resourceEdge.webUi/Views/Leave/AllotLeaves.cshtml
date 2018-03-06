@@ -1,118 +1,68 @@
-﻿@*@model List<resourceEdge.Domain.Entities.EmployeeLeaves>*@
-
-@{
-    Layout = "~/Views/Shared/HRLayout.cshtml";
-    //var currentModel = Model.ToArray();
+﻿@{
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
 }
 @section css{
-<link href="~/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" />
-@*<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />*@
-@*<link href="~/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" />*@
+    <link href="~/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" />
 }
+    @using (Html.BeginForm("AllotLeaves", "Leave",null,FormMethod.Post, new { data_parsley_validate = "" }))
+    {
+        @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-<h2>Create</h2>
-
-<div class="col-md-6 panel-body">
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-        <h4>Leave Configuration</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-        <div class="row">
-            <div class="col-md-6">
-
-                <div class="form-group">
-                    @Html.Label("Business Units", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-6">
-                        @Html.DropDownList("businessunitId", (SelectList)ViewBag.businessUnits,"Select Business Unit", htmlAttributes: new { @class = "form-control", placeholder = "please input business unit" })
-                        @Html.ValidationMessage("businessunitId", "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                @*<div class="btn-group bootstrap-select">
-                    <div class="dropdown-menu open" role="combobox" style="max-height: 154px; overflow: hidden; min-height: 42px;">
-                        <div class="bs-searchbox">
-                            <input type="text" class="form-control" autocomplete="off" role="textbox" aria-label="Search">
+                        <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.Label("Business Units")
+                            @Html.DropDownList("businessunitId", (SelectList)ViewBag.businessUnits, "Select Business Unit", htmlAttributes: new { @class = "form-control", placeholder = "please input business unit" })
+                            @Html.ValidationMessage("businessunitId", "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <select id="departmentId" name="departmentId" data-live-search="true" tabindex="-98" class="selectpicker">
-                        
+                    <div class="col-md-4">
+                    <label>Select Department</label>
+                    <select id="departmentId" name="departmentId" class="form-control">
+                        <option>Select Department</option>
                     </select>
-                </div>*@
-                <select id="departmentId" name="departmentId" class="form-control"></select>
-
-                <div class="form-group">
-                    <input class="date-own form-control" style="width: 300px;" type="text" name="year">
-                    <div class="col-md-6">
                     </div>
-                </div>
 
-                <div id="getCount" class="hidden">
-                    <table class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th>Employee</th>
-                                <th>Allot Leave</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td id="tbluser"></td>
-                                <td id="tblTime"></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Year</label>
+                            <input class="date-own form-control" style="width: 300px;" type="text" name="year" required ="">
+                            <br/>
+                        </div>
+                    </div>
+                    <button id="searchEmp" type="button" class="btn btn-success pull-right" style="clear:both;">Search Employees <br /></button>
+                    <br />
+                  <span id="noEmp" class="alert alert-danger hidden col-md-12" style=" font:bolder; text-align:center">No Employee in this department yet</span>
+                  <br /><br />
+                    <div id="getCount" class="hidden col-md-6" style="clear:both">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Employee</th>
+                                    <th>Allot Leave</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td id="tbluser"></td>
+                                    <td id="tblTime"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button type="submit" class="btn btn-success pull-right" style="clear:both">Save</button>
 
-                </div>
-                <button type="button" onclick="">Search Student</button>
-                <input type="submit" onclick="" />
-
-            </div>
-        </div>
-
-    </div>
-}
-
-    @*<div class="btn-group bootstrap-select">
-        <button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" role="button" title="Hot Dog, Fries and a Soda" aria-expanded="false">
-            <span class="filter-option pull-left">Hot Dog, Fries and a Soda</span>&nbsp;
-            <span class="bs-caret"><span class="caret"></span></span>
-        </button>
-
-        <ul class="dropdown-menu inner" role="listbox" aria-expanded="false" style="max-height: 100px; overflow-y: auto; min-height: 0px;">
-            <li data-original-index="0" class="selected active">
-                <a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="true">
-                    <span class="text">Hot Dog, Fries and a Soda</span>
-                    <span class="glyphicon glyphicon-ok check-mark"></span>
-                </a>
-            </li>
-            <li data-original-index="1">
-                <a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="false">
-                    <span class="text">Burger, Shake and a Smile</span>
-                    <span class="glyphicon glyphicon-ok check-mark"></span>
-                </a>
-            </li>
-            <li data-original-index="2">
-                <a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="false">
-                    <span class="text">Sugar, Spice and all things nice</span><span class="glyphicon glyphicon-ok check-mark"></span>
-                </a>
-            </li>
-        </ul>
-        </div>*@
-    </div>
+                    </div>
+    }
 
 <script type="text/javascript">
 
 </script>
 
-@section scripts{
-<script src="~/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-<script src="~/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-<script src="~/Scripts/bootstrap-select.min.js"></script>
-<script src="~/Scripts/Pages/JS/Leave/AllotLeave.js"></script>
+@section Scripts{
+    <script src="~/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="~/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/Scripts/bootstrap-select.min.js"></script>
+    <script src="~/Scripts/Pages/JS/Leave/AllotLeave.js"></script>
+
 }
 

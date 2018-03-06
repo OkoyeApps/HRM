@@ -11,7 +11,6 @@ namespace resourceEdge.webUi.Models
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
-
         public string emprole { get; set; }
         public string userstatus { get; set; }
         public string firstname { get; set; }
@@ -39,7 +38,7 @@ namespace resourceEdge.webUi.Models
         public Nullable<int> company_id { get; set; }
         public int JobtitleId { get; set; }
         public Nullable<bool> Isactive { get; set; }
-        public virtual Employees employees { get; set; }
+        public  Employees employees { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

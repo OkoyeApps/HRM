@@ -15,10 +15,12 @@ using Microsoft.AspNet.Identity;
 using System.Web.Security;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Threading.Tasks;
+using resourceEdge.webUi.Infrastructure.Handlers;
 
 namespace resourceEdge.webUi.Controllers
 {
     [Authorize(Roles = "System Admin,HR")]
+    [EdgeIdentityFilter]
     public class HRController : Controller
     {
         IEmployees empRepo;
@@ -37,7 +39,7 @@ namespace resourceEdge.webUi.Controllers
         private ApplicationUserManager userManager;
         Apimanager Apimanager;
 
-        public HRController(IEmployees empParam, IBusinessUnits busParam, IReportManager rParam, Rolemanager RoleParam, 
+        public HRController(IEmployees empParam, IBusinessUnits busParam, IReportManager rParam, Rolemanager RoleParam,
             ApplicationDbContext dbParam, IEmploymentStatus SParam, IFiles FParam, ILocation LRepo, ILevels levelParam, IGroups gParam, IDepartments deptParam)
         {
             db = dbParam;
@@ -45,7 +47,7 @@ namespace resourceEdge.webUi.Controllers
             empRepo = empParam;
             BunitsRepo = busParam;
             ReportRepo = rParam;
-            employeeManager = new EmployeeManager(empParam,rParam);
+            employeeManager = new EmployeeManager(empParam, rParam);
             RoleManager = RoleParam;
             db = dbParam;
             statusRepo = SParam;
@@ -82,7 +84,7 @@ namespace resourceEdge.webUi.Controllers
         [ChildActionOnly]
         private List<Files> GetAllEmpImage()
         {
-           return  FileRepo.Get().ToList();
+            return FileRepo.Get().ToList();
         }
 
         public ActionResult EmpDetails(int? id)
@@ -104,16 +106,17 @@ namespace resourceEdge.webUi.Controllers
             var roles = RoleManager.GetRoles().ToList();
             return roles;
         }
-        [ChildActionOnly]
+        //[ChildActionOnly]
         public ActionResult Create(string returnUrl)
         {
+            ViewBag.PageTitle = "Create Employee";
             ViewBag.returnUrl = returnUrl;
             ViewBag.EmpStatus = new SelectList(statusRepo.Get().Select(x => new { name = x.employemntStatus, id = x.empstId }), "id", "name", "id");
             ViewBag.roles = new SelectList(GetRoles().OrderBy(x => x.Name).Where(u => !u.Name.Contains("System Admin") && !u.Name.Contains("Management")).Select(x => new { name = x.Name, id = x.Id }), "Id", "name", "Id");
             ViewBag.prefix = new SelectList(Apimanager.PrefixeList(), "prefixId", "prefixName", "prefixId");
             ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.BusId), "BusId", "unitname", "BusId");
             ViewBag.jobTitles = new SelectList(Apimanager.JobList().OrderBy(x => x.JobName), "JobId", "JobName", "JobId");
-            ViewBag.Levels = new SelectList(levelRepo.Get().OrderBy(x=>x.levelNo), "Id","LevelNo","Id");
+            ViewBag.Levels = new SelectList(levelRepo.Get().OrderBy(x => x.levelNo), "Id", "LevelNo", "Id");
             ViewBag.Locations = new SelectList(LocationRepo.Get().OrderBy(x => x.State), "Id", "State", "Id");
             ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(X => X.Id), "Id", "GroupName", "Id");
             return View();
@@ -127,7 +130,7 @@ namespace resourceEdge.webUi.Controllers
             ReportManagers manager = null;
             var RealUserId = employees.identityCode + employees.empUserId;
             var EmployeeIdExist = Infrastructure.UserManager.checkEmployeeId(RealUserId, employees.empEmail);
-            var validDate = validateDates(employees.dateOfJoining.Value, employees.dateOfLeaving.Value);
+            var validDate = validateDates(employees.dateOfJoining, employees.dateOfLeaving);
             if (ModelState.IsValid)
             {
                 if (EmployeeIdExist != true)
@@ -164,8 +167,8 @@ namespace resourceEdge.webUi.Controllers
                                   employees.dateOfJoining, null, true, employees.departmentId.ToString(), employees.businessunitId.ToString());
                             if (newCreatedUser.Id != null)
                             {
-                               var role =  db.Roles.Find(employees.empRoleId.ToString());
-                                if (role.Name.ToLower() == "manager" )
+                                var role = db.Roles.Find(employees.empRoleId.ToString());
+                                if (role.Name.ToLower() == "manager")
                                 {
                                     realEmployee.IsUnithead = true;
                                     manager = new ReportManagers();
@@ -182,7 +185,7 @@ namespace resourceEdge.webUi.Controllers
                                     manager.managerId = realEmployee.userId;
                                     employeeManager.AssignReportManager(manager);
                                 }
-                               
+
                             }
                         }
                         catch (Exception ex)
@@ -204,24 +207,27 @@ namespace resourceEdge.webUi.Controllers
             }
             ViewBag.Error = $"The employee {RealUserId} already exist in the system";
             ViewBag.EmpStatus = new SelectList(statusRepo.Get().Select(x => new { name = x.employemntStatus, id = x.empstId }).OrderBy(x => x.name), "id", "name", "id");
-            ViewBag.roles = new SelectList(GetRoles().OrderBy(x => x.Name).Where(u => !u.Name.Contains("System Admin") && !u.Name.Contains("Management") && !u.Name.Contains("Manager")).Select(x=>new { name = x.Name, id = x.Id }), "Id", "name", "Id");
+            ViewBag.roles = new SelectList(GetRoles().OrderBy(x => x.Name).Where(u => !u.Name.Contains("System Admin") && !u.Name.Contains("Management") && !u.Name.Contains("Manager")).Select(x => new { name = x.Name, id = x.Id }), "Id", "name", "Id");
             ViewBag.prefix = new SelectList(Apimanager.PrefixeList(), "prefixId", "prefixName", "prefixId");
             ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.BusId), "BusId", "unitname", "BusId");
-            ViewBag.jobTitles = new SelectList(Apimanager.JobList().OrderBy(x => x.JobName), "JobId", "JobName", "JobId");  
-            return Redirect(returnUrl);
+            ViewBag.jobTitles = new SelectList(Apimanager.JobList().OrderBy(x => x.JobName), "JobId", "JobName", "JobId");
+            return RedirectToAction("Create");
 
         }
-
-        [ChildActionOnly]
-        public bool validateDates(DateTime dateOfJoining, DateTime dateOfLeaveing)
+        [NonAction]
+        public bool validateDates(DateTime? dateOfJoining, DateTime? dateOfLeaveing)
         {
-            if (dateOfJoining > dateOfLeaveing)
+            if (dateOfJoining != null && dateOfLeaveing != null)
             {
-                return false;
-            }
-            else if(dateOfJoining < dateOfLeaveing)
-            {
-                return true;
+                if (dateOfJoining > dateOfLeaveing)
+                {
+                    return false;
+                }
+                else if (dateOfJoining < dateOfLeaveing)
+                {
+                    return true;
+                }
+
             }
             return false;
         }
@@ -245,7 +251,7 @@ namespace resourceEdge.webUi.Controllers
                     manager.BusinessUnitId = int.Parse(model.BunitId);
                     manager.managerId = model.ManagerId;
                     var employee = employeeManager.CheckIfEmployeeExistByUserId(model.ManagerId);
-                    if (employee != null && employee.empID != 2)
+                    if (employee != null && employee.empID != 2 && employee.IsUnithead != true)
                     {
                         var result = empRepo.GetByUserId(model.ManagerId);
                         manager.employeeId = result.empID;
@@ -267,13 +273,13 @@ namespace resourceEdge.webUi.Controllers
                         return new HttpStatusCodeResult(HttpStatusCode.NotFound);
                     }
                 }
-                ViewBag.Error = "Cannot Assign More Than two managers to a Business Unit";  
+                ViewBag.Error = "Cannot Assign More Than two managers to a Business Unit";
             }
 
-                ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.BusId), "BusId", "unitname", "BusId");
-                ViewBag.Error = "Make sure that the report Manager does not exist already for the business unit";
-                ViewBag.Warning = "Also make sure that you don't add an employee twice for particlar business unit";
-                return RedirectToAction("AssignReportManager");
+            ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.BusId), "BusId", "unitname", "BusId");
+            ViewBag.Error = "Make sure that the report Manager does not exist already for the business unit";
+            ViewBag.Warning = "Also make sure that you don't add an employee twice for particlar business unit";
+            return RedirectToAction("AssignReportManager");
         }
 
         public ActionResult DeleteReportManager(string userId)
@@ -293,18 +299,37 @@ namespace resourceEdge.webUi.Controllers
         [Authorize]
         public ActionResult AssignDepartmentHead()
         {
-            var UserFromSession = (SessionModel) Session["_ResourceEdgeTeneceIdentity"];
+            var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
             if (UserFromSession != null)
             {
                 ViewBag.businessUnits = new SelectList(BunitsRepo.GetUnitsByLocation(UserFromSession.LocationId).OrderBy(x => x.BusId), "BusId", "unitname", "BusId");
             }
+            ViewBag.PageTitle = "Assgin Department Head";
             return View();
         }
 
-        [HttpPost]
+        [HttpPost,ValidateAntiForgeryToken]
         public ActionResult AssignDepartmentHead(DepartmentHeadViewModel model)
         {
-            return View();
+            int unitId = 0;
+            int deptId = 0;
+            if (ModelState.IsValid)
+            {
+                int.TryParse(model.BunitId, out unitId);
+                int.TryParse(model.DeptId, out deptId);
+                var user = employeeManager.GetEmployeeByUserId(model.userId);
+                if (user != null)
+                {
+                    if (user.IsDepthead != true)
+                    {
+                        user.IsDepthead = true;
+                        empRepo.update(user);
+                        return RedirectToAction("AssignDepartmentHead");
+                    }
+                }
+               
+            }
+            return RedirectToAction("AssignDepartmentHead");
         }
     }
 

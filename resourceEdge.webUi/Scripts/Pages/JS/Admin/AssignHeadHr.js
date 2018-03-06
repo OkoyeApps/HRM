@@ -2,7 +2,7 @@
     function GetAllHrsByGroups(id) {
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:58124/api/settings/GetAllHrsByGroup/' + id,
+            url: '/api/settings/GetAllHrsByGroup/' + id,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {

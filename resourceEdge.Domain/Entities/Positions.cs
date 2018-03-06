@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Entities
 {
-   [MetadataType(typeof(positionViewModel))]
+   //[MetadataType(typeof(positionViewModel))]
    public class Positions
     {
         [Key]

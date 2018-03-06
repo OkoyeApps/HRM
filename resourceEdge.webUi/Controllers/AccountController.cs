@@ -71,7 +71,7 @@ namespace resourceEdge.webUi.Controllers
 
         //
         // POST: /Account/Login
-        [EdgeIdentityHandler]
+        
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -92,8 +92,8 @@ namespace resourceEdge.webUi.Controllers
                     // return UpdateLogin(model.Email, model.Password);
                     var userId = SignInManager.AuthenticationManager.AuthenticationResponseGrant.Identity.GetUserId();
                     TempData["UserId"] = userId;
-
-                    return RedirectToLocal(returnUrl);
+                    return RedirectionUrls(model.Email);
+                   // return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -414,7 +414,7 @@ namespace resourceEdge.webUi.Controllers
             LoginRepo.update(login);
             }
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login");
         }
 
         public ActionResult CustomLogOff(string userId, string email, string password)
@@ -519,17 +519,17 @@ namespace resourceEdge.webUi.Controllers
             var user = UserManager.FindByEmail(email);
             if (UserManager.IsInRole(user.Id, "Employee"))
             {             
-              return  RedirectToAction("Leave");
+              return  RedirectToAction("Leave", "SelfService");
             }
             else if (UserManager.IsInRole(user.Id, "Manager"))
             {
-                return RedirectToAction("");
+                return RedirectToAction("Leave", "SelfService");
             }
             else if(UserManager.IsInRole(user.Id, "HR"))
             {
-                return RedirectToAction("Index", "HR");
+                return RedirectToAction("create", "HR");
             }
-                return RedirectToAction("");
+                return RedirectToAction("create", "HR");
         }
 
         public ActionResult UpdateLogin(string email,string password)

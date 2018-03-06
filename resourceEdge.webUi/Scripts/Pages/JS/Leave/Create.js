@@ -3,7 +3,7 @@
  function getRMByBusId(id) {
      $.ajax({
          type: 'GET',
-         url: 'http://localhost:58124/api/Settings/GetRMByBusinessUnit/' + id,
+         url: '/api/Settings/GetRMByBusinessUnit/' + id,
          contentType: "application/json; charset=utf-8",
          dataType: "json",
          success: function (data) {
@@ -37,7 +37,7 @@
         console.log(id);
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:58124/api/Settings/GetDepartmentsById/' + id,
+            url: '/api/Settings/GetDepartmentsById/' + id,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {

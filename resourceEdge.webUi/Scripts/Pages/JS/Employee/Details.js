@@ -13,7 +13,7 @@
         return new Promise(function (resolve, reject) {
             $.ajax({
                 type: 'GET',
-                url: 'http://localhost:58124/Employee/GetEmpAvater/' + userid,
+                url: '/Employee/GetEmpAvater/' + userid,
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: resolve(function (data) {
@@ -31,7 +31,7 @@
     function getTeamMember(searchString) {
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:58124/employee/GetTeamMember?userid=' + '@Model.userId' + '&searchstring=' + searchString,
+            url: '/employee/GetTeamMember?userid=' + '@Model.userId' + '&searchstring=' + searchString,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
@@ -42,7 +42,7 @@
                     getEmpAvater(val.userId, function (response) {
                         console.log("########")
                         console.log(response)
-                        var path = response.replace("~", 'http://localhost:58124');
+                        var path = response.replace("~", '/');
                         $('#Teammember').append(
                         `
                                                 <div class ="user-w with-status status-green">

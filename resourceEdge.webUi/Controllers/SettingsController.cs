@@ -199,15 +199,7 @@ namespace resourceEdge.webUi.Controllers
                 return BadRequest();
             }
             var result = Apimanager.getEmpLeaveByUserId(id);
-            if (result == null)
-            {
-                return NotFound();
-            }
-
-            else
-            {
-                return Ok(result);
-            }
+            return Ok(result);
         }
 
         [Route("api/Settings/GetempLeaveTypeAmount/{id:int}")]

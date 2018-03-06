@@ -1,4 +1,7 @@
 ﻿(function () {
+    $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
+
+
     function validateDateOfJoining() {
         if (dateOfJoining == '') {
             var dateOfJoining = $('#dateOfJoining').val();
@@ -34,22 +37,40 @@
     }
     $('#dateleave').on('change', function () {
         var date1 = $('#dateJoin').val();
-        var date2 = $('#dateleave').val();
-        ValidateDatesFromBackend(date1, date2)
+        var date2 = $('#dateleave').val()
+        ValidateDatesFromBackend(date1, date2);
+        var newdate1 = date2.split('/');
+        var currentDay1 = newdate1[1] + '/' + newdate1[0] + '/' + newdate1[2];
+        $('#dateleave').val(currentDay2);
     })
+
+       $('#dateJoin').on('change', function () {
+           var date1 = $('#dateJoin').val();
+           var date2 = $('#dateleave').val()
+        ValidateDatesFromBackend(date1, date2)
+        var newdate1 = date1.split('/');
+        console.log(newdate1);
+        var currentDay1 = newdate1[1] + '/' + newdate1[0] + '/' + newdate1[2];
+        console.log(currentDay1);
+        $('#dateJoin').val(currentDay1);
+    })
+
+    
 
     //this method does the backend validation
     function ValidateDatesFromBackend(date1, date2) {
         console.log("#########################")
         console.log(date1);
-        var newdate1 = date1.split('-');
+        console.log(date2);
+        var newdate1 = date1.split('/');
+        console.log(newdate1);
         var currentDay1 = newdate1[1] + '/' + newdate1[0] + '/' + newdate1[2];
-        var newdate2 = date2.split('-');
+        var newdate2 = date2.split('/');
         var currentDay2 = newdate2[1] + '/' + newdate2[0] + '/' + newdate2[2];
         console.log(currentDay1);
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:58124/validation/validatedate?date1=' + currentDay1 + '&date2=' + currentDay2,
+            url: '/validation/validatedate?date1=' + currentDay1 + '&date2=' + currentDay2,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
@@ -82,7 +103,7 @@
         var currentId = id;
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:58124/api/settings/GetBusinessunitByLocation/' + id,
+            url: '/api/settings/GetBusinessunitByLocation/' + id,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
@@ -121,7 +142,7 @@
     function getidentityCode(id) {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:58124/api/Settings/GetEmployeeCodeByGroup/' + id,
+        url: '/api/Settings/GetEmployeeCodeByGroup/' + id,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
@@ -148,7 +169,7 @@
     function getLocationByGroup(id) {
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:58124/api/settings/GetLocationByGroup/' + id,
+            url: '/api/settings/GetLocationByGroup/' + id,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
@@ -177,12 +198,12 @@
     function getJobs() {
             $.ajax({
                 type: 'GET',
-                url: 'http://localhost:58124/api/settings/getjobs',
+                url: '/api/settings/getjobs',
                 success: function (data) {
                     console.log('data returned from getJobs')
                     console.log(data)
                     $('#SelectItem').empty();
-                    $('#SelectItem').append('<option value="">' + '--Select job--' + '</option>');
+                    $('#SelectItem').append('<option value="">' + 'Select job' + '</option>');
                     $.each(data, function (index, val) {
 
                         $('#SelectItem').append('<option value="' + val.JobId + '">' + val.JobName + '</option>');
@@ -199,7 +220,7 @@
         var currentId = id;
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:58124/api/Settings/GetPositionById/' + id,
+            url: '/api/Settings/GetPositionById/' + id,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
@@ -208,7 +229,7 @@
                 console.log(data);
                 $('#positionId').empty();
                 if (data != '') {
-                    $('#positionId').append('<option value="">' + '--Select Position--' + '</option>');
+                    $('#positionId').append('<option value="">' + 'Select Position' + '</option>');
                     $.each(data, function (index, val) {
                         $('#positionId').append('<option value="' + val.PositionId + '">' + val.PositionName + '</option>');
                     })
@@ -227,7 +248,7 @@
     function getDepartmentByBusinessUnit(id) {
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:58124/api/Settings/GetDepartmentsById/' + id,
+            url: '/api/Settings/GetDepartmentsById/' + id,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
@@ -252,5 +273,4 @@
  $('#businessunitId').bind('change', function () {
      getDepartmentByBusinessUnit($(this).val());
  })
- window.onload(addElement())
 })()

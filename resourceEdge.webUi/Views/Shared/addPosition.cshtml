@@ -9,53 +9,45 @@
 
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title succ">Add Position</h4>
+                <h4 class="modal-title succ" id="positionTitle">Add Position</h4>
+            </div>
+        <div id="positionContent">
+<div class="modal-body" id="pos">
+    @using (Ajax.BeginForm("addPosition", "Configuration", new { returnurl = ViewBag.returnUrl }, new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "body" },new { data_parsley_validate = "" }))
+    {
+
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.jobtitleid)
+                    @Html.DropDownListFor(model => model.jobtitleid, (SelectList)ViewBag.jobTitles,"Select Job", htmlAttributes: new { @class = "form-control", required = "" })
+                    @Html.ValidationMessageFor(model => model.jobtitleid, "", new { @class = "text-danger" })
+                </div>
             </div>
 
-                @using (Ajax.BeginForm("addPosition", "Configuration", new { returnurl = ViewBag.returnUrl }, new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "body" }))
-                {
-                 <div class="modal-body" id="pos">
-                    <div class="form-horizontal">
-                        @if ((string)TempData["Error"] != null)
-                        {
-                            string message = TempData["Error"].ToString();
-                            <div class="alert alert-danger" style="text-align : center">@message</div>
-                        }
-
-                        <hr />
-                        @Html.AntiForgeryToken()
-
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.jobtitleid, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.DropDownListFor(model => model.jobtitleid, (SelectList)ViewBag.jobTitles, htmlAttributes: new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.jobtitleid, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.positionname, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.positionname, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.positionname, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.description, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.description, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="reset" data-dismiss="modal" class="btn btn-outline dark">Close</button>
-                            <input type="submit" class="btn btn-success" value="Create">
-                        </div>
-                    </div>
+                <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.positionname)
+                    @Html.EditorFor(model => model.positionname, new { htmlAttributes = new { @class = "form-control", required = "" } })
+                    @Html.ValidationMessageFor(model => model.positionname, "", new { @class = "text-danger" })
                 </div>
-                }
+            </div>
+
+                <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.description)
+                    @Html.EditorFor(model => model.description, new { htmlAttributes = new { @class = "form-control"} })
+                    @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="pull-right" style="clear:both">
+                <button type="reset" data-dismiss="modal" class="btn btn-outline dark" onclick="position.close()">Close</button>
+                <input type="submit" class="btn btn-success" value="Create">
+            </div>
+    }
+            </div></div>
             </div>
         </div>
     </div>

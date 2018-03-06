@@ -172,7 +172,7 @@ namespace resourceEdge.webUi.Infrastructure
                 new ApplicationUser() {Email = "Manager@example.com", UserName = "Manager@example.com" },
                 new ApplicationUser() {Email = "DeptHead@example.com", UserName = "DeptHead@example.com" }
             };
-            var Employees = new Employees[]
+            var Employee = new Employees[]
             {
                 new Domain.Entities.Employees() { businessunitId = 1, departmentId = 2, empEmail = "Test1@example.com",
                     empRoleId = 4, empStatusId = "Test User", GroupId = 1, LevelId = 1, FullName = "Test User",
@@ -193,6 +193,7 @@ namespace resourceEdge.webUi.Infrastructure
             };
             for (int i = 0, j = 0; i < TestUser1.Count; i++,j++)
             {
+                TestUser1[i].employeeId = "Tenece" + i;
                 var result2 = userManager.Create(TestUser1[i], "1234567");
                 if (result.Succeeded)
                 {
@@ -203,15 +204,24 @@ namespace resourceEdge.webUi.Infrastructure
                     else if (TestUser1[i].Email.StartsWith("Hr"))
                     {
                         userManager.AddToRole(TestUser1[i].Id, "HR");
+                        userManager.AddToRole(TestUser1[i].Id, "Head HR");
                     }
                     else if (TestUser1[i].Email.StartsWith("Manager"))
                     {
                         userManager.AddToRole(TestUser1[i].Id, "Manager");
+                        var manager = new ReportManagers() { BusinessUnitId = Employee[i].businessunitId,
+                            DepartmentId = Employee[i].departmentId,
+                            employeeId = 3,
+                            FullName = "Test Manager", managerId = TestUser1[i].Id
+                        };
+                        context.ReportManager.Insert(manager);
                     }
+
                 }
-                Employees[i].userId = TestUser1[i].Id;
-                context.employees.Insert(Employees[j]);
+                Employee[i].userId = TestUser1[i].Id;
+                context.employees.Insert(Employee[j]);
              }
+            
             context.Save();
             var MonthsList = new List<MonthList>()
             {

@@ -10,10 +10,12 @@ using resourceEdge.webUi.Models;
 using Microsoft.AspNet.Identity;
 using System.Net;
 using resourceEdge.webUi.Infrastructure;
+using resourceEdge.webUi.Infrastructure.Handlers;
 
 namespace resourceEdge.webUi.Controllers
 {
    [Authorize(Roles = "System Admin,HR")]
+    [EdgeIdentityFilter]
     public class ConfigurationController : Controller
     {
         private ApplicationUserManager userManager;
@@ -470,10 +472,12 @@ namespace resourceEdge.webUi.Controllers
 
         public ActionResult AllLeaveType()
         {
+            ViewBag.PageTitle = "All Types of available Leaves";
             return View(leaveRepo.GetLeaveTypes());
         }
         public ActionResult AddLeaveType()
-        {  
+        {
+            ViewBag.PageTitle = "Add Leave Type";
             return View();
         }
         [HttpPost]

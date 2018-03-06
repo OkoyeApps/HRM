@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity.Owin;
 using resourceEdge.Domain.Abstracts;
 using resourceEdge.Domain.Entities;
 using resourceEdge.webUi.Infrastructure;
+using resourceEdge.webUi.Infrastructure.Handlers;
 using resourceEdge.webUi.Models;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ using static resourceEdge.webUi.Infrastructure.EmployeeManager;
 
 namespace resourceEdge.webUi.Controllers
 {
+    [EdgeIdentityFilter]
     public class EmployeeController : Controller
     {
 

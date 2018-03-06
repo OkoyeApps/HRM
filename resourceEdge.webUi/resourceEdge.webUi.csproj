@@ -253,8 +253,10 @@
     <Compile Include="Infrastructure\ConfigurationManager.cs" />
     <Compile Include="Infrastructure\DbInitializer.cs" />
     <Compile Include="Infrastructure\EmployeeManager.cs" />
-    <Compile Include="Infrastructure\Handlers\AccountHandler.cs" />
-    <Compile Include="Infrastructure\Handlers\Handlers.cs" />
+    <Compile Include="Infrastructure\Handlers\EdgeIdentityFilter.cs" />
+    <Compile Include="Infrastructure\Handlers\SessionFilter.cs" />
+    <Compile Include="Infrastructure\Handlers\SubscriptionFilter.cs" />
+    <Compile Include="Infrastructure\Handlers\UnAuthorizationFilter.cs" />
     <Compile Include="Infrastructure\LeaveManager.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\NotificationManager.cs" />
@@ -262,6 +264,7 @@
     <Compile Include="Infrastructure\StatManager.cs" />
     <Compile Include="Infrastructure\UserManager.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\BreadCrumb.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\SessionModel.cs" />
@@ -6387,6 +6390,7 @@
     <Content Include="Content\bootstrap-select.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\jBox.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="assets\AdminTemplate\assets\plugins\bootstrap\fonts\glyphicons-halflings-regular.eot" />
@@ -6405,11 +6409,16 @@
     <Content Include="assets\AdminTemplate\assets\plugins\simple-line-icons\fonts\Simple-Line-Icons.ttf" />
     <Content Include="assets\AdminTemplate\assets\plugins\simple-line-icons\fonts\Simple-Line-Icons.woff" />
     <Content Include="assets\AdminTemplate\assets\plugins\simple-line-icons\fonts\Simple-Line-Iconsd41d.eot" />
+    <None Include="Properties\PublishProfiles\ResourceEdge - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\ResourceEdge - Web Deploy.pubxml" />
+    <Content Include="Views\Account\Login.cshtml" />
     <None Include="Views\Appraisal\FormWizard.cshtml" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="HangfireConfiguration.txt" />
     <Content Include="Images\tenece.png" />
+    <Content Include="Scripts\jBox.js" />
+    <Content Include="Scripts\jBox.min.js" />
     <Content Include="Scripts\jquery.blockUI.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.min.js" />
@@ -6424,6 +6433,7 @@
     <Content Include="Scripts\Pages\JS\HR\Create.js" />
     <Content Include="Scripts\Pages\JS\Leave\AllotLeave.js" />
     <Content Include="Scripts\Pages\JS\Leave\Create.js" />
+    <Content Include="Scripts\Pages\JS\PartailPages\Modal.js" />
     <Content Include="Scripts\Pages\JS\Requisition\Create.js" />
     <Content Include="Scripts\Pages\JS\SelfService\Leave.js" />
     <Content Include="Scripts\Pages\JS\SelfService\RequestLeave.js" />
@@ -6434,7 +6444,6 @@
     <Content Include="Views\Requisition\Create.cshtml" />
     <Content Include="Views\Requisition\Index.cshtml" />
     <Content Include="Views\Leave\AllLeaveRequest.cshtml" />
-    <Content Include="Views\SelfService\Leave.cshtml" />
     <Content Include="Views\Employee\EmployeeDetails.cshtml" />
     <Content Include="Views\Employee\Edit.cshtml" />
     <Content Include="Views\Employee\Salary.cshtml" />
@@ -6511,6 +6520,8 @@
     <Content Include="ClassDiagram1.cd" />
     <Content Include="Views\HR\AssignDepartmentHead.cshtml" />
     <Content Include="Views\Shared\Layouts\_HrLayout.cshtml" />
+    <Content Include="Views\Shared\Layouts\_EmployeeLayout.cshtml" />
+    <Content Include="Views\SelfService\Leave.cshtml" />
     <None Include="Views\Shared\mainLayout2.cshtml" />
     <Content Include="MainScript.js" />
     <Content Include="Plugins\Css\bootstrap-modal-bs3patch.css" />
@@ -6522,19 +6533,10 @@
     <Content Include="Plugins\Js\bootstrap-modal.js" />
     <Content Include="Plugins\Js\bootstrap-modalmanager.js" />
     <Content Include="Plugins\Js\jquery.min.js" />
-    <Content Include="Public\Controllers\MainCtrl.js" />
-    <Content Include="Public\Services\MainService.js" />
-    <Content Include="Public\Views\business.html" />
-    <Content Include="Scripts\angular\angular-route.js" />
-    <Content Include="Scripts\angular\angular-route.min.js" />
-    <Content Include="Scripts\angular.js" />
-    <Content Include="Scripts\angular\angular.js" />
-    <Content Include="Scripts\angular\angular.min.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\angular\angular-route.min.js.map" />
     <Content Include="assets\global\img\social\Thumbs.db" />
     <Content Include="assets\global\plugins\amcharts\amcharts\plugins\dataloader\examples\data\gauge.json" />
     <Content Include="assets\global\plugins\amcharts\amcharts\plugins\dataloader\examples\data\map.json" />
@@ -6908,7 +6910,9 @@
     <Content Include="Configuration.html" />
     <Content Include="TestJquery.html" />
     <Content Include="Views\SelfService\Template.html" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -6926,7 +6930,7 @@
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Login2.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />

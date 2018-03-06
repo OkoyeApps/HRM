@@ -6,6 +6,7 @@ using resourceEdge.Domain.UnitofWork;
 using resourceEdge.webUi.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -254,33 +255,19 @@ namespace resourceEdge.webUi.Infrastructure
 
         public List<EmployeeListItem> GetReportManagrbyUserId(string userId)
         {
-            List<EmployeeListItem> managers = new List<EmployeeListItem>();
             var employee = UserManager.getEmployeeIdFromUserTable(userId); //Check if this check actually checks the user table
             if (employee != null)
             {
-                EmployeeListItem listItem;
                 int BuintId = int.Parse(employee.businessunitId);
-                var Reportmanager = ReportManagerRepo.GetManagersByBusinessunit(BuintId);
-                if (Reportmanager != null)
+                var Reportmanager = ReportManagerRepo.GetManagersByBusinessunit(BuintId).Select(x => new EmployeeListItem
                 {
-                    foreach (var item in Reportmanager)
-                    {
-                        listItem = new EmployeeListItem();
-                        var manager = GetEmployeeByUserId(item.managerId);
-                        if (manager != null)
-                        {
-                            listItem.empID = item.employeeId;
-                            listItem.businessunitId = item.BusinessUnitId;
-                            listItem.departmentId = item.DepartmentId;
-                            listItem.userId = item.managerId;
-                            listItem.FullName = manager.FullName;
-                            managers.Add(listItem);
-                        }
-
-                    }
-                    return managers;
-                }
-
+                    empID = x.employeeId,
+                    businessunitId = x.BusinessUnitId,
+                    departmentId = x.DepartmentId,
+                    userId = x.managerId,
+                    FullName = x.FullName
+                }).ToList();
+                return Reportmanager ?? null;
             }
             return null;
         }
@@ -430,6 +417,9 @@ namespace resourceEdge.webUi.Infrastructure
             /// <param name="Id"></param>
             /// <param name="unitId"></param>
             /// <returns></returns>
+            /// 
+
+
             public Tuple<Employees, ApplicationUser, Files, Jobtitles, Positions, EmpPayroll, List<LeaveRequest>> GetEmpDetails(int Id)
             {
 
@@ -493,23 +483,46 @@ namespace resourceEdge.webUi.Infrastructure
 
                 return Tuple.Create(TeamMembers, Images, TeamMemberUserDetail);
             }
-            public Tuple<List<Employees>, List<Files>, List<ApplicationUser>, List<Logins>> GetAllEmployeesDetails()
+            public List<EmloyeDetailistItem> GetAllEmployeesDetails()
             {
-                var employee = unitofWork.employees.Get().ToList();
-                List<Files> Images = new List<Files>();
-                List<ApplicationUser> empUserDetails = new List<ApplicationUser>();
-                List<Logins> AllLogins = new List<Domain.Entities.Logins>();
-                foreach (var item in employee)
+                var employeeQuery = unitofWork.employees.Get();
+
+                List<EmloyeDetailistItem> employeeListItem = new List<EmloyeDetailistItem>();
+                EmloyeDetailistItem listItem;
+                List<Employees> employees = new List<Employees>();
+                foreach (var item in employeeQuery)
                 {
-                    var ImagList = unitofWork.Files.Get(filter: x => x.UserId == item.userId).FirstOrDefault();
+                    listItem = new EmloyeDetailistItem();
+                    var ImagList = unitofWork.Files.Get(filter: x => x.UserId == item.userId && x.FileType == FileType.Avatar).Select(x=>x.FilePath).FirstOrDefault();
                     var userlist = userManager.FindById(item.userId);
-                    var loginList = unitofWork.Logins.Get(filter: x => x.userId == item.userId && x.IsLogOut == false).FirstOrDefault();
-                    Images.Add(ImagList);
-                    empUserDetails.Add(userlist);
-                    AllLogins.Add(loginList);
+                    bool? loginList = unitofWork.Logins.Get(filter: x => x.userId == item.userId && x.IsLogOut == false).Select(x=>x.IsLogIn).LastOrDefault();
+                    var employeeUnit = unitofWork.BusinessUnit.GetByID(item.businessunitId).unitname;
+                    var employeeDept = unitofWork.Department.GetByID(item.departmentId).deptname;
+                    listItem.BusinessUnitName = employeeUnit;
+                    listItem.DepartmentName = employeeDept;
+                    listItem.IsUnitHead = item.IsUnithead;
+                    listItem.EmployeeId = item.empID;
+                    listItem.Login = loginList ?? false;
+                    listItem.UserId = userlist.Id;
+                    listItem.ImageUrl = ImagList;
+                    listItem.FullName = item.FullName;
+                    employeeListItem.Add(listItem);
                 }
-                return Tuple.Create(employee, Images, empUserDetails, AllLogins);
+                return employeeListItem;
             }
         }
+
+    }
+    public class EmloyeDetailistItem
+    {
+        public string UserId { get; set; }
+        public string FullName { get; set; }
+        public string BusinessUnitName { get; set; }
+        public string DepartmentName { get; set; }
+        public string ImageUrl { get; set; }
+        public bool? Login { get; set; }
+        public int EmployeeRole { get; set; }
+        public int EmployeeId { get; set; }
+        public bool? IsUnitHead { get; set; }
     }
 }

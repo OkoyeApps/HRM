@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Entities
 {
-    [MetadataType(typeof(IDentityViewModel))]
+    //[MetadataType(typeof(IDentityViewModel))]
     public class IdentityCodes
     {
         [Key]

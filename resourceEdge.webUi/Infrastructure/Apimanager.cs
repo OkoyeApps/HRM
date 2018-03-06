@@ -281,11 +281,7 @@ namespace resourceEdge.webUi.Infrastructure
         public EmployeeLeaves getEmpLeaveByUserId(string userId)
         {
             var employee = unitOfWork.GetDbContext().EmpLeaves.Where(x => x.UserId == userId).SingleOrDefault();
-            if (employee != null)
-            {
-                return employee;
-            }
-            return null;
+            return employee ?? null;
         }
 
         public EmployeeLeaveTypes LeaveTypeById(int id)
@@ -315,35 +311,23 @@ namespace resourceEdge.webUi.Infrastructure
         public List<EmployeeListItem> GetReportManagrbyUserId(string userId)
         {
             List<EmployeeListItem> managers = new List<EmployeeListItem>();
-            var employee = UserManager.getEmployeeIdFromUserTable(userId);
-            if (employee != null)
+            int? employeeBusinessUnit = unitOfWork.employees.Get(filter: x => x.userId == userId).Select(x => x.businessunitId).FirstOrDefault();
+            if (employeeBusinessUnit != null)
             {
-                EmployeeListItem listItem;
-                int BuintId = (Int32.Parse(employee.businessunitId));
-                var Reportmanager = unitOfWork.GetDbContext().ReportManagers.Where(x => x.BusinessUnitId == BuintId).ToList();
-                if (Reportmanager != null)
-                {
-                    foreach (var item in Reportmanager)
-                    {
-                        listItem = new EmployeeListItem();
-                        var manager = GetEmployeeByUserId(item.managerId);
-                        if (manager != null)
-                        {
-                            listItem.empID = item.employeeId;
-                            listItem.businessunitId = item.BusinessUnitId;
-                            listItem.departmentId = item.DepartmentId;
-                            listItem.userId = item.managerId;
-                            listItem.FullName = manager.FullName;
-                            managers.Add(listItem);
-                        }
+                var Reportmanager = unitOfWork.GetDbContext().ReportManagers.Where(x => x.BusinessUnitId == employeeBusinessUnit).
+                    Select(x => new EmployeeListItem {
+                        empID = x.employeeId,
+                        businessunitId = x.BusinessUnitId,
+                        departmentId = x.DepartmentId,
+                        userId = x.managerId,
+                        FullName = x.FullName,
 
-                    }
-                    return managers;
+                    }).ToList();
+
+                    return Reportmanager;
                 }
-
-            }
             return null;
-        }
+            }
 
         public List<LeaveRequest> GetEmployeePendingLeave(string userId)
         {

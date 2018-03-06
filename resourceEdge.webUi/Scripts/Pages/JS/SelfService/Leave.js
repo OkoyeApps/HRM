@@ -4,7 +4,7 @@
            console.log(title);
            $.ajax({
                type: "GET",
-               url: "http://localhost:58124/api/settings/GetEmployeeAllLeave/" + userId,
+               url: "/api/settings/GetEmployeeAllLeave/" + userId,
                contentType: "application/json; charset=utf-8",
                dataType: "json",
                success: function (data) {
@@ -37,7 +37,7 @@
 
         $.ajax({
             type: "GET",
-            url: "http://localhost:58124/api/settings/GetEmployeeApprovedLeave/" + userId,
+            url: "/api/settings/GetEmployeeApprovedLeave/" + userId,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
@@ -68,7 +68,7 @@
     function GetEmployeePendingLeave(userId) {
         $.ajax({
             type: "GET",
-            url: "http://localhost:58124/api/settings/GetEmployeePendingLeave/" + userId,
+            url: "/api/settings/GetEmployeePendingLeave/" + userId,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
@@ -99,7 +99,7 @@
         console.log(userId);
         $.ajax({
             type: "GET",
-            url: "http://localhost:58124/api/settings/GetEmployeeDeniedLeave/" + userId,
+            url: "/api/settings/GetEmployeeDeniedLeave/" + userId,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
@@ -126,5 +126,32 @@
         GetEmployeeDeniedLeave("@ViewBag.UserId");
     });
 
+    function initializeTable(name){
+        name.DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        });
+}
+
+    //$(document).ready(function () {
+    //    $('#approved').DataTable({
+    //        dom: 'Bfrtip',
+    //        buttons: [
+    //            'copy', 'csv', 'excel', 'pdf', 'print'
+    //        ]
+    //    });
+    //})
+
+    $(document).ready(function () {
+        initializeTable($('#tblapproved'));
+        initializeTable($('#tbldenied'));
+        initializeTable($('#tblpending'));
+        initializeTable($('#tblall'));
+    
+    })
+
+    
 
 })()

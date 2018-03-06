@@ -270,6 +270,7 @@ namespace resourceEdge.Domain.Entities
         public string userId { get; set; }
         [Required(ErrorMessage = "please select a Business unit")]
         public string BunitId { get; set; }
+        public string DeptId { get; set; }
         public string empID { get; set; }
     }
 
@@ -293,7 +294,7 @@ namespace resourceEdge.Domain.Entities
     {
         [Key, HiddenInput(DisplayValue =false)]
         public int MyProperty { get; set; }
-        public string UserId { get; set; }
+        public string userKey { get; set; }
         public string AvailableLeave { get; set; }
         [Required(ErrorMessage ="please state reason for your Request"), Display(Name ="Reason")]
         public string Reason { get; set; }

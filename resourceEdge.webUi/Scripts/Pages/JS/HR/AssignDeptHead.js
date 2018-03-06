@@ -3,7 +3,7 @@
     function getDepartmentByBusinessUnit(id) {
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:58124/api/Settings/GetDepartmentsById/' + id,
+            url: '/api/Settings/GetDepartmentsById/' + id,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
@@ -23,19 +23,17 @@
 
 
 
-    function getEmployessByDept(id) {
+    function getEmployeesByDept(id) {
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:58124/api/Settings/GetEmpByDept/' + id,
+            url: '/api/Settings/GetEmpByDept/' + id,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
-
                 console.log('in the Get department method');
                 console.log(data)
                 $('#Employees').empty();
-                $('#Employees').attr({ 'data-live-search': "true", 'data-size': "4" })
-                $('#Employees').append('<option value="">' + 'Select department' + '</option>');
+                $('#Employees').append('<option value="">' + 'Select Employee' + '</option>');
                 if (data.length > 0) {
                     $.each(data, function (index, val) {
                         $('#Employees').append('<option value="' + val.userId + '">' + val.FullName + '</option>');
@@ -52,12 +50,8 @@
         getDepartmentByBusinessUnit($(this).val());
     });
     $('#departmentId').bind('change', function () {
-        getEmployessByDept($(this).val());
+        getEmployeesByDept($(this).val());
     });
 
-
-
-    function addElement() {
-    }
-    window.onload = addElement();
+    $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
 })();

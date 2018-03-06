@@ -1,17 +1,13 @@
 ﻿@model resourceEdge.Domain.Entities.reportmanagerViewModel
 
 @{
-    Layout = "~/Views/Shared/HRLayout.cshtml";
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
 }
 
 @using (Html.BeginForm())
 {
 
     @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-        <h4>LeaveManagementViewModel</h4>
-        <hr />
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
        
@@ -20,14 +16,16 @@
             <div class="col-md-10">
                 @Html.DropDownListFor(x => x.BunitId, (SelectList)ViewBag.businessUnits, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.BunitId, "", new { @class = "text-danger" })
+                <br />
             </div>
         </div>
-
+        <br />
         <div class="form-group">
             @Html.Label("Employee", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <select id="ManagerId" name="ManagerId" class="form-control"><option value="">Select Employee</option></select>
                 @Html.ValidationMessageFor(model => model.ManagerId, "", new { @class = "text-danger" })
+            <br />
             </div>
         </div>
         <div class="form-group">
@@ -35,7 +33,6 @@
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
-    </div>
 }
 
 @section Scripts {

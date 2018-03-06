@@ -15,24 +15,25 @@ namespace resourceEdge.Domain.Entities
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            Configuration.LazyLoadingEnabled = false;
+            //modelBuilder.Conventions.Remove<IncludeMetadataConvention>();
+                Configuration.LazyLoadingEnabled = true;
 
-            modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
-            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+            //modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
+            //modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
-            modelBuilder.Entity<Employees>()
-                .HasRequired(x => x.Departments)
-                .WithMany()
-                .HasForeignKey(x => x.departmentId)
-                .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<Employees>()
+            //    .HasRequired(x => x.Departments)
+            //    .WithMany()
+            //    .HasForeignKey(x => x.departmentId)
+            //    .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Departments>()
-                .HasRequired(x => x.BusinessUnits)
-                .WithMany()
-                .HasForeignKey(x => x.BunitId)
-                .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<Departments>()
+            //    .HasRequired(x => x.BusinessUnits)
+            //    .WithMany()
+            //    .HasForeignKey(x => x.BunitId)
+            //    .WillCascadeOnDelete(false);
 
-            base.OnModelCreating(modelBuilder);
+            //base.OnModelCreating(modelBuilder);
             // throw new UnintentionalCodeFirstException();
         }
 

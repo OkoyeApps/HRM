@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using resourceEdge.Domain.Abstracts;
 using resourceEdge.Domain.Entities;
+using resourceEdge.webUi.Infrastructure.Handlers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,9 @@ using System.Web.Mvc;
 
 namespace resourceEdge.webUi.Controllers
 {
+
     [RoutePrefix("Request")]
+    [EdgeIdentityFilter]
     public class RequisitionController : Controller
     {
         private IRequisition RequisitionRepo;

@@ -14,7 +14,7 @@
     function getDepartmentByBusinessUnit(id) {
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:58124/api/Settings/GetDepartmentsById/' + id,
+            url: '/api/Settings/GetDepartmentsById/' + id,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
@@ -42,7 +42,7 @@
     function getLocationManagers(id){
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:58124/api/settings/GetLocationDetails/' + id,
+            url: '/api/settings/GetLocationDetails/' + id,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
@@ -93,7 +93,7 @@
         }
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:58124/api/Settings/GetUnitHeadForAppraisal/' + idToSend,
+            url: '/api/Settings/GetUnitHeadForAppraisal/' + idToSend,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
@@ -141,7 +141,7 @@
         }
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:58124/api/Settings/GetLineManagers/' + idToSend + '/' + option,
+            url: '/api/Settings/GetLineManagers/' + idToSend + '/' + option,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {

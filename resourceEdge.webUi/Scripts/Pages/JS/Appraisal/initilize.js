@@ -7,7 +7,7 @@
        mode = $('#AppraisalMode').val();
        $.ajax({
            type: 'GET',
-           url: 'http://localhost:58124/api/settings/GetPeriodForAppraisal/' + mode,
+           url: '/api/settings/GetPeriodForAppraisal/' + mode,
            contentType: "application/json; charset=utf-8",
            dataType: "json",
            success: function (data) {

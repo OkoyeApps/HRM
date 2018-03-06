@@ -3,7 +3,7 @@
     function getLocationByGroup(id) {
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:58124/api/settings/GetLocationByGroup/' + id,
+            url: '/api/settings/GetLocationByGroup/' + id,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {

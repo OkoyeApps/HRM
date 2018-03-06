@@ -3,7 +3,7 @@
     //function getDepartmentByBusinessUnit(id) {
     //    $.ajax({
     //        type: 'GET',
-    //        url: 'http://localhost:58124/api/Settings/GetDepartmentsById/' + id,
+    //        url: '/api/Settings/GetDepartmentsById/' + id,
     //        contentType: "application/json; charset=utf-8",
     //        dataType: "json",
     //        success: function (data) {
@@ -27,7 +27,7 @@
         console.log(id);
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:58124/api/Settings/GetEligibleReportManager/' + id,
+            url: '/api/Settings/GetEligibleReportManager/' + id,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {

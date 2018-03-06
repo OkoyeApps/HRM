@@ -7,34 +7,34 @@
         <div id="empstatus" class="modal fade" tabindex="-1" data-width="1000" data-backdrop="static" data-keyboard="true">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title succ">Add employment status </h4>
+                <h4 class="modal-title succ" id="statusTitle">Add employment status </h4>
             </div>
 
+            <div id="statusContent">
+                <div class="modal-body" id="empFrm">
+                    @using (Ajax.BeginForm("addEmploymentStatus", "Configuration", new { returnurl = ViewBag.returnUrl }, new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "body" }, new { data_parsley_validate = "" }))
+                    {
+                        @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-            <div class="modal-body" id="empFrm">
-                @using (Ajax.BeginForm("addEmploymentStatus", "Configuration", new { returnurl = ViewBag.returnUrl }, new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "body" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <div class="form-horizontal">
-                        <hr />
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.employemnt_status, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.employemnt_status, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.employemnt_status, "", new { @class = "text-danger" })
+                            <div class="col-md-12">
+                            <div class="form-group">
+                                    @Html.Label("Employment Status")
+                                    @Html.EditorFor(model => model.employemnt_status, new { htmlAttributes = new { @class = "form-control", required = "" } })
+                                    @Html.ValidationMessageFor(model => model.employemnt_status, "", new { @class = "text-danger" })
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="modal-footer">
-                            <button type="reset" data-dismiss="modal" class="btn btn-outline dark">Close</button>
-                            <input type="submit" class="btn btn-success" value="Create">
-                        </div>
-                    </div>
-                    
-                }
+                            <div class="pull-right" style="clear:both">
+                                <button type="reset" data-dismiss="modal" class="btn btn-outline dark" onclick="stat.close()">Close</button>
+                                <input type="submit" class="btn btn-success" value="Create">
+                            </div>
+
+                    }
+                </div>
             </div>
         </div>
+
     </div>
 </div>
 

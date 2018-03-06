@@ -263,12 +263,14 @@
                                     {
                                         @Html.AntiForgeryToken()
                                         <a href="javascript:document.getElementById('logoutForm').submit()" style="text-decoration:none; font-weight:bold" class="btn btn-block font-dark">Log off </a>
-
+                                        //<button type="submit">Logout</button>
                                     }
                                 }
                             </li>
+
                         </ul>
                     </li>
+
                 </ul>
                 <!-- end header navigation right -->
             </div>
@@ -299,54 +301,33 @@
                         <a href="javascript:;">
                             <b class="caret pull-right"></b>
                             <i class="fa fa-laptop"></i>
-                            <span>Employee Configuration</span>
+                            <span>Leaves</span>
                         </a>
                         <ul class="sub-menu">
                             <li>
-                                @Html.ActionLink("Add Employee", "Index", "HR", null, new { @class = "nav-link  title" })
+                                @Html.ActionLink("Leave Dashboard", "Leave", null, new { @class = "nav-link  title" })
                             </li>
-                            <li class="has-sub">
-                                <a href="javascript:;"><b class="caret pull-right"></b>Report Manager</a>
-                                <ul class="sub-menu">
-                                    <li>@Html.ActionLink("Assign Department Head", "AssignDepartmentHead")</li>
-                                    <li>@Html.ActionLink(" Assign Report Managers", "AssignReportManager", null, new { @class = "nav-link  title" })</li>
-                                </ul>
+                            <li>
+                                @Html.ActionLink("Request Leave", "RequestLeave", null, new { @class = "nav-link  title" })
                             </li>
+                            @if (User.IsInRole("Manager"))
+                            {
+                                <li>
+                                @Html.ActionLink("Leave Requests", "leaveRequests", "Leave", null, new { @class = "nav-link title"})
+                                </li>
+                            }
                         </ul>
                     </li>
                     <li class="has-sub">
                         <a href="javascript:;">
                             <b class="caret pull-right"></b>
                             <i class="fa fa-inbox"></i>
-                            <span>Leave Management</span>
+                            <span>Assets</span>
                         </a>
                         <ul class="sub-menu">
-                            <li>@Html.ActionLink("All Leaves", "AllEmployeeLeave", "Leave", null, new { @class = "nav-link  title" })</li>
-                            <li>@Html.ActionLink("Allot Leave", "AllotLeaves", "Leave", null, new { @class = "nav-link  title" })</li>
-                            <li>@Html.ActionLink("All Request", "AllLeaveRequest", "Leave", null, new { @class = "nav-link  title" })</li>
                             <li class="has-sub">
-                                <a href="javascript:;"><b class="caret pull-right"></b>Leave Configuration</a>
-                                <ul class="sub-menu">
-                                    <li>@Html.ActionLink("All Leave Type", "AllLeaveType", "Configuration", null, new { @class = "nav-link  title" })</li>
-                                    <li>@Html.ActionLink("Add Leave Type", "AddLeaveType", "Configuration", null, new { @class = "nav-link  title" })</li>
-                                </ul>
-                            </li>
-
-                        </ul>
-
-                    </li>
-                    <li class="has-sub">
-                        <a href="javascript:;">
-                            <span class="caret pull-right"></span>
-                            <i class="fa fa-inbox"></i>
-                            <span>Self Service</span>
-                        </a>
-                        <ul class="sub-menu">
-                            <li>
-                                @Html.ActionLink("Leave Dashboard", "Leave", "SelfService", null, new { @class = "nav-link  title" })
-                            </li>
-                            <li>
-                                @Html.ActionLink("Request Leave", "RequestLeave", "SelfService", null, new { @class = "nav-link  title" })
+                                <a href="javascript:;"><b class="caret pull-right"></b>Request Assets</a>
+                                <ul class="sub-menu"></ul>
                             </li>
                         </ul>
                     </li>
@@ -354,19 +335,29 @@
                         <a href="javascript:;">
                             <b class="caret pull-right"></b>
                             <i class="fa fa-suitcase"></i>
-                            <span>Appraisals Management</span>
+                            <span>Coming Soon</span>
                         </a>
                         <ul class="sub-menu">
-
-                            <li>@Html.ActionLink("Appraisal", "InitilizeAppraisal", "Appraisal", null, new { @class = "nav-link  title" })</li>
                             <li>
-                                @if (User.IsInRole("Head HR"))
-                                {
-                                    @Html.ActionLink("Add Questions", "AddQuestion", "Appraisal", null, new { @class = "nav-link  title" })
-                                }
+
                             </li>
                         </ul>
                     </li>
+                    @if (User.IsInRole("HR"))
+                    {
+                        <li class="has-sub">
+                            <a href="javascript:;">
+                                <b class="caret pull-right"></b>
+                                <i class="fa fa-inbox"></i>
+                                <span>HR</span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li>
+                                    @Html.ActionLink("Create", "Create", "HR", null, new { @class = "nav-link  title" })
+                                </li>
+                            </ul>
+                        </li>
+                    }
                     @*<li class="has-sub active">
                             <a href="javascript:;">
                                 <b class="caret pull-right"></b>
@@ -401,6 +392,7 @@
             <ol class="breadcrumb pull-right">
                 <li><a href="javascript:;">@crumbs.Action</a></li>
                 <li><a href="javascript:;">@crumbs.Controller</a></li>
+                <li class="active">Wizards + Validation</li>
             </ol>
             <!-- end breadcrumb -->
             <!-- begin page-header -->

@@ -100,11 +100,8 @@ namespace resourceEdge.Domain.Concrete
         public EmployeeLeaves GetEmplyeeLeaveByUserId(string id)
         {
             var result = unitOfWork.EmployeeLeave.Get(filter: x=>x.UserId == id).FirstOrDefault();
-            if (result != null)
-            {
-                return result;
-            }
-            return result;
+            return result ?? null;
+
         }
         
         public IEnumerable<EmployeeLeaves> GetEmployeeLeaves()
