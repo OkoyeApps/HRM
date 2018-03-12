@@ -261,7 +261,7 @@ namespace resourceEdge.webUi.Infrastructure
             };
             foreach (var item in Months)
             {
-                context.GetDbContext().Months.Add(item);
+                context.GetDbContext().Month.Add(item);
                 context.Save();
             }
 
@@ -277,7 +277,7 @@ namespace resourceEdge.webUi.Infrastructure
             };
             foreach (var item in WeekDays)
             {
-                context.GetDbContext().WeekDays.Add(item);
+                context.GetDbContext().WeekDay.Add(item);
                 context.Save();
             }
 
@@ -294,7 +294,7 @@ namespace resourceEdge.webUi.Infrastructure
             };
             foreach (var item in weeks)
             {
-                context.GetDbContext().Weeks.Add(item);
+                context.GetDbContext().Week.Add(item);
                 context.Save();
             }
 
@@ -302,7 +302,7 @@ namespace resourceEdge.webUi.Infrastructure
             {
                  new Domain.Entities.AppraisalStatus() { Name = "Open" },
                  new Domain.Entities.AppraisalStatus() { Name = "Closed" },
-                 new Domain.Entities.AppraisalStatus() { Name = "InProgress" }
+                 new Domain.Entities.AppraisalStatus() { Name = "In-Progress" }
             };
             foreach (var item in AppraisalStatus)
             {
@@ -323,7 +323,8 @@ namespace resourceEdge.webUi.Infrastructure
             var AppraisalRating = new List<AppraisalRating>()
             {
                 new Domain.Entities.AppraisalRating() { Name = "1-5" },
-                new Domain.Entities.AppraisalRating() { Name = "1-10" }
+                new Domain.Entities.AppraisalRating() { Name = "1-10" },
+                new Domain.Entities.AppraisalRating() { Name = "1-3" }
             };
             foreach (var item in AppraisalRating)
             {
@@ -339,7 +340,7 @@ namespace resourceEdge.webUi.Infrastructure
             periods.ForEach(X => context.AppraisalPeriod.Insert(X));
             var parameter = new List<Parameters>()
             {
-                new Parameters() { ParameterName = "KPI", Descriptions = "Key Point Index" }
+                new Parameters() { ParameterName = "KPI", Descriptions = "Key Performance Index" }
             };
             parameter.ForEach(X => context.Parameters.Insert(X));
             context.Save();

@@ -18,11 +18,11 @@ using resourceEdge.Domain.Entities;
 namespace resourceEdge.webUi.Infrastructure.Handlers
 {
 
-    public class EdgeIdentityFilter : FilterAttribute, IActionFilter
+    public class EdgeIdentityFilter : ActionFilterAttribute
     {
         private IEmployees EmpRepo = new EmployeeRepository();
         UnitOfWork unitOfWork = new UnitOfWork();
-        public void OnActionExecuted(ActionExecutedContext filterContext)
+        public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             string userIdentityObject = null;
             if (filterContext.Controller.TempData["UserId"] != null)
@@ -38,7 +38,7 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                 }
                 if (userIdentityObject != null)
                 {
-                    var userObject = unitOfWork.GetDbContext().employees.Where(x => x.userId == userIdentityObject).FirstOrDefaultAsync();
+                    var userObject = unitOfWork.GetDbContext().Employee.Where(x => x.userId == userIdentityObject).FirstOrDefaultAsync();
                     if (filterContext.Controller.ControllerContext.HttpContext.Session != null && userObject.Result != null)
                     {
                         var unitDetails = unitOfWork.BusinessUnit.GetByID(userObject.Result.businessunitId);
@@ -57,18 +57,23 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                     }
                 }
             }
+
+            if (filterContext.Controller.TempData != null)
+            {
+                //filterContext.Controller.TempData.Clear();
+            }
+            ViewDataDictionary viewData = new ViewDataDictionary();
+            
         }
 
 
-        public void OnActionExecuting(ActionExecutingContext filterContext)
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var sessionObject = filterContext.Controller.ControllerContext.HttpContext.Session["_ResourceEdgeTeneceIdentity"];
             if (sessionObject == null)
             {
                 var userIdentityObject = filterContext.Controller.ControllerContext.HttpContext.User.Identity.GetUserId();
-                var userObject = unitOfWork.GetDbContext().employees.Where(x => x.userId == userIdentityObject).FirstOrDefaultAsync();
-                //Task.WaitAll(userObject);
-
+                var userObject = unitOfWork.GetDbContext().Employee.Where(x => x.userId == userIdentityObject).FirstOrDefaultAsync();
                 if (filterContext.Controller.ControllerContext.HttpContext.Session != null && userObject.Result != null)
                 {
                     var unitDetails = unitOfWork.BusinessUnit.GetByID(userObject.Result.businessunitId);
@@ -101,7 +106,10 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
             filterContext.Controller.ControllerContext.HttpContext.Session["_Crumbs"] = crumb;
         }
 
-
+        public override void OnResultExecuting(ResultExecutingContext filterContext)
+        {
+            
+        }
     }
 
 

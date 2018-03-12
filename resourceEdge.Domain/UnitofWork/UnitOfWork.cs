@@ -50,6 +50,8 @@ namespace resourceEdge.Domain.UnitofWork
         private GenericRepository<AppraisalInitialization> AppraisalInitilizationRepo;
         private GenericRepository<AppraisalConfiguration> AppraisalConfigurationRepo;
         private GenericRepository<SubscribedAppraisal> SubscibedAppraisalRepo;
+        private GenericRepository<MailDispatcher> MailDispacthRepo;
+        private GenericRepository<EmployeeDetailDispatcher> EMpDetailDispatchRepo;
         public EdgeDbContext Context
         {
             get
@@ -219,6 +221,14 @@ namespace resourceEdge.Domain.UnitofWork
         public GenericRepository<SubscribedAppraisal> SubscribedAppraisal
         {
             get { return this.SubscibedAppraisalRepo ?? new GenericRepository<Entities.SubscribedAppraisal>(Context); }
+        }
+        public GenericRepository<MailDispatcher> MailDispatch
+        {
+            get { return this.MailDispacthRepo ?? new GenericRepository<MailDispatcher>(Context); }
+        }
+        public GenericRepository<EmployeeDetailDispatcher> EmpDetailDispatch
+        {
+            get { return this.EMpDetailDispatchRepo ?? new GenericRepository<EmployeeDetailDispatcher>(Context); }
         }
         public void Save()
         {

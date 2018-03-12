@@ -24,10 +24,10 @@ namespace resourceEdge.webUi.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private ILogin LoginRepo = new LoginRepository();
-       
+
         public AccountController()
         {
-            
+
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -82,14 +82,15 @@ namespace resourceEdge.webUi.Controllers
                 return View(model);
             }
 
+           AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
-
                     // return UpdateLogin(model.Email, model.Password);
+                    Session.Clear();
                     var userId = SignInManager.AuthenticationManager.AuthenticationResponseGrant.Identity.GetUserId();
                     TempData["UserId"] = userId;
                     return RedirectionUrls(model.Email);

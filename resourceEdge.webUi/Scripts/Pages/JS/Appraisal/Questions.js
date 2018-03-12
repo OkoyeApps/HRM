@@ -11,13 +11,13 @@
         console.log(current);
         if (current < 5) {
             $('#questionId').append(`
-        <div class ="col-md-4">
-            <label for="questions" class ="control-label col-md-2">Question</label>
+        <div class ="col-md-6">
+            <label for="questions" class ="control-label">Question</label>
             <textarea cols="2" name="question[${count}]" id="questionid" class ="form-control" required ></textarea>
         </div>
-        <div class ="col-md-4">
-            <label for="description" class ="control-label col-md-2">Description</label>
-            <textarea cols="2" name="description[${count}]" id="questionid" class ="form-control col-md-4" required></textarea>
+        <div class ="col-md-6">
+            <label for="description" class ="control-label">Description</label>
+            <textarea cols="2" name="description[${count}]" id="questionid" class ="form-control" required></textarea>
         </div>
                 `);
         }

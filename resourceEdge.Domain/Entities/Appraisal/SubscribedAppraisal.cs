@@ -12,8 +12,8 @@ namespace resourceEdge.Domain.Entities
         public int id { get; set; }
         public string  UserId { get; set; }
         public string Code { get; set; }
-        public int Year { get; set; }
-        public int Period { get; set; }
+        public int GroupId { get; set; }
+        public int LocationId { get; set; }
         public int AppraisalInitializationId { get; set; }
         public AppraisalInitialization AppraisalInitialization { get; set; }
     }

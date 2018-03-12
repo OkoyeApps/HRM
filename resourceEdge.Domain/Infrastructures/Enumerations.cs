@@ -24,6 +24,11 @@ namespace resourceEdge.Domain.Infrastructures
         Old, New
     }
 
+    public enum MailType
+    {
+        Account =1, Appraisal
+    }
+
     public enum Answers
     {
         YES =1, No

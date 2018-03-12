@@ -1,8 +1,10 @@
-﻿@model resourceEdge.Domain.Entities.AppraisalConfigratuionViewModel
+﻿@using resourceEdge.Domain.ViewModels
+@model resourceEdge.Domain.Entities.AppraisalConfigratuionViewModel
 
 @{ 
     Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
     var usersessionObject = (resourceEdge.webUi.Models.SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+    var dropDowns = (SystemViewModel)ViewBag.dropDowns;
 }
 
 @section css{
@@ -23,7 +25,7 @@
     <link href="~/assets/AdminTemplate/assets/plugins/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" />
     <link href="~/assets/AdminTemplate/assets/plugins/select2/dist/css/select2.min.css" rel="stylesheet" />
     }
-<span id="group">@usersessionObject.GroupId</span>
+<span id="group" hidden>@usersessionObject.GroupId</span>
                             <form action="http://seantheme.com/" method="POST" data-parsley-validate="true" name="form-wizard">
                                 @Html.AntiForgeryToken()
                                 <div id="wizard">
@@ -51,7 +53,7 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group block1">
                                                         <label>BusinessUnit</label>
-                                                        @Html.DropDownList("BusinessUnit", (SelectList)ViewBag.BusinessUnit, htmlAttributes: new { @class="form-control selectpicker", data_size="10", data_live_search="true", data_style="btn-white"})
+                                                        @Html.DropDownList("BusinessUnit", dropDowns.BusinessUnits, htmlAttributes: new { @class="form-control selectpicker", data_size="10", data_live_search="true", data_style="btn-white"})
                                                         @Html.ValidationMessage("BusinessUnit", "", new { @class = "text-danger" })                   
                                                     </div>
                                                 </div>
@@ -69,7 +71,7 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>AppraisalStatus</label>
-                                                       @Html.DropDownList("AppraisalStatus", (SelectList)ViewBag.AppraisalStatus,"Select status", htmlAttributes: new { @class="form-control selectpicker", data_size="10", data_live_search="true", data_style="btn-white", data_parsley_group = "wizard-step-1", required = "required" })
+                                                       @Html.DropDownList("AppraisalStatus", dropDowns.Status,"Select status", htmlAttributes: new { @class="form-control selectpicker", data_size="10", data_live_search="true", data_style="btn-white", data_parsley_group = "wizard-step-1", required = "required" })
                                                     </div>
                                                 </div>
                                                 <!-- end col-4 -->
@@ -86,7 +88,7 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Eligibility</label>
-                                                          @Html.DropDownList("Eligibility", (SelectList)ViewBag.Eligibility, "All", htmlAttributes: new { @class = "form-control selectpicker", data_size = "10", data_live_search = "true", data_style = "btn-white", data_parsley_group = "wizard-step-1", required = "required" })
+                                                          @Html.DropDownList("Eligibility", dropDowns.EmploymentStatus, "All", htmlAttributes: new { @class = "form-control selectpicker", data_size = "10", data_live_search = "true", data_style = "btn-white", data_parsley_group = "wizard-step-1", required = "required" })
                                                     </div>
                                                 </div>
                                                 <!-- end col-4 -->
@@ -95,7 +97,7 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group block1">
                                                         <label>Parameters</label>
-                                                       @Html.DropDownList("Parameters", (SelectList)ViewBag.parameter, "All", htmlAttributes: new { @class = "form-control selectpicker", data_size = "10", data_live_search = "true", data_style = "btn-white", data_parsley_group = "wizard-step-1", required = "required" })
+                                                       @Html.DropDownList("Parameters", dropDowns.Parameter, "All", htmlAttributes: new { @class = "form-control selectpicker", data_size = "10", data_live_search = "true", data_style = "btn-white", data_parsley_group = "wizard-step-1", required = "required" })
                                                     </div>
                                                 </div>
                                                 <!-- end col-4 -->

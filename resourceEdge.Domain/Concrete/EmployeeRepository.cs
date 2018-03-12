@@ -32,8 +32,8 @@ namespace resourceEdge.Domain.Concrete
         }
         public Employees GetEmployeeByEmail(string email)
         {
-            var emp = unitOfWork.GetDbContext().employees.Where(x => x.empEmail == email);
-            var employee = unitOfWork.GetDbContext().employees.Where(x => x.empEmail == email).FirstOrDefault();
+            var emp = unitOfWork.GetDbContext().Employee.Where(x => x.empEmail == email);
+            var employee = unitOfWork.GetDbContext().Employee.Where(x => x.empEmail == email).FirstOrDefault();
             return employee;
         }
 

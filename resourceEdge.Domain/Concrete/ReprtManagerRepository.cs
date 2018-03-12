@@ -24,7 +24,7 @@ namespace resourceEdge.Domain.Concrete
 
         public ReportManagers GetById(string userId)
         {
-            return unitOfWork.GetDbContext().ReportManagers.Find(userId);
+            return unitOfWork.GetDbContext().ReportManager.Find(userId);
         }
 
         public void Delete(string UserId)

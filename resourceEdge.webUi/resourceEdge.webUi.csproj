@@ -232,6 +232,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AppraisalController.cs" />
+    <Compile Include="Controllers\CronController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HRController.cs" />
     <Compile Include="Controllers\LeaveController.cs" />
@@ -246,14 +247,19 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\ActitivityLogs\LoggingEvents.cs" />
     <Compile Include="Infrastructure\AdminManager.cs" />
     <Compile Include="Infrastructure\Apimanager.cs" />
     <Compile Include="Infrastructure\AppraisalManager.cs" />
     <Compile Include="Infrastructure\BackendValidationManager.cs" />
     <Compile Include="Infrastructure\ConfigurationManager.cs" />
+    <Compile Include="Infrastructure\Core\CronJob.cs" />
+    <Compile Include="Infrastructure\Core\Generators.cs" />
+    <Compile Include="Infrastructure\Core\NotificationExtension.cs" />
     <Compile Include="Infrastructure\DbInitializer.cs" />
     <Compile Include="Infrastructure\EmployeeManager.cs" />
     <Compile Include="Infrastructure\Handlers\EdgeIdentityFilter.cs" />
+    <Compile Include="Infrastructure\Handlers\LoggingFilter.cs" />
     <Compile Include="Infrastructure\Handlers\SessionFilter.cs" />
     <Compile Include="Infrastructure\Handlers\SubscriptionFilter.cs" />
     <Compile Include="Infrastructure\Handlers\UnAuthorizationFilter.cs" />
@@ -265,6 +271,7 @@
     <Compile Include="Infrastructure\UserManager.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BreadCrumb.cs" />
+    <Compile Include="Models\EmailObject.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\SessionModel.cs" />
@@ -6411,7 +6418,21 @@
     <Content Include="assets\AdminTemplate\assets\plugins\simple-line-icons\fonts\Simple-Line-Iconsd41d.eot" />
     <None Include="Properties\PublishProfiles\ResourceEdge - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\ResourceEdge - Web Deploy.pubxml" />
+    <Content Include="Infrastructure\EmailTemplates\Account.html" />
+    <Content Include="Infrastructure\EmailTemplates\AppraisalSubscription.html" />
+    <Content Include="Infrastructure\EmailTemplates\images\arrow.jpg" />
+    <Content Include="Infrastructure\EmailTemplates\images\book.png" />
+    <Content Include="Infrastructure\EmailTemplates\images\eye.jpg" />
+    <Content Include="Infrastructure\EmailTemplates\images\fb.jpg" />
+    <Content Include="Infrastructure\EmailTemplates\images\hand.png" />
+    <Content Include="Infrastructure\EmailTemplates\images\img01.jpg" />
+    <Content Include="Infrastructure\EmailTemplates\images\img02.jpg" />
+    <Content Include="Infrastructure\EmailTemplates\images\in.jpg" />
+    <Content Include="Infrastructure\EmailTemplates\images\logo.jpg" />
+    <Content Include="Infrastructure\EmailTemplates\images\logo2.jpg" />
+    <Content Include="Infrastructure\EmailTemplates\images\tw.jpg" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Appraisal\EditQuestion.cshtml" />
     <None Include="Views\Appraisal\FormWizard.cshtml" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -6522,17 +6543,9 @@
     <Content Include="Views\Shared\Layouts\_HrLayout.cshtml" />
     <Content Include="Views\Shared\Layouts\_EmployeeLayout.cshtml" />
     <Content Include="Views\SelfService\Leave.cshtml" />
+    <Content Include="Views\Shared\_Notifications.cshtml" />
     <None Include="Views\Shared\mainLayout2.cshtml" />
     <Content Include="MainScript.js" />
-    <Content Include="Plugins\Css\bootstrap-modal-bs3patch.css" />
-    <Content Include="Plugins\Css\bootstrap-modal.css" />
-    <Content Include="Plugins\Css\components.css" />
-    <Content Include="Plugins\Css\components.min.css" />
-    <Content Include="Plugins\Css\font-awesome.css" />
-    <Content Include="Plugins\Css\font-awesome.min.css" />
-    <Content Include="Plugins\Js\bootstrap-modal.js" />
-    <Content Include="Plugins\Js\bootstrap-modalmanager.js" />
-    <Content Include="Plugins\Js\jquery.min.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -6990,10 +7003,10 @@
     <Folder Include="Files\Avatars\" />
     <Folder Include="Images\Assets\" />
     <Folder Include="Images\Employee\" />
-    <Folder Include="Infrastructure\ActitivityLogs\" />
     <Folder Include="Scripts\Pages\CSS\" />
     <Folder Include="Scripts\Pages\JS\NewFolder1\" />
     <Folder Include="SignalR\" />
+    <Folder Include="Views\Cron\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

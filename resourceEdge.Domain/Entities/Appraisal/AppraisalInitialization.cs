@@ -14,15 +14,17 @@ namespace resourceEdge.Domain.Entities
         public int ToYear { get; set; }
         public int AppraisalMode { get; set; }
         public int Period { get; set; }
-        public DateTime DueDate { get; set; }
         public string RatingType { get; set; }
         public int AppraisalStatus { get; set; }
         public string InitilizationCode { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         public bool? Enable { get; set; }
         public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
+        public bool? IsActive { get; set; }
         public Groups Group { get; set; }
     }
 }

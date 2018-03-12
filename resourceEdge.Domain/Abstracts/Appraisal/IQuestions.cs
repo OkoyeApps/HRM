@@ -9,5 +9,6 @@ namespace resourceEdge.Domain.Abstracts
 {
     public interface IQuestions : GenericInterface<Questions>
     {
+        IEnumerable<Questions> GetAllUserQuestion(string userId);
     }
 }

@@ -1,4 +1,12 @@
-﻿@{
+﻿@section css{
+    <style>
+        textarea {
+            resize: none;
+        }
+    </style>
+}
+
+@{
     ViewBag.Title = "Contact";
     Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
 }
@@ -9,11 +17,19 @@
 @using (Html.BeginForm("AddQuestion", "Appraisal", FormMethod.Post, new { returnurl = ViewBag.returnUrl }))
 {
     @Html.AntiForgeryToken()
-    <div class="form-horizontal" >
-        <hr />
+    <hr />
+    <div class="form-horizontal" id="questionId">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <div class="col-md-4">
+        <div class="col-md-6">
+            @Html.Label("Employee", htmlAttributes: new { @class = "control-label " })
+            <div>
+                @Html.DropDownList("Employee", (SelectList)ViewBag.Employees, "Select Employee", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "form-control bs-select" })
+                @Html.ValidationMessage("Employee", "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-md-6">
             @Html.Label("Parameters", htmlAttributes: new { @class = "control-label " })
             <div>
                 @Html.DropDownList("parameters", (SelectList)ViewBag.parameter, "Select Parameter", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "form-control bs-select" })
@@ -21,26 +37,22 @@
             </div>
         </div>
 
-        <div class="col-md-4">
-            <label for="questions" class="control-label col-md-2">Question</label>
-            <textarea cols="2" name="question[0]" id="questionid" class="form-control" required ></textarea>
+        <div class="col-md-6">
+            <label for="questions" class="control-label">Question</label>
+            <textarea cols="2" name="question[0]" id="questionid" class="form-control" required></textarea>
         </div>
-        <div class="col-md-4">
-            <label for="description" class="control-label col-md-2">Description</label>
-            <textarea cols="2" name="description[0]" id="questionid" class="form-control col-md-4" required></textarea>
+        <div class="col-md-6">
+            <label for="description" class="control-label">Description</label>
+            <textarea cols="2" name="description[0]" id="questionid" class="form-control" required></textarea>
         </div>
         <br />
-        <div id="questionId">
-
-        </div>
-        <button class="btn btn-primary blue icon icon-book-open" id="addquestion">Add New Question</button>
-        <div class="modal-footer">
-            <input type="submit" class="btn btn-success" value="Create">
-        </div>
-
     </div>
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-success" style="clear: both"> Create</button>
+            <button class="btn btn-primary blue pull-right" id="addquestion" style="clear:both">Add New Question</button>
+        </div>
 }
 
-@section Scripts{   
-<script src="~/Scripts/Pages/JS/Appraisal/Questions.js"></script>
-    }
+@section Scripts{
+    <script src="~/Scripts/Pages/JS/Appraisal/Questions.js"></script>
+}

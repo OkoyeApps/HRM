@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 using resourceEdge.Domain.Entities;
 using resourceEdge.Domain.UnitofWork;
+using resourceEdge.webUi.Infrastructure.Core;
 using resourceEdge.webUi.Models;
 using resourceEdge.webUi.Security;
 using System;
@@ -14,18 +15,18 @@ using System.Web.Security;
 
 namespace resourceEdge.webUi.Infrastructure
 {
-    public static class UserManager
+    public static class UserManagement
     {
         private static ApplicationDbContext context = new ApplicationDbContext();
         static UnitOfWork unitOfWork = new UnitOfWork();
         private static ApplicationUserManager userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
 
-        public static string GeneratePassword()
-        {
-            return Membership.GeneratePassword(10, 1);
-        }
-
-        public static async Task<ApplicationUser> CreateUser(
+        public static async Task<Tuple<ApplicationUser, string>> CreateUser(
             string email, string empRole, string userstatus, string fname, string lname, string phoneNo,
             string empId, string jobId, string Comments, string createdBy, string modifiedBy, string modeofEntry, DateTime? selectedDate, string candidateReferredBy, bool? isactive
             , string DeptId, string BUnitId)
@@ -64,7 +65,8 @@ namespace resourceEdge.webUi.Infrastructure
                 //}
                 //else
                 //{
-                var password = GeneratePassword();
+                Generators Generator = new Generators();
+                var password = Generator.RandomPassword();
                 var result = await userManager.CreateAsync(user, password);
                 if (!result.Succeeded)
                 {
@@ -80,7 +82,6 @@ namespace resourceEdge.webUi.Infrastructure
                     else
                     {
                         var userRole = await userManager.AddToRoleAsync(user.Id.ToString(), role.Name);
-                        //var userRole = userManager.AddToRole(user.Id.ToString(), role.Name);
                         if (!userRole.Succeeded)
                         {
                             return null;
@@ -91,7 +92,7 @@ namespace resourceEdge.webUi.Infrastructure
                             //var message = $"Welcome to Tence Your Username is {user.UserName} and Password is {password}. \n Please ensure to keep this details safe.";
                             //NotificationManager manager = new NotificationManager();
                             //await manager.sendEmailNotification("Tenece", "noreply@gmail.com", message, user.Email);
-                            return user;
+                            return Tuple.Create(user, password);
 
                         }
 

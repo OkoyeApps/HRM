@@ -40,7 +40,7 @@ namespace resourceEdge.webUi.Controllers
         public async Task<ActionResult> Contact()
         {
             NotificationManager sendmail = new NotificationManager();
-            var a  =   await sendmail.sendEmailNotification("tenece", "okoyeemma442@gmail.com", "Checking mail", "Chuks.okoye@tenece.com");
+           // var a  =   await sendmail.sendEmailNotification("tenece", "okoyeemma442@gmail.com", "Checking mail", "Chuks.okoye@tenece.com");
             //sendmail.SendEmail("Account message");
             return View();
         }

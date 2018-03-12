@@ -24,10 +24,10 @@
             @Html.DisplayNameFor(model => model.AppraisalMode)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Period)
+            @Html.DisplayNameFor(model => model.StartDate)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DueDate)
+            @Html.DisplayNameFor(model => model.EndDate)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.RatingType)
@@ -56,10 +56,11 @@
             @Html.DisplayFor(modelItem => item.AppraisalMode)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Period)
+            @Html.DisplayFor(modelItem => item.StartDate)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.DueDate)
+            @Html.DisplayFor(modelItem => item.EndDate)
+            
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.RatingType)
@@ -77,9 +78,6 @@
              @Html.HiddenFor(x=>item.Id)
                 <input type="submit" class="btn btn-success" value="Enable" />
              }
-            @Html.ActionLink("Enable", "EnableAppraisal", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
         </td>
     </tr>
 }

@@ -3,19 +3,21 @@ using resourceEdge.Domain.Abstracts;
 using resourceEdge.Domain.Entities;
 using resourceEdge.webUi.Infrastructure;
 using resourceEdge.webUi.Infrastructure.Handlers;
+using resourceEdge.webUi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using resourceEdge.webUi.Infrastructure.Core;
 
 namespace resourceEdge.webUi.Controllers
 {
-    [EdgeIdentityFilter]
+    [EdgeIdentityFilter, Authorize]
     public class AppraisalController : Controller
     {
-        
         IEmployees  EmpRepo;
         IParameter ParameterRepo;
         IQuestions QuestionRepo;
@@ -29,6 +31,7 @@ namespace resourceEdge.webUi.Controllers
         IAppraisalConfiguration AppraisalConfigRepo;
         IAppraisalInitialization InitializtionRepo;
         IEmploymentStatus StatusRepo;
+        EmployeeManager EmployeeManager;
         AppraisalManager AppraisalManager;
         
         public AppraisalController(IParameter param, IQuestions questParam, ISkills skillParam, IRating RParam, IGroups GParam,
@@ -49,7 +52,8 @@ namespace resourceEdge.webUi.Controllers
             StatusRepo = statusParam;
             AppraisalConfigRepo = AppConfigParam;
             EmpRepo = EmpParam;
-            AppraisalManager = new AppraisalManager(EmpParam, AppConfigParam);
+            EmployeeManager = new EmployeeManager(EmpParam);
+            AppraisalManager = new AppraisalManager(EmpParam, AppConfigParam, questParam);
         }
         public ActionResult AddParameter()
         {
@@ -83,11 +87,16 @@ namespace resourceEdge.webUi.Controllers
                 throw ex;
             }
             ModelState.AddModelError("", "Please try again");
+            this.AddNotification("Something went wrong please try again", NotificationType.ERROR);
             return View(model);
         }
 
+        [Authorize(Roles ="Manager")]
         public ActionResult AddQuestion()
         {
+            var userObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+            var users =new SelectList(EmployeeManager.GetEmployeeUnitMembers(userObject.UnitId, userObject.LocationId).Select(X=> new { Text = X.FullName, Value = X.userId}), "Value", "Text","Value");
+            ViewBag.Employees = users;
             ViewBag.parameter = new SelectList(ParameterRepo.Get().OrderBy(x => x.Id), "Id", "ParameterName", "Id");
             return View();
         }
@@ -95,35 +104,41 @@ namespace resourceEdge.webUi.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult AddQuestion(FormCollection collection, string returnUrl)
         {
-            Dictionary<string, object> myDictionary = new Dictionary<string, object>();
-            collection.CopyTo(myDictionary);
-            var allKeys = myDictionary.Keys.ToList();
-            var allquestions = allKeys.Where(x => x.ToLower().StartsWith("quest")).ToList();
-            var alldescriptions = allKeys.Where(x => x.ToLower().StartsWith("desc")).ToList();
-            if (alldescriptions.Count != 0 && allquestions.Count != 0)
+            var result = AppraisalManager.AddOrUpdateAppraisalQuestion(collection);
+            if (result != false)
             {
-                for (int i = 0; i < allquestions.Count; i++)
-                {
-                    var question = myDictionary[allquestions[i]].ToString();
-                    var description = myDictionary[alldescriptions[i]].ToString();
-                    Questions Question = new Questions()
-                    {
-                        Question = question,
-                        Description = description,
-                        Createdby = User.Identity.GetUserId(),
-                        ModifiedBy = User.Identity.GetUserId(),
-                        ModifiedDate = DateTime.Now,
-                        CreatedDate = DateTime.Now,
-                        PaConfiguredId = User.Identity.GetUserId(),
-                        Isactive = true
-                    };
-                    QuestionRepo.Insert(Question);
-                }
-                return Redirect(returnUrl);
+                ModelState.Clear();
+               this.AddNotification("Question(s) added Sucessfully", NotificationType.SUCCESS);
+                return RedirectToAction("AddQuestion");
             }
-
-            ViewBag.Error = "Sorry Something went wrong, Please enter the Questions again";
+            this.AddNotification("Sorry Something went wrong, Please enter the Questions again", NotificationType.ERROR);
             return RedirectToAction("AddQuestion");
+        }
+
+        public ActionResult EditQuestion(int? id)
+        {
+            if (id == null)
+            {
+                return new  HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var Question = QuestionRepo.GetById(id.Value);
+            if (Question == null)
+            {
+                return HttpNotFound();
+            }
+            return View(Question);
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult EditQuestion(QuestionViewModel model)
+        {
+            var result = AppraisalManager.AddOrUpdateAppraisalQuestion(null,null, model);
+            if (result !=false)
+            {
+                return View();
+            }
+            this.AddNotification("Sorry Something went wrong, please try again", NotificationType.ERROR);
+            return View(model);
         }
 
         public ActionResult AddSkills()
@@ -151,6 +166,7 @@ namespace resourceEdge.webUi.Controllers
                     };
                     skillRepo.Insert(skill);
                     ModelState.Clear();
+                    this.AddNotification("Skill Added Successfully", NotificationType.SUCCESS);
                     return View();
                 }
             }
@@ -159,6 +175,7 @@ namespace resourceEdge.webUi.Controllers
                 throw ex;
             }
             ModelState.AddModelError("", "Could Not be saved, please ensure that that you fill all fields");
+            this.AddNotification("Could Not be saved, please ensure that that you fill all fields", NotificationType.ERROR);
             return View();
         }
 
@@ -210,18 +227,15 @@ namespace resourceEdge.webUi.Controllers
         }
 
         public ActionResult InitilizeAppraisal()
-        {    
-            ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(x => x.GroupName), "Id", "GroupName", "Id");
-            ViewBag.RatingType = new SelectList(AppraisalRatingRepo.Get().OrderBy(x => x.Name), "Id", "Name", "Id");
-            ViewBag.appStatus = new SelectList(AppraisalStatusRepo.Get().OrderBy(x => x.Name), "Id", "Name", "Id");
-            ViewBag.appMode = new SelectList(AppraisalMode.Get().OrderBy(X => X.Name), "Id", "Name", "Id");
-            return View();
+        {
+            ViewBag.AllDropDown = AppraisalManager.InitAppraisal();
+             return View();
         }
 
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult InitilizeAppraisal(AppraisalInitilizationViewModel model)
         {
-            var aa =AppraisalManager.InitializationCodeGeneration(10, false);
+            var Code =AppraisalManager.GetInitializationcode(15, false);
             var period = AppraisalManager.GetPeriodByName(model.Period);
             if (ModelState.IsValid)
             {
@@ -230,9 +244,10 @@ namespace resourceEdge.webUi.Controllers
                     GroupId = model.Group,
                     AppraisalMode = model.AppraisalMode,
                     AppraisalStatus = model.AppraisalStatus,
-                    DueDate = model.DueDate,
+                    StartDate = model.StartDate,
+                    EndDate = model.DueDate,
                     FromYear = model.FromYear.Year,
-                    InitilizationCode = aa,
+                    InitilizationCode = Code,
                     Period = period.Id,
                     RatingType = model.RatingType,
                     ToYear = model.ToYear.Year,
@@ -242,19 +257,19 @@ namespace resourceEdge.webUi.Controllers
                 };
                 InitializtionRepo.Insert(initilize);
                 ModelState.Clear();
+                //AppraisalManager.AddInitializationToMail(model.Group, model.StartDate);
                 ViewBag.Success = "Appraisal Initilzation Successful";
                 return RedirectToAction("AllInitializedAppraisal");
             }
             return RedirectToAction("InitilizeAppraisal");
         }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult EnableAppraisal(int InitilizationId)
+        [HttpPost,ValidateAntiForgeryToken]
+        public ActionResult EnableAppraisal(int Id)
         {
-            bool result = AppraisalManager.EnableAppraisal(InitilizationId);
+            bool result = AppraisalManager.EnableAppraisal(Id);
             if (result != false)
             {
+                
                 ViewBag.Success = "Sucessfuly Enabled the Appraisal, Please wait while it is on-going";
                 return View("AllInitializedAppraisal");
             }
@@ -274,16 +289,33 @@ namespace resourceEdge.webUi.Controllers
             }
             return View();
         }
-       
-       // [Authorize/*(Roles = "System Admin, HR")*/]
-        [EdgeIdentityFilter]
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult SubscribeToAppraisal(string code, string userId)
+        {
+          var userSessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+            if (userSessionObject != null)
+            {
+                var result = AppraisalManager.SubscribeForAppraisal(code, userSessionObject.LocationId, User.Identity.GetUserId());
+                if (result != false)
+                {
+                    this.AddNotification("Successfully subscribed for appraisal", NotificationType.SUCCESS);
+                    RedirectToAction("ConfigureAppraisal");
+                }
+            }
+            ModelState.AddModelError("", "Could not subscribed for this Appraisal. please see the Head HR");
+            return View();
+        }
+
+
+        // [Authorize/*(Roles = "System Admin, HR")*/]
+        //[SubscriptionFilter]
+       // [EdgeIdentityFilter]
         public ActionResult ConfigureAppraisal()
         {
-            
-            ViewBag.BusinessUnit = new SelectList(AppraisalManager.GetBusinessUnitsByLocation(User.Identity.GetUserId()), "BusId", "unitname", "BusId");
-            ViewBag.AppraisalStatus = new SelectList(AppraisalStatusRepo.Get().OrderBy(x => x.Name).ToList(), "Id", "Name", "Id");
-            ViewBag.Eligibility = new SelectList(StatusRepo.Get().OrderBy(X => X.employemntStatus).Select(x =>new { Text = x.employemntStatus, Value = x.empstId }).ToList(), "Value", "Text", "Value");
-            ViewBag.parameter = new SelectList(ParameterRepo.Get().OrderBy(x => x.ParameterName).Select(x => new  { Text = x.ParameterName, Value = x.Id}), "Value", "Text", "Value");
+            var userSessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+            ViewBag.dropDowns = AppraisalManager.ConfigureAppraisal(userSessionObject.LocationId);
+            ViewBag.PageTitle = "Configure Appraisal";
             return View("FormWizard");
         }
 
@@ -293,16 +325,17 @@ namespace resourceEdge.webUi.Controllers
         {
             if (ModelState.IsValid)
             {
-                //var result = AppraisalManager.AddOrUpdateAppraisalConfiguration(model, User.Identity.GetUserId());
-                //if (result != false)
-                //{
-                //    ModelState.Clear();
-                //    ViewBag.Success = "Appraisal Configured Successfully, Please Add line Managers";
-                //    return Json(new { success = "True" }, JsonRequestBehavior.AllowGet);
-                //}
+                
             }
             ViewBag.Error = "Something went wrong, Appraisal not configured";
             return Json(new { message = "False" });
+        }
+
+        public ActionResult EmployeeAppraisal()
+        {
+            var userSessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+            var Question = AppraisalManager.GenerateAppraisalQuestions(User.Identity.GetUserId(), userSessionObject.GroupId, userSessionObject.LocationId);
+            return View(Question);
         }
     }
 }

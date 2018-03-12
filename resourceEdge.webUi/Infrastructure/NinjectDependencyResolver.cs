@@ -62,6 +62,8 @@ namespace resourceEdge.webUi.Infrastructure
             kernel.Bind<IAppraisalRating>().To<AppraisalRatingRepository>();
             kernel.Bind<IAppraisalInitialization>().To<AppraisalInitializationRepository>();
             kernel.Bind<IAppraisalConfiguration>().To<AppraisalConfigurationRepository>();
+            kernel.Bind<IMailDispatcher>().To<MailDispatcherRepository>();
+
         }
     }
 }

@@ -14,7 +14,7 @@ namespace resourceEdge.Domain.Concrete
   
         public IEnumerable<Files> Get()=> unitOfWork.Files.Get();
         public Files GetById(int id) => unitOfWork.Files.GetByID(id);
-        public Files GetByUserId(string userId) => unitOfWork.GetDbContext().Files.Where(x => x.UserId == userId).FirstOrDefault();
+        public Files GetByUserId(string userId) => unitOfWork.GetDbContext().File.Where(x => x.UserId == userId).FirstOrDefault();
         public void Insert(Files entity)
         {
             unitOfWork.Files.Insert(entity);

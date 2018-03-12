@@ -116,6 +116,7 @@
     <Compile Include="Abstracts\IActivityLog.cs" />
     <Compile Include="Abstracts\ICareers.cs" />
     <Compile Include="Abstracts\ICareerPath.cs" />
+    <Compile Include="Abstracts\IEmployeeDetailDispatcher.cs" />
     <Compile Include="Abstracts\IFiles.cs" />
     <Compile Include="Abstracts\GenericInterface.cs" />
     <Compile Include="Abstracts\IBusinessUnits.cs" />
@@ -129,6 +130,7 @@
     <Compile Include="Abstracts\ILeaveManagement.cs" />
     <Compile Include="Abstracts\ILevels.cs" />
     <Compile Include="Abstracts\ILogin.cs" />
+    <Compile Include="Abstracts\IMailDispatcher.cs" />
     <Compile Include="Abstracts\IPayroll.cs" />
     <Compile Include="Abstracts\IPositions.cs" />
     <Compile Include="Abstracts\IPrefixes.cs" />
@@ -152,6 +154,7 @@
     <Compile Include="Concrete\CareerPathRepository.cs" />
     <Compile Include="Concrete\CareerRepository.cs" />
     <Compile Include="Concrete\DepartmentRepository.cs" />
+    <Compile Include="Concrete\EmployeeDetailDispatchRepository.cs" />
     <Compile Include="Concrete\EmployeeRepository.cs" />
     <Compile Include="Concrete\EmployementStatusRepository.cs" />
     <Compile Include="Concrete\FileRepository.cs" />
@@ -162,6 +165,7 @@
     <Compile Include="Concrete\LevelRepository.cs" />
     <Compile Include="Concrete\LocationRepository.cs" />
     <Compile Include="Concrete\LoginRepository.cs" />
+    <Compile Include="Concrete\MailDispatcherRepository.cs" />
     <Compile Include="Concrete\PayrollRepository.cs" />
     <Compile Include="Concrete\PositionRepository.cs" />
     <Compile Include="Concrete\PrefixRepository.cs" />
@@ -228,6 +232,7 @@
     <Compile Include="Entities\EdgeDbContext.cs" />
     <Compile Include="Entities\Departments.cs" />
     <Compile Include="Entities\EmpHolidays.cs" />
+    <Compile Include="Entities\EmployeeDetailDispatcher.cs" />
     <Compile Include="Entities\EmployeeLeaves.cs" />
     <Compile Include="Entities\EmployeeLeaveTypes.cs" />
     <Compile Include="Entities\Employees.cs" />
@@ -244,6 +249,7 @@
     <Compile Include="Entities\Levels.cs" />
     <Compile Include="Entities\Location.cs" />
     <Compile Include="Entities\Logins.cs" />
+    <Compile Include="Entities\MailDispatcher.cs" />
     <Compile Include="Entities\MonthList.cs" />
     <Compile Include="Entities\Months.cs" />
     <Compile Include="Entities\EmpPayroll.cs" />
@@ -261,6 +267,7 @@
     <Compile Include="UnitofWork\GenericRepository.cs" />
     <Compile Include="UnitofWork\UnitOfWork.cs" />
     <Compile Include="ViewModels\AllViewModels.cs" />
+    <Compile Include="ViewModels\DropDownViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />

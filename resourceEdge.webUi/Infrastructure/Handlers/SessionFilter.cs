@@ -28,7 +28,7 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                 {
                     userIdentityObject = filterContext.Controller.ControllerContext.HttpContext.User.Identity.GetUserId();
                 }
-                var userObject = await unitOfWork.GetDbContext().employees.Where(x => x.userId == userIdentityObject).FirstOrDefaultAsync();
+                var userObject = await unitOfWork.GetDbContext().Employee.Where(x => x.userId == userIdentityObject).FirstOrDefaultAsync();
                 if (filterContext.Controller.ControllerContext.HttpContext.Session != null && userObject != null)
                 {
                     var unitDetails = unitOfWork.BusinessUnit.GetByID(userObject.businessunitId);

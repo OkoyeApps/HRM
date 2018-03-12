@@ -19,13 +19,13 @@ namespace resourceEdge.Domain.Concrete
 
         public void AllotEmployeeLeave(EmployeeLeaves empLeave)
         {
-            unitOfWork.GetDbContext().EmpLeaves.Add(empLeave);
+            unitOfWork.GetDbContext().EmployeeLeave.Add(empLeave);
             unitOfWork.Save();
         }
 
         public IEnumerable<EmployeeLeaves> GetAllotedLeave()
         {
-            return unitOfWork.GetDbContext().EmpLeaves.ToList();
+            return unitOfWork.GetDbContext().EmployeeLeave.ToList();
         }
 
         public void EditLeaveManagement(LeaveManagement leave)

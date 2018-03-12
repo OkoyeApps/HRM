@@ -428,14 +428,11 @@ namespace resourceEdge.Domain.Entities
     }
     public class QuestionViewModel
     {
-        [Key, HiddenInput(DisplayValue =false)]
-        public int Id { get; set; }
-        [Required(ErrorMessage = "Select Parameter")]
-        public string ParamaterId { get; set; }
+        [Key, HiddenInput(DisplayValue = true)]
+        public int id { get; set; }
         public string Question { get; set; }
         public string Description { get; set; }
-        public string Createdby { get; set; }
-        public Nullable<int> CreatedbyRole { get; set; }
+
     }
     public class RatingViewModel
     {
@@ -476,6 +473,8 @@ namespace resourceEdge.Domain.Entities
         public string Period { get; set; }
         [Required(ErrorMessage = "Please this field is required")]
         public DateTime DueDate { get; set; }
+        [Required(ErrorMessage ="Please this field is required")]
+        public DateTime StartDate { get; set; }
         [Required(ErrorMessage = "Please this field is required")]
         public string RatingType { get; set; }
         [Required(ErrorMessage = "Please this field is required")]
@@ -501,4 +500,6 @@ namespace resourceEdge.Domain.Entities
         public string LineManager2 { get; set; }
         public string LineManager3 { get; set; }
     }
+
+
 }

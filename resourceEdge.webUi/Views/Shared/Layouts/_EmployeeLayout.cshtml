@@ -397,6 +397,7 @@
             <!-- end breadcrumb -->
             <!-- begin page-header -->
             @*<h1 class="page-header">Wizards + Validation <small>header small text goes here...</small></h1>*@
+            @Html.Partial("_Notifications")
             <!-- end page-header -->
             <!-- begin row -->
             <div class="row">
@@ -414,6 +415,7 @@
                             <h4 class="panel-title">@ViewBag.PageTitle</h4>
                         </div>
                         <div class="panel-body">
+                            
                             @RenderBody()
 
                         </div>

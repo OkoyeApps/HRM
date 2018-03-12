@@ -21,6 +21,12 @@ namespace resourceEdge.Domain.Concrete
             return unitOfWork.Questions.Get();
         }
 
+        public IEnumerable<Questions> GetAllUserQuestion(string userId)
+        {
+            var result = unitOfWork.Questions.Get(filter: x => x.UserIdForQuestion == userId);
+            return result ?? null;
+        }
+
         public Questions GetById(int id)
         {
             return unitOfWork.Questions.GetByID(id);

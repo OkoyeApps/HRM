@@ -16,10 +16,10 @@ using System.Web.Routing;
 namespace resourceEdge.webUi.Infrastructure
 {
     /// <summary>
-    /// This class is used around the project as a service layer for interfaceing with the employee
+    /// This class is used around the project as a service layer for interfaceing with the employee,
     /// Each method within this class was used to assess distinct informations about the employee and
     /// any related class.
-    /// NOte. that although some methods are not actually hitting the employee table
+    /// Note. that although some methods are not actually hitting the employee table
     /// the system considers some actions to be employee related.
     /// when using this class, know that it uses the unit of work to do most of its operations and thereby
     /// is serviced by a single DbContext.
@@ -37,6 +37,7 @@ namespace resourceEdge.webUi.Infrastructure
         private IEmployees EmployeeRepo;
         private IReportManager ReportManagerRepo;
         private IPayroll PayrollRepo;
+        private IMailDispatcher mailDispatchRepo;
         private ApplicationDbContext db = new ApplicationDbContext();
         private resourceEdge.webUi.ApplicationUserManager userManager;
 
@@ -58,10 +59,11 @@ namespace resourceEdge.webUi.Infrastructure
         {
             EmployeeRepo = eparam;
         }
-        public EmployeeManager(IEmployees EParam, IReportManager RParam)
+        public EmployeeManager(IEmployees EParam, IReportManager RParam, IMailDispatcher mailParam)
         {
             EmployeeRepo = EParam;
             ReportManagerRepo = RParam;
+            mailDispatchRepo = mailParam;
         }
         public EmployeeManager(IEmployees eParam, ILeaveManagement Lparam)
         {
@@ -88,6 +90,7 @@ namespace resourceEdge.webUi.Infrastructure
             LeaveRepo = lParam;
             EmployeeRepo = EParam;
             ReportManagerRepo = RParam;
+
         }
 
         public class EmployeeListItem
@@ -127,26 +130,26 @@ namespace resourceEdge.webUi.Infrastructure
             }
             return null;
         }
+        public string GetGroupName(int id)
+        {
+            var result = unitofWork.Groups.GetByID(id).GroupName;
+            return result ?? null;
+        }
         public List<Employees> GetReportManagerBusinessUnit(int id)
         {
             //var context = unitofWork.GetDbContext();
             List<Employees> managers = new List<Employees>();
             //var ReportManager = context.ReportManagers.Where(x => x.BusinessUnitId == id).FirstOrDefault(); //Fix this when the reportmanager is fixed
-            var ReportManagers = ReportManagerRepo.GetManagersByBusinessunit(id);
+            var ReportManagers = ReportManagerRepo.GetManagersByBusinessunit(id).FirstOrDefault();
             if (ReportManagers != null)
             {
-                var employees = EmployeeRepo.GetUnitHead(ReportManagers.FirstOrDefault().BusinessUnitId);
+                var employees = EmployeeRepo.GetUnitHead(ReportManagers.BusinessUnitId);
                 if (employees != null)
                 {
                     return employees;
                 }
-                EmployeeRepo.GetReportManagers(ReportManagers.FirstOrDefault().managerId, ReportManagers.FirstOrDefault().BusinessUnitId);
-                // var employee = context.employees.Where(x => x.businessunitId == ReportManager.BusinessUnitId && x.empRoleId == 2).ToList();
-                // var employee = EmployeeRepo.GetReportManagers();
-                //if (employee != null)
-                //{
-                //    return employee;
-                //}
+                var result =   EmployeeRepo.GetReportManagers(ReportManagers.managerId, ReportManagers.BusinessUnitId);
+                return result;
             }
             return null;
         }
@@ -176,10 +179,10 @@ namespace resourceEdge.webUi.Infrastructure
             return EmployeeRepo.GetHrs();
         }
 
-        public List<Employees> GetEmployeeUnitMembers(int unitId)
+        public List<Employees> GetEmployeeUnitMembers(int unitId, int locationId)
         {
-            var members = EmployeeRepo.GetEmployeeUnitMembers(unitId);
-            return members;
+            var members = unitofWork.employees.Get(filter: x => x.businessunitId == unitId && x.LocationId == locationId).ToList();
+            return members ?? null;
         }
 
         //Although this method originally called by the ApiManager, its still left here just if there is a need to use it
@@ -255,7 +258,7 @@ namespace resourceEdge.webUi.Infrastructure
 
         public List<EmployeeListItem> GetReportManagrbyUserId(string userId)
         {
-            var employee = UserManager.getEmployeeIdFromUserTable(userId); //Check if this check actually checks the user table
+            var employee = UserManagement.getEmployeeIdFromUserTable(userId); //Check if this check actually checks the user table
             if (employee != null)
             {
                 int BuintId = int.Parse(employee.businessunitId);
@@ -292,6 +295,31 @@ namespace resourceEdge.webUi.Infrastructure
                 return true;
             }
             return false;
+        }
+
+        public bool AddEmployeeToMailDispatch(string userName, string password, string sender, string GroupName, string Fullname)
+        {
+            try
+            {
+                MailDispatcher mail = new MailDispatcher()
+                {
+                    Delivered = false,
+                    Message = userName + ',' + password,
+                    Reciever = userName,
+                    Sender = sender,
+                    Subject = "Account Detail",
+                    Type = Domain.Infrastructures.MailType.Account,
+                    GroupName = GroupName,
+                    FullName = Fullname
+                };
+            mailDispatchRepo.Insert(mail);
+            return true;
+            }catch(Exception ex)
+            {
+                return false;
+                    throw ex;
+                
+            }
         }
 
         public class EmployeeEdit : EmployeeManager
@@ -423,7 +451,7 @@ namespace resourceEdge.webUi.Infrastructure
             public Tuple<Employees, ApplicationUser, Files, Jobtitles, Positions, EmpPayroll, List<LeaveRequest>> GetEmpDetails(int Id)
             {
 
-                var employee = unitofWork.GetDbContext().employees.Find(Id);
+                var employee = unitofWork.GetDbContext().Employee.Find(Id);
                 if (employee != null)
                 {
                     var empUserDetails = userManager.FindById(employee.userId);

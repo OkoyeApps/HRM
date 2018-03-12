@@ -60,6 +60,11 @@ namespace resourceEdge.Domain.UnitofWork
             dbSet.Add(entity);
         }
 
+        public virtual void InsertBulk(IEnumerable<TEntity> entity)
+        {
+            dbSet.AddRange(entity);
+        }
+
         public virtual void Delete(object id)
         {
             TEntity entityToDelete = dbSet.Find(id);

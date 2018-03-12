@@ -1,9 +1,11 @@
-﻿@model resourceEdge.Domain.Entities.AppraisalConfigratuionViewModel
+﻿@using resourceEdge.Domain.ViewModels
+@model resourceEdge.Domain.Entities.AppraisalConfigratuionViewModel
 
 @{
     ViewBag.Title = "ConfigueAppraisal";
     Layout = "~/Views/Shared/HRLayout.cshtml";
     var location = ViewBag.Location;
+    var dropDowns = (SystemViewModel)ViewBag.dropDowns;
 }
 
 
@@ -17,7 +19,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.BusinessUnit, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.BusinessUnit, (SelectList)ViewBag.BusinessUnit,  htmlAttributes:  new { @class = "form-control" } )
+                @Html.DropDownListFor(model => model.BusinessUnit, dropDowns.BusinessUnits,  htmlAttributes:  new { @class = "form-control" } )
                 @Html.ValidationMessageFor(model => model.BusinessUnit, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -33,7 +35,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.AppraisalStatus, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.AppraisalStatus,(SelectList)ViewBag.AppraisalStatus, htmlAttributes: new { @class = "form-control" } )
+                @Html.DropDownListFor(model => model.AppraisalStatus,dropDowns.Status, htmlAttributes: new { @class = "form-control" } )
                 @Html.ValidationMessageFor(model => model.AppraisalStatus, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -49,7 +51,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Eligibility, "Select Eligibility", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Eligibility, (SelectList)ViewBag.Eligibility,"Select Eligibity", new { @class = "form-control" } )
+                @Html.DropDownListFor(model => model.Eligibility, dropDowns.Eligibility,"Select Eligibity", new { @class = "form-control" } )
                 @Html.ValidationMessageFor(model => model.Eligibility, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -57,7 +59,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Parameters, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Parameters, (SelectList)ViewBag.parameter, "Select Parameter", new { @class = "form-control" } )
+                @Html.DropDownListFor(model => model.Parameters, dropDowns.Parameter, "Select Parameter", new { @class = "form-control" } )
                 @Html.ValidationMessageFor(model => model.Parameters, "", new { @class = "text-danger" })
             </div>
         </div>

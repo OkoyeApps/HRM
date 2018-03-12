@@ -36,18 +36,20 @@ namespace resourceEdge.webUi.Controllers
         IGroups GroupRepo;
         IDepartments DepartmentRepo;
         ApplicationDbContext db;
+       
         private ApplicationUserManager userManager;
         Apimanager Apimanager;
 
         public HRController(IEmployees empParam, IBusinessUnits busParam, IReportManager rParam, Rolemanager RoleParam,
-            ApplicationDbContext dbParam, IEmploymentStatus SParam, IFiles FParam, ILocation LRepo, ILevels levelParam, IGroups gParam, IDepartments deptParam)
+            ApplicationDbContext dbParam, IEmploymentStatus SParam, IFiles FParam, ILocation LRepo, ILevels levelParam, IGroups gParam,
+            IDepartments deptParam, IMailDispatcher Mailparam)
         {
             db = dbParam;
             UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
             empRepo = empParam;
             BunitsRepo = busParam;
             ReportRepo = rParam;
-            employeeManager = new EmployeeManager(empParam, rParam);
+            employeeManager = new EmployeeManager(empParam, rParam,Mailparam);
             RoleManager = RoleParam;
             db = dbParam;
             statusRepo = SParam;
@@ -129,7 +131,7 @@ namespace resourceEdge.webUi.Controllers
             Employees realEmployee = new Employees();
             ReportManagers manager = null;
             var RealUserId = employees.identityCode + employees.empUserId;
-            var EmployeeIdExist = Infrastructure.UserManager.checkEmployeeId(RealUserId, employees.empEmail);
+            var EmployeeIdExist = Infrastructure.UserManagement.checkEmployeeId(RealUserId, employees.empEmail);
             var validDate = validateDates(employees.dateOfJoining, employees.dateOfLeaving);
             if (ModelState.IsValid)
             {
@@ -162,10 +164,10 @@ namespace resourceEdge.webUi.Controllers
                         var modifiedDate = realEmployee.modifieddate = DateTime.Now;
                         try
                         {
-                            var newCreatedUser = await Infrastructure.UserManager.CreateUser(employees.empEmail, employees.empRoleId.ToString(), employees.empStatusId, employees.FirstName, employees.lastName, employees.officeNumber,
+                            var newCreatedUser = await Infrastructure.UserManagement.CreateUser(employees.empEmail, employees.empRoleId.ToString(), employees.empStatusId, employees.FirstName, employees.lastName, employees.officeNumber,
                                  RealUserId, employees.jobtitleId.ToString(), null, null, User.Identity.GetUserId(), employees.modeofEmployement.ToString(),
                                   employees.dateOfJoining, null, true, employees.departmentId.ToString(), employees.businessunitId.ToString());
-                            if (newCreatedUser.Id != null)
+                            if (newCreatedUser.Item1.Id != null)
                             {
                                 var role = db.Roles.Find(employees.empRoleId.ToString());
                                 if (role.Name.ToLower() == "manager")
@@ -174,7 +176,7 @@ namespace resourceEdge.webUi.Controllers
                                     manager = new ReportManagers();
                                 }
                                 realEmployee.empRoleId = employees.empRoleId;
-                                realEmployee.userId = newCreatedUser.Id;
+                                realEmployee.userId = newCreatedUser.Item1.Id;
                                 empRepo.Insert(realEmployee);
                                 if (manager != null)
                                 {
@@ -185,7 +187,8 @@ namespace resourceEdge.webUi.Controllers
                                     manager.managerId = realEmployee.userId;
                                     employeeManager.AssignReportManager(manager);
                                 }
-
+                                var groupName =  employeeManager.GetGroupName(employees.GroupId);
+                                employeeManager.AddEmployeeToMailDispatch(employees.empEmail, newCreatedUser.Item2, "noreply@tenece.com", groupName, realEmployee.FullName);
                             }
                         }
                         catch (Exception ex)
@@ -205,13 +208,7 @@ namespace resourceEdge.webUi.Controllers
                 ModelState.AddModelError("", "Sorry Employee with this Id { employees.empID } already exist in the System Please try Again");
                 //return Redirect(returnUrl);
             }
-            ViewBag.Error = $"The employee {RealUserId} already exist in the system";
-            ViewBag.EmpStatus = new SelectList(statusRepo.Get().Select(x => new { name = x.employemntStatus, id = x.empstId }).OrderBy(x => x.name), "id", "name", "id");
-            ViewBag.roles = new SelectList(GetRoles().OrderBy(x => x.Name).Where(u => !u.Name.Contains("System Admin") && !u.Name.Contains("Management") && !u.Name.Contains("Manager")).Select(x => new { name = x.Name, id = x.Id }), "Id", "name", "Id");
-            ViewBag.prefix = new SelectList(Apimanager.PrefixeList(), "prefixId", "prefixName", "prefixId");
-            ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.BusId), "BusId", "unitname", "BusId");
-            ViewBag.jobTitles = new SelectList(Apimanager.JobList().OrderBy(x => x.JobName), "JobId", "JobName", "JobId");
-            return RedirectToAction("Create");
+             return RedirectToAction("Create");
 
         }
         [NonAction]

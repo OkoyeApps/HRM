@@ -6,20 +6,32 @@ using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
+using System.IO;
+using resourceEdge.webUi.Models;
 
 namespace resourceEdge.webUi.Infrastructure
 {
     public class NotificationManager
     {
-        public async Task<string> sendEmailNotification(string FromName, string FromEmail, string Message, string recieptaintEmail)
+        public async Task<bool> sendEmailNotification(EmailObject mailObject, HttpPostedFileBase attachment=null)
         {
-            var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
+            string body;
+
+            using (StreamReader sr = new StreamReader(HttpContext.Current.Server.MapPath("\\EmailTemplates\\")))
+            {
+                body = await sr.ReadToEndAsync();
+            }
+            var Mailmessage = new MailMessage();
+            if (attachment != null)
+            {
+                Mailmessage.Attachments.Add(new Attachment(attachment.InputStream, Path.GetFileName(attachment.FileName)));
+            }
+
             var message = new MailMessage();
-            message.To.Add(new MailAddress(recieptaintEmail));  // replace with valid value 
-            message.From = new MailAddress(FromEmail);  // replace with valid value
-            message.Subject = "Account Details";
-            message.Body = string.Format(body, FromName,FromEmail, Message); 
-            //message.Body = "Tesing Email in Resource Edge";
+            message.To.Add(new MailAddress(mailObject.Reciever));  // replace with valid value 
+            message.From = new MailAddress(mailObject.Sender);  // replace with valid value
+            message.Subject = mailObject.Subject;
+            message.Body = body; //Remeber to Replace the body later for all template
             message.IsBodyHtml = true;
             
             using (var smtp = new SmtpClient())
@@ -34,20 +46,30 @@ namespace resourceEdge.webUi.Infrastructure
                 smtp.Port = 587;
                 smtp.EnableSsl = true;
                 await smtp.SendMailAsync(message);
-                return "Finished"; 
+                return true; 
             }
         }
 
-        public void SendEmail(string body)
+        public async Task<string> FormatMailBody(EmailObject mailObject)
         {
-            MailMessage MailMessage = new MailMessage("emmaceogames@gmail.com", "okoyeemma442@gmail.com");
-            MailMessage.Subject = "Account Details";
-            MailMessage.Body = body;
+            var mailMessage = new MailMessage();
+            string body;
+            if (mailObject.Type == Domain.Infrastructures.MailType.Appraisal)
+            {
+                using (StreamReader sr = new StreamReader(HttpContext.Current.Server.MapPath("\\EmailTemplates\\") + "Account.html"))
+                {
+                    body = await sr.ReadToEndAsync();
+                }
 
-            SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587);
-            smtpClient.Credentials = new System.Net.NetworkCredential("emmaceogames@gmail.com", "Chukwudi1997");
-            smtpClient.EnableSsl = true;
-            smtpClient.Send(MailMessage);
+            }
+            if (mailObject.Type == Domain.Infrastructures.MailType.Account)
+            {
+                using (StreamReader sr = new StreamReader(HttpContext.Current.Server.MapPath("\\EmailTemplates\\") + "AppraisalSubscription.html"))
+                {
+                    body = await sr.ReadToEndAsync();
+                }
+            }
+            return null;
         }
     }
 }

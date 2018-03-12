@@ -46,7 +46,7 @@ namespace resourceEdge.Domain.Entities
         public Nullable<bool> IsDepthead { get; set; }
         public  Departments Departments { get; set; }
         public  Levels Level { get; set; }
-        public  Groups Groups { get; set; }
+        public  Groups Group { get; set; }
         public Location Location { get; set; }
         
     }
