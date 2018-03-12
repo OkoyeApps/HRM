@@ -44,7 +44,7 @@ namespace resourceEdge.webUi.Infrastructure
         public SystemViewModel ConfigureAppraisal(int locationId)
         {
             SystemViewModel model = new SystemViewModel();
-            model.BusinessUnits = new System.Web.Mvc.SelectList(GetBusinessUnitsByLocation(locationId).Select(x=> new { BusId = x.BusId, unitName = x.unitname }), "BusId", "unitName", "BusId");
+            model.BusinessUnits = new System.Web.Mvc.SelectList(GetBusinessUnitsByLocation(locationId).Select(x=> new { BusId = x.Id, unitName = x.unitname }), "BusId", "unitName", "BusId");
             model.Status = new System.Web.Mvc.SelectList(unitOfWork.AppraisalStatus.Get(), "Id", "Name", "Id");
             model.EmploymentStatus = new System.Web.Mvc.SelectList(unitOfWork.employmentStatus.Get().Select(x=> new { empstId = x.empstId, employmentStatus = x.employemntStatus }), "empstId", "employmentStatus", "empstId");
             model.Parameter = new System.Web.Mvc.SelectList(unitOfWork.Parameters.Get().Select(X => new { Text = X.ParameterName, Value = X.Id }), "Value", "Text", "Value");
@@ -248,6 +248,7 @@ namespace resourceEdge.webUi.Infrastructure
                             DepartmentId = EmployeeDetail.departmentId,
                             GroupId = EmployeeDetail.GroupId,
                             LocationId = EmployeeDetail.LocationId.Value,
+                            UserFullName = EmployeeDetail.FullName
                         };
                         try
                         {

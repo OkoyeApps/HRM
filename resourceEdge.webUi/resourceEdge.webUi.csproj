@@ -236,6 +236,7 @@
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HRController.cs" />
     <Compile Include="Controllers\LeaveController.cs" />
+    <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\RequisitionController.cs" />
     <Compile Include="Controllers\SelfServiceController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
@@ -254,12 +255,14 @@
     <Compile Include="Infrastructure\BackendValidationManager.cs" />
     <Compile Include="Infrastructure\ConfigurationManager.cs" />
     <Compile Include="Infrastructure\Core\CronJob.cs" />
+    <Compile Include="Infrastructure\Core\EmployeeListItem.cs" />
     <Compile Include="Infrastructure\Core\Generators.cs" />
     <Compile Include="Infrastructure\Core\NotificationExtension.cs" />
     <Compile Include="Infrastructure\DbInitializer.cs" />
     <Compile Include="Infrastructure\EmployeeManager.cs" />
     <Compile Include="Infrastructure\Handlers\EdgeIdentityFilter.cs" />
     <Compile Include="Infrastructure\Handlers\LoggingFilter.cs" />
+    <Compile Include="Infrastructure\Handlers\MenuFilter.cs" />
     <Compile Include="Infrastructure\Handlers\SessionFilter.cs" />
     <Compile Include="Infrastructure\Handlers\SubscriptionFilter.cs" />
     <Compile Include="Infrastructure\Handlers\UnAuthorizationFilter.cs" />
@@ -6544,6 +6547,10 @@
     <Content Include="Views\Shared\Layouts\_EmployeeLayout.cshtml" />
     <Content Include="Views\SelfService\Leave.cshtml" />
     <Content Include="Views\Shared\_Notifications.cshtml" />
+    <Content Include="Views\Menu\Index.cshtml" />
+    <Content Include="Views\HR\AllQuestions.cshtml" />
+    <Content Include="Views\HR\AddedQuestions.cshtml" />
+    <Content Include="Views\HR\ViewQuestion.cshtml" />
     <None Include="Views\Shared\mainLayout2.cshtml" />
     <Content Include="MainScript.js" />
     <Content Include="Scripts\bootstrap-select.js" />

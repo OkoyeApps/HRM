@@ -21,6 +21,9 @@ namespace resourceEdge.Domain.Concrete
             return unitOfWork.Questions.Get();
         }
 
+        public IEnumerable<Questions> GetAllQuestionsEagerly(string properties)=> unitOfWork.Questions.Get(includeProperties: properties);
+
+
         public IEnumerable<Questions> GetAllUserQuestion(string userId)
         {
             var result = unitOfWork.Questions.Get(filter: x => x.UserIdForQuestion == userId);

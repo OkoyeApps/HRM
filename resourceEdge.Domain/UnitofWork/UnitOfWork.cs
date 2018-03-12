@@ -52,6 +52,7 @@ namespace resourceEdge.Domain.UnitofWork
         private GenericRepository<SubscribedAppraisal> SubscibedAppraisalRepo;
         private GenericRepository<MailDispatcher> MailDispacthRepo;
         private GenericRepository<EmployeeDetailDispatcher> EMpDetailDispatchRepo;
+        private GenericRepository<Menus> MenuRepository;
         public EdgeDbContext Context
         {
             get
@@ -229,6 +230,10 @@ namespace resourceEdge.Domain.UnitofWork
         public GenericRepository<EmployeeDetailDispatcher> EmpDetailDispatch
         {
             get { return this.EMpDetailDispatchRepo ?? new GenericRepository<EmployeeDetailDispatcher>(Context); }
+        }
+        public GenericRepository<Menus> Menu
+        {
+            get { return this.MenuRepository ?? new GenericRepository<Menus>(Context); }
         }
         public void Save()
         {

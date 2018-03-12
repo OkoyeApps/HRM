@@ -7,7 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using static resourceEdge.webUi.Infrastructure.Apimanager;
+using resourceEdge.webUi.Infrastructure.Core;
 
 namespace resourceEdge.webUi.Controllers
 {

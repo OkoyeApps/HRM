@@ -107,19 +107,25 @@
                                         </td>
 
                                         <td>
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        @using (Html.BeginForm("ApproveLeave", "Leave", new { returnUrl = Request.Url.PathAndQuery, userId = item.UserId, id = item.id }, FormMethod.Post))
+                                                        {
+                                                            @Html.AntiForgeryToken()
+                                                            <input type="submit" value="Approve" class="btn btn-sm btn-success col-md-10" />
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        @using (Html.BeginForm("DenyLeave", "Leave", new { returnUrl = Request.Url.PathAndQuery, userId = item.UserId, id = item.id }, FormMethod.Post))
+                                                        {
+                                                            @Html.AntiForgeryToken()
+                                                            <input type="submit" value="Deny" class="btn btn-sm btn-danger col-md-10" />
+                                                        }
 
-                                            @using (Html.BeginForm("ApproveLeave", "Leave", new { returnUrl = Request.Url.PathAndQuery, userId = item.UserId, id = item.id }, FormMethod.Post))
-                                            {
-                                                @Html.AntiForgeryToken()
-                                                <input type="submit" value="Approve" class="btn btn-sm btn-success col-md-10" />
-                                            }
-                                            @using (Html.BeginForm("DenyLeave", "Leave", new { returnUrl = Request.Url.PathAndQuery, userId = item.UserId, id = item.id }, FormMethod.Post))
-                                            {
-                                                @Html.AntiForgeryToken()
-                                                <input type="submit" value="Deny" class="btn btn-sm btn-danger col-md-10" />
-                                            }
-
-
+                                                    </td>
+                                                </tr>
+                                            </table>
                                         </td>
 
                                     </tr>

@@ -13,7 +13,7 @@ namespace resourceEdge.Domain.Entities
     public class BusinessUnits
     {
         [Key]
-        public int BusId { get; set; }
+        public int Id { get; set; }
         public int GroupId { get; set; }
         public string unitname { get; set; }
         public string unitcode { get; set; }

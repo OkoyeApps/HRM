@@ -105,5 +105,7 @@ namespace resourceEdge.Domain.Concrete
             var result = unitOfWork.employees.Get(filter: x=>x.userId == userId, includeProperties: "Location,Deparments, Levels,Groups").FirstOrDefault();
             return result;
         }
+
+        public IEnumerable<Employees> GetAllEmployeesByLocation(int id) => unitOfWork.employees.Get(filter: x => x.LocationId == id);
     }
 }

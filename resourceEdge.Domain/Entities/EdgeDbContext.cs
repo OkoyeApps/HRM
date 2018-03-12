@@ -78,8 +78,7 @@ namespace resourceEdge.Domain.Entities
         public DbSet<SubscribedAppraisal> SubscribedAppraisal { get; set; }
         public DbSet<MailDispatcher> MailDispatcher { get; set; }
         public DbSet<Questions> Question { get; set; }
-
-        public System.Data.Entity.DbSet<resourceEdge.Domain.Entities.QuestionViewModel> QuestionViewModels { get; set; }
+        public DbSet<Menus> Menu { get; set; }
     }
     
 }

@@ -1,6 +1,8 @@
 ﻿@using resourceEdge.webUi.Models
-@{ var usersessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+@using resourceEdge.Domain.Entities
+@{  var usersessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
     var crumbs = (BreadCrumb)Session["_Crumbs"];
+    var Menu = (List<Menus>)Session["_Menu"];
 }
 @{
     ViewBag.Title = "Leave";
@@ -232,6 +234,32 @@
                             </li>
                         </ul>
                     </li>
+                    @if (User.IsInRole("Manager"))
+                    {
+                        <li class="has-sub">
+                            <a href="javascript:;">
+                                <b class="caret pull-right"></b>
+                                <i class="fa fa-suitcase"></i>
+                                <span>Employee Management</span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li>
+                                    @Html.ActionLink("Employee Leaves", "leaveRequests", "Leave")
+                                </li>
+                                @if (Menu != null)
+                                {
+                                    var result = Menu.Find(x => x.Id == 1);
+                                    if (result != null)
+                                    {
+
+                                        <li>
+                                            @Html.ActionLink("Add Question", "AddQuestion", "Appraisal")
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </li>
+                    }
                     <li class="has-sub">
                         <a href="javascript:;">
                             <b class="caret pull-right"></b>

@@ -138,6 +138,7 @@
     <Compile Include="Abstracts\IReportManager.cs" />
     <Compile Include="Abstracts\IRequisition.cs" />
     <Compile Include="Abstracts\ILocation.cs" />
+    <Compile Include="Abstracts\IMenu.cs" />
     <Compile Include="Concrete\ActivityLogRepo.cs" />
     <Compile Include="Concrete\Appraisal\AppraisalConfigurationRepository.cs" />
     <Compile Include="Concrete\Appraisal\AppraisalInitializationRepository.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="Concrete\LocationRepository.cs" />
     <Compile Include="Concrete\LoginRepository.cs" />
     <Compile Include="Concrete\MailDispatcherRepository.cs" />
+    <Compile Include="Concrete\MenuRepository.cs" />
     <Compile Include="Concrete\PayrollRepository.cs" />
     <Compile Include="Concrete\PositionRepository.cs" />
     <Compile Include="Concrete\PrefixRepository.cs" />
@@ -250,6 +252,7 @@
     <Compile Include="Entities\Location.cs" />
     <Compile Include="Entities\Logins.cs" />
     <Compile Include="Entities\MailDispatcher.cs" />
+    <Compile Include="Entities\Menus.cs" />
     <Compile Include="Entities\MonthList.cs" />
     <Compile Include="Entities\Months.cs" />
     <Compile Include="Entities\EmpPayroll.cs" />

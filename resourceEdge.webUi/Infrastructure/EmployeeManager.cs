@@ -12,6 +12,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using resourceEdge.webUi.Infrastructure.Core;
 
 namespace resourceEdge.webUi.Infrastructure
 {
@@ -93,20 +94,6 @@ namespace resourceEdge.webUi.Infrastructure
 
         }
 
-        public class EmployeeListItem
-        {
-            public int empID { get; set; }
-            public string userId { get; set; }
-            public string empEmail { get; set; }
-            public int empRoleId { get; set; }
-            public string FullName { get; set; }
-            public string reportingManager1 { get; set; }
-            public string reportingManager2 { get; set; }
-            public string empStatusId { get; set; }
-            public int businessunitId { get; set; }
-            public int departmentId { get; set; }
-
-        }
 
 
         /// <summary>
@@ -432,6 +419,38 @@ namespace resourceEdge.webUi.Infrastructure
 
         }
 
+        public List<EmployeeListItem> GetEmployeesByLocation(int id)
+        {
+            var result = EmployeeRepo.GetAllEmployeesByLocation(id)
+                .Select(x => new EmployeeListItem()
+                    {
+                        businessunitId = x.businessunitId, FullName = x.FullName, userId = x.userId, GroupId = x.GroupId
+                    }).ToList();
+            result.ForEach(x =>x.Units = unitofWork.BusinessUnit.GetByID(x.businessunitId));
+            result.ForEach(x => x.Group = unitofWork.Groups.GetByID(x.GroupId));
+            return  result ?? null;
+        }
+
+        public List<QuestionViewModel> KpiQuestions(string userId)
+        {
+            var result = unitofWork.Questions.Get(filter: x => x.UserIdForQuestion == userId, includeProperties: "Group, BusinessUnit")
+                .Select(X=> new QuestionViewModel
+                { Question = X.Question, Description = X.Description }).ToList();
+            return result ?? null;
+        }
+        public bool ApproveQuestion(string userId = null)
+        {
+            if (userId == null)
+            {
+                //Approve all Questions in the unit
+            }
+            else
+            {
+                //approve questions in the unit
+            }
+            return false;
+        }
+
 
         //Modify this class later to use the unit of work pattern later in the code.
         public class EmployeeDetails : EmployeeManager
@@ -541,16 +560,5 @@ namespace resourceEdge.webUi.Infrastructure
         }
 
     }
-    public class EmloyeDetailistItem
-    {
-        public string UserId { get; set; }
-        public string FullName { get; set; }
-        public string BusinessUnitName { get; set; }
-        public string DepartmentName { get; set; }
-        public string ImageUrl { get; set; }
-        public bool? Login { get; set; }
-        public int EmployeeRole { get; set; }
-        public int EmployeeId { get; set; }
-        public bool? IsUnitHead { get; set; }
-    }
+
 }

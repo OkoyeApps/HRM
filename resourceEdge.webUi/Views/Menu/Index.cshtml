@@ -1,0 +1,61 @@
+﻿@model IEnumerable<resourceEdge.Domain.Entities.Menus>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+}
+
+<table class="table table-responsive table-bordered">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Role)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Active)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Role)
+        </td>
+            @if(item.Active == true)
+            {
+                <td id="active">Active</td>
+            }else
+            {
+                <td>In-Active</td>
+            }
+        <td>
+            <table>
+                <tr>
+                    <td>
+
+                        @using (Ajax.BeginForm("Activate", "Menu", new { Id = item.Id }, new AjaxOptions() { HttpMethod = "Post", Url = "/menu/activate" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-success">Activate</button>
+                        }
+                    </td>
+                    <td>
+                        @using (Ajax.BeginForm("DeActivate", "Menu", new { Id = item.Id }, new AjaxOptions() { HttpMethod = "Post", Url = "/menu/activate" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-danger">De-activate</button>
+                        }
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+}
+
+</table>

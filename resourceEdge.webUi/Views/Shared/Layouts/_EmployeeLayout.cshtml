@@ -1,6 +1,8 @@
 ﻿@using resourceEdge.webUi.Models
+@using resourceEdge.Domain.Entities
 @{ var usersessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
     var crumbs = (BreadCrumb)Session["_Crumbs"];
+    var Menu = (List<Menus>)Session["_Menu"];
 }
 
 <!DOCTYPE html>
@@ -313,7 +315,7 @@
                             @if (User.IsInRole("Manager"))
                             {
                                 <li>
-                                @Html.ActionLink("Leave Requests", "leaveRequests", "Leave", null, new { @class = "nav-link title"})
+                                    @Html.ActionLink("Leave Requests", "leaveRequests", "Leave", null, new { @class = "nav-link title" })
                                 </li>
                             }
                         </ul>
@@ -331,18 +333,32 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="has-sub">
-                        <a href="javascript:;">
-                            <b class="caret pull-right"></b>
-                            <i class="fa fa-suitcase"></i>
-                            <span>Coming Soon</span>
-                        </a>
-                        <ul class="sub-menu">
-                            <li>
+                    @if (User.IsInRole("Manager"))
+                    {
+                        <li class="has-sub">
+                            <a href="javascript:;">
+                                <b class="caret pull-right"></b>
+                                <i class="fa fa-suitcase"></i>
+                                <span>Employee Management</span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li>
+                                    @Html.ActionLink("Employee Leaves", "AllRequest")
+                                </li>
+                                @if (Menu != null)
+                                {
+                                    var result = Menu.Find(x => x.Id == 1);
+                                    if (result != null)
+                                    {
 
-                            </li>
-                        </ul>
-                    </li>
+                                        <li>
+                                            @Html.ActionLink("Add Question", "")
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </li>
+                    }
                     @if (User.IsInRole("HR"))
                     {
                         <li class="has-sub">
@@ -415,7 +431,7 @@
                             <h4 class="panel-title">@ViewBag.PageTitle</h4>
                         </div>
                         <div class="panel-body">
-                            
+
                             @RenderBody()
 
                         </div>

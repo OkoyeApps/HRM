@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Abstracts
 {
-    public interface IQuestions : GenericInterface<Questions>
+   public  interface IMenu
     {
-        IEnumerable<Questions> GetAllUserQuestion(string userId);
-        IEnumerable<Questions> GetAllQuestionsEagerly(string properties);
+        IEnumerable<Menus> Get();
+        void ActivateMenu(int id);
+        void DeActivateMenu(int id);
     }
 }

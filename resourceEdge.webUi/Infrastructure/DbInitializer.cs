@@ -343,8 +343,14 @@ namespace resourceEdge.webUi.Infrastructure
                 new Parameters() { ParameterName = "KPI", Descriptions = "Key Performance Index" }
             };
             parameter.ForEach(X => context.Parameters.Insert(X));
+
+            var Menus = new List<Menus>()
+            {
+                new Domain.Entities.Menus() { Id= 1, Name = "Question", Role = "Manager,HR,System Admin", Active = false }
+            };
+            Menus.ForEach(x => context.Menu.Insert(x));
+
             context.Save();
         }
     }
-    // base.Seed(context);
 }

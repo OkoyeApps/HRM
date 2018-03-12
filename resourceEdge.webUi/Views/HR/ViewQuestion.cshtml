@@ -1,0 +1,38 @@
+﻿@model IEnumerable<resourceEdge.Domain.Entities.QuestionViewModel>
+@{
+    ViewBag.Title = "ViewQuestion";
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+    int counter = 1;
+}
+
+<table class="table table-responsive">
+    <thead>
+        <tr>
+            <th>S/N</th>
+            <th>Questions</th>
+            <th>Descriptions</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td> @counter</td>
+                <td>@item.Question</td>
+                <td>@item.Description</td>
+                <td>
+                    <table>
+                        <tr>
+                            <td>Approve</td>
+                            <td>Reject</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            counter++;
+        }
+
+    </tbody>
+</table>
+

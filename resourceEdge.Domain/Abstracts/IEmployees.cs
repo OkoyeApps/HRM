@@ -9,9 +9,11 @@ namespace resourceEdge.Domain.Abstracts
 {
     public interface IEmployees : GenericInterface<Employees>
     {
+
         Employees GetEmployeeLazily(string userId);
         Employees GetEmployeeByEmail(string email);
         List<Employees> GetEmpByBusinessUnit(int id);
+        IEnumerable<Employees> GetAllEmployeesByLocation(int id);
         Employees CheckIfEmployeeExistByUserId(string userId);
         List<Employees> GetEmployeeByDepts(int dept);
         List<Employees> GetUnitHead(int unitId);

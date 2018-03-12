@@ -16,6 +16,7 @@ using System.Web.Security;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Threading.Tasks;
 using resourceEdge.webUi.Infrastructure.Handlers;
+using resourceEdge.webUi.Infrastructure.Core;
 
 namespace resourceEdge.webUi.Controllers
 {
@@ -27,38 +28,39 @@ namespace resourceEdge.webUi.Controllers
         IBusinessUnits BunitsRepo;
         IReportManager ReportRepo;
         IEmploymentStatus statusRepo;
-        EmployeeManager employeeManager;
-        Rolemanager RoleManager;
-        EmployeeManager.EmployeeDetails empdetail;
         IFiles FileRepo;
         ILevels levelRepo;
         ILocation LocationRepo;
         IGroups GroupRepo;
         IDepartments DepartmentRepo;
+        IQuestions QuestionRepo;
+        EmployeeManager employeeManager;
+        Rolemanager RoleManager;
+        EmployeeManager.EmployeeDetails empdetail;
         ApplicationDbContext db;
-       
-        private ApplicationUserManager userManager;
+        ApplicationUserManager userManager;
         Apimanager Apimanager;
 
         public HRController(IEmployees empParam, IBusinessUnits busParam, IReportManager rParam, Rolemanager RoleParam,
             ApplicationDbContext dbParam, IEmploymentStatus SParam, IFiles FParam, ILocation LRepo, ILevels levelParam, IGroups gParam,
-            IDepartments deptParam, IMailDispatcher Mailparam)
+            IDepartments deptParam, IMailDispatcher Mailparam, IQuestions Qparam)
         {
             db = dbParam;
-            UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
             empRepo = empParam;
             BunitsRepo = busParam;
             ReportRepo = rParam;
-            employeeManager = new EmployeeManager(empParam, rParam,Mailparam);
             RoleManager = RoleParam;
             db = dbParam;
             statusRepo = SParam;
             FileRepo = FParam;
-            empdetail = new EmployeeManager.EmployeeDetails();
             levelRepo = levelParam;
             LocationRepo = LRepo;
             GroupRepo = gParam;
             DepartmentRepo = deptParam;
+            QuestionRepo = Qparam;
+            empdetail = new EmployeeManager.EmployeeDetails();
+            employeeManager = new EmployeeManager(empParam, rParam, Mailparam);
+            UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
             Apimanager = new Apimanager();
         }
         public ApplicationUserManager UserManager
@@ -116,7 +118,7 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.EmpStatus = new SelectList(statusRepo.Get().Select(x => new { name = x.employemntStatus, id = x.empstId }), "id", "name", "id");
             ViewBag.roles = new SelectList(GetRoles().OrderBy(x => x.Name).Where(u => !u.Name.Contains("System Admin") && !u.Name.Contains("Management")).Select(x => new { name = x.Name, id = x.Id }), "Id", "name", "Id");
             ViewBag.prefix = new SelectList(Apimanager.PrefixeList(), "prefixId", "prefixName", "prefixId");
-            ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.BusId), "BusId", "unitname", "BusId");
+            ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.Id), "BusId", "unitname", "BusId");
             ViewBag.jobTitles = new SelectList(Apimanager.JobList().OrderBy(x => x.JobName), "JobId", "JobName", "JobId");
             ViewBag.Levels = new SelectList(levelRepo.Get().OrderBy(x => x.levelNo), "Id", "LevelNo", "Id");
             ViewBag.Locations = new SelectList(LocationRepo.Get().OrderBy(x => x.State), "Id", "State", "Id");
@@ -169,6 +171,7 @@ namespace resourceEdge.webUi.Controllers
                                   employees.dateOfJoining, null, true, employees.departmentId.ToString(), employees.businessunitId.ToString());
                             if (newCreatedUser.Item1.Id != null)
                             {
+
                                 var role = db.Roles.Find(employees.empRoleId.ToString());
                                 if (role.Name.ToLower() == "manager")
                                 {
@@ -187,7 +190,7 @@ namespace resourceEdge.webUi.Controllers
                                     manager.managerId = realEmployee.userId;
                                     employeeManager.AssignReportManager(manager);
                                 }
-                                var groupName =  employeeManager.GetGroupName(employees.GroupId);
+                                var groupName = employeeManager.GetGroupName(employees.GroupId);
                                 employeeManager.AddEmployeeToMailDispatch(employees.empEmail, newCreatedUser.Item2, "noreply@tenece.com", groupName, realEmployee.FullName);
                             }
                         }
@@ -196,19 +199,16 @@ namespace resourceEdge.webUi.Controllers
                             ViewBag.Error = "Sorry Employee was not created. Please try Again";
                             throw ex;
                         }
-                        ViewBag.Success = "Employee Created Successfully";
-                        ModelState.AddModelError("", "Employee Created Successfully");
+                        this.AddNotification("Employee Created Successfully", NotificationType.SUCCESS);
                         return Redirect(returnUrl);
                     }
-                    ViewBag.Error = "Sorry, Please the entry date must not be less than or equal to the Exit Date Please try Again";
-                    ModelState.AddModelError("", "Sorry, Please the entry date must not be less than or equal to the Exit Date Please try Again");
+                    this.AddNotification("Sorry, Please the entry date must not be less than or equal to the Exit Date Please try Again", NotificationType.WARNING);
                     return Redirect(returnUrl);
                 }
-                ViewBag.Error = $"Sorry Employee with this Id { employees.empID } already exist in the System Please try Again";
-                ModelState.AddModelError("", "Sorry Employee with this Id { employees.empID } already exist in the System Please try Again");
+                this.AddNotification("Sorry Employee with this Id { employees.empID } already exist in the System Please try Again", NotificationType.ERROR);
                 //return Redirect(returnUrl);
             }
-             return RedirectToAction("Create");
+            return RedirectToAction("Create");
 
         }
         [NonAction]
@@ -231,7 +231,7 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult AssignReportManager()
         {
             var CurrentEmployee = empRepo.GetByUserId(User.Identity.GetUserId());
-            ViewBag.businessUnits = new SelectList(BunitsRepo.GetUnitsByLocation(CurrentEmployee.LocationId.Value).OrderBy(x => x.BusId), "BusId", "unitname", "BusId");
+            ViewBag.businessUnits = new SelectList(BunitsRepo.GetUnitsByLocation(CurrentEmployee.LocationId.Value).OrderBy(x => x.Id), "BusId", "unitname", "BusId");
             return View();
         }
 
@@ -273,7 +273,7 @@ namespace resourceEdge.webUi.Controllers
                 ViewBag.Error = "Cannot Assign More Than two managers to a Business Unit";
             }
 
-            ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.BusId), "BusId", "unitname", "BusId");
+            ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.Id), "BusId", "unitname", "BusId");
             ViewBag.Error = "Make sure that the report Manager does not exist already for the business unit";
             ViewBag.Warning = "Also make sure that you don't add an employee twice for particlar business unit";
             return RedirectToAction("AssignReportManager");
@@ -299,13 +299,13 @@ namespace resourceEdge.webUi.Controllers
             var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
             if (UserFromSession != null)
             {
-                ViewBag.businessUnits = new SelectList(BunitsRepo.GetUnitsByLocation(UserFromSession.LocationId).OrderBy(x => x.BusId), "BusId", "unitname", "BusId");
+                ViewBag.businessUnits = new SelectList(BunitsRepo.GetUnitsByLocation(UserFromSession.LocationId).OrderBy(x => x.Id), "BusId", "unitname", "BusId");
             }
             ViewBag.PageTitle = "Assgin Department Head";
             return View();
         }
 
-        [HttpPost,ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult AssignDepartmentHead(DepartmentHeadViewModel model)
         {
             int unitId = 0;
@@ -324,9 +324,45 @@ namespace resourceEdge.webUi.Controllers
                         return RedirectToAction("AssignDepartmentHead");
                     }
                 }
-               
+
             }
             return RedirectToAction("AssignDepartmentHead");
+        }
+
+        public ActionResult AllQuestions()
+        {
+            ViewBag.PageTitle = "Questions";
+            var questions = QuestionRepo.GetAllQuestionsEagerly("Group,BusinessUnit").GroupBy(x => x.UserFullName);
+            var aa = questions.ToList();
+            return View(questions.ToList());
+        }
+
+        [Authorize(Roles = "HR")]
+        public ActionResult AddedQuestions()
+        {
+            ViewBag.PageTitle = "Add Questions";
+            var usersessionObject =(SessionModel) Session["_ResourceEdgeTeneceIdentity"];
+            var result = employeeManager.GetEmployeesByLocation(usersessionObject.LocationId);
+            return View(result);
+        }
+       
+        public ActionResult ViewQuestion(string ID)
+        {
+            var result = employeeManager.KpiQuestions(ID);
+            return View(result);
+        }
+        public ActionResult Questions(string department, string id = null)
+        {
+            
+            if (id == null)
+            {
+
+            }
+            else
+            {
+
+            }
+            return View();
         }
     }
 

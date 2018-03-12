@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using resourceEdge.webUi.Infrastructure.Core;
 
 namespace resourceEdge.webUi.Infrastructure
 {
@@ -38,20 +39,7 @@ namespace resourceEdge.webUi.Infrastructure
             public string BusinessName { get; set; }
         }
 
-        public class EmployeeListItem
-        {
-            public int empID { get; set; }
-            public string userId { get; set; }
-            public string empEmail { get; set; }
-            public int empRoleId { get; set; }
-            public string FullName { get; set; }
-            public string reportingManager1 { get; set; }
-            public string reportingManager2 { get; set; }
-            public string empStatusId { get; set; }
-            public int businessunitId { get; set; }
-            public int departmentId { get; set; }
 
-        }
         public class DepartmentListItem
         {
             public int deptId { get; set; }
@@ -132,7 +120,7 @@ namespace resourceEdge.webUi.Infrastructure
 
         public List<BusinessUnitListItem> GetBusinessUnitList()
         {
-            var result = unitOfWork.GetDbContext().Businessunit.Select(x => new BusinessUnitListItem() { businessId = x.BusId, BusinessName = x.unitname }).ToList();
+            var result = unitOfWork.GetDbContext().Businessunit.Select(x => new BusinessUnitListItem() { businessId = x.Id, BusinessName = x.unitname }).ToList();
             return result ?? null;
         }
 
