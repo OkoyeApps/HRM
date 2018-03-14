@@ -43,7 +43,7 @@ namespace resourceEdge.webUi.Infrastructure.Core
             }
         }
 
-        public void AddSubscription()
+        public void AddSubscriptionCodeToMail()
         {
             var subscription = unitOfWork.AppraisalInitialization.Get(filter: x => x.StartDate == DateTime.Today).ToList();
             int i = 0;
@@ -128,6 +128,18 @@ namespace resourceEdge.webUi.Infrastructure.Core
                 Questions.ToList().ForEach(x => x.Isactive = true);
                 Questions.ToList().ForEach(x => unitOfWork.Questions.Update(x));
                 unitOfWork.Save();
+            }
+        }
+
+        public void ActivateEmployeeAppraisalMenu()
+        {
+            var subscription = unitOfWork.AppraisalInitialization.Get(filter: x => x.StartDate == DateTime.Today).ToList();
+            if (subscription != null)
+            {
+            var menu = unitOfWork.Menu.GetByID(2);
+            menu.Active = true;
+            unitOfWork.Menu.Update(menu);
+            unitOfWork.Save();
             }
         }
     }

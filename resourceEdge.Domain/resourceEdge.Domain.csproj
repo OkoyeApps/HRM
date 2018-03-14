@@ -104,13 +104,14 @@
   <ItemGroup>
     <Compile Include="Abstracts\Appraisal\IAppraisalConfiguration.cs" />
     <Compile Include="Abstracts\Appraisal\IAppraisalInitialization.cs" />
+    <Compile Include="Abstracts\Appraisal\IAppraisalQuestion.cs" />
     <Compile Include="Abstracts\Appraisal\IEmployeeRating.cs" />
     <Compile Include="Abstracts\Appraisal\IAppraisalMode.cs" />
     <Compile Include="Abstracts\Appraisal\IAppraisalRating.cs" />
     <Compile Include="Abstracts\Appraisal\IAppraisalStatus.cs" />
     <Compile Include="Abstracts\Appraisal\IAppriaslPeriods.cs" />
     <Compile Include="Abstracts\Appraisal\IParameter.cs" />
-    <Compile Include="Abstracts\Appraisal\IQuestions.cs" />
+    <Compile Include="Abstracts\IQuestions.cs" />
     <Compile Include="Abstracts\Appraisal\IRating.cs" />
     <Compile Include="Abstracts\Appraisal\ISkills.cs" />
     <Compile Include="Abstracts\IActivityLog.cs" />
@@ -144,6 +145,7 @@
     <Compile Include="Concrete\Appraisal\AppraisalInitializationRepository.cs" />
     <Compile Include="Concrete\Appraisal\AppraisalModeRepository.cs" />
     <Compile Include="Concrete\Appraisal\AppraisalPeriodRepository.cs" />
+    <Compile Include="Concrete\Appraisal\AppraisalQuestionRepository.cs" />
     <Compile Include="Concrete\Appraisal\AppraisalRatingRepository.cs" />
     <Compile Include="Concrete\Appraisal\AppraisalStatusRepository.cs" />
     <Compile Include="Concrete\Appraisal\EmployeeRatingRepository.cs" />
@@ -219,12 +221,13 @@
     <Compile Include="Entities\Appraisal\AppraisalHistory.cs" />
     <Compile Include="Entities\Appraisal\AppraisalInitialization.cs" />
     <Compile Include="Entities\Appraisal\AppraisalMode.cs" />
+    <Compile Include="Entities\Appraisal\AppraisalQuestion.cs" />
     <Compile Include="Entities\Appraisal\AppraisalRating.cs" />
     <Compile Include="Entities\Appraisal\AppraisalStatus.cs" />
     <Compile Include="Entities\Appraisal\AppriasalConfiguration.cs" />
     <Compile Include="Entities\Appraisal\EmployeeRating.cs" />
     <Compile Include="Entities\Appraisal\Parameters.cs" />
-    <Compile Include="Entities\Appraisal\Questions.cs" />
+    <Compile Include="Entities\Questions.cs" />
     <Compile Include="Entities\Appraisal\Ratings.cs" />
     <Compile Include="Entities\Appraisal\Skills.cs" />
     <Compile Include="Entities\Appraisal\SubscribedAppraisal.cs" />
@@ -298,7 +301,9 @@
       <LastGenOutput>Appraisal.cs</LastGenOutput>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Entities\TableSummary\" />
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
       <Visible>False</Visible>

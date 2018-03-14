@@ -3,13 +3,37 @@
     ViewBag.Title = "ViewQuestion";
     Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
     int counter = 1;
+    var modelItem = Model;
+    var userToUpdate = Model.FirstOrDefault(x => x.UserId != null);
+
 }
 
-<table class="table table-responsive">
+@if (Model.Count() > 0)
+{
+    <table>
+        <tr>
+            <td class="col-lg-offset-10">
+                @using (Html.BeginForm("ApproveQuestion", "HR", new { userId = userToUpdate.UserId }, FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-success pull-right">Approve All</button><span>&nbsp;</span>
+                }
+           </td>
+            <td>
+                @using (Html.BeginForm("RejectQuestion", "HR", new { userId = userToUpdate.UserId }, FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-danger pull-right">Reject All</button><span>&nbsp;</span>
+                }
+            </td>
+        </tr>
+    </table>
+    <br />
+<table class="table table-responsive table-bordered">
     <thead>
         <tr>
             <th>S/N</th>
-            <th>Questions</th>
+            <th class="col-md-8">Questions</th>
             <th>Descriptions</th>
             <th></th>
         </tr>
@@ -23,9 +47,23 @@
                 <td>@item.Description</td>
                 <td>
                     <table>
-                        <tr>
-                            <td>Approve</td>
-                            <td>Reject</td>
+                        <tr>@if (item.Approved == null || item.Approved == false)
+                        {
+                            <td>
+                                @using (Html.BeginForm("ApproveQuestion", "HR",new {userId = item.UserId, QstId = item.Id },FormMethod.Post))
+                                    {
+                                       @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-success">Approve</button><span>&nbsp;</span>
+                                }
+                            </td>
+                        }   
+                            <td>
+                                @using (Html.BeginForm("RejectQuestion", "HR", new { userId = item.UserId, QstId = item.Id }, FormMethod.Post))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-danger">Reject</button>
+                                }
+                            </td>
                         </tr>
                     </table>
                 </td>
@@ -35,4 +73,13 @@
 
     </tbody>
 </table>
+}
+else
+{
+    <div class="alert alert-danger text-center bold">No Question(s) added yet</div>
+}
+
+@section Scripts{
+    
+}
 

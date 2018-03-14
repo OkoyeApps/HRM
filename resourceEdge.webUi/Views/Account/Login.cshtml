@@ -5,7 +5,6 @@
 <!--[if !IE]><!-->
 <html lang="en">
 <!--<![endif]-->
-<!-- Mirrored from seantheme.com/color-admin-v2.0/admin/html/register_v3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 01 Sep 2016 09:34:53 GMT -->
 <head>
     <meta charset="utf-8" />
     <title>Login Page</title>
@@ -58,18 +57,9 @@
                 <!-- end register-header -->
                 <!-- begin register-content -->
                 <div class="register-content">
-             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "login-form", role = "form" }))
+             @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "login-form", role = "form" }))
                        {
                         @Html.AntiForgeryToken()
-                         @*<label class="control-label">Name</label>
-                        <div class="row row-space-10">
-                            <div class="col-md-6 m-b-15">
-                                <input type="text" class="form-control" placeholder="First name" />
-                            </div>
-                            <div class="col-md-6 m-b-15">
-                                <input type="text" class="form-control" placeholder="Last name" />
-                            </div>
-                        </div>*@
                         <label class="control-label">Email</label>
                         <div class="row m-b-15">
                             <div class="col-md-12">
@@ -86,7 +76,7 @@
 
                         <div class="checkbox m-b-30">
                             <label>
-                                <input type="checkbox" name="RememberMe" /> Remember me.
+                                <input type="checkbox" name="RememberMe" checked ="checked" value="true" /> Remember me.
                             </label>
                         </div>
                         <div class="register-buttons">

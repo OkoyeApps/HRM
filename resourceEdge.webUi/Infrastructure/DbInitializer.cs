@@ -170,7 +170,8 @@ namespace resourceEdge.webUi.Infrastructure
                 new ApplicationUser() { Email = "Test1@example.com", UserName = "Test1@example.com" },
                 new ApplicationUser() {Email = "Hr@example.com", UserName = "Hr@example.com" },
                 new ApplicationUser() {Email = "Manager@example.com", UserName = "Manager@example.com" },
-                new ApplicationUser() {Email = "DeptHead@example.com", UserName = "DeptHead@example.com" }
+                new ApplicationUser() {Email = "DeptHead@example.com", UserName = "DeptHead@example.com" },
+                new ApplicationUser() {Email = "LocationHead@example.com", UserName = "LocationHead@example.com" }
             };
             var Employee = new Employees[]
             {
@@ -190,6 +191,10 @@ namespace resourceEdge.webUi.Infrastructure
                     empRoleId = 2, empStatusId = "Test User", GroupId = 1, LevelId = 1,FullName = "Test Dept",
                     positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
                     jobtitleId = 1, IsDepthead = true, isactive = true   },
+                      new Domain.Entities.Employees() { businessunitId = 1, departmentId = 2, empEmail = "LocationHead@example.com",
+                    empRoleId = 7, empStatusId = "Test location", GroupId = 1, LevelId = 1,FullName = "Test Location Head",
+                    positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
+                    jobtitleId = 1, IsDepthead = true, isactive = true   }
             };
             for (int i = 0, j = 0; i < TestUser1.Count; i++,j++)
             {
@@ -216,7 +221,13 @@ namespace resourceEdge.webUi.Infrastructure
                         };
                         context.ReportManager.Insert(manager);
                     }
-
+                    else if (TestUser1[i].Email.StartsWith("LocationHead"))
+                    {
+                        userManager.AddToRole(TestUser1[i].Id, "Location Head");
+                        var location = context.Locations.GetByID(Employee[i].LocationId);
+                        location.LocationHead1 = TestUser1[i].Id;
+                        context.Locations.Update(location);
+                    }
                 }
                 Employee[i].userId = TestUser1[i].Id;
                 context.employees.Insert(Employee[j]);
@@ -322,9 +333,9 @@ namespace resourceEdge.webUi.Infrastructure
             }
             var AppraisalRating = new List<AppraisalRating>()
             {
-                new Domain.Entities.AppraisalRating() { Name = "1-5" },
-                new Domain.Entities.AppraisalRating() { Name = "1-10" },
-                new Domain.Entities.AppraisalRating() { Name = "1-3" }
+                new Domain.Entities.AppraisalRating() { Name = "1-6" },
+                new Domain.Entities.AppraisalRating() { Name = "1-11" },
+                new Domain.Entities.AppraisalRating() { Name = "1-4" }
             };
             foreach (var item in AppraisalRating)
             {
@@ -346,7 +357,8 @@ namespace resourceEdge.webUi.Infrastructure
 
             var Menus = new List<Menus>()
             {
-                new Domain.Entities.Menus() { Id= 1, Name = "Question", Role = "Manager,HR,System Admin", Active = false }
+                new Domain.Entities.Menus() { Id= 1, Name = "Question", Role = "Manager,HR,System Admin", Active = false },
+                new Domain.Entities.Menus() { Id = 2, Name="EmployeeAppraisal", Role =  "Employee, HR,Manager", Active = false }
             };
             Menus.ForEach(x => context.Menu.Insert(x));
 

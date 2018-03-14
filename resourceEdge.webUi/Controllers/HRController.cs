@@ -332,9 +332,27 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult AllQuestions()
         {
             ViewBag.PageTitle = "Questions";
-            var questions = QuestionRepo.GetAllQuestionsEagerly("Group,BusinessUnit").GroupBy(x => x.UserFullName);
-            var aa = questions.ToList();
-            return View(questions.ToList());
+            var questions = QuestionRepo.GetAllQuestionsEagerly("Location,BusinessUnit").GroupBy(x => x.UserFullName);
+            List<Questions> Questions = new List<Domain.Entities.Questions>();
+            foreach (var items in questions)
+            {
+                foreach (var item in items)
+                {
+                    var existingUser = Questions.Find(x => x.UserFullName == items.Key);
+                    if (existingUser == null)
+                    {
+                        var question = new Questions()
+                        {
+                            BusinessUnitId = item.BusinessUnitId,
+                            BusinessUnit = item.BusinessUnit,
+                            Location = item.Location,
+                            UserFullName = items.Key
+                        };
+                        Questions.Add(question);
+                    }
+                }
+            }
+            return View(Questions);
         }
 
         [Authorize(Roles = "HR")]
@@ -348,8 +366,68 @@ namespace resourceEdge.webUi.Controllers
        
         public ActionResult ViewQuestion(string ID)
         {
+            ViewBag.PageTitle =$"{employeeManager.GetEmployeeByUserId(ID).FullName} Questions";
+            ViewBag.ID = ID;
             var result = employeeManager.KpiQuestions(ID);
             return View(result);
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult ApproveQuestion(string userId=null, int? QstId=null)
+        {
+            bool result = false;
+            if (string.IsNullOrEmpty(userId) && QstId == null)
+            {
+                //Approve all request
+                result =  employeeManager.ApproveQuestion();
+            }
+            else if (userId != null && QstId == null)
+            {
+                //approve all user Request
+              result= employeeManager.ApproveQuestion(userId);
+                
+            }
+            else if (!string.IsNullOrEmpty(userId) && QstId != null)
+            {
+                //Approve specific user Request
+               result =  employeeManager.ApproveQuestion(userId, QstId);
+            }
+            if (result != false)
+            {
+                this.AddNotification("Successfuly Approved Question(s)", NotificationType.SUCCESS);
+                return RedirectToAction("AddedQuestions");
+            }
+            this.AddNotification("Question could not be approved please try again", NotificationType.ERROR);
+            return RedirectToAction("AddedQuestion");
+
+        }
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult RejectQuestion(string userId=null, int? QstId = null)
+        {
+            bool result = false;
+            if (string.IsNullOrEmpty(userId) && QstId == null)
+            {
+                //Approve all request
+                result = employeeManager.RejectQuestion();
+            }
+            else if (userId != null && QstId == null)
+            {
+                //approve all user Request
+                result = employeeManager.RejectQuestion(userId);
+
+            }
+            else if (!string.IsNullOrEmpty(userId) && QstId != null)
+            {
+                //Approve specific user Request
+                result = employeeManager.RejectQuestion(userId, QstId);
+            }
+            if (result != false)
+            {
+                this.AddNotification("Successfuly Rejected Question(s)", NotificationType.SUCCESS);
+                return RedirectToAction("AddedQuestions");
+            }
+            this.AddNotification("Question could not be Rejected please try again", NotificationType.ERROR);
+            return RedirectToAction("AddedQuestion");
         }
         public ActionResult Questions(string department, string id = null)
         {

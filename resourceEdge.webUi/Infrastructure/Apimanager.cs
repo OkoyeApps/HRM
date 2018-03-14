@@ -489,15 +489,15 @@ namespace resourceEdge.webUi.Infrastructure
                     }
                 }
             }
-                if (result.Manager1 != null && result.Manager1.EndsWith("1") && ManagerWithFullname.ContainsKey(result.Manager1))
+                if (result.Manager1 != null && ManagerWithFullname.ContainsKey(result.Manager1))
                 {
                     result.FullName1 = ManagerWithFullname[result.Manager1];
                 }
-                if (result.Manager2 != null && result.Manager2.EndsWith("2") && ManagerWithFullname.ContainsKey(result.Manager2))
+                if (result.Manager2 != null  && ManagerWithFullname.ContainsKey(result.Manager2))
                 {
                     result.FullName1 = ManagerWithFullname[result.Manager1];
                 }
-                if (result.Manager3 != null && result.Manager3.EndsWith("3") && ManagerWithFullname.ContainsKey(result.Manager3))
+                if (result.Manager3 != null && ManagerWithFullname.ContainsKey(result.Manager3))
                 {
                     result.FullName3 = ManagerWithFullname[result.Manager3];
                 }

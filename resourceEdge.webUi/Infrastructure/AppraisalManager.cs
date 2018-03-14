@@ -71,7 +71,7 @@ namespace resourceEdge.webUi.Infrastructure
 
         public AppraisalInitialization GetInitializationCode(string code)
         {
-            var result = unitOfWork.AppraisalInitialization.Get(filter: x => x.InitilizationCode == code).FirstOrDefault();
+            var result = unitOfWork.AppraisalInitialization.Get(filter: x => x.InitilizationCode == code && x.IsActive != false).FirstOrDefault();
             return result;
         }
 
@@ -94,16 +94,22 @@ namespace resourceEdge.webUi.Infrastructure
             var initialization = GetInitializationCode(code);
             if (initialization != null)
             {
-                var subscription = new SubscribedAppraisal()
+                var ExistingSubscription = unitOfWork.SubscribedAppraisal.Get(x => x.Code == code);
+                if (ExistingSubscription == null)
                 {
-                    AppraisalInitializationId = initialization.Id,
-                    Code = code,
-                    LocationId = locationId,
-                    UserId = userId
-                };
-                unitOfWork.SubscribedAppraisal.Insert(subscription);
-                unitOfWork.Save();
-                return true;
+                    var subscription = new SubscribedAppraisal()
+                    {
+                        AppraisalInitializationId = initialization.Id,
+                        Code = code,
+                        LocationId = locationId,
+                        UserId = userId,
+                        IsActive = true,
+                        GroupId = initialization.GroupId
+                    };
+                    unitOfWork.SubscribedAppraisal.Insert(subscription);
+                    unitOfWork.Save();
+                    return true;
+                }
             }
             return false;
         }
@@ -137,31 +143,6 @@ namespace resourceEdge.webUi.Infrastructure
             }
             return false;  
         }
-        public bool SubscribeToAppraisal(string code, string UserId)
-        {
-            try
-            {
-                var allAppraisal = unitOfWork.SubscribedAppraisal.Get().ToList();
-                var currentAppraisal = unitOfWork.AppraisalInitialization.Get(filter: x => x.InitilizationCode == code).FirstOrDefault();
-                var AppliedCount = allAppraisal.Find(x => x.UserId == UserId && x.Code == code);
-                if (currentAppraisal != null && AppliedCount == null)
-                {
-                    var subscription = new SubscribedAppraisal()
-                    {
-                        AppraisalInitializationId = currentAppraisal.Id,
-                        Code = currentAppraisal.InitilizationCode,
-                        UserId = UserId
-                    };
-                    unitOfWork.SubscribedAppraisal.Insert(subscription);
-                    unitOfWork.Save();
-                    return true;
-                }
-            }catch(Exception ex)
-            {
-                throw ex;
-            }
-            return false;
-        }
         public List<BusinessUnits> GetBusinessUnitsByLocation(int Id)
         {
                 var location = unitOfWork.BusinessUnit.Get(filter: x => x.LocationId == Id ).ToList();
@@ -172,32 +153,37 @@ namespace resourceEdge.webUi.Infrastructure
             return null;
         }
 
-        public bool AddOrUpdateAppraisalConfiguration(AppraisalConfigratuionViewModel model, string UserId)
+        public bool AddOrUpdateAppraisalConfiguration(AppraisalConfigratuionViewModel model, string UserId, int groupId, int locationId)
         {
             try
             {
-                var ExistingAppraisal = unitOfWork.AppraisalConfiguration.Get(filter: x => x.BusinessUnit == model.BusinessUnit && x.Code == model.Code && UserId == x.CreatedBy).FirstOrDefault();
+                var ExistingAppraisal = unitOfWork.AppraisalConfiguration.Get(filter: x => x.BusinessUnitId == model.BusinessUnit && x.Code == model.Code && UserId == x.CreatedBy && x.IsActive == true).FirstOrDefault();
+                var SubScribedApraisal = unitOfWork.SubscribedAppraisal.Get(filter: x => x.GroupId == groupId && x.LocationId == locationId && x.IsActive == true).FirstOrDefault();
                 if (ExistingAppraisal == null)
                 {
-                    int EnableTo = 0;
                     var HR = employeeRepo.GetByUserId(UserId);
                     if (HR != null)
                     {
-                        int.TryParse(model.EnableTo.ToString(), out EnableTo);
                         AppraisalConfiguration config = new AppraisalConfiguration()
                         {
                             AppraisalStatus = model.AppraisalStatus,
-                            BusinessUnit = model.BusinessUnit,
+                            BusinessUnitId = model.BusinessUnit,
                             Code = model.Code,
-                            EnableTo = EnableTo,
-                            Department = model.Department.Value,
+                            DepartmentId = model.Department.Value,
                             Parameters = model.Parameters.ToString(),
                             Eligibility = model.Eligibility.ToString(),
                             CreatedBy = UserId,
+                            EnableTo = 0,//remove this later from the model
                             CreatedDate = DateTime.Now,
-                            Location = HR.LocationId
+                            LocationId = HR.LocationId,
+                            LineManager1 = model.LineManager1,
+                            LineManager2 = model.LineManager2,
+                            LineManager3 = model.LineManager3,
+                            IsActive = true,
+                            AppraisalInitializationId = SubScribedApraisal.AppraisalInitializationId,
                         };
                         AppraisalConfigRepo.Insert(config);
+                        return true;
                     }
                     else
                     {
@@ -248,7 +234,8 @@ namespace resourceEdge.webUi.Infrastructure
                             DepartmentId = EmployeeDetail.departmentId,
                             GroupId = EmployeeDetail.GroupId,
                             LocationId = EmployeeDetail.LocationId.Value,
-                            UserFullName = EmployeeDetail.FullName
+                            UserFullName = EmployeeDetail.FullName,
+                            
                         };
                         try
                         {
@@ -285,21 +272,81 @@ namespace resourceEdge.webUi.Infrastructure
         }
         public AppraiseeDropDown GenerateAppraisalQuestions(string userId, int GroupId, int LocationId)
         {
+            //this checks to make sure that your location has subscribed for thr appraisal process
             var subscribedAppraisal = unitOfWork.SubscribedAppraisal
                                         .Get(includeProperties: "AppraisalInitialization", filter: x => x.GroupId == GroupId
                                         && x.LocationId == LocationId && x.AppraisalInitialization.EndDate > DateTime.Today 
                                         && x.AppraisalInitialization.IsActive == true).FirstOrDefault();
-            List <AppraisalInitialization> CurrentAppraisalInprogress = new List<AppraisalInitialization>();
 
-            var userQuestions = unitOfWork.Questions.Get(filter: x => x.UserIdForQuestion == userId).ToList();
+            //if (subscribedAppraisal != null)
+            //{
+                List<AppraisalInitialization> CurrentAppraisalInprogress = new List<AppraisalInitialization>();
 
-            AppraiseeDropDown dropDown = new AppraiseeDropDown()
+                var userQuestions = unitOfWork.Questions.Get(filter: x => x.UserIdForQuestion == userId).ToList();
+
+                AppraiseeDropDown dropDown = new AppraiseeDropDown()
+                {
+                    Questions = userQuestions
+                    //RatingType = subscribedAppraisal.AppraisalInitialization.RatingType
+                };
+
+                return dropDown ?? null;
+            //}
+            //return null;
+        }
+
+        public bool AddOrUpdateAppraisalQuestion(FormCollection model, string userId)
+        {
+            List<AppraisalQuestion> QuestionList = new List<AppraisalQuestion>();
+            AppraisalQuestion AppQuestion;
+            List<string> Questions = new List<string>();
+
+            var userEmployeeDetails = unitOfWork.employees.Get(filter: x => x.userId == userId).FirstOrDefault();
+            if (userEmployeeDetails != null)
             {
-                Questions = userQuestions,
-                RatingType = subscribedAppraisal.AppraisalInitialization.RatingType
-            };
+                var appraisalConfigurationDetails = unitOfWork.AppraisalConfiguration
+                    .Get(filter: x => x.LocationId == userEmployeeDetails.LocationId
+                    && x.BusinessUnitId == userEmployeeDetails.businessunitId
+                    && x.IsActive == true).FirstOrDefault();
+                if (appraisalConfigurationDetails != null)
+                {
+                //This chuck actually sets up some parameters that would be used in the assignments
+                var allKeys = model.AllKeys.ToList();
+                var allQuestionId = allKeys.Where(x => x.StartsWith("Question")).SingleOrDefault();
+                var AllQstIds = model[allQuestionId];
+                allKeys.RemoveRange(0, 2);
+                var AllQuestionId = AllQstIds.Split(',');
 
-            return dropDown ?? null;
+                for (int i = 0; i < allKeys.Count; i++)
+                {
+                    Questions.Add(model[(string)allKeys[i]]);
+                }
+                int answer = 0;
+                int question = 0;
+                    for (int i = 0; i < allKeys.Count; i++)
+                    {
+                        int.TryParse(model[(string)allKeys[i]], out answer);
+                        int.TryParse(AllQuestionId[i], out question);
+                        AppQuestion = new AppraisalQuestion()
+                        {
+                            Answer = answer,
+                            GroupId = userEmployeeDetails.GroupId,
+                            L1Status = null,
+                            L2Status = null,
+                            L3Status = null,
+                            LineManager1 = appraisalConfigurationDetails.LineManager1,
+                            LinrManager2 = appraisalConfigurationDetails.LineManager2,
+                            LineManager3 = appraisalConfigurationDetails.LineManager3,
+                            LocationId = userEmployeeDetails.LocationId.Value,
+                            QuestionId = question,
+                            UserId = userId
+                        };
+                        unitOfWork.AppraisalQuestion.Insert(AppQuestion);
+                        unitOfWork.Save();
+                    }
+                }
+            }
+            return false;
         }
     }
 }

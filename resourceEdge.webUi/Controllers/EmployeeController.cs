@@ -13,6 +13,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using resourceEdge.webUi.Infrastructure.Core;
 using static resourceEdge.webUi.Infrastructure.EmployeeManager;
 
 namespace resourceEdge.webUi.Controllers
@@ -27,18 +28,20 @@ namespace resourceEdge.webUi.Controllers
         IFiles FileRepo;
         IPositions PositionRepo;
         IJobtitles jobRepo;
+        IQuestions QuestionRepo;
         EmployeeManager EmpManager;
         EmployeeDetails EmpDetails;
         EmployeeEdit EmpEdit;
-        public EmployeeController(IPayroll PRParam, IEmployees EParam, IFiles fParam, IPositions PParam, IJobtitles jParam, ILeaveManagement LParam,IPayroll payParam )
+        public EmployeeController(IPayroll PRParam, IEmployees EParam, IFiles fParam, IPositions PParam, IJobtitles jParam, ILeaveManagement LParam,IPayroll payParam, IQuestions Qparam )
         {
-            UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(new ApplicationDbContext()));
             payRollRepo = PRParam;
             EmployeeRepo = EParam;
-            EmpManager = new EmployeeManager(EParam,fParam, LParam, payParam);
             FileRepo = fParam;
             PositionRepo = PParam;
             jobRepo = jParam;
+            QuestionRepo = Qparam;
+            EmpManager = new EmployeeManager(EParam,fParam, LParam, payParam);
+            UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(new ApplicationDbContext()));
             EmpDetails = new EmployeeDetails();
             EmpEdit = new EmployeeEdit(EParam,fParam,LParam,payParam);
         }
@@ -118,7 +121,8 @@ namespace resourceEdge.webUi.Controllers
                 ViewBag.returnUrl = returnUrl;
                 return View(empToSend);
             }
-            TempData["Error"] = "This route does not exist";
+            this.AddNotification("", NotificationType.ERROR);
+
             return RedirectToAction("allEmployee", "HR");
         }
 
@@ -133,18 +137,15 @@ namespace resourceEdge.webUi.Controllers
                 if (ModelState.IsValid && user != null && employee != null)
                 {
                     EmpEdit.AddORUpdateSalary(userId, model, employee, user, User.Identity.GetUserId());
-                    TempData["Success"] = "Operation successfull";
+                    this.AddNotification("Operation successfull", NotificationType.SUCCESS);
                     return Redirect(returnUrl);
-                    ///I had to return a string here because asp.net mvc does not allow childActions to return a redirect 
-                    ///so i had to make use of the Response Object to redirect and just return a string.
-                    ///this might not be a best approach, will figure it out later.
                 }
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            TempData["Error"] = "Something went wrong";
+            this.AddNotification("Something went wrong", NotificationType.ERROR);
             return Redirect(returnUrl);
         }
 
@@ -175,7 +176,7 @@ namespace resourceEdge.webUi.Controllers
 
                     string fileFullName = Server.MapPath("~/Files/Avatars/");
                     EmpEdit.AddOrUpdateAvater(model, userId, existingAvatar, fileFullName, File, FileRepo);
-                    TempData["Success"] = "Operation successfull";
+                    this.AddNotification("Operation successfull", NotificationType.SUCCESS);
                     return Redirect(returnUrl);
                 }
             }
@@ -185,7 +186,7 @@ namespace resourceEdge.webUi.Controllers
                 return Redirect(returnUrl);
                 throw ex;
             }
-            TempData["Error"] = "Something went wrong";
+            this.AddNotification("Something went wrong", NotificationType.ERROR);
             return Redirect(returnUrl);
         }
 

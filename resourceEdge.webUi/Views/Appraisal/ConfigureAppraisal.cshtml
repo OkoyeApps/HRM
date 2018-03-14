@@ -8,7 +8,7 @@
     var dropDowns = (SystemViewModel)ViewBag.dropDowns;
 }
 
-
+<span id="group">@ViewBag.groupId</span>
 @using (Html.BeginForm("ConfigureAppraisal", "Appraisal", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
@@ -19,7 +19,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.BusinessUnit, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.BusinessUnit, dropDowns.BusinessUnits,  htmlAttributes:  new { @class = "form-control" } )
+                @Html.DropDownListFor(model => model.BusinessUnit, dropDowns.BusinessUnits,"Select Business unit",  htmlAttributes:  new { @class = "form-control" } )
                 @Html.ValidationMessageFor(model => model.BusinessUnit, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -51,7 +51,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Eligibility, "Select Eligibility", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Eligibility, dropDowns.Eligibility,"Select Eligibity", new { @class = "form-control" } )
+                @Html.DropDownListFor(model => model.Eligibility, dropDowns.EmploymentStatus,"Select Eligibity", new { @class = "form-control" } )
                 @Html.ValidationMessageFor(model => model.Eligibility, "", new { @class = "text-danger" })
             </div>
         </div>

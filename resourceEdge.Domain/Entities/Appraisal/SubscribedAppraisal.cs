@@ -14,6 +14,7 @@ namespace resourceEdge.Domain.Entities
         public string Code { get; set; }
         public int GroupId { get; set; }
         public int LocationId { get; set; }
+        public bool IsActive { get; set; }
         public int AppraisalInitializationId { get; set; }
         public AppraisalInitialization AppraisalInitialization { get; set; }
     }

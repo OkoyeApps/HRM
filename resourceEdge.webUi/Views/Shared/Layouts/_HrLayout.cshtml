@@ -534,8 +534,8 @@
     @RenderSection("Scripts", required: false)
     <script src="~/assets/AdminTemplate/assets/plugins/parsley/dist/parsley.js"></script>
     <script src="~/assets/AdminTemplate/assets/js/apps.min.js"></script>
-
-    <script>
+    @RenderSection("Scrpit2", required:false)
+        <script>
         $(document).ready(function () {
             App.init();
             $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);

@@ -429,9 +429,11 @@ namespace resourceEdge.Domain.Entities
     public class QuestionViewModel
     {
         [Key, HiddenInput(DisplayValue = true)]
-        public int id { get; set; }
+        public int Id { get; set; }
         public string Question { get; set; }
         public string Description { get; set; }
+        public bool? Approved { get; set; }
+        public string UserId { get; set; }
 
     }
     public class RatingViewModel
@@ -482,20 +484,15 @@ namespace resourceEdge.Domain.Entities
     }
     public class AppraisalConfigratuionViewModel
     {
-        public string id { get; set; }
         
-        public int? Location { get; set; }
         public int? BusinessUnit { get; set; }
         public int? Department { get; set; }
         public int AppraisalStatus { get; set; }
         [Required(ErrorMessage = "Please this field is required")]
-        public EnableTo EnableTo { get; set; }
-        [Required(ErrorMessage = "Please this field is required")]
         public int Eligibility { get; set; }
         public int Parameters { get; set; }
-        [StringLength(10, ErrorMessage = "Please your code must be Ten(10) characters long", MinimumLength =10)]
+        [StringLength(15, ErrorMessage = "Please your code must be Ten(10) characters long", MinimumLength =10)]
         public string Code { get; set; }
-        public bool? Enabled { get; set; }
         public string LineManager1 { get; set; }
         public string LineManager2 { get; set; }
         public string LineManager3 { get; set; }

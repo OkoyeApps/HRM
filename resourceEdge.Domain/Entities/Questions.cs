@@ -18,7 +18,7 @@ namespace resourceEdge.Domain.Entities
         public int BusinessUnitId { get; set; }
         public int DepartmentId { get; set; }
         public Nullable<bool> Isactive { get; set; }
-        public bool Approved { get; set; }
+        public bool? Approved { get; set; }
         public string Createdby { get; set; }
         public string ModifiedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
@@ -26,5 +26,6 @@ namespace resourceEdge.Domain.Entities
         public Nullable<bool> Isused { get; set; }
         public Groups Group { get; set; }
         public BusinessUnits BusinessUnit { get; set; }
+        public Location Location { get; set; }
     }
 }

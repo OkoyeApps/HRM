@@ -1,0 +1,36 @@
+﻿@model resourceEdge.Domain.Entities.Questions
+
+@{
+    ViewBag.Title = "SubscribeToAppraisal";
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+}
+@using (Html.BeginForm("SubscribeToAppraisal", "Appraisal", null, FormMethod.Post, new { data_parsley_validate = "" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.Label("code", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Editor("code", new { htmlAttributes = new { @class = "form-control", required = "" } })
+                @Html.ValidationMessage("code", "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

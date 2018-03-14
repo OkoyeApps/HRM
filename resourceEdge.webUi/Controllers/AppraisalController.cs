@@ -12,10 +12,11 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using resourceEdge.webUi.Infrastructure.Core;
+using resourceEdge.Domain.ViewModels;
 
 namespace resourceEdge.webUi.Controllers
 {
-    [EdgeIdentityFilter, Authorize]
+    [Authorize]
     public class AppraisalController : Controller
     {
         IEmployees  EmpRepo;
@@ -277,14 +278,17 @@ namespace resourceEdge.webUi.Controllers
             return View("AllInitializedAppraisal");
         }
 
+        [Authorize(Roles ="HR")]
         public ActionResult SubscribeToAppraisal(string Code)
         {
+            var userSessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
             if (Code != null)
             {
-                var result = AppraisalManager.SubscribeToAppraisal(Code, User.Identity.GetUserId());
+                var result = AppraisalManager.SubscribeForAppraisal(Code, userSessionObject.LocationId,User.Identity.GetUserId());
                 if (result != false)
                 {
-                    return View("");
+                    this.AddNotification("Subscription Successful", NotificationType.SUCCESS);
+                    return View(""); //This shoould redirect to viewQuestions of the Hr controller
                 }
             }
             return View();
@@ -300,7 +304,7 @@ namespace resourceEdge.webUi.Controllers
                 if (result != false)
                 {
                     this.AddNotification("Successfully subscribed for appraisal", NotificationType.SUCCESS);
-                    RedirectToAction("ConfigureAppraisal");
+                  return  RedirectToAction("ConfigureAppraisal");
                 }
             }
             ModelState.AddModelError("", "Could not subscribed for this Appraisal. please see the Head HR");
@@ -308,12 +312,12 @@ namespace resourceEdge.webUi.Controllers
         }
 
 
-        // [Authorize/*(Roles = "System Admin, HR")*/]
-        //[SubscriptionFilter]
-       // [EdgeIdentityFilter]
+        [Authorize(Roles = "HR")]
+        [SubscriptionFilter]
         public ActionResult ConfigureAppraisal()
         {
             var userSessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+            ViewBag.groupId = userSessionObject.GroupId;
             ViewBag.dropDowns = AppraisalManager.ConfigureAppraisal(userSessionObject.LocationId);
             ViewBag.PageTitle = "Configure Appraisal";
             return View("FormWizard");
@@ -321,21 +325,43 @@ namespace resourceEdge.webUi.Controllers
 
         [SubscriptionFilter]
         [HttpPost, ValidateAntiForgeryToken]
-        public JsonResult ConfigureAppraisal(FormCollection model)
+        public ActionResult ConfigureAppraisal(AppraisalConfigratuionViewModel model)
         {
             if (ModelState.IsValid)
             {
-                
+                var userSessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+                var result = AppraisalManager.AddOrUpdateAppraisalConfiguration(model,User.Identity.GetUserId(), userSessionObject.GroupId, userSessionObject.LocationId);
+                this.AddNotification("Appraisal Configuration successful", NotificationType.SUCCESS);
+                return RedirectToAction("ConfigureAppraisal");
             }
-            ViewBag.Error = "Something went wrong, Appraisal not configured";
-            return Json(new { message = "False" });
+            this.AddNotification("Something went wrong, Appraisal not configured", NotificationType.ERROR);
+            return RedirectToAction("ConfigureAppraisal");
         }
 
+        [Authorize]
         public ActionResult EmployeeAppraisal()
         {
             var userSessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+            ViewBag.PageTitle = $"Appraisal for {userSessionObject.FullName.ToUpper()}";
             var Question = AppraisalManager.GenerateAppraisalQuestions(User.Identity.GetUserId(), userSessionObject.GroupId, userSessionObject.LocationId);
-            return View(Question);
+            if (Question != null)
+            {
+             return View(Question);
+            }
+            this.AddNotification("Sorry you can't perform this appraisal process now", NotificationType.ERROR);
+            return RedirectToAction("Leave", "SelfService");
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult EmployeeAppraisal(FormCollection model)
+        {
+            var result = AppraisalManager.AddOrUpdateAppraisalQuestion(model, User.Identity.GetUserId());
+            if (result != false)
+            {
+                this.AddNotification("Thanks, Operation Successful!", NotificationType.SUCCESS);
+                return RedirectToAction("Leave", "SelfService");
+            }
+            return RedirectToAction("EmployeeAppraisal");
         }
     }
 }

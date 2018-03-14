@@ -9,9 +9,10 @@ namespace resourceEdge.Domain.Entities
    public  class AppraisalConfiguration
     {
         public int Id { get; set; }
-        public int? Location { get; set; }
-        public int? BusinessUnit { get; set; }
-        public int? Department { get; set; }
+        public int AppraisalInitializationId { get; set; }
+        public int? LocationId { get; set; }
+        public int? BusinessUnitId { get; set; }
+        public int? DepartmentId { get; set; }
         public int AppraisalStatus { get; set; }
         public int EnableTo { get; set; }
         public string Eligibility { get; set; } // Change this later to use the int as datatype and check for all the types available 
@@ -25,5 +26,7 @@ namespace resourceEdge.Domain.Entities
         public string ModifiedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
+        public bool IsActive { get; set; }
+        public AppraisalInitialization AppraisalInitialization { get; set; }
     }
 }

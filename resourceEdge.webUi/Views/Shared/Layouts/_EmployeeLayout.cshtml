@@ -374,6 +374,35 @@
                             </ul>
                         </li>
                     }
+                    @if (Menu != null) //Edit this later cas the check is redundant
+                    {
+                        if (Menu.Any(X => X.Id == 1))
+                        {
+                            <li class="has-sub">
+                                <a href="javascript:;">
+                                    <b class="caret pull-right"></b>
+                                    <i class="fa fa-suitcase"></i>
+                                    <span>Appraisal</span>
+                                </a>
+                                <ul class="sub-menu">
+                                    <li>
+                                        @Html.ActionLink("Start Appraisal", "EmployeeAppraisal")
+                                    </li>
+                                    @if (Menu != null)
+                                    {
+                                        var result = Menu.Find(x => x.Id == 2);
+                                        if (result != null)
+                                        {
+
+                                            <li>
+                                            @Html.ActionLink("Start Appraisal", "EmployeeAppraisal")
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </li>
+                        }
+                    }
                     @*<li class="has-sub active">
                             <a href="javascript:;">
                                 <b class="caret pull-right"></b>

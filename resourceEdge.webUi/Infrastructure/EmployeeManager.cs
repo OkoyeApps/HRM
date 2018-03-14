@@ -435,18 +435,83 @@ namespace resourceEdge.webUi.Infrastructure
         {
             var result = unitofWork.Questions.Get(filter: x => x.UserIdForQuestion == userId, includeProperties: "Group, BusinessUnit")
                 .Select(X=> new QuestionViewModel
-                { Question = X.Question, Description = X.Description }).ToList();
+                { Question = X.Question, Description = X.Description, Approved = X.Approved, UserId = X.UserIdForQuestion, Id = X.Id }).ToList();
             return result ?? null;
         }
-        public bool ApproveQuestion(string userId = null)
+        public bool ApproveQuestion(string userId=null, int? QstId = null)
         {
-            if (userId == null)
+            try
             {
-                //Approve all Questions in the unit
+                if (string.IsNullOrEmpty(userId) && QstId == null)
+                {
+                    var AllQuestions = unitofWork.Questions.Get().ToList();
+                    AllQuestions.ForEach(x => x.Approved = true);
+                    AllQuestions.ForEach(X => unitofWork.Questions.Update(X));
+                    unitofWork.Save();
+                    return true;
+                    //Approve all request
+                }
+                else if (userId != null && QstId == null)
+                {
+                    //approve all user Request
+                    var allUserQuestion = unitofWork.Questions.Get(filter: x => x.UserIdForQuestion == userId).ToList();
+                    allUserQuestion.ForEach(x => x.Approved = true);
+                    allUserQuestion.ForEach(x => unitofWork.Questions.Update(x));
+                    unitofWork.Save();
+                    return true;
+                }
+                else if (!string.IsNullOrEmpty(userId) && QstId != null)
+                {
+                    var userQuestion = unitofWork.Questions.Get(filter: x => x.UserIdForQuestion == userId && x.Id == QstId.Value).FirstOrDefault();
+                    userQuestion.Approved = true;
+                    unitofWork.Questions.Update(userQuestion);
+                    unitofWork.Save();
+                    return true;
+                    //Approve specific user Request
+                }
             }
-            else
+            catch(Exception ex)
             {
-                //approve questions in the unit
+                throw ex;
+            }
+            return false;
+        }
+
+        public bool RejectQuestion(string userId = null, int? QstId = null)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(userId) && QstId == null)
+                {
+                    var AllQuestions = unitofWork.Questions.Get().ToList();
+                    AllQuestions.ForEach(x => x.Approved = false);
+                    AllQuestions.ForEach(X => unitofWork.Questions.Update(X));
+                    unitofWork.Save();
+                    return true;
+                    //Approve all request
+                }
+                else if (userId != null && QstId == null)
+                {
+                    //approve all user Request
+                    var allUserQuestion = unitofWork.Questions.Get(filter: x => x.UserIdForQuestion == userId).ToList();
+                    allUserQuestion.ForEach(x => x.Approved = false);
+                    allUserQuestion.ForEach(x => unitofWork.Questions.Update(x));
+                    unitofWork.Save();
+                    return true;
+                }
+                else if (!string.IsNullOrEmpty(userId) && QstId != null)
+                {
+                    var userQuestion = unitofWork.Questions.Get(filter: x => x.UserIdForQuestion == userId && x.Id == QstId.Value).FirstOrDefault();
+                    userQuestion.Approved = false;
+                    unitofWork.Questions.Update(userQuestion);
+                    unitofWork.Save();
+                    return true;
+                    //Approve specific user Request
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
             return false;
         }

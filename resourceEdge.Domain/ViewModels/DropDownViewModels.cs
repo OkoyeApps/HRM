@@ -1,6 +1,7 @@
 ﻿using resourceEdge.Domain.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,9 +12,6 @@ namespace resourceEdge.Domain.ViewModels
     class DropDownViewModels
     {
     }
-
-    
-
 
     public class SystemViewModel
     {      
@@ -29,6 +27,8 @@ namespace resourceEdge.Domain.ViewModels
 
     public class AppraiseeDropDown
     {
+        [Key,HiddenInput(DisplayValue =false)]
+        public int ID { get; set; }
         public IEnumerable<Questions> Questions { get; set; }
         public string RatingType { get; set; }
          

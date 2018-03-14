@@ -1,0 +1,108 @@
+﻿@model resourceEdge.Domain.ViewModels.AppraiseeDropDown
+
+@{
+    ViewBag.Title = "EmployeeAppraisal";
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+    int counter = 1;
+}
+<style>
+    .bs-callout-warning {
+        background-color: #fcf8f2;
+        border-color: #f0ad4e;
+    }
+
+  .bs-callout h4 {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+  .bs-callout p:last-child {
+  margin-bottom: 0;
+}
+  .bs-callout {
+  margin: 20px 0;
+  padding: 20px;
+  border-left: 3px solid #eee;
+}
+</style>
+
+<div class="bs-callout bs-callout-warning hidden">
+    <h4>Oh snap!</h4>
+    <p>Please all question needs to be answered. If not application please pick the lasr option:(</p>
+</div>
+@using (Html.BeginForm("EmployeeAppraisal", "Appraisal",null, FormMethod.Post,new {id = "appraisalForm", data_parsley_validate = "" }))
+{
+    @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        foreach (var item in Model.Questions)
+        {
+            <table class="table table-responsive table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Question</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@counter</td>
+                        <td>
+                            @item.Question
+                            @Html.Hidden("Question",@item.Id)
+                  
+                            <hr />
+                            <table>
+                                <thead>
+                                    <tr>
+                                    </tr>
+                                </thead>
+                                <tr>
+                                    <td>
+                                        
+                                        <input type="radio" value="5" class="" name="ratingType[@counter]" required="" /><span class="bolder" style="font-weight:600;font:bolder;">  (5 Points)</span>
+                                         <br /><br />
+                                        
+                                        <input type="radio" value="4" class="" name="ratingType[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (4 Points)</span> 
+                                        <br /><br />
+
+                                        <input type="radio" value="3" class="" name="ratingType[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (3 Points)</span> 
+                                        <br /><br />
+      
+                                        <input type="radio" value="2" class=""  name="ratingType[@counter]"/><span class="bolder" style="font-weight:600;font:bolder;"> (2 Points)</span> 
+                                        <br /><br />
+
+                                        <input type="radio" value="1" class=""  name="ratingType[@counter]"/><span class="bolder" style="font-weight:600;font:bolder;"> (1 Point)</span> 
+                                        <br /><br />
+                                        <input type="radio" value="0" class="" name="ratingType[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (Not Applicable)</span> 
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        counter++;
+    }
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-10 col-md-10">
+                <input type="submit" value="Submit Answers" class="btn btn-success" />
+            </div>
+        </div>
+}
+
+@section InitScript{
+<script>
+    $(function () {
+        $('#appraisalForm').parsley().on('field:validated', function () {
+            var ok = $('.parsley-error').length === 0;
+            $('.bs-callout-info').toggleClass('hidden', !ok);
+            $('.bs-callout-warning').toggleClass('hidden', ok);
+        })
+          .on('form:success', function () {
+              return true; // Don't submit form for this demo
+          });
+    });
+    </script>    
+    }

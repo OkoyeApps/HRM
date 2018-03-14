@@ -26,7 +26,9 @@
     <link href="~/assets/AdminTemplate/assets/plugins/select2/dist/css/select2.min.css" rel="stylesheet" />
     }
 <span id="group" hidden>@usersessionObject.GroupId</span>
-                            <form action="http://seantheme.com/" method="POST" data-parsley-validate="true" name="form-wizard">
+@using (Html.BeginForm("ConfigureAppraisal", "Appraisal", FormMethod.Post, new { data_parsley_validate = "true", name = "form-wizard" }))
+{
+                            @*<form action="http://seantheme.com/" method="POST" data-parsley-validate="true" name="form-wizard">*@
                                 @Html.AntiForgeryToken()
                                 <div id="wizard">
                                     <ol>
@@ -53,7 +55,7 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group block1">
                                                         <label>BusinessUnit</label>
-                                                        @Html.DropDownList("BusinessUnit", dropDowns.BusinessUnits, htmlAttributes: new { @class="form-control selectpicker", data_size="10", data_live_search="true", data_style="btn-white"})
+                                                        @Html.DropDownList("BusinessUnit", dropDowns.BusinessUnits,"Select Unit", htmlAttributes: new { @class="form-control selectpicker", data_size="10", data_live_search="true", data_style="btn-white"})
                                                         @Html.ValidationMessage("BusinessUnit", "", new { @class = "text-danger" })                   
                                                     </div>
                                                 </div>
@@ -70,8 +72,8 @@
                                                 <!-- begin col-4 -->
                                                 <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <label>AppraisalStatus</label>
-                                                       @Html.DropDownList("AppraisalStatus", dropDowns.Status,"Select status", htmlAttributes: new { @class="form-control selectpicker", data_size="10", data_live_search="true", data_style="btn-white", data_parsley_group = "wizard-step-1", required = "required" })
+                                                        <label>Appraisal Status</label>
+                                                       @Html.DropDownList("AppraisalStatus", dropDowns.Status,"Select status", htmlAttributes: new { @class="form-control selectpicker", data_size="10", data_live_search="true", data_style="btn-white", data_parsley_group = "wizard-step-1", required = "", })
                                                     </div>
                                                 </div>
                                                 <!-- end col-4 -->
@@ -80,7 +82,7 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Enable To</label>
-                                                        @Html.DropDownList("EnableTo",EnumHelper.GetSelectList(typeof(resourceEdge.Domain.Infrastructures.EnableTo)), "Select", htmlAttributes: new { @class = "form-control selectpicker", data_size = "10", data_live_search = "true", data_style = "btn-white", data_parsley_group= "wizard-step-1", required = "required" })
+                                                        @Html.DropDownList("EnableTo",EnumHelper.GetSelectList(typeof(resourceEdge.Domain.Infrastructures.EnableTo)), "Select", htmlAttributes: new { @class = "form-control selectpicker", data_size = "10", data_live_search = "true", data_style = "btn-white", data_parsley_group= "wizard-step-1", required = "", name= "EnableTo" })
                                                     </div>
                                                 </div>
                                                 <!-- end col-4 -->
@@ -88,7 +90,7 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Eligibility</label>
-                                                          @Html.DropDownList("Eligibility", dropDowns.EmploymentStatus, "All", htmlAttributes: new { @class = "form-control selectpicker", data_size = "10", data_live_search = "true", data_style = "btn-white", data_parsley_group = "wizard-step-1", required = "required" })
+                                                          @Html.DropDownList("Eligibility", dropDowns.EmploymentStatus, "All", htmlAttributes: new { @class = "form-control selectpicker", data_size = "10", data_live_search = "true", data_style = "btn-white", data_parsley_group = "wizard-step-1", required = "" })
                                                     </div>
                                                 </div>
                                                 <!-- end col-4 -->
@@ -216,9 +218,10 @@
                                         </fieldset>
                                     </div>
                                     <br /><br />
+                                    <input type="submit" class="btn btn-success" value="Submit" />
                                     <!-- end wizard step-2 -->
                                     <!-- begin wizard step-3 -->
-                                    <div class="wizard-step-3">
+                                    @*<div class="wizard-step-3">
                                         <fieldset>
                                             <legend class="pull-left width-full">PARAMETERS</legend>
                                             <!-- begin row -->
@@ -256,19 +259,21 @@
                                             </div>
                                             <!-- end row -->
                                         </fieldset>
-                                    </div>
+                                    </div>*@
                                     <!-- end wizard step-3 -->
                                     <!-- begin wizard step-4 -->
-                                    <div>
+                                    @*<div>
                                         <div class="jumbotron m-b-0 text-center">
                                             <h1>Login Successfully</h1>
                                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris consequat commodo porttitor. Vivamus eleifend, arcu in tincidunt semper, lorem odio molestie lacus, sed malesuada est lacus ac ligula. Aliquam bibendum felis id purus ullamcorper, quis luctus leo sollicitudin. </p>
                                             <p><a class="btn btn-success btn-lg" role="button">Proceed to User Profile</a></p>
                                         </div>
-                                    </div>
+                                    </div>*@
                                     <!-- end wizard step-4 -->
+                                    
                                 </div>
-                            </form>
+                                }
+                            @*</form>*@
                       
 @section Scripts{
     <!-- ================== BEGIN PAGE LEVEL JS ================== -->

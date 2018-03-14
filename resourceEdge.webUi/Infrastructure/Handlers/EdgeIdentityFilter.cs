@@ -57,12 +57,6 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                     }
                 }
             }
-
-            if (filterContext.Controller.TempData != null)
-            {
-                //filterContext.Controller.TempData.Clear();
-            }
-            ViewDataDictionary viewData = new ViewDataDictionary();
             
         }
 

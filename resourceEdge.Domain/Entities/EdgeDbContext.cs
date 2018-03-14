@@ -79,6 +79,7 @@ namespace resourceEdge.Domain.Entities
         public DbSet<MailDispatcher> MailDispatcher { get; set; }
         public DbSet<Questions> Question { get; set; }
         public DbSet<Menus> Menu { get; set; }
+        public DbSet<AppraisalQuestion> AppraisalQuestion { get; set; }
     }
     
 }

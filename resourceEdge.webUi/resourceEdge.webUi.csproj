@@ -6434,8 +6434,11 @@
     <Content Include="Infrastructure\EmailTemplates\images\logo.jpg" />
     <Content Include="Infrastructure\EmailTemplates\images\logo2.jpg" />
     <Content Include="Infrastructure\EmailTemplates\images\tw.jpg" />
+    <Content Include="Scripts\Pages\JS\colReorder.js" />
+    <Content Include="Scripts\Pages\JS\DataTableInitialization.js" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Appraisal\EditQuestion.cshtml" />
+    <Content Include="Views\Appraisal\EmployeeAppraisal.cshtml" />
     <None Include="Views\Appraisal\FormWizard.cshtml" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -6551,6 +6554,7 @@
     <Content Include="Views\HR\AllQuestions.cshtml" />
     <Content Include="Views\HR\AddedQuestions.cshtml" />
     <Content Include="Views\HR\ViewQuestion.cshtml" />
+    <Content Include="Views\Appraisal\SubscribeToAppraisal.cshtml" />
     <None Include="Views\Shared\mainLayout2.cshtml" />
     <Content Include="MainScript.js" />
     <Content Include="Scripts\bootstrap-select.js" />

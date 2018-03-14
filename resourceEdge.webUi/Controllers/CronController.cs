@@ -17,7 +17,7 @@ namespace resourceEdge.webUi.Controllers
         }
         public JsonResult Schedule()
         {
-            cron.AddSubscription();
+            cron.AddSubscriptionCodeToMail();
             return Json("", JsonRequestBehavior.AllowGet);
         }
     }

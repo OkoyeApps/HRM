@@ -39,7 +39,8 @@
         getDepartmentByBusinessUnit($(this).val());
     });
 
-    function getLocationManagers(id){
+    function getLocationManagers(id) {
+        console.log(id);
         $.ajax({
             type: 'GET',
             url: '/api/settings/GetLocationDetails/' + id,
@@ -48,8 +49,7 @@
             success: function (data) {
                 $('#sLine1').html("");
                 $('#sLine1').val("");
-                $('#LineManager1').empty();
-                $('#LineManager1').append('<option value="">' + 'Select Line manager 2' + '</option>');
+                console.log(data + "From location Manager");
                 if (data != null) {
                     if (data.Manager1) {
                         $('#LineManager1').append('<option id="opt" value="' + data.Manager1 + '">' + data.FullName1 + '</option>');
@@ -72,6 +72,7 @@
         window.onload = function () {
         getLocationManagers($('#group').text());
         unitObject.groupId = $('#group').text();
+        console.log(unitObject.groupId);
         getUnitHeads($)
     }
 
@@ -173,13 +174,4 @@
 
 
     var conceptName = $('#LineManager1').find(":selected").text();
-
-
-       
-
-
-
-
-
-    //$.blockUI({ message: '<h1><img src="busy.gif" /> Just a moment...</h1>' });
 })()
