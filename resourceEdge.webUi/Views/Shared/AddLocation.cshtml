@@ -1,14 +1,7 @@
 ﻿@model resourceEdge.Domain.Entities.LocationViewModel
-
-<div class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
-    <div class="clearfix"> </div>
-    <div class="page-container">
-        <a class="link" data-toggle="modal" href="#location">Add Location </a>
-        <div id="location" class="modal fade" tabindex="-1" data-width="1000" data-backdrop="static" data-keyboard="true">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title succ" id="locationTitle">Add Location </h4>
-            </div>
+@{
+    Layout = ViewBag.Layout;
+}
 
             <div id="locationContent">
                 <div class="modal-body" id="empFrm">
@@ -63,15 +56,18 @@
                                 </div>
                             </div>
 
-                            <div class="pull-right" style="clear:both">
-                                <button type="reset" data-dismiss="modal" class="btn btn-outline dark" onclick="locmodal.close()">Close</button>
-                                <input type="submit" class="btn btn-success" value="Create">
-                            </div>
+                            <div style="clear:both"><span></span></div>
+                                <hr />
 
-                }
+                                                    <div class="pull-left" style="">
+                                                        <input type="submit" class="btn btn-success" value="Save">
+                                                    </div>
+
+                    }
                 </div>
             </div>
-        </div>
-    </div>
+<div class="pull-right col-md-2">
+
+    <a href="@Url.Action("AddLevel", "Configuration", new { returnUrl = Request.Url.PathAndQuery})" class="btn btn-danger ">Next</a>
 </div>
 

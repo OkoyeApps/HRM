@@ -114,7 +114,7 @@
                 if (data != '') {
                     $('#businessunitId').append('<option class="centre" value="">' + 'Select Business Unit' + '</option>');
                     $.each(data, function (index, val) {
-                        $('#businessunitId').append('<option value="' + val.BusId + '">' + val.unitname + '</option>');
+                        $('#businessunitId').append('<option value="' + val.Id + '">' + val.unitname + '</option>');
                     })
                 } else {
                     $('#businessunitId').append('<option value="">' + 'No Unit for this Location yet' + '</option>')

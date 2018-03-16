@@ -39,7 +39,7 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult Create()
         {
 
-            ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.Id), "BusId", "unitname", "BusId");
+            ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.Id), "Id", "unitname", "Id");
             ViewBag.Months = new SelectList(Apimanager.GetAllMonths().OrderBy(x => x.id), "MonthId", "MonthName", "MonthId");
             ViewBag.weekDays = new SelectList(Apimanager.GetWeekDays().OrderByDescending(x => x.id), "id", "DayLongCode", "id");
             return View();
@@ -75,7 +75,7 @@ namespace resourceEdge.webUi.Controllers
             {
                 throw ex;
             }
-            ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.Id), "BusId", "unitname", "BusId");
+            ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.Id), "Id", "unitname", "Id");
             ViewBag.Months = new SelectList(Apimanager.GetAllMonths().OrderBy(x => x.id), "MonthId", "MonthName", "MonthId");
             ViewBag.weekDays = new SelectList(Apimanager.GetWeekDays().OrderByDescending(x => x.id), "id", "DayLongCode", "id");
             return View(model);
@@ -89,7 +89,7 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult AllotLeaves()
         {
             ViewBag.PageTitle = "Allot Leave";
-            ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.Id), "BusId", "unitname", "BusId");
+            ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.Id), "Id", "unitname", "Id");
             return View();
         }
 
@@ -120,7 +120,7 @@ namespace resourceEdge.webUi.Controllers
                 }
             }
             TempData["Error"] = "Something went wrong, please kindly make sure you fill all fields for allocation";
-            ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.Id), "BusId", "unitname", "BusId");
+            ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.Id), "Id", "unitname", "Id");
             return View();
         }
 

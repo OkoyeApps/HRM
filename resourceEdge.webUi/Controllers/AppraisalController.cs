@@ -34,7 +34,6 @@ namespace resourceEdge.webUi.Controllers
         IEmploymentStatus StatusRepo;
         EmployeeManager EmployeeManager;
         AppraisalManager AppraisalManager;
-        
         public AppraisalController(IParameter param, IQuestions questParam, ISkills skillParam, IRating RParam, IGroups GParam,
             IAppraisalMode ModeParam, IAppraisalStatus statusParams, IAppraisalRating appratingParam, IAppraisalMode AppMode,
             IAppraisalInitialization InitializtionParam, IEmploymentStatus statusParam, IEmployees EmpParam, IAppraisalConfiguration AppConfigParam
@@ -144,6 +143,7 @@ namespace resourceEdge.webUi.Controllers
 
         public ActionResult AddSkills()
         {
+            ViewBag.PageTitle = "Add Skills";
             return View();
         }
 
@@ -182,6 +182,7 @@ namespace resourceEdge.webUi.Controllers
 
         public ActionResult AddRating()
         {
+            ViewBag.PageTitle = "Add Ratings";
             return View();
         }
 
@@ -224,12 +225,14 @@ namespace resourceEdge.webUi.Controllers
 
         public ActionResult AllInitializedAppraisal()
         {
+            ViewBag.PageTitle = "All Initialized Aappraisals";
             return View(AppraisalManager.GetAllInitialization());
         }
 
         public ActionResult InitilizeAppraisal()
         {
             ViewBag.AllDropDown = AppraisalManager.InitAppraisal();
+            ViewBag.PageTitle = "Appraisal Initialization";
              return View();
         }
 
@@ -282,15 +285,15 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult SubscribeToAppraisal(string Code)
         {
             var userSessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
-            if (Code != null)
-            {
-                var result = AppraisalManager.SubscribeForAppraisal(Code, userSessionObject.LocationId,User.Identity.GetUserId());
-                if (result != false)
-                {
-                    this.AddNotification("Subscription Successful", NotificationType.SUCCESS);
-                    return View(""); //This shoould redirect to viewQuestions of the Hr controller
-                }
-            }
+            //if (Code != null)
+            //{
+            //    var result = AppraisalManager.SubscribeForAppraisal(Code, userSessionObject.LocationId,User.Identity.GetUserId());
+            //    if (result != false)
+            //    {
+            //        this.AddNotification("Subscription Successful", NotificationType.SUCCESS);
+            //        return View(""); //This shoould redirect to viewQuestions of the Hr controller
+            //    }
+            //}
             return View();
         }
 
@@ -320,7 +323,7 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.groupId = userSessionObject.GroupId;
             ViewBag.dropDowns = AppraisalManager.ConfigureAppraisal(userSessionObject.LocationId);
             ViewBag.PageTitle = "Configure Appraisal";
-            return View("FormWizard");
+            return View();
         }
 
         [SubscriptionFilter]

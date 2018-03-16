@@ -55,7 +55,7 @@
 
     $('#BusinessunitId').bind('change', function () {
         getDepartment($(this).val());
-        getReportManagerByBusId($(this).val());
+        getReportManagerByBunitId($(this).val());
     })
 
     function getDepartment(id) {
@@ -84,14 +84,14 @@
         })
     }
 
-    function getReportManagerByBusId(id) {
+    function getReportManagerByBunitId(id) {
         $.ajax({
             type: 'GET',
             url: '/api/Settings/GetHrByBusinessUnit/' + id,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
-                console.log('in the getReportManagerByBusId  method');
+                console.log('in the getReportManagerByBunitId  method');
                 console.log(data);
                 $('#ReportingId').empty();
                 if (data != '') {

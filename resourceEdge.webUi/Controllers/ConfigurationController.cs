@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity;
 using System.Net;
 using resourceEdge.webUi.Infrastructure;
 using resourceEdge.webUi.Infrastructure.Handlers;
+using resourceEdge.webUi.Infrastructure.Core;
 
 namespace resourceEdge.webUi.Controllers
 {
@@ -38,13 +39,6 @@ namespace resourceEdge.webUi.Controllers
             get {return userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); }
             private set  { userManager = value; }
         }
-        public ApplicationUser LoggedInUser() {return UserManager.FindById(User.Identity.GetUserId());}
-
-        //public ConfigurationController()
-        //{
-
-        //}
-
         public ConfigurationController(IBusinessUnits BParam, IDepartments DParam, IidentityCodes idCodes, IJobtitles jParam, 
             IPositions pParam, IPrefixes prparam, IEmploymentStatus status, ILeaveManagement lParam, ILevels levelParam, 
             ILocation locationParam, ICareers CareerParam, IGroups Gparam)
@@ -75,9 +69,12 @@ namespace resourceEdge.webUi.Controllers
         }
         public ActionResult AddCode(string returnUrl)
         {
+            
             ViewBag.returnUrl = returnUrl;
+            ViewBag.PageTitle = "Add Code";
+            ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
             ViewBag.Groups =new SelectList(GroupRepo.Get().OrderBy(X=>X.Id), "Id", "GroupName", "Id");
-            return PartialView(new IdentityCodes());
+            return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -94,19 +91,23 @@ namespace resourceEdge.webUi.Controllers
                 code.createdBy = null;
                 IdentityRepo.Insert(code);
                 ModelState.Clear();
-                TempData["Success"] = "Code created successfully";
-                return Redirect(returnUrl);
+                this.AddNotification("Code created successfully", NotificationType.SUCCESS);
+                if (returnUrl != null)
+                {
+                    return Redirect(returnUrl);
+                }
+                return RedirectToAction("Create", "HR");
             }
             else
             {
                 TempData["Error"] = "Something went wrong. please make sure you fill all the appropriate details";
-                return PartialView(codes);
+                return View(codes);
             }
         }
-        public PartialViewResult EditCode(int id = 1)
+        public ActionResult EditCode(int id = 1)
         {
             var code = IdentityRepo.GetById(id);
-            return PartialView(code);
+            return View(code);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -123,10 +124,12 @@ namespace resourceEdge.webUi.Controllers
                 return View();
             }
         }
-        public PartialViewResult addPrefix(string returnUrl)
+        public ActionResult addPrefix(string returnUrl)
         {
             ViewBag.returnUrl = returnUrl;
-            return PartialView(new Prefixes());
+            ViewBag.PageTitle = "Add Prefix";
+            ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+            return View(new prefixViewModel());
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -139,20 +142,24 @@ namespace resourceEdge.webUi.Controllers
                 Prefixes prefixes = new Prefixes()
                 {
                     prefixName = model.prefixName,
-                    prefixId = model.prefixId,
+                    
                     createdby = null,
                     createddate = DateTime.Now,
                     modifiedby = null,
                     isactive = true
                 };
-             
                 prefixRepo.Insert(prefixes);
-                TempData["Success"] = string.Format($"{model.prefixName} has been created");
-                return Redirect(returnUrl);
+                this.AddNotification("Prefix added Successfully", NotificationType.SUCCESS);
+                if (returnUrl != null)
+                {
+                    return Redirect(returnUrl);
+                }
+                return RedirectToAction("Create", "HR");
+
             }
             else
             {
-                 TempData["Error"] = "Something went wrong. please make sure you fill all the appropriate details";
+                this.AddNotification("Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
                  return View(model);
             }
 
@@ -163,6 +170,7 @@ namespace resourceEdge.webUi.Controllers
         }
         public ActionResult addBusinessUnits()
         {
+            ViewBag.PageTitle = "Add Business Unit";
             ViewBag.Locations = new SelectList(LocationRepo.Get().OrderBy(x => x.State), "Id", "State", "Id");
             ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(x => x.GroupName), "Id", "GroupName", "Id");
             return View();
@@ -186,7 +194,7 @@ namespace resourceEdge.webUi.Controllers
                     if (existingUnit)
                     {
                         //ModelState.AddModelError("", "Please Unit alreasy existing with same name in this location");
-                        ViewBag.Error = "Please Unit alreasy existing with same name in this location. Kindly try using another name or a different Location";
+                        this.AddNotification("Please Unit alreasy existing with same name in this location. Kindly try using another name or a different Location", NotificationType.ERROR);
                         ViewBag.Locations = new SelectList(LocationRepo.Get().OrderBy(x => x.State), "Id", "State", "Id");
                         return View(model);
                     }
@@ -203,8 +211,8 @@ namespace resourceEdge.webUi.Controllers
                     unit.isactive = true;
                     BusinessRepo.Insert(unit);
 
-                    TempData["Success"] = string.Format($"{unit.unitname} has been created");
-                    return RedirectToAction("AllBusinessUnits");
+                    this.AddNotification("Business unit Successfully Added", NotificationType.SUCCESS);
+                    return RedirectToAction("addBusinessUnits");
                 }
             }
             catch (Exception ex)
@@ -213,7 +221,7 @@ namespace resourceEdge.webUi.Controllers
                 throw ex;
             }
             
-                TempData["Error"] = "Something went wrong. please make sure you fill all the appropriate details";
+                this.AddNotification("Something went wrong. please make sure you fill all the appropriate details",NotificationType.ERROR);
             ViewBag.Locations = new SelectList(LocationRepo.Get().OrderBy(x => x.State), "Id", "State", "Id");
             return View(model);
         }
@@ -232,7 +240,7 @@ namespace resourceEdge.webUi.Controllers
             }
             else
             {
-                return PartialView(unit);
+                return View(unit);
             }
         }
 
@@ -242,13 +250,13 @@ namespace resourceEdge.webUi.Controllers
         {
             if (ModelState.IsValid)
             {
-                TempData["Success"] = string.Format($"{units.unitname} has been modified");
+                this.AddNotification($"{units.unitname} has been modified", NotificationType.SUCCESS);
                 BusinessRepo.update(units);
                 return RedirectToAction("AllBusinessUnits");
             }
             else
             {
-                TempData["Error"] = "Something went wrong. please make sure you fill all the appropriate details";
+                this.AddNotification("Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
                 return View(units);
             }
         }
@@ -278,8 +286,9 @@ namespace resourceEdge.webUi.Controllers
 
         public ActionResult addDepartment()
         {
-            ViewBag.businessUnits = new SelectList(BusinessRepo.Get().OrderBy(x => x.unitname), "BusId", "unitname");
-            return View(new Departments());
+            ViewBag.businessUnits = new SelectList(BusinessRepo.Get().OrderBy(x => x.unitname), "Id", "unitname");
+            ViewBag.PageTitle = "Add Department";
+            return View(new DepartmentViewModel());
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -302,12 +311,12 @@ namespace resourceEdge.webUi.Controllers
 
                 };
                 DeptRepo.addepartment(depts);
-                TempData["Success"] = string.Format($"{depts.deptname} has been created");
-                return RedirectToAction("AllDepartment");
+                this.AddNotification($"{depts.deptname} has been created", NotificationType.SUCCESS);
+                return RedirectToAction("addDepartment");
             }
 
-                ViewBag.businessUnits = new SelectList(BusinessRepo.Get().OrderBy(x => x.unitname), "BusId", "unitname", "BusId");
-                TempData["Error"] = "Something went wrong. please make sure you fill all the appropriate details";
+                ViewBag.businessUnits = new SelectList(BusinessRepo.Get().OrderBy(x => x.unitname), "Id", "unitname", "Id");
+                this.AddNotification("Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
                 return View(model);
         }
 
@@ -329,11 +338,11 @@ namespace resourceEdge.webUi.Controllers
         {
             if (ModelState.IsValid)
             {
-                TempData["Success"] = string.Format($"{dept.deptname} has been Updated");
+                this.AddNotification($"{dept.deptname} has been Updated", NotificationType.SUCCESS);
                 DeptRepo.Updatedepartment(dept);
                 return View("AllDepartment");
             }
-                TempData["Error"] = "Something went wrong. please make sure you fill all the appropriate details";
+                this.AddNotification("Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
                 return View(dept);
         }
 
@@ -353,21 +362,23 @@ namespace resourceEdge.webUi.Controllers
             }
             else
             {
-                TempData["Success"] = string.Format($"{dept.deptname} has been deleted");
+                this.AddNotification($"{dept.deptname} has been deleted", NotificationType.SUCCESS);
                 DeptRepo.DeleteDepartment(id);
                 return RedirectToAction("AllDepartment");
             }
         }
 
-        public PartialViewResult allJob()
+        public ActionResult allJob()
         {
-            return PartialView(JobRepo.Get());
+            return View(JobRepo.Get());
         }
 
-        public PartialViewResult AddJobTitle(string returnUrl)
+        public ActionResult AddJobTitle(string returnUrl)
         {
             ViewBag.returnUrl = returnUrl;
-            return PartialView(new Jobtitles());
+            ViewBag.PageTitle = "Add Job Title";
+            ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+            return View(new Jobtitles());
         }
 
         //Finish THe job and position creations and remember that position depends on job
@@ -381,25 +392,31 @@ namespace resourceEdge.webUi.Controllers
                 job.createdby = null;
                 job.modifieddate = DateTime.Now;
                 JobRepo.Insert(job);
-                TempData["Success"] = string.Format($"{job.jobtitlename} has been created");
+                this.AddNotification($"{job.jobtitlename} has been created", NotificationType.SUCCESS);
                 ModelState.Clear();
-                return Redirect(returnUrl);
+                if (returnUrl != null)
+                {
+                    return Redirect(returnUrl);
+                }
+                return RedirectToAction("Create", "HR");
             }
 
-                TempData["Error"] = "Something went wrong. please make sure you fill all the appropriate details";
-                return PartialView(jobs);
+                this.AddNotification("Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
+            return View(jobs); 
         }
 
         public ActionResult AllPosition()
         {
-            return PartialView(positionRepo.Get());
+            return View(positionRepo.Get());
         }
 
-        public PartialViewResult addPosition(string returnUrl)
+        public ActionResult addPosition(string returnUrl)
         {
             ViewBag.returnUrl = returnUrl;
+            ViewBag.PageTitle = "Add Position";
+            ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
             ViewBag.jobTitles = new SelectList(Apimanager.JobList().OrderBy(x => x.JobName), "JobId", "JobName", "JobId");
-            return PartialView(new Positions());
+            return View(new Positions());
         }
 
         [HttpPost]
@@ -416,12 +433,16 @@ namespace resourceEdge.webUi.Controllers
                     position.modifieddate = DateTime.Now;
                     positionRepo.Insert(position);
                     ModelState.Clear();
-                    TempData["Success"] = string.Format($"{position.positionname} has been created");
-                    return Redirect(returnUrl);
+                    this.AddNotification($"{position.positionname} has been created", NotificationType.SUCCESS);
+                    if (returnUrl != null)
+                    {
+                    return RedirectToAction(returnUrl);
+                    }
+                    return RedirectToAction("Create", "HR");
                 }
                 ViewBag.jobTitles = new SelectList(Apimanager.JobList().OrderBy(x => x.JobName), "JobId", "JobName", "JobId");
-                TempData["Error"] = "Something went wrong. please make sure you fill all the appropriate details";
-                return PartialView(model);
+                this.AddNotification("Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
+                return View(model);
             }
             catch (Exception ex)
             {
@@ -430,10 +451,12 @@ namespace resourceEdge.webUi.Controllers
         }
 
         [HttpGet]
-        public PartialViewResult addEmploymentStatus(string returnUrl)
+        public ActionResult addEmploymentStatus(string returnUrl)
         {
             ViewBag.status = returnUrl;
-            return PartialView(new employeeStatusViewModel());
+            ViewBag.PageTitle = "Add Employement Status";
+            ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+            return View(new employeeStatusViewModel());
         }
 
         [HttpPost]
@@ -454,14 +477,18 @@ namespace resourceEdge.webUi.Controllers
                     status.isactive = true;
                     statusRepo.Insert(status);
                     ModelState.Clear();
-                    TempData["Success"] = string.Format($"{model.employemnt_status} has been created");
-                    return Redirect(returnUrl);
+                    this.AddNotification($"{model.employemnt_status} has been created", NotificationType.SUCCESS);
+                    if (returnUrl != null)
+                    {
+                        return Redirect(returnUrl);
+                    }
+                    return RedirectToAction("Create", "HR");
                 }
                 else
                 {
                     ModelState.AddModelError("", "Something went wrong.\n please make sure your data's are valid \n if the problem persist contact the system Administrator");
-                    TempData["Error"] = "Something went wrong. please make sure you fill all the appropriate details";
-                    return PartialView(model);
+                    this.AddNotification("Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
+                    return View(model);
                 }
             }
             catch (Exception ex)
@@ -499,16 +526,18 @@ namespace resourceEdge.webUi.Controllers
                 leaveType.isactive = true;
                 leaveRepo.AddLeaveTypes(leaveType);
                 ModelState.Clear();
-               return RedirectToAction("AllLeaveType");
+                this.AddNotification("Operation Successful!", NotificationType.SUCCESS);
             }
             ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
-            TempData["Error"] = "Something went wrong try again later";
+           this.AddNotification("Something went wrong try again later", NotificationType.ERROR);
             return View(model);
         }
 
         public ActionResult AddLevel(string retunUrl)
         {
             ViewBag.returnUrl = retunUrl;
+            ViewBag.PageTitle = "Add Level";
+            ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
             return View();
         }
         [HttpPost]
@@ -529,22 +558,30 @@ namespace resourceEdge.webUi.Controllers
                     level.ModifiedOn = DateTime.Now;
                     levelRepo.Insert(level);
                     ModelState.Clear();
+                    this.AddNotification("Level Added SuccessFully Successful", NotificationType.SUCCESS);
+                    if (returnUrl != null)
+                    {
                     return Redirect(returnUrl);
+                    }
+                    return RedirectToAction("Create", "HR");
                 }
             }
             catch(Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
-                return View(model);
-                //throw ex;
+                throw ex;
+                //return View(model);
             }
             ModelState.AddModelError("", "Please review the form and resend");
+            this.AddNotification("Something went wrong, please try again", NotificationType.ERROR);
             return View(model);
         }
 
         public ActionResult AddLocation(string returnUrl)
         {
             ViewBag.returnUrl = returnUrl;
+            ViewBag.pageTitle = "Add Location";
+            ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
             ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(X => X.Id), "Id", "GroupName", "Id");
             return View();
         }
@@ -569,7 +606,12 @@ namespace resourceEdge.webUi.Controllers
                     location.GroupId = model.GroupId;
                     LocationRepo.Insert(location);
                     ModelState.Clear();
+                    this.AddNotification("Location Added Successfully", NotificationType.SUCCESS);
+                    if (returnUrl != null)
+                    {
                     return Redirect(returnUrl);
+                    }
+                    return RedirectToAction("Create", "HR");
                 }
             }
             catch (Exception ex)
@@ -578,11 +620,14 @@ namespace resourceEdge.webUi.Controllers
                 throw ex;
             }
             ModelState.AddModelError("", "please refill the form and make try submitting again");
+            this.AddNotification("Something went wrong, please try again", NotificationType.ERROR);
             return View(model);
         }
         public ActionResult AddCareer(string returnUrl)
         {
             ViewBag.returnUrl = returnUrl;
+            ViewBag.PageTitle = "Add Career";
+            ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
             return View();
         }
         [HttpPost]
@@ -602,7 +647,12 @@ namespace resourceEdge.webUi.Controllers
                     career.ModifiedOn = DateTime.Now;
                     careerRepo.Insert(career);
                     ModelState.Clear();
+                    this.AddNotification("Career successfully Added", NotificationType.SUCCESS);
+                    if (returnUrl != null)
+                    {
                     return Redirect(returnUrl);
+                    }
+                    return RedirectToAction("Create", "HR");
                 }
             }
             catch (Exception ex)
@@ -610,13 +660,16 @@ namespace resourceEdge.webUi.Controllers
                 ModelState.AddModelError("", ex.Message);
                 throw ex;
             }
-            ModelState.AddModelError("", "please refill the form and make try submitting again");
+            ModelState.AddModelError("", "please refill the form and try submitting again");
+            this.AddNotification("Something went wrong, please try again", NotificationType.ERROR);
             return View(model);
         }
 
         public ActionResult AddGroup(string returnUrl)
         {
             ViewBag.returnUrl = returnUrl;
+            ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+            ViewBag.PageTitle = "Add  Group";
             return View();
         }
         [HttpPost]
@@ -636,7 +689,12 @@ namespace resourceEdge.webUi.Controllers
                     Group.ModifiedDate = DateTime.Now;
                     GroupRepo.Insert(Group);
                     ModelState.Clear();
+                    this.AddNotification("Group Successfully Added!", NotificationType.SUCCESS);
+                    if (returnUrl != null)
+                    {
                     return Redirect(returnUrl);
+                    }
+                    return RedirectToAction("Create", "HR");
                 }
             }
             catch (Exception ex)
@@ -645,6 +703,7 @@ namespace resourceEdge.webUi.Controllers
                 throw ex;
             }
             ModelState.AddModelError("", "please refill the form and make try submitting again");
+            this.AddNotification("Something went wrong, Please try again", NotificationType.ERROR);
             return View(model);
         }
     }

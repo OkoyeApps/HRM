@@ -64,11 +64,4 @@ namespace resourceEdge.webUi.Models
         }
         
     }
-    public class dbInit : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
-    {
-        protected override void Seed(ApplicationDbContext context)
-        {
-            base.Seed(context);
-        }
-    }
 }

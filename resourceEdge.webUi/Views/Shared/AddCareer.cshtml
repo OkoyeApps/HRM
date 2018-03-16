@@ -1,15 +1,8 @@
 ﻿@model resourceEdge.Domain.Entities.CareerViewModel
-
-<div class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
-    <div class="clearfix"> </div>
-    <div class="page-container">
-        <a class="link" data-toggle="modal" href="#career">Add Career </a>
-        <div id="career" class="modal fade" tabindex="-1" data-width="1000" data-backdrop="static" data-keyboard="true">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title succ" id="careerTitle">Add Career </h4>
-            </div>
-
+@{
+    Layout = ViewBag.Layout;
+}
+<hr />
             <div id="careerContent">
                 <div class="modal-body" id="empFrm">
                     @using (Ajax.BeginForm("AddCareer", "Configuration", new { returnurl = ViewBag.returnUrl }, new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "body" }, new { data_parsley_validate = "" }))
@@ -32,15 +25,16 @@
                                 @Html.ValidationMessageFor(model => model.ShortCode, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        <br /><br />
-                                <div style="clear:both" class="pull-right">
-                                    <button type="reset" data-dismiss="modal" class="btn btn-outline dark" onclick="career.close()">Close</button>
-                                    <input type="submit" class="btn btn-success" value="Create">
-                                </div>
+                        <div style="clear:both"><span></span></div>
+                        <hr />
+
+                        <div class="pull-left" style="clear:both">
+                            <button type="reset" data-dismiss="modal" class="btn btn-outline dark" onclick="career.close()">Close</button>
+                        </div>
+                        <div class="pull-right" style="">
+                            <input type="submit" class="btn btn-success" value="Create">
+                        </div>
 
                     }
                 </div>
             </div>
-        </div>
-    </div>
-</div>

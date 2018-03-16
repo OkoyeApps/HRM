@@ -45,11 +45,10 @@ namespace resourceEdge.Domain.Entities
     }
     public class prefixViewModel
     {
-        [HiddenInput(DisplayValue = true)]
-        public int prefixId { get; set; }
+
 
         [Required(ErrorMessage = "please please provide This Field")]
-        [StringLength(6, ErrorMessage = "Length should be less than six(6)", MinimumLength = 2)]
+        
         public string prefixName { get; set; }
 
         [DataType(DataType.MultilineText)]
@@ -92,7 +91,7 @@ namespace resourceEdge.Domain.Entities
     public class BusinessUnitsVIewModel
     {
         [HiddenInput(DisplayValue = false)]
-        public int BusId { get; set; }
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "Please specify Unit name")]
         [StringLength(50, ErrorMessage = "the Name Exceeds 50 characters or is less than 5 characters", MinimumLength = 5), Display(Name = "Unit name")]

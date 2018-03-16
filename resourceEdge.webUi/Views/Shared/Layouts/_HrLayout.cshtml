@@ -367,28 +367,62 @@
                             </li>
                         </ul>
                     </li>
-                    @*<li class="has-sub active">
+                        <li class="has-sub">
                             <a href="javascript:;">
                                 <b class="caret pull-right"></b>
-                                <i class="fa fa-file-o"></i>
-                                <span>Form Stuff</span>
+                                <i class="fa fa-laptop"></i>
+                                <span>Configuration Manager</span>
                             </a>
                             <ul class="sub-menu">
-                                <li><a href="form_elements.html">Form Elements</a></li>
-                                <li><a href="form_plugins.html">Form Plugins</a></li>
-                                <li><a href="form_slider_switcher.html">Form Slider + Switcher</a></li>
-                                <li><a href="form_validation.html">Form Validation</a></li>
-                                <li><a href="form_wizards.html">Wizards</a></li>
-                                <li class="active"><a href="form_wizards_validation.html">Wizards + Validation</a></li>
-                                <li><a href="form_wysiwyg.html">WYSIWYG</a></li>
-                                <li><a href="form_editable.html">X-Editable</a></li>
-                                <li><a href="form_multiple_upload.html">Multiple File Upload</a></li>
+                                <li>
+                                    @Html.ActionLink("Add Group", "AddGroup", "Configuration", null, new { @class = "nav-link  title" })
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Add Identity Code", "AddCode", "Configuration", null, new { @class = "nav-link title" })
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Add Location", "AddLocation", "Configuration", null, new { @class = "nav-link  title" })
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Add Level", "addBusinessUnits", "Configuration", null, new { @class = "nav-link  title" })
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Add Job", "AddCode", "Configuration", null, new { @class = "nav-link  title" })
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Add Position", "Addposition", "Configuration", null, new { @class = "nav-link  title" })
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Add Employment Status", "AddEmploymentStatus", "Configuration", null, new { @class = "nav-link  title" })
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Add Prefix", "AddPrefix", "Configuration", null, new { @class = "nav-link  title" })
+                                </li>
                             </ul>
-                        </li>*@
-                    <!-- begin sidebar minify button -->
-                    <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
-                    <!-- end sidebar minify button -->
+                        </li>
+                    
+                        @*<li class="has-sub active">
+                <a href="javascript:;">
+                    <b class="caret pull-right"></b>
+                    <i class="fa fa-file-o"></i>
+                    <span>Form Stuff</span>
+                </a>
+                <ul class="sub-menu">
+                    <li><a href="form_elements.html">Form Elements</a></li>
+                    <li><a href="form_plugins.html">Form Plugins</a></li>
+                    <li><a href="form_slider_switcher.html">Form Slider + Switcher</a></li>
+                    <li><a href="form_validation.html">Form Validation</a></li>
+                    <li><a href="form_wizards.html">Wizards</a></li>
+                    <li class="active"><a href="form_wizards_validation.html">Wizards + Validation</a></li>
+                    <li><a href="form_wysiwyg.html">WYSIWYG</a></li>
+                    <li><a href="form_editable.html">X-Editable</a></li>
+                    <li><a href="form_multiple_upload.html">Multiple File Upload</a></li>
                 </ul>
+            </li>*@
+                        <!-- begin sidebar minify button -->
+                        <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
+                        <!-- end sidebar minify button -->
+                    </ul>
                 <!-- end sidebar nav -->
             </div>
             <!-- end sidebar scrollbar -->

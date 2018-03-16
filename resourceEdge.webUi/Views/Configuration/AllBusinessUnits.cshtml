@@ -72,10 +72,10 @@
             @Html.DisplayFor(modelItem => item.isactive)
         </td>
         <td>
-            @Html.ActionLink("Details", "unitDetail", new { id=item.BusId }) |
+            @Html.ActionLink("Details", "unitDetail", new { id=item.Id }) |
             @if(User.IsInRole("System Admin")){ 
-            Html.ActionLink("Edit", "EditUnit", new { id=item.BusId }) |
-            @Html.ActionLink("Delete", "deleteUnit", new { id=item.BusId })
+            Html.ActionLink("Edit", "EditUnit", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "deleteUnit", new { id=item.Id })
             }
         </td>
     </tr>

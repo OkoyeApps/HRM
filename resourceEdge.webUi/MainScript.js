@@ -117,7 +117,7 @@ function getHrByBusId(id) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
-            console.log('in the getHrByBusId  method');
+            console.log('in the getHrById  method');
             console.log(data);
             $('#HrId').empty();
             if (data != '') {

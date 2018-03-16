@@ -1,13 +1,13 @@
 ﻿(function(){
 
- function getRMByBusId(id) {
+ function getRMByBusunitId(id) {
      $.ajax({
          type: 'GET',
          url: '/api/Settings/GetRMByBusinessUnit/' + id,
          contentType: "application/json; charset=utf-8",
          dataType: "json",
          success: function (data) {
-             console.log('in the getRMByBusId  method');
+             console.log('in the getRMBybusunitId  method');
              console.log(data);
              $('#reportManager').empty();
              if (data != '') {
@@ -29,7 +29,7 @@
      })
  };
     $('#RmBusiness').bind('change', function () {
-        getRMByBusId($(this).val());
+        getRMByBusunitId($(this).val());
     });
 
 

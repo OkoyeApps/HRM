@@ -1,58 +1,39 @@
-﻿@model resourceEdge.Domain.Entities.Prefixes
+﻿@model resourceEdge.Domain.Entities.prefixViewModel
+@{
+    Layout = ViewBag.Layout;
+}
 
 
-<div class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
-    <div class="clearfix"> </div>
-    <div class="page-container">
-        <a class="link"data-toggle="modal" href="#prefix"> Add Prefix </a>
-        <div id="prefix" class="modal fade" tabindex="-1" data-width="1000" data-backdrop="static" data-keyboard="true">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title succ">Add Prefix</h4>
-            </div>
-
-                <div class="modal-body" id="pre">
-            @using (Ajax.BeginForm("addPrefix", "Configuration", new { returnurl = ViewBag.returnUrl }, new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "body" }))
+<div id="prefixContent">
+    <div class="modal-body" id="pre">
+        @using (Ajax.BeginForm("addPrefix", "Configuration", new { returnurl = ViewBag.returnUrl }, new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "body" }))
             {
 
-                    <div class="col-md-12">
-                        <div class="form-horizontal">
-                            @if ((string)TempData["Error"] != null)
-                            {
-                                string message = TempData["Error"].ToString();
-                                <div class="alert alert-danger" style="text-align : center">@message</div>
-                            }
+            @Html.AntiForgeryToken()
 
-                            <hr />
-                            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.Label("Prefix Name", htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.prefixName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.prefixName, "", new { @class = "text-danger" })
+                </div>
+            </div>
 
-                            <div class="form-horizontal">
-
-                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.prefixName, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.prefixName, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.prefixName, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.description, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.description, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="reset" data-dismiss="modal" class="btn btn-outline dark">Close</button>
-                                    <input type="submit" class="btn btn-success" value="Create">
-                                </div>
-                            </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                             @Html.Label("Description", htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.description, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
                         </div>
                     </div>
-            }
-                </div>
-        </div>
+                    <div style="clear:both"><span></span></div>
+                    <hr />
+
+                    <div class="pull-right" style="">
+                        <input type="submit" class="btn btn-success" value="Create">
+                    </div>
+
+        }
     </div>
 </div>

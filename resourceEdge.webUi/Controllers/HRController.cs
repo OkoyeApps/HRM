@@ -118,7 +118,7 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.EmpStatus = new SelectList(statusRepo.Get().Select(x => new { name = x.employemntStatus, id = x.empstId }), "id", "name", "id");
             ViewBag.roles = new SelectList(GetRoles().OrderBy(x => x.Name).Where(u => !u.Name.Contains("System Admin") && !u.Name.Contains("Management")).Select(x => new { name = x.Name, id = x.Id }), "Id", "name", "Id");
             ViewBag.prefix = new SelectList(Apimanager.PrefixeList(), "prefixId", "prefixName", "prefixId");
-            ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.Id), "BusId", "unitname", "BusId");
+            ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.Id), "Id", "unitname", "Id");
             ViewBag.jobTitles = new SelectList(Apimanager.JobList().OrderBy(x => x.JobName), "JobId", "JobName", "JobId");
             ViewBag.Levels = new SelectList(levelRepo.Get().OrderBy(x => x.levelNo), "Id", "LevelNo", "Id");
             ViewBag.Locations = new SelectList(LocationRepo.Get().OrderBy(x => x.State), "Id", "State", "Id");
@@ -231,7 +231,7 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult AssignReportManager()
         {
             var CurrentEmployee = empRepo.GetByUserId(User.Identity.GetUserId());
-            ViewBag.businessUnits = new SelectList(BunitsRepo.GetUnitsByLocation(CurrentEmployee.LocationId.Value).OrderBy(x => x.Id), "BusId", "unitname", "BusId");
+            ViewBag.businessUnits = new SelectList(BunitsRepo.GetUnitsByLocation(CurrentEmployee.LocationId.Value).OrderBy(x => x.Id), "Id", "unitname", "Id");
             return View();
         }
 
@@ -273,7 +273,7 @@ namespace resourceEdge.webUi.Controllers
                 ViewBag.Error = "Cannot Assign More Than two managers to a Business Unit";
             }
 
-            ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.Id), "BusId", "unitname", "BusId");
+            ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.Id), "Id", "unitname", "Id");
             ViewBag.Error = "Make sure that the report Manager does not exist already for the business unit";
             ViewBag.Warning = "Also make sure that you don't add an employee twice for particlar business unit";
             return RedirectToAction("AssignReportManager");
@@ -299,7 +299,7 @@ namespace resourceEdge.webUi.Controllers
             var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
             if (UserFromSession != null)
             {
-                ViewBag.businessUnits = new SelectList(BunitsRepo.GetUnitsByLocation(UserFromSession.LocationId).OrderBy(x => x.Id), "BusId", "unitname", "BusId");
+                ViewBag.businessUnits = new SelectList(BunitsRepo.GetUnitsByLocation(UserFromSession.LocationId).OrderBy(x => x.Id), "Id", "unitname", "Id");
             }
             ViewBag.PageTitle = "Assgin Department Head";
             return View();
