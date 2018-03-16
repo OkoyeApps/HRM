@@ -6,12 +6,13 @@
         console.log(current);
         if (current < 2) {
             $('#empForm').append(`
-       <div class ="col-md-6">
-            @Html.Label("Groups", htmlAttributes: new { @class = "control-label " })
-            <div>
-                @Html.DropDownList("GroupId", (SelectList) ViewBag.Groups, "Select Group", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "form-control bs-select" })
-                @Html.ValidationMessage("GroupId", "", new { @class = "text-danger" })
-            </div>
+        <div class ="col-md-6">
+            <label for="employemntStatus" class ="control-label">Position Name</label>
+            <input name="employemntStatus[0]" id="employemntStatus" class ="form-control" required />
+        </div>
+
+        <div class ="col-md-12">
+            <hr />
         </div>
                 `);
         }

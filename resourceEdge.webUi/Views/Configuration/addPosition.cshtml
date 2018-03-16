@@ -11,7 +11,7 @@
     Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
 }
 <div class="alert alert-danger hidden" id="overload">
-    <span>Sorry you can't add more than Three(3) Location at a time. kindly submit and then add again</span>
+    <span>Sorry you can't add more than Three(3) Position(s) at a time. kindly submit and then add again</span>
 </div>
 @using (Html.BeginForm("addPosition", "Configuration", FormMethod.Post, new { returnurl = ViewBag.returnUrl }))
 {
@@ -29,12 +29,12 @@
         </div>
 
         <div class="col-md-6">
-            <label for="prefixName" class="control-label">Name</label>
-            <input name="prefixName[0]" id="City" class="form-control" required />
+            <label for="positionname" class="control-label">Name</label>
+            <input name="positionname[0]" id="" class="form-control" required />
         </div>
         <div class="col-md-6">
             <label for="description" class="control-label">Description</label>
-            <textarea cols="2" name="description[0]" id="Address1" class="form-control" required></textarea>
+            <textarea cols="2" name="description[0]" id="" class="form-control" required></textarea>
         </div>
 
 
@@ -45,7 +45,7 @@
     <div class="col-md-12" style="clear:both">
 
         <button type="submit" class="btn btn-success" style="clear: both"> Create</button>
-        <button class="btn btn-primary blue pull-right" id="add" style="clear:both">Add New Job</button>
+        <button class="btn btn-primary blue pull-right" id="add" style="clear:both">Add New Position</button>
     </div>
 }
 

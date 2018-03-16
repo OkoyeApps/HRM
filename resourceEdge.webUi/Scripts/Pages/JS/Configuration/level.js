@@ -5,7 +5,7 @@
         var current = count++;
         console.log(current);
         if (current < 2) {
-            $('#empForm').append(`
+            $('#levelForm').append(`
         <div class ="col-md-6">
             <label for="LevelName" class ="control-label">Name</label>
             <input name="LevelName[0]" id="City" class ="form-control" placeholder="Name for level" required />
@@ -19,6 +19,9 @@
         <div class ="col-md-6">
             <label for="levelNo" class ="control-label">Level Number</label>
             <input name="levelNo[0]" id="City" class ="form-control" type="number" placeholder="level number in ranking" required />
+        </div>
+          <div class ="col-md-12">
+            <hr />
         </div>
                 `);
         }

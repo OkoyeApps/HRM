@@ -11,7 +11,7 @@
     Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
 }
 <div class="alert alert-danger hidden" id="overload">
-    <span>Sorry you can't add more than Three(3) Location at a time. kindly submit and then add again</span>
+    <span>Sorry you can't add more than Three(3) Employment Status at a time. kindly submit and then add again</span>
 </div>
 @using (Html.BeginForm("addEmploymentStatus", "Configuration", FormMethod.Post, new { returnurl = ViewBag.returnUrl }))
 {
@@ -21,8 +21,8 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="col-md-6">
-            <label for="positionname" class="control-label">Position Name</label>
-            <input name="positionname[0]" id="City" class="form-control" required />
+            <label for="employemntStatus" class="control-label">Position Name</label>
+            <input name="employemntStatus[0]" id="employemntStatus" class="form-control" required />
         </div>
 
         <div class="col-md-12">

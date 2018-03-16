@@ -14,6 +14,9 @@
             <label for="description" class ="control-label">Description</label>
             <textarea cols="2" name="description[0]" id="Address1" class ="form-control" required></textarea>
         </div>
+           <div class="col-md-12">
+            <hr />
+        </div>
                 `);
         }
         else {
