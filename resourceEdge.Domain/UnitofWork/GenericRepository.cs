@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 namespace resourceEdge.Domain.UnitofWork
 {
 
-        public class GenericRepository<TEntity> where TEntity : class
-        {
+    public class GenericRepository<TEntity> where TEntity : class
+    {
         internal EdgeDbContext context;
         internal DbSet<TEntity> dbSet;
 
@@ -19,7 +19,7 @@ namespace resourceEdge.Domain.UnitofWork
         {
             this.context = context;
             this.dbSet = context.Set<TEntity>();
-           
+
         }
 
         public virtual IEnumerable<TEntity> Get
@@ -57,33 +57,67 @@ namespace resourceEdge.Domain.UnitofWork
 
         public virtual void Insert(TEntity entity)
         {
-            dbSet.Add(entity);
+            try
+            {
+                dbSet.Add(entity);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public virtual void InsertBulk(IEnumerable<TEntity> entity)
         {
-            dbSet.AddRange(entity);
+            try
+            {
+                dbSet.AddRange(entity);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public virtual void Delete(object id)
         {
-            TEntity entityToDelete = dbSet.Find(id);
-            Delete(entityToDelete);
+            try
+            {
+                TEntity entityToDelete = dbSet.Find(id);
+                Delete(entityToDelete);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public virtual void Delete(TEntity entityToDelete)
         {
-            if (context.Entry(entityToDelete).State == EntityState.Detached)
+            try
             {
-                dbSet.Attach(entityToDelete);
+                if (context.Entry(entityToDelete).State == EntityState.Detached)
+                {
+                    dbSet.Attach(entityToDelete);
+                }
+                dbSet.Remove(entityToDelete);
             }
-            dbSet.Remove(entityToDelete);
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
-
         public virtual void Update(TEntity entityToUpdate)
         {
-            dbSet.Attach(entityToUpdate);
-            context.Entry(entityToUpdate).State = EntityState.Modified;
+            try
+            {
+                dbSet.Attach(entityToUpdate);
+                context.Entry(entityToUpdate).State = EntityState.Modified;
+            }catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 
@@ -129,8 +163,8 @@ namespace resourceEdge.Domain.UnitofWork
         {
             return await dbSet.FindAsync(id);
         }
-        public virtual Task<TEntity> Insert(TEntity entity) 
-        {         
+        public virtual Task<TEntity> Insert(TEntity entity)
+        {
             dbSet.Add(entity);
             return Task.FromResult(entity);
         }
@@ -160,5 +194,5 @@ namespace resourceEdge.Domain.UnitofWork
 
     }
 
-    }
+}
 

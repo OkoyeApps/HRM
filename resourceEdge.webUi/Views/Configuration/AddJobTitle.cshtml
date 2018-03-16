@@ -1,0 +1,76 @@
+﻿@section css{
+    <style>
+        textarea {
+            resize: none;
+        }
+    </style>
+}
+
+@{
+    ViewBag.Title = "Contact";
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+}
+<div class="alert alert-danger hidden" id="overload">
+    <span>Sorry you can't add more than Three(3) Location at a time. kindly submit and then add again</span>
+</div>
+@using (Html.BeginForm("AddJobTitle", "Configuration", FormMethod.Post, new { returnurl = ViewBag.returnUrl }))
+{
+    @Html.AntiForgeryToken()
+    <hr />
+    <div class="form-horizontal" id="jobForm">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="col-md-6">
+            @Html.Label("Groups", htmlAttributes: new { @class = "control-label " })
+            <div>
+                @Html.DropDownList("GroupId", (SelectList)ViewBag.Groups, "Select Group", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "form-control bs-select" })
+                @Html.ValidationMessage("GroupId", "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <label for="jobtitlename" class="control-label">Name</label>
+            <input name="jobtitlename[0]" id="Country" class="form-control" required />
+        </div>
+
+        <div class="col-md-6">
+            <label for="minexperiencerequired" class="control-label">Minimum Experienced</label>
+            <input name="minexperiencerequired[0]" id="State" class="form-control" required />
+        </div>
+
+        <div class="col-md-6">
+            <label for="jobtitlecode" class="control-label">Job Code</label>
+            <input name="jobtitlecode[0]" id="City" class="form-control" required />
+        </div>
+
+        <div class="col-md-6">
+            <label for="jobpayfrequency" class="control-label">Job Code</label>
+            <input name="jobpayfrequency[0]" id="City" class="form-control" required />
+        </div>
+        <div class="col-md-6">
+            <label for="jobpaygradecode" class="control-label">Job Code</label>
+            <input name="jobpaygradecode[0]" id="City" class="form-control" required />
+        </div>
+        <div class="col-md-6">
+            <label for="jobdescription" class="control-label">Hob Descriptions</label>
+            <textarea cols="2" name="jobdescription[0]" id="Address1" class="form-control" required></textarea>
+        </div>
+
+        <div class="col-md-6">
+            <label for="Address2" class="control-label">Address2</label>
+            <textarea cols="2" name="Address2[0]" id="Address2" class="form-control"></textarea>
+        </div>
+        <div class="col-md-12">
+            <hr />
+        </div>
+    </div>
+    <div class="col-md-12" style="clear:both">
+
+        <button type="submit" class="btn btn-success" style="clear: both"> Create</button>
+        <button class="btn btn-primary blue pull-right" id="add" style="clear:both">Add New Job</button>
+    </div>
+}
+
+@section Scripts{
+<script src="~/Scripts/Pages/JS/Configuration/Job.js"></script>
+}

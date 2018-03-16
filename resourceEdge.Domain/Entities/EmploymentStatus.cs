@@ -12,8 +12,8 @@ namespace resourceEdge.Domain.Entities
         [Key]
         public int empstId { get; set; }
         public string employemntStatus { get; set; }
-        public Nullable<int> createdby { get; set; }
-        public Nullable<int> modifiedby { get; set; }
+        public string createdby { get; set; }
+        public string modifiedby { get; set; }
         public Nullable<System.DateTime> createddate { get; set; }
         public Nullable<System.DateTime> modifieddate { get; set; }
         public Nullable<bool> isactive { get; set; }

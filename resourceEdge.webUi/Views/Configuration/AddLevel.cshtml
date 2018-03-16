@@ -1,0 +1,60 @@
+﻿@section css{
+    <style>
+        textarea {
+            resize: none;
+        }
+    </style>
+}
+
+@{
+    ViewBag.Title = "Contact";
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+}
+<div class="alert alert-danger hidden" id="overload">
+    <span>Sorry you can't add more than Three(3) Location at a time. kindly submit and then add again</span>
+</div>
+@using (Html.BeginForm("AddLevel", "Configuration", FormMethod.Post, new { returnurl = ViewBag.returnUrl }))
+{
+    @Html.AntiForgeryToken()
+    <hr />
+    <div class="form-horizontal" id="levelForm">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="col-md-6">
+            @Html.Label("Groups", htmlAttributes: new { @class = "control-label " })
+            <div>
+                @Html.DropDownList("GroupId", (SelectList)ViewBag.Groups, "Select Group", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "form-control bs-select" })
+                @Html.ValidationMessage("GroupId", "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <label for="LevelName" class="control-label">Name</label>
+            <input name="LevelName[0]" id="City" class="form-control" placeholder="Name for level" required />
+        </div>
+
+        <div class="col-md-6">
+            <label for="EligibleYears" class="control-label">Eligible Year(s)</label>
+            <input name="EligibleYears[0]" id="City" class="form-control" placeholder="Eligible years for level" type="number" required />
+        </div>
+
+        <div class="col-md-6">
+            <label for="levelNo" class="control-label">Level Number</label>
+            <input name="levelNo[0]" id="City" class="form-control" type="number" placeholder="level number in ranking" required />
+        </div>
+
+
+        <div class="col-md-12">
+            <hr />
+        </div>
+    </div>
+    <div class="col-md-12" style="clear:both">
+
+        <button type="submit" class="btn btn-success" style="clear: both"> Create</button>
+        <button class="btn btn-primary blue pull-right" id="add" style="clear:both">Add New Job</button>
+    </div>
+}
+
+@section Scripts{
+<script src="~/Scripts/Pages/JS/Configuration/level.js"></script>
+}

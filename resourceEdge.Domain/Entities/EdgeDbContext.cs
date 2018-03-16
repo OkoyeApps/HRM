@@ -18,8 +18,9 @@ namespace resourceEdge.Domain.Entities
             //modelBuilder.Conventions.Remove<IncludeMetadataConvention>();
                 Configuration.LazyLoadingEnabled = true;
             modelBuilder.Conventions.Remove(new PluralizingTableNameConvention());
-            //modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
-            //modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+            modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+            
 
             //modelBuilder.Entity<Employees>()
             //    .HasRequired(x => x.Departments)

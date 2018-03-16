@@ -1,0 +1,54 @@
+﻿@section css{
+    <style>
+        textarea {
+            resize: none;
+        }
+    </style>
+}
+
+@{
+    ViewBag.Title = "Contact";
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+}
+<div class="alert alert-danger hidden" id="overload">
+    <span>Sorry you can't add more than Three(3) Location at a time. kindly submit and then add again</span>
+</div>
+@using (Html.BeginForm("addPosition", "Configuration", FormMethod.Post, new { returnurl = ViewBag.returnUrl }))
+{
+    @Html.AntiForgeryToken()
+    <hr />
+    <div class="form-horizontal" id="positionForm">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="col-md-6">
+            @Html.Label("Groups", htmlAttributes: new { @class = "control-label " })
+            <div>
+                @Html.DropDownList("GroupId", (SelectList)ViewBag.jobTitles, "Select Job", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "form-control bs-select" })
+                @Html.ValidationMessage("GroupId", "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <label for="prefixName" class="control-label">Name</label>
+            <input name="prefixName[0]" id="City" class="form-control" required />
+        </div>
+        <div class="col-md-6">
+            <label for="description" class="control-label">Description</label>
+            <textarea cols="2" name="description[0]" id="Address1" class="form-control" required></textarea>
+        </div>
+
+
+        <div class="col-md-12">
+            <hr />
+        </div>
+    </div>
+    <div class="col-md-12" style="clear:both">
+
+        <button type="submit" class="btn btn-success" style="clear: both"> Create</button>
+        <button class="btn btn-primary blue pull-right" id="add" style="clear:both">Add New Job</button>
+    </div>
+}
+
+@section Scripts{
+<script src="~/Scripts/Pages/JS/Configuration/addPosition.js"></script>
+}

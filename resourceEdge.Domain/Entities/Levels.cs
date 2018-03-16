@@ -5,6 +5,7 @@ namespace resourceEdge.Domain.Entities
     public class Levels
     {
         public int Id { get; set; }
+        public int GroupId { get; set; }
         public int levelNo { get; set; }
         public string LevelName { get; set; }
         public int EligibleYears { get; set; }

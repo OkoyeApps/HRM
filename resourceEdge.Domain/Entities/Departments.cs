@@ -16,10 +16,6 @@ namespace resourceEdge.Domain.Entities
         public string deptcode { get; set; }
         public string descriptions { get; set; }
         public Nullable<System.DateTime> startdate { get; set; }
-        //public string address1 { get; set; }
-        //public string address2 { get; set; }
-        //public string address3 { get; set; }
-        //[ForeignKey("Employees")]
         public string reportManager1 { get; set; }
         public string reportManager2 { get; set; }
         public string depthead { get; set; }

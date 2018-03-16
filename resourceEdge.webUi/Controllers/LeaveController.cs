@@ -14,7 +14,7 @@ using resourceEdge.webUi.Infrastructure.Handlers;
 
 namespace resourceEdge.webUi.Controllers
 {
-    [EdgeIdentityFilter]
+    [Authorize]
     public class LeaveController : Controller
     {
         private EdgeDbContext db = new EdgeDbContext();

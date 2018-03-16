@@ -1244,6 +1244,12 @@
     <Content Include="Infrastructure\EmailTemplates\images\logo2.jpg" />
     <Content Include="Infrastructure\EmailTemplates\images\tw.jpg" />
     <Content Include="Scripts\Pages\JS\colReorder.js" />
+    <Content Include="Scripts\Pages\JS\Configuration\addPosition.js" />
+    <Content Include="Scripts\Pages\JS\Configuration\EmpStatus.js" />
+    <Content Include="Scripts\Pages\JS\Configuration\Job.js" />
+    <Content Include="Scripts\Pages\JS\Configuration\level.js" />
+    <Content Include="Scripts\Pages\JS\Configuration\Location.js" />
+    <Content Include="Scripts\Pages\JS\Configuration\Prefix.js" />
     <Content Include="Scripts\Pages\JS\DataTableInitialization.js" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Appraisal\EditQuestion.cshtml" />
@@ -1455,6 +1461,12 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\SystemAdmin\AssignGroupHeadHr.cshtml" />
     <Content Include="Views\Validation\NotSubscribed.cshtml" />
+    <Content Include="Views\Configuration\AddJobTitle.cshtml" />
+    <Content Include="Views\Configuration\addPosition.cshtml" />
+    <Content Include="Views\Configuration\addEmploymentStatus.cshtml" />
+    <Content Include="Views\Configuration\AddLevel.cshtml" />
+    <Content Include="Views\Configuration\AddLocation.cshtml" />
+    <Content Include="Views\Configuration\AddPrefix.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

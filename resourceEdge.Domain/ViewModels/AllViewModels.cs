@@ -60,7 +60,7 @@ namespace resourceEdge.Domain.Entities
     {
         [HiddenInput(DisplayValue = false)]
         public int JobId { get; set; }
-
+        public int GroupId { get; set; }
         [Required(ErrorMessage = "please specify a job title code")]
         [StringLength(15, ErrorMessage = "Length should be less than 15")]
         public string jobtitlecode { get; set; }
@@ -164,7 +164,7 @@ namespace resourceEdge.Domain.Entities
         public int empstId { get; set; }
 
         [Required(ErrorMessage = "Please enter a name to indicate the employement status"), StringLength(50, ErrorMessage = "length greater than 20"), Display(Name = "Status name")]
-        public string employemnt_status { get; set; }
+        public string employemntStatus { get; set; }
     }
 
     public class EmployeeViewModel
@@ -384,6 +384,7 @@ namespace resourceEdge.Domain.Entities
     {
         [Required(ErrorMessage ="Please input a level no"),Display(Name ="Level no")]
         public int levelNo { get; set; }
+        public int GroupId { get; set; }
         [Required(ErrorMessage ="Please Provide a level Name"), Display(Name ="Level Name")]
         public string LevelName { get; set; }
         [Required (ErrorMessage ="Please input eligibilty years"), Display(Name ="Eligible Years")]

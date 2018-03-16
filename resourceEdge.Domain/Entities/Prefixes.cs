@@ -14,8 +14,8 @@ namespace resourceEdge.Domain.Entities
         public int prefixId { get; set; }
         public string prefixName { get; set; }
         public string description { get; set; }
-        public Nullable<int> createdby { get; set; }
-        public Nullable<int> modifiedby { get; set; }
+        public string createdby { get; set; }
+        public string modifiedby { get; set; }
         public Nullable<System.DateTime> createddate { get; set; }
         public Nullable<System.DateTime> modifieddate { get; set; }
         public Nullable<bool> isactive { get; set; }

@@ -15,8 +15,7 @@ using resourceEdge.webUi.Infrastructure.Core;
 
 namespace resourceEdge.webUi.Controllers
 {
-   [Authorize(Roles = "System Admin,HR")]
-    [EdgeIdentityFilter]
+    [Authorize(Roles = "System Admin,HR")]
     public class ConfigurationController : Controller
     {
         private ApplicationUserManager userManager;
@@ -36,11 +35,11 @@ namespace resourceEdge.webUi.Controllers
         Apimanager Apimanager;
         public ApplicationUserManager UserManager
         {
-            get {return userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); }
-            private set  { userManager = value; }
+            get { return userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); }
+            private set { userManager = value; }
         }
-        public ConfigurationController(IBusinessUnits BParam, IDepartments DParam, IidentityCodes idCodes, IJobtitles jParam, 
-            IPositions pParam, IPrefixes prparam, IEmploymentStatus status, ILeaveManagement lParam, ILevels levelParam, 
+        public ConfigurationController(IBusinessUnits BParam, IDepartments DParam, IidentityCodes idCodes, IJobtitles jParam,
+            IPositions pParam, IPrefixes prparam, IEmploymentStatus status, ILeaveManagement lParam, ILevels levelParam,
             ILocation locationParam, ICareers CareerParam, IGroups Gparam)
         {
             this.BusinessRepo = BParam;
@@ -69,11 +68,11 @@ namespace resourceEdge.webUi.Controllers
         }
         public ActionResult AddCode(string returnUrl)
         {
-            
+
             ViewBag.returnUrl = returnUrl;
             ViewBag.PageTitle = "Add Code";
             ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
-            ViewBag.Groups =new SelectList(GroupRepo.Get().OrderBy(X=>X.Id), "Id", "GroupName", "Id");
+            ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(X => X.Id), "Id", "GroupName", "Id");
             return View();
         }
         [HttpPost]
@@ -136,13 +135,13 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult addPrefix(prefixViewModel model, string returnUrl)
         {
 
-            
+
             if (ModelState.IsValid)
             {
                 Prefixes prefixes = new Prefixes()
                 {
                     prefixName = model.prefixName,
-                    
+
                     createdby = null,
                     createddate = DateTime.Now,
                     modifiedby = null,
@@ -160,7 +159,7 @@ namespace resourceEdge.webUi.Controllers
             else
             {
                 this.AddNotification("Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
-                 return View(model);
+                return View(model);
             }
 
         }
@@ -180,7 +179,7 @@ namespace resourceEdge.webUi.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult addBusinessUnits(BusinessUnitsVIewModel model)
         {
-           try
+            try
             {
                 if (ModelState.IsValid)
                 {
@@ -193,7 +192,7 @@ namespace resourceEdge.webUi.Controllers
                     }
                     if (existingUnit)
                     {
-                        //ModelState.AddModelError("", "Please Unit alreasy existing with same name in this location");
+                    
                         this.AddNotification("Please Unit alreasy existing with same name in this location. Kindly try using another name or a different Location", NotificationType.ERROR);
                         ViewBag.Locations = new SelectList(LocationRepo.Get().OrderBy(x => x.State), "Id", "State", "Id");
                         return View(model);
@@ -220,8 +219,8 @@ namespace resourceEdge.webUi.Controllers
                 ModelState.AddModelError("", ex.Message);
                 throw ex;
             }
-            
-                this.AddNotification("Something went wrong. please make sure you fill all the appropriate details",NotificationType.ERROR);
+
+            this.AddNotification("Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
             ViewBag.Locations = new SelectList(LocationRepo.Get().OrderBy(x => x.State), "Id", "State", "Id");
             return View(model);
         }
@@ -274,13 +273,13 @@ namespace resourceEdge.webUi.Controllers
             {
                 return HttpNotFound();
             }
-                TempData["unitName"] = string.Format($"{unitName} has been deleted");
-                BusinessRepo.Delete(id);
-                return RedirectToAction("AllBusinessUnits");
+            TempData["unitName"] = string.Format($"{unitName} has been deleted");
+            BusinessRepo.Delete(id);
+            return RedirectToAction("AllBusinessUnits");
         }
 
         public ActionResult AllDepartment()
-        {        
+        {
             return View(DeptRepo.Getdepartment());
         }
 
@@ -315,9 +314,9 @@ namespace resourceEdge.webUi.Controllers
                 return RedirectToAction("addDepartment");
             }
 
-                ViewBag.businessUnits = new SelectList(BusinessRepo.Get().OrderBy(x => x.unitname), "Id", "unitname", "Id");
-                this.AddNotification("Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
-                return View(model);
+            ViewBag.businessUnits = new SelectList(BusinessRepo.Get().OrderBy(x => x.unitname), "Id", "unitname", "Id");
+            this.AddNotification("Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
+            return View(model);
         }
 
         public ActionResult EditDepartment(int id)
@@ -342,8 +341,8 @@ namespace resourceEdge.webUi.Controllers
                 DeptRepo.Updatedepartment(dept);
                 return View("AllDepartment");
             }
-                this.AddNotification("Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
-                return View(dept);
+            this.AddNotification("Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
+            return View(dept);
         }
 
         public ActionResult DeptDetail(int id)
@@ -378,31 +377,43 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.returnUrl = returnUrl;
             ViewBag.PageTitle = "Add Job Title";
             ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+            ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(X => X.Id), "Id", "GroupName", "Id");
             return View(new Jobtitles());
         }
 
-        //Finish THe job and position creations and remember that position depends on job
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddJobTitle(Jobtitles jobs, string returnUrl)
+        public ActionResult AddJobTitle(Jobtitles jobs = null, FormCollection collection = null, string returnUrl = null)
         {
-            if (ModelState.IsValid)
+            if (jobs != null && !collection.AllKeys.Contains("jobtitlename[0]"))
             {
-                Jobtitles job = jobs;
-                job.createdby = null;
-                job.modifieddate = DateTime.Now;
-                JobRepo.Insert(job);
-                this.AddNotification($"{job.jobtitlename} has been created", NotificationType.SUCCESS);
-                ModelState.Clear();
-                if (returnUrl != null)
+                if (ModelState.IsValid)
                 {
+                    Jobtitles job = jobs;
+                    job.createdby = null;
+                    job.modifieddate = DateTime.Now;
+                    JobRepo.Insert(job);
+                    this.AddNotification($"{job.jobtitlename} has been created", NotificationType.SUCCESS);
+                    ModelState.Clear();
+                    if (returnUrl != null)
+                    {
+                        return Redirect(returnUrl);
+                    }
+                    return RedirectToAction("AddJobTitle");
+                }
+            }
+            else
+            {
+                var result = ConfigManager.AddOrUpdateJobs(collection);
+                if (result != false && returnUrl != null)
+                {
+                    this.AddNotification($"Operation Successful!", NotificationType.SUCCESS);
                     return Redirect(returnUrl);
                 }
-                return RedirectToAction("Create", "HR");
             }
 
-                this.AddNotification("Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
-            return View(jobs); 
+            this.AddNotification("Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
+            return View(jobs);
         }
 
         public ActionResult AllPosition()
@@ -421,34 +432,44 @@ namespace resourceEdge.webUi.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult addPosition(Positions model, string returnUrl)
+        public ActionResult addPosition(Positions model = null, FormCollection collection = null, string returnUrl = null)
         {
-            try
+            if (model != null)
             {
                 if (ModelState.IsValid)
                 {
                     Positions position = model;
-                    position.createdby = null; // int.Parse(User.Identity.GetUserId());
-                    position.modifiedby = null; //int.Parse(User.Identity.GetUserId());
+                    position.createdby = User.Identity.GetUserId();
+                    position.modifiedby = User.Identity.GetUserId(); 
                     position.modifieddate = DateTime.Now;
                     positionRepo.Insert(position);
                     ModelState.Clear();
                     this.AddNotification($"{position.positionname} has been created", NotificationType.SUCCESS);
                     if (returnUrl != null)
                     {
-                    return RedirectToAction(returnUrl);
+                        return RedirectToAction(returnUrl);
                     }
+                    return RedirectToAction("addPosition");
+                }
+            }
+            else
+            {
+                var result = ConfigManager.AddOrUpdatePosition(collection);
+                if (result != false && returnUrl != null)
+                {
+                    return Redirect(returnUrl);
+                }
+                else if (result != false && returnUrl == null)
+                {
                     return RedirectToAction("Create", "HR");
                 }
-                ViewBag.jobTitles = new SelectList(Apimanager.JobList().OrderBy(x => x.JobName), "JobId", "JobName", "JobId");
-                this.AddNotification("Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
-                return View(model);
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            ViewBag.jobTitles = new SelectList(Apimanager.JobList().OrderBy(x => x.JobName), "JobId", "JobName", "JobId");
+            this.AddNotification("Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
+            return View(model);
         }
+
+
 
         [HttpGet]
         public ActionResult addEmploymentStatus(string returnUrl)
@@ -461,15 +482,15 @@ namespace resourceEdge.webUi.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult addEmploymentStatus(employeeStatusViewModel model, string returnUrl)
+        public ActionResult addEmploymentStatus(employeeStatusViewModel model = null, FormCollection collection = null, string returnUrl = null)
         {
-           
-            try
+
+            if (model != null)
             {
                 if (ModelState.IsValid)
                 {
                     EmploymentStatus status = new EmploymentStatus();
-                    status.employemntStatus = model.employemnt_status;
+                    status.employemntStatus = model.employemntStatus;
                     status.createdby = null;
                     status.createddate = DateTime.Now;
                     status.modifiedby = null;
@@ -477,234 +498,260 @@ namespace resourceEdge.webUi.Controllers
                     status.isactive = true;
                     statusRepo.Insert(status);
                     ModelState.Clear();
-                    this.AddNotification($"{model.employemnt_status} has been created", NotificationType.SUCCESS);
+                    this.AddNotification($"{model.employemntStatus} has been created", NotificationType.SUCCESS);
                     if (returnUrl != null)
                     {
                         return Redirect(returnUrl);
                     }
-                    return RedirectToAction("Create", "HR");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Something went wrong.\n please make sure your data's are valid \n if the problem persist contact the system Administrator");
-                    this.AddNotification("Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
-                    return View(model);
+                    return RedirectToAction("addEmploymentStatus");
                 }
             }
-            catch (Exception ex)
+            else
             {
-                throw ex;
+                var result = ConfigManager.AddorUpdateEmploymentStatus(collection);
+                if (result != false && returnUrl != null)
+                {
+                    return Redirect(returnUrl);
+                }
+                else if (result != false && returnUrl == null)
+                {
+                    return RedirectToAction("Create", "HR");
+                }
+            }
+            ModelState.AddModelError("", "Something went wrong.\n please make sure your data's are valid \n if the problem persist contact the system Administrator");
+            this.AddNotification("Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
+            return View(model);
+        }
+
+
+    public ActionResult AllLeaveType()
+    {
+        ViewBag.PageTitle = "All Types of available Leaves";
+        return View(leaveRepo.GetLeaveTypes());
+    }
+    public ActionResult AddLeaveType()
+    {
+        ViewBag.PageTitle = "Add Leave Type";
+        return View();
+    }
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public ActionResult AddLeaveType(LeaveTypeViewModel model)
+    {
+        if (ModelState.IsValid)
+        {
+            EmployeeLeaveTypes leaveType = new EmployeeLeaveTypes();
+            leaveType.leavetype = model.leavetype;
+            leaveType.leavecode = model.leavecode;
+            leaveType.leavepreallocated = model.leavepreallocated.ToString();
+            leaveType.description = model.description;
+            leaveType.numberofdays = model.numberofdays;
+            leaveType.createdby = User.Identity.GetUserId();
+            leaveType.modifiedby = User.Identity.GetUserId();
+            leaveType.createddate = DateTime.Now;
+            leaveType.modifieddate = DateTime.Now;
+            leaveType.isactive = true;
+            leaveRepo.AddLeaveTypes(leaveType);
+            ModelState.Clear();
+            this.AddNotification("Operation Successful!", NotificationType.SUCCESS);
+        }
+        ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+        this.AddNotification("Something went wrong try again later", NotificationType.ERROR);
+        return View(model);
+    }
+
+    public ActionResult AddLevel(string retunUrl)
+    {
+        ViewBag.returnUrl = retunUrl;
+        ViewBag.PageTitle = "Add Level";
+        ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+        ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(X => X.Id), "Id", "GroupName", "Id");
+
+            return View();
+    }
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public ActionResult AddLevel(LevelsViewModel model = null, FormCollection collection = null, string returnUrl = null)
+    {
+        if (model != null)
+        {
+
+            if (ModelState.IsValid)
+            {
+                Levels level = new Levels();
+                level.LevelName = model.LevelName;
+                level.levelNo = model.levelNo;
+                level.EligibleYears = model.EligibleYears;
+                level.CreatedBy = User.Identity.GetUserId();
+                level.ModifiedBy = User.Identity.GetUserId();
+                level.CreatedOn = DateTime.Now;
+                level.ModifiedOn = DateTime.Now;
+                level.GroupId = model.GroupId;
+                levelRepo.Insert(level);
+                ModelState.Clear();
+                this.AddNotification("Level Added SuccessFully Successful", NotificationType.SUCCESS);
+                if (returnUrl != null)
+                {
+                    return Redirect(returnUrl);
+                }
+                return RedirectToAction("AddLevel");
+            }
+        }
+        else
+        {
+            var result = ConfigManager.AddOrUpdateLevel(collection);
+            if (result != false && returnUrl != null)
+            {
+                return Redirect(returnUrl);
+            }
+            else if (result != false && returnUrl == null)
+            {
+                return RedirectToAction("Create", "HR");
             }
         }
 
-        public ActionResult AllLeaveType()
+        ModelState.AddModelError("", "Please review the form and resend");
+        this.AddNotification("Something went wrong, please try again", NotificationType.ERROR);
+        return View(model);
+    }
+
+    public ActionResult AddLocation(string returnUrl)
+    {
+        ViewBag.returnUrl = returnUrl;
+        ViewBag.pageTitle = "Add Location";
+        ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+        ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(X => X.Id), "Id", "GroupName", "Id");
+        return View();
+    }
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public ActionResult AddLocation(LocationViewModel model = null, FormCollection collection = null, string returnUrl = null)
+    {
+        if (model != null && !collection.AllKeys.Contains("Country[0]"))
         {
-            ViewBag.PageTitle = "All Types of available Leaves";
-            return View(leaveRepo.GetLeaveTypes());
+
+            if (ModelState.IsValid)
+            {
+                Location location = new Location();
+                location.City = model.City;
+                location.Country = model.Country;
+                location.State = model.State;
+                location.Address1 = model.Address1;
+                location.Address2 = model.Address2;
+                location.CreatedBy = User.Identity.GetUserId();
+                location.ModifiedBy = User.Identity.GetUserId();
+                location.CreatedOn = DateTime.Now;
+                location.ModifiedOn = DateTime.Now;
+                location.GroupId = model.GroupId;
+                LocationRepo.Insert(location);
+                ModelState.Clear();
+                this.AddNotification("Location Added Successfully", NotificationType.SUCCESS);
+                if (returnUrl != null)
+                {
+                    return Redirect(returnUrl);
+                }
+                return RedirectToAction("Create", "HR");
+            }
         }
-        public ActionResult AddLeaveType()
+        else
         {
-            ViewBag.PageTitle = "Add Leave Type";
-            return View();
+            var result = ConfigManager.AddOrUpdateLocation(collection);
+            if (result != false && returnUrl != null)
+            {
+                return Redirect(returnUrl);
+            }
+            else if (result != false && returnUrl == null)
+            {
+                return RedirectToAction("AddLocation");
+            }
         }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddLeaveType(LeaveTypeViewModel model)
+
+        ModelState.AddModelError("", "please refill the form and make try submitting again");
+        this.AddNotification("Something went wrong, please try again", NotificationType.ERROR);
+        return View(model);
+    }
+    public ActionResult AddCareer(string returnUrl)
+    {
+        ViewBag.returnUrl = returnUrl;
+        ViewBag.PageTitle = "Add Career";
+        ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+        return View();
+    }
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public ActionResult AddCareer(CareerViewModel model, string returnUrl)
+    {
+        try
         {
             if (ModelState.IsValid)
             {
-                EmployeeLeaveTypes leaveType = new EmployeeLeaveTypes();
-                leaveType.leavetype = model.leavetype;
-                leaveType.leavecode = model.leavecode;
-                leaveType.leavepreallocated = model.leavepreallocated.ToString();
-                leaveType.description = model.description;
-                leaveType.numberofdays = model.numberofdays;
-                leaveType.createdby = User.Identity.GetUserId();
-                leaveType.modifiedby = User.Identity.GetUserId();
-                leaveType.createddate = DateTime.Now;
-                leaveType.modifieddate = DateTime.Now;
-                leaveType.isactive = true;
-                leaveRepo.AddLeaveTypes(leaveType);
+                Careers career = new Careers();
+                career.CareerName = model.CareerName;
+                career.ShortCode = model.ShortCode;
+                career.CreatedBy = User.Identity.GetUserId();
+                career.ModifiedBy = User.Identity.GetUserId();
+                career.CreatedOn = DateTime.Now;
+                career.ModifiedOn = DateTime.Now;
+                careerRepo.Insert(career);
                 ModelState.Clear();
-                this.AddNotification("Operation Successful!", NotificationType.SUCCESS);
-            }
-            ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
-           this.AddNotification("Something went wrong try again later", NotificationType.ERROR);
-            return View(model);
-        }
-
-        public ActionResult AddLevel(string retunUrl)
-        {
-            ViewBag.returnUrl = retunUrl;
-            ViewBag.PageTitle = "Add Level";
-            ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
-            return View();
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddLevel(LevelsViewModel model, string returnUrl)
-        {
-            try
-            {
-                if (ModelState.IsValid)
+                this.AddNotification("Career successfully Added", NotificationType.SUCCESS);
+                if (returnUrl != null)
                 {
-                    Levels level = new Levels();
-                    level.LevelName = model.LevelName;
-                    level.levelNo = model.levelNo;
-                    level.EligibleYears = model.EligibleYears;
-                    level.CreatedBy = User.Identity.GetUserId();
-                    level.ModifiedBy = User.Identity.GetUserId();
-                    level.CreatedOn = DateTime.Now;
-                    level.ModifiedOn = DateTime.Now;
-                    levelRepo.Insert(level);
-                    ModelState.Clear();
-                    this.AddNotification("Level Added SuccessFully Successful", NotificationType.SUCCESS);
-                    if (returnUrl != null)
-                    {
                     return Redirect(returnUrl);
-                    }
-                    return RedirectToAction("Create", "HR");
                 }
+                return RedirectToAction("Create", "HR");
             }
-            catch(Exception ex)
-            {
-                ModelState.AddModelError("", ex.Message);
-                throw ex;
-                //return View(model);
-            }
-            ModelState.AddModelError("", "Please review the form and resend");
-            this.AddNotification("Something went wrong, please try again", NotificationType.ERROR);
-            return View(model);
         }
-
-        public ActionResult AddLocation(string returnUrl)
+        catch (Exception ex)
         {
-            ViewBag.returnUrl = returnUrl;
-            ViewBag.pageTitle = "Add Location";
-            ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
-            ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(X => X.Id), "Id", "GroupName", "Id");
-            return View();
+            ModelState.AddModelError("", ex.Message);
+            throw ex;
         }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddLocation(LocationViewModel model, string returnUrl)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    Location location = new Location();
-                    location.City = model.City;
-                    location.Country = model.Country;
-                    location.State = model.State;
-                    location.Address1 = model.Address1;
-                    location.Address2 = model.Address2;
-                    location.CreatedBy = User.Identity.GetUserId();
-                    location.ModifiedBy = User.Identity.GetUserId();
-                    location.CreatedOn = DateTime.Now;
-                    location.ModifiedOn = DateTime.Now;
-                    location.GroupId = model.GroupId;
-                    LocationRepo.Insert(location);
-                    ModelState.Clear();
-                    this.AddNotification("Location Added Successfully", NotificationType.SUCCESS);
-                    if (returnUrl != null)
-                    {
-                    return Redirect(returnUrl);
-                    }
-                    return RedirectToAction("Create", "HR");
-                }
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", ex.Message);
-                throw ex;
-            }
-            ModelState.AddModelError("", "please refill the form and make try submitting again");
-            this.AddNotification("Something went wrong, please try again", NotificationType.ERROR);
-            return View(model);
-        }
-        public ActionResult AddCareer(string returnUrl)
-        {
-            ViewBag.returnUrl = returnUrl;
-            ViewBag.PageTitle = "Add Career";
-            ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
-            return View();
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddCareer(CareerViewModel model, string returnUrl)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    Careers career = new Careers();
-                    career.CareerName = model.CareerName;
-                    career.ShortCode = model.ShortCode;
-                    career.CreatedBy = User.Identity.GetUserId();
-                    career.ModifiedBy = User.Identity.GetUserId();
-                    career.CreatedOn = DateTime.Now;
-                    career.ModifiedOn = DateTime.Now;
-                    careerRepo.Insert(career);
-                    ModelState.Clear();
-                    this.AddNotification("Career successfully Added", NotificationType.SUCCESS);
-                    if (returnUrl != null)
-                    {
-                    return Redirect(returnUrl);
-                    }
-                    return RedirectToAction("Create", "HR");
-                }
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", ex.Message);
-                throw ex;
-            }
-            ModelState.AddModelError("", "please refill the form and try submitting again");
-            this.AddNotification("Something went wrong, please try again", NotificationType.ERROR);
-            return View(model);
-        }
-
-        public ActionResult AddGroup(string returnUrl)
-        {
-            ViewBag.returnUrl = returnUrl;
-            ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
-            ViewBag.PageTitle = "Add  Group";
-            return View();
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddGroup(GroupViewModel model, string returnUrl)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    Groups Group = new Groups();
-                    Group.GroupName = model.GroupName;
-                    Group.Descriptions = model.Descriptions;
-                    Group.CreatedBy = User.Identity.GetUserId();
-                    Group.ModifiedBy = User.Identity.GetUserId();
-                    Group.CreatedDate = DateTime.Now;
-                    Group.ModifiedDate = DateTime.Now;
-                    GroupRepo.Insert(Group);
-                    ModelState.Clear();
-                    this.AddNotification("Group Successfully Added!", NotificationType.SUCCESS);
-                    if (returnUrl != null)
-                    {
-                    return Redirect(returnUrl);
-                    }
-                    return RedirectToAction("Create", "HR");
-                }
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", ex.Message);
-                throw ex;
-            }
-            ModelState.AddModelError("", "please refill the form and make try submitting again");
-            this.AddNotification("Something went wrong, Please try again", NotificationType.ERROR);
-            return View(model);
-        }
+        ModelState.AddModelError("", "please refill the form and try submitting again");
+        this.AddNotification("Something went wrong, please try again", NotificationType.ERROR);
+        return View(model);
     }
+
+    public ActionResult AddGroup(string returnUrl)
+    {
+        ViewBag.returnUrl = returnUrl;
+        ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+        ViewBag.PageTitle = "Add  Group";
+        return View();
+    }
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public ActionResult AddGroup(GroupViewModel model, string returnUrl)
+    {
+        try
+        {
+            if (ModelState.IsValid)
+            {
+                Groups Group = new Groups();
+                Group.GroupName = model.GroupName;
+                Group.Descriptions = model.Descriptions;
+                Group.CreatedBy = User.Identity.GetUserId();
+                Group.ModifiedBy = User.Identity.GetUserId();
+                Group.CreatedDate = DateTime.Now;
+                Group.ModifiedDate = DateTime.Now;
+                GroupRepo.Insert(Group);
+                ModelState.Clear();
+                this.AddNotification("Group Successfully Added!", NotificationType.SUCCESS);
+                if (returnUrl != null)
+                {
+                    return Redirect(returnUrl);
+                }
+                return RedirectToAction("Create", "HR");
+            }
+        }
+        catch (Exception ex)
+        {
+            ModelState.AddModelError("", ex.Message);
+            throw ex;
+        }
+        ModelState.AddModelError("", "please refill the form and make try submitting again");
+        this.AddNotification("Something went wrong, Please try again", NotificationType.ERROR);
+        return View(model);
+    }
+}
 }
