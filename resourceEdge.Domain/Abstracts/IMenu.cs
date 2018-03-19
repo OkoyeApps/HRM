@@ -9,7 +9,7 @@ namespace resourceEdge.Domain.Abstracts
 {
    public  interface IMenu
     {
-        IEnumerable<Menus> Get();
+        IEnumerable<Menu> Get();
         void ActivateMenu(int id);
         void DeActivateMenu(int id);
     }

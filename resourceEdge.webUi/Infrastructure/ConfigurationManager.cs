@@ -143,7 +143,7 @@ namespace resourceEdge.webUi.Infrastructure
                     for (int i = 0; i < allKeys.Length; i++)
                     {
                         model = new prefixViewModel();
-                        Prefixes prefix = new Prefixes()
+                        Prefix prefix = new Prefix()
                         {
                             prefixName = collection[allNames[i].ToString()],
                             description = collection[allDescription[i].ToString()],
@@ -242,7 +242,7 @@ namespace resourceEdge.webUi.Infrastructure
                     for (int i = 0; i < allKeys.Length; i++)
                     {
                         double.TryParse(collection[allExperience[i].ToString()], out experience);
-                        Jobtitles job = new Jobtitles()
+                        Jobtitle job = new Jobtitle()
                         {
                             createdby = UserId,
                        
@@ -295,7 +295,7 @@ namespace resourceEdge.webUi.Infrastructure
                     int.TryParse(allJobId, out jobId);
                     for (int i = 0; i < allKeys.Length; i++)
                     {
-                        Positions position = new Positions()
+                        Position position = new Position()
                         {
                             createdby = UserId,
                             createddate = DateTime.Now,
@@ -346,7 +346,7 @@ namespace resourceEdge.webUi.Infrastructure
                     {
                         int.TryParse(collection[allYears[i].ToString()], out year);
                         int.TryParse(collection[allLevelNo[i].ToString()], out levelNo);
-                        Levels level = new Levels()
+                        Level level = new Level()
                         {
                             CreatedBy = UserId,
                             CreatedOn = DateTime.Now,

@@ -104,11 +104,11 @@ namespace resourceEdge.webUi.Infrastructure
         /// <para name="userId"></para>
         /// </summary>
         /// <returns></returns>
-        public List<Employees> GetAllEmployees()
+        public List<Employee> GetAllEmployees()
         {
             return EmployeeRepo.Get().ToList();
         }
-        public List<Employees> GetEmpByBusinessUnit(int id)
+        public List<Employee> GetEmpByBusinessUnit(int id)
         {
             var employeeByUnit = EmployeeRepo.GetEmpByBusinessUnit(id);
             if (employeeByUnit != null)
@@ -122,10 +122,10 @@ namespace resourceEdge.webUi.Infrastructure
             var result = unitofWork.Groups.GetByID(id).GroupName;
             return result ?? null;
         }
-        public List<Employees> GetReportManagerBusinessUnit(int id)
+        public List<Employee> GetReportManagerBusinessUnit(int id)
         {
             //var context = unitofWork.GetDbContext();
-            List<Employees> managers = new List<Employees>();
+            List<Employee> managers = new List<Employee>();
             //var ReportManager = context.ReportManagers.Where(x => x.BusinessUnitId == id).FirstOrDefault(); //Fix this when the reportmanager is fixed
             var ReportManagers = ReportManagerRepo.GetManagersByBusinessunit(id).FirstOrDefault();
             if (ReportManagers != null)
@@ -135,51 +135,51 @@ namespace resourceEdge.webUi.Infrastructure
                 {
                     return employees;
                 }
-                var result =   EmployeeRepo.GetReportManagers(ReportManagers.managerId, ReportManagers.BusinessUnitId);
+                var result =   EmployeeRepo.GetReportManagers(ReportManagers.ManagerUserId, ReportManagers.BusinessUnitId);
                 return result;
             }
             return null;
         }
-        public Employees GetEmployeeByUserId(string userid)
+        public Employee GetEmployeeByUserId(string userid)
         {
             return EmployeeRepo.GetByUserId(userid);
         }
 
-        public Employees CheckIfEmployeeExistByUserId(string userId)
+        public Employee CheckIfEmployeeExistByUserId(string userId)
         {
 
             return EmployeeRepo.CheckIfEmployeeExistByUserId(userId);
         }
 
-        public List<Employees> GetEmployeeByDept(int dept)
+        public List<Employee> GetEmployeeByDept(int dept)
         {
             return EmployeeRepo.GetEmployeeByDepts(dept);
         }
 
-        public List<Employees> GetUnitHeads(int unitId)
+        public List<Employee> GetUnitHeads(int unitId)
         {
             return EmployeeRepo.GetUnitHead(unitId);
         }
 
-        public List<Employees> GetHr()
+        public List<Employee> GetHr()
         {
             return EmployeeRepo.GetHrs();
         }
 
-        public List<Employees> GetEmployeeUnitMembers(int unitId, int locationId)
+        public List<Employee> GetEmployeeUnitMembers(int unitId, int locationId)
         {
             var members = unitofWork.employees.Get(filter: x => x.businessunitId == unitId && x.LocationId == locationId).ToList();
             return members ?? null;
         }
 
         //Although this method originally called by the ApiManager, its still left here just if there is a need to use it
-        public List<Employees> GetUnitMembersBySearch(string userId, string searchString)
+        public List<Employee> GetUnitMembersBySearch(string userId, string searchString)
         {
             var userUnitId = EmployeeRepo.GetByUserId(userId);
-            List<Employees> TeamMembers = new List<Employees>();
+            List<Employee> TeamMembers = new List<Employee>();
             if (searchString.ToLower().StartsWith("tenece"))
             {
-                var TeamByEmpId = db.Users.Where(x => x.businessunitId == userUnitId.businessunitId.ToString() && x.employeeId == searchString).FirstOrDefault();
+                var TeamByEmpId = db.Users.Where(x => x.BusinessunitId == userUnitId.businessunitId.ToString() && x.EmployeeId == searchString).FirstOrDefault();
                 if (TeamByEmpId != null)
                 {
                     var TeamMember = EmployeeRepo.GetByUserId(TeamByEmpId.Id);
@@ -198,7 +198,7 @@ namespace resourceEdge.webUi.Infrastructure
         }
         //This code was used to service the employee Creation if manager role was created immediately
         //this was not used in the assign reportmanager action Method becausethe repository was invoked
-        public bool AssignReportManager(ReportManagers manager)
+        public bool AssignReportManager(ReportManager manager)
         {
             try
             {
@@ -217,7 +217,7 @@ namespace resourceEdge.webUi.Infrastructure
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public EmployeeLeaveTypes LeaveTypeById(int id)
+        public EmployeeLeaveType LeaveTypeById(int id)
         {
             var leave = unitofWork.GetDbContext().LeaveType.Where(x => x.id == id).SingleOrDefault();
             if (leave != null)
@@ -233,9 +233,9 @@ namespace resourceEdge.webUi.Infrastructure
         /// <param name="userid"></param>
         /// <returns></returns>
 
-        public ReportManagers getReportManagerByUserId(string userId)
+        public ReportManager getReportManagerByUserId(string userId)
         {
-            var manager = ReportManagerRepo.GetByUserId(userId);
+            var manager = unitofWork.ReportManager.Get(filter: x=>x.ManagerUserId ==  userId).FirstOrDefault();
             if (manager != null)
             {
                 return manager;
@@ -248,20 +248,20 @@ namespace resourceEdge.webUi.Infrastructure
             var employee = UserManagement.getEmployeeIdFromUserTable(userId); //Check if this check actually checks the user table
             if (employee != null)
             {
-                int BuintId = int.Parse(employee.businessunitId);
+                int BuintId = int.Parse(employee.BusinessunitId);
                 var Reportmanager = ReportManagerRepo.GetManagersByBusinessunit(BuintId).Select(x => new EmployeeListItem
                 {
                     empID = x.employeeId,
                     businessunitId = x.BusinessUnitId,
                     departmentId = x.DepartmentId,
-                    userId = x.managerId,
+                    userId = x.ManagerUserId,
                     FullName = x.FullName
                 }).ToList();
                 return Reportmanager ?? null;
             }
             return null;
         }
-        public List<ReportManagers> ExistingReportManager(string userId, int UnitId)
+        public List<ReportManager> ExistingReportManager(string userId, int UnitId)
         {
             var validManager = ReportManagerCount(userId);
             if (validManager != true)
@@ -331,7 +331,7 @@ namespace resourceEdge.webUi.Infrastructure
             {
 
             }
-            public void AddOrUpdateAvater(Files model, string userId, Files currentAvater, string filefullName, HttpPostedFileBase File, IFiles fileRepo)
+            public void AddOrUpdateAvater(Domain.Entities.File model, string userId, Domain.Entities.File currentAvater, string filefullName, HttpPostedFileBase File, IFiles fileRepo)
             {
                 if (currentAvater == null)
                 {
@@ -343,7 +343,7 @@ namespace resourceEdge.webUi.Infrastructure
                     fileName = Path.Combine(filefullName + fileName);
                     model.FileType = FileType.Avatar;
                     File.SaveAs(fileName);
-                    var file = new Files()
+                    var file = new Domain.Entities.File()
                     {
                         FileName = model.FileName,
                         FilePath = model.FilePath,
@@ -377,7 +377,7 @@ namespace resourceEdge.webUi.Infrastructure
                 return null;
             }
 
-            public void AddORUpdateSalary(string userId, PayrollViewModel entity, Employees employee, ApplicationUser currentUser, string systemUserId)
+            public void AddORUpdateSalary(string userId, PayrollViewModel entity, Employee employee, ApplicationUser currentUser, string systemUserId)
             {
                 var CurrentPayRoll = unitofWork.GetDbContext().Payroll.Where(x => x.UserId == userId).FirstOrDefault();
 
@@ -435,7 +435,7 @@ namespace resourceEdge.webUi.Infrastructure
         {
             var result = unitofWork.Questions.Get(filter: x => x.UserIdForQuestion == userId, includeProperties: "Group, BusinessUnit")
                 .Select(X=> new QuestionViewModel
-                { Question = X.Question, Description = X.Description, Approved = X.Approved, UserId = X.UserIdForQuestion, Id = X.Id }).ToList();
+                { Question = X.EmpQuestion, Description = X.Description, Approved = X.Approved, UserId = X.UserIdForQuestion, Id = X.Id }).ToList();
             return result ?? null;
         }
         public bool ApproveQuestion(string userId=null, int? QstId = null)
@@ -532,7 +532,7 @@ namespace resourceEdge.webUi.Infrastructure
             /// 
 
 
-            public Tuple<Employees, ApplicationUser, Files, Jobtitles, Positions, EmpPayroll, List<LeaveRequest>> GetEmpDetails(int Id)
+            public Tuple<Employee, ApplicationUser, Domain.Entities.File, Jobtitle, Position, EmpPayroll, List<LeaveRequest>> GetEmpDetails(int Id)
             {
 
                 var employee = unitofWork.GetDbContext().Employee.Find(Id);
@@ -549,11 +549,11 @@ namespace resourceEdge.webUi.Infrastructure
                 return null;
             }
 
-            public Tuple<Employees, ApplicationUser, Files> GetAllHrDetails(int unitId)
+            public Tuple<Employee, ApplicationUser, Domain.Entities.File> GetAllHrDetails(int unitId)
             {
                 var members = unitofWork.employees.Get(filter: x => x.businessunitId == unitId && x.empRoleId == 3).FirstOrDefault();
                 ApplicationUser HrUserDetail = new ApplicationUser();
-                Files Avatar = new Files();
+                Domain.Entities.File Avatar = new Domain.Entities.File();
                 if (members != null)
                 {
                     Avatar = unitofWork.Files.Get(filter: x => x.UserId == members.userId && x.FileType == FileType.Avatar).FirstOrDefault();
@@ -562,11 +562,11 @@ namespace resourceEdge.webUi.Infrastructure
                 return Tuple.Create(members, HrUserDetail, Avatar);
             }
 
-            public Tuple<Employees, ApplicationUser, Files> GetAllUnitHeadDetails(int unitId)
+            public Tuple<Employee, ApplicationUser, Domain.Entities.File> GetAllUnitHeadDetails(int unitId)
             {
                 var members = unitofWork.employees.Get(filter: x => x.businessunitId == unitId && x.IsUnithead == true).FirstOrDefault();
                 ApplicationUser HrUserDetail = new ApplicationUser();
-                Files Avatar = new Files();
+                Domain.Entities.File Avatar = new Domain.Entities.File();
                 if (members != null)
                 {
                     Avatar = unitofWork.Files.Get(filter: x => x.UserId == members.userId && x.FileType == FileType.Avatar).FirstOrDefault();
@@ -575,10 +575,10 @@ namespace resourceEdge.webUi.Infrastructure
 
                 return Tuple.Create(members, HrUserDetail, Avatar);
             }
-            public Tuple<List<Employees>, List<Files>, List<ApplicationUser>> GetTeamMembersWithAvatars(int unitId)
+            public Tuple<List<Employee>, List<Domain.Entities.File>, List<ApplicationUser>> GetTeamMembersWithAvatars(int unitId)
             {
-                List<Files> Images = new List<Files>();
-                List<Employees> TeamMembers = new List<Employees>();
+                List<Domain.Entities.File> Images = new List<Domain.Entities.File>();
+                List<Employee> TeamMembers = new List<Employee>();
                 List<ApplicationUser> TeamMemberUserDetail = new List<ApplicationUser>();
                 var members = unitofWork.employees.Get(x => x.businessunitId == unitId && x.IsUnithead != true).ToList();
                 if (members != null)
@@ -601,7 +601,7 @@ namespace resourceEdge.webUi.Infrastructure
 
                 List<EmloyeDetailistItem> employeeListItem = new List<EmloyeDetailistItem>();
                 EmloyeDetailistItem listItem;
-                List<Employees> employees = new List<Employees>();
+                List<Employee> employees = new List<Employee>();
                 foreach (var item in employeeQuery)
                 {
                     listItem = new EmloyeDetailistItem();

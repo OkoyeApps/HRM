@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Abstracts
 {
-    public interface ILogin : GenericInterface<Logins>
+    public interface ILogin : GenericInterface<Login>
     {
-        Logins GetUserLastLogin(string userId);
+        Login GetUserLastLogin(string userId);
     }
 }

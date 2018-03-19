@@ -26,7 +26,7 @@ namespace resourceEdge.Domain.Entities
         public DateTime? CreatedDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public bool? Isactive { get; set; }
-        public  BusinessUnits BusinessUnits { get; set; }
+        public  BusinessUnit BusinessUnits { get; set; }
         //public virtual ICollection<Employees> Employees { get; set; }
     }
 }

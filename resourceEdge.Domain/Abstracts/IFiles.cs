@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Abstracts
 {
-    public interface IFiles : GenericInterface<Files>
+    public interface IFiles : GenericInterface<File>
     {
-        Files GetFileByUserId(string userId, FileType type);
+        File GetFileByUserId(string userId, FileType type);
     }
 }

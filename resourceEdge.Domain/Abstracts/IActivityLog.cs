@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Abstracts
 {
-   public interface IActivityLog : GenericInterface<ActivityLogs>
+   public interface IActivityLog : GenericInterface<ActivityLog>
     {
     }
 }

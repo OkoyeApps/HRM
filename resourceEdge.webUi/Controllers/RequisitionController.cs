@@ -50,7 +50,7 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.EmpStatus = new SelectList(statusRepo.Get().Select(x => new { name = x.employemntStatus, id = x.empstId }), "id", "name", "id");
             ViewBag.businessUnits = new SelectList(BunitsRepo.Get().Select(x=>new {name = x.unitname, id = x.Id }).OrderBy(x => x.id), "id", "name", "id");
             ViewBag.jobTitles = new SelectList(JobRepo.Get().Select(x=> new {name = x.jobtitlename, id = x.JobId }).OrderBy(x => x.name), "id", "name", "id");
-            ViewBag.ReportManager = new SelectList(managerRepo.Get().Select(x => new { name = x.FullName, id = x.managerId }).OrderBy(x => x.name), "id", "name", "id");
+            ViewBag.ReportManager = new SelectList(managerRepo.Get().Select(x => new { name = x.FullName, id = x.ManagerUserId }).OrderBy(x => x.name), "id", "name", "id");
             ViewBag.Employee = new SelectList(EmployeeRepo.Get().Select(x=> new { name = x.FullName, id = x.empID}).OrderBy(x=>x.id), "id", "name", "id");
             return View();
         }

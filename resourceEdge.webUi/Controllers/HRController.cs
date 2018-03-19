@@ -86,7 +86,7 @@ namespace resourceEdge.webUi.Controllers
             return View(employees.ToList());
         }
         [ChildActionOnly]
-        private List<Files> GetAllEmpImage()
+        private List<File> GetAllEmpImage()
         {
             return FileRepo.Get().ToList();
         }
@@ -97,7 +97,7 @@ namespace resourceEdge.webUi.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employees employees = empRepo.GetById(id.Value);
+            Employee employees = empRepo.GetById(id.Value);
             if (employees == null)
             {
                 return HttpNotFound();
@@ -130,8 +130,8 @@ namespace resourceEdge.webUi.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(EmployeeViewModel employees, string returnUrl)
         {
-            Employees realEmployee = new Employees();
-            ReportManagers manager = null;
+            Employee realEmployee = new Employee();
+            ReportManager manager = null;
             var RealUserId = employees.identityCode + employees.empUserId;
             var EmployeeIdExist = Infrastructure.UserManagement.checkEmployeeId(RealUserId, employees.empEmail);
             var validDate = validateDates(employees.dateOfJoining, employees.dateOfLeaving);
@@ -176,7 +176,7 @@ namespace resourceEdge.webUi.Controllers
                                 if (role.Name.ToLower() == "manager")
                                 {
                                     realEmployee.IsUnithead = true;
-                                    manager = new ReportManagers();
+                                    manager = new ReportManager();
                                 }
                                 realEmployee.empRoleId = employees.empRoleId;
                                 realEmployee.userId = newCreatedUser.Item1.Id;
@@ -187,7 +187,7 @@ namespace resourceEdge.webUi.Controllers
                                     manager.DepartmentId = employees.departmentId;
                                     manager.employeeId = realEmployee.empID;
                                     manager.FullName = realEmployee.FullName;
-                                    manager.managerId = realEmployee.userId;
+                                    manager.ManagerUserId = realEmployee.userId;
                                     employeeManager.AssignReportManager(manager);
                                 }
                                 var groupName = employeeManager.GetGroupName(employees.GroupId);
@@ -239,14 +239,14 @@ namespace resourceEdge.webUi.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AssignReportManager(reportmanagerViewModel model)
         {
-            ReportManagers manager = new ReportManagers();
+            ReportManager manager = new ReportManager();
             var existingManager = employeeManager.ExistingReportManager(model.ManagerId, int.Parse(model.BunitId));
             if (ModelState.IsValid && existingManager == null)
             {
                 if (existingManager.Count < 2)
                 {
                     manager.BusinessUnitId = int.Parse(model.BunitId);
-                    manager.managerId = model.ManagerId;
+                    manager.ManagerUserId = model.ManagerId;
                     var employee = employeeManager.CheckIfEmployeeExistByUserId(model.ManagerId);
                     if (employee != null && employee.empID != 2 && employee.IsUnithead != true)
                     {
@@ -284,7 +284,7 @@ namespace resourceEdge.webUi.Controllers
             var result = ReportRepo.GetById(userId);
             if (result != null)
             {
-                ReportRepo.Delete(result.managerId.ToString());
+                ReportRepo.Delete(result.ManagerUserId.ToString());
                 return RedirectToAction("allEmployee");
             }
             else
@@ -333,7 +333,7 @@ namespace resourceEdge.webUi.Controllers
         {
             ViewBag.PageTitle = "Questions";
             var questions = QuestionRepo.GetAllQuestionsEagerly("Location,BusinessUnit").GroupBy(x => x.UserFullName);
-            List<Questions> Questions = new List<Domain.Entities.Questions>();
+            List<Question> Questions = new List<Domain.Entities.Question>();
             foreach (var items in questions)
             {
                 foreach (var item in items)
@@ -341,7 +341,7 @@ namespace resourceEdge.webUi.Controllers
                     var existingUser = Questions.Find(x => x.UserFullName == items.Key);
                     if (existingUser == null)
                     {
-                        var question = new Questions()
+                        var question = new Question()
                         {
                             BusinessUnitId = item.BusinessUnitId,
                             BusinessUnit = item.BusinessUnit,

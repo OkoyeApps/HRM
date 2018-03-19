@@ -16,25 +16,25 @@ namespace resourceEdge.Domain.Concrete
             throw new NotImplementedException();
         }
 
-        public IEnumerable<AppraisalPeriods> Get() => unitOfWork.AppraisalPeriod.Get();
+        public IEnumerable<AppraisalPeriod> Get() => unitOfWork.AppraisalPeriod.Get();
 
-        public AppraisalPeriods GetById(int id)
+        public AppraisalPeriod GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public AppraisalPeriods GetByUserId(string userId)
+        public AppraisalPeriod GetByUserId(string userId)
         {
             throw new NotImplementedException();
         }
 
-        public void Insert(AppraisalPeriods entity)
+        public void Insert(AppraisalPeriod entity)
         {
             unitOfWork.AppraisalPeriod.Insert(entity);
             unitOfWork.Save();
         }
 
-        public void update(AppraisalPeriods entity)
+        public void update(AppraisalPeriod entity)
         {
             throw new NotImplementedException();
         }

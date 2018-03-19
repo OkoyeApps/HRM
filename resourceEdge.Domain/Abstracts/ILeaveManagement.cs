@@ -15,15 +15,15 @@ namespace resourceEdge.Domain.Abstracts
         LeaveManagement GetLeaveById(int? id);
 
 
-        void AllotEmployeeLeave(EmployeeLeaves empLeave);
-        IEnumerable<EmployeeLeaves> GetEmployeeLeaves();
-        IEnumerable<EmployeeLeaves> GetAllotedLeave();
-        void UpdateEmployeeLeave(EmployeeLeaves empLeave);
-        EmployeeLeaves GetEmplyeeLeaveByUserId(string userId);
+        void AllotEmployeeLeave(EmployeeLeave empLeave);
+        IEnumerable<EmployeeLeave> GetEmployeeLeaves();
+        IEnumerable<EmployeeLeave> GetAllotedLeave();
+        void UpdateEmployeeLeave(EmployeeLeave empLeave);
+        EmployeeLeave GetEmplyeeLeaveByUserId(string userId);
 
 
-        void AddLeaveTypes(EmployeeLeaveTypes leaveType);
-        IEnumerable<EmployeeLeaveTypes> GetLeaveTypes();
+        void AddLeaveTypes(EmployeeLeaveType leaveType);
+        IEnumerable<EmployeeLeaveType> GetLeaveTypes();
 
         
         

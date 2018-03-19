@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Abstracts
 {
-    public interface ILevels : GenericInterface<Levels>
+    public interface ILevels : GenericInterface<Level>
     {
     }
 }

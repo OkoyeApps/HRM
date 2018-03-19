@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Abstracts
 {
-    public interface IGroups :GenericInterface<Groups>
+    public interface IGroups :GenericInterface<Group>
     {
     }
 }

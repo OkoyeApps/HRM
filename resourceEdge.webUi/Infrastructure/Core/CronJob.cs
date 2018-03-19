@@ -119,7 +119,7 @@ namespace resourceEdge.webUi.Infrastructure.Core
             var subscription = unitOfWork.AppraisalInitialization.Get(filter: x => x.StartDate == DateTime.Today).ToList();
             if (subscription != null && subscription.Count() > 0)
             {
-                IEnumerable<Questions> Questions = new List<Questions>();
+                IEnumerable<Question> Questions = new List<Question>();
                 int count = subscription.Count;
                 for (int i = 0; i < count; i++)
                 {

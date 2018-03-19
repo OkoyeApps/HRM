@@ -539,7 +539,7 @@ namespace resourceEdge.webUi.Controllers
             var isLoggedIn = CheckIfLoggedIn(user.Id);
             if (isLoggedIn == false)
             {
-                var LoginEntity = new Logins()
+                var LoginEntity = new Login()
                 {
                     IsLogIn = true,
                     IsLogOut = false,

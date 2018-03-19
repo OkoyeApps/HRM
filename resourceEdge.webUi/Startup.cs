@@ -15,7 +15,7 @@ namespace resourceEdge.webUi
             CreateDeafaultRoles();
             app.MapSignalR();           
         }
-        
+
         public void CreateDeafaultRoles()
         {
             Rolemanager manager = new Rolemanager();

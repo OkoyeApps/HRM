@@ -25,6 +25,6 @@ namespace resourceEdge.Domain.Entities
         public DateTime? CreatedDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public bool? IsActive { get; set; }
-        public Groups Group { get; set; }
+        public Group Group { get; set; }
     }
 }

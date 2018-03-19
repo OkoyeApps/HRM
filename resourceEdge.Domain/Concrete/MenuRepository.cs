@@ -33,6 +33,6 @@ namespace resourceEdge.Domain.Concrete
             }
         }
 
-        public IEnumerable<Menus> Get() => unitOfWork.Menu.Get();
+        public IEnumerable<Menu> Get() => unitOfWork.Menu.Get();
     }
 }

@@ -16,23 +16,23 @@ namespace resourceEdge.Domain.Concrete
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Levels> Get()=> unitOfWork.Levels.Get();
+        public IEnumerable<Level> Get()=> unitOfWork.Levels.Get();
         
 
-        public Levels GetById(int id)=> unitOfWork.Levels.GetByID(id);
+        public Level GetById(int id)=> unitOfWork.Levels.GetByID(id);
 
-        public Levels GetByUserId(string userId)
+        public Level GetByUserId(string userId)
         {
             throw new NotImplementedException();
         }
 
-        public void Insert(Levels entity)
+        public void Insert(Level entity)
         {
             unitOfWork.Levels.Insert(entity);
             unitOfWork.Save();
         }
 
-        public void update(Levels entity)
+        public void update(Level entity)
         {
             unitOfWork.Levels.Update(entity);
             unitOfWork.Save();

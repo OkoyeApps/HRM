@@ -16,28 +16,28 @@ namespace resourceEdge.Domain.Concrete
             throw new NotImplementedException();
         }
 
-        public IEnumerable<ActivityLogs> Get()
+        public IEnumerable<ActivityLog> Get()
         {
             throw new NotImplementedException();
         }
 
-        public ActivityLogs GetById(int id)
+        public ActivityLog GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public ActivityLogs GetByUserId(string userId)
+        public ActivityLog GetByUserId(string userId)
         {
             throw new NotImplementedException();
         }
 
-        public void Insert(ActivityLogs entity)
+        public void Insert(ActivityLog entity)
         {
             unitOfWork.ActivityLogs.Insert(entity);
             unitOfWork.Save();
         }
 
-        public void update(ActivityLogs entity)
+        public void update(ActivityLog entity)
         {
             throw new NotImplementedException();
         }

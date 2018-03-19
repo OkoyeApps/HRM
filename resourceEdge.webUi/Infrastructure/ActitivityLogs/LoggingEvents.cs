@@ -17,11 +17,11 @@ namespace resourceEdge.webUi.Infrastructure.ActitivityLogs
         {
             logRepo = logs;
         }
-        public void InsertActivityLogs(List<ActivityLogs> activitylogsItem)
+        public void InsertActivityLogs(List<ActivityLog> activitylogsItem)
         {
             try
             {
-                ActivityLogs activityLogs = new ActivityLogs();
+                ActivityLog activityLogs = new ActivityLog();
                 foreach (var item in activitylogsItem)
                 {
                     activityLogs.actionname = item.actionname;

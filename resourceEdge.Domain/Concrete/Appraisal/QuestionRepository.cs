@@ -16,37 +16,37 @@ namespace resourceEdge.Domain.Concrete
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Questions> Get()
+        public IEnumerable<Question> Get()
         {
             return unitOfWork.Questions.Get();
         }
 
-        public IEnumerable<Questions> GetAllQuestionsEagerly(string properties)=> unitOfWork.Questions.Get(includeProperties: properties);
+        public IEnumerable<Question> GetAllQuestionsEagerly(string properties)=> unitOfWork.Questions.Get(includeProperties: properties);
 
 
-        public IEnumerable<Questions> GetAllUserQuestion(string userId)
+        public IEnumerable<Question> GetAllUserQuestion(string userId)
         {
             var result = unitOfWork.Questions.Get(filter: x => x.UserIdForQuestion == userId);
             return result ?? null;
         }
 
-        public Questions GetById(int id)
+        public Question GetById(int id)
         {
             return unitOfWork.Questions.GetByID(id);
         }
 
-        public Questions GetByUserId(string userId)
+        public Question GetByUserId(string userId)
         {
             throw new NotImplementedException();
         }
 
-        public void Insert(Questions entity)
+        public void Insert(Question entity)
         {
             unitOfWork.Questions.Insert(entity);
             unitOfWork.Save();
         }
 
-        public void update(Questions entity)
+        public void update(Question entity)
         {
             unitOfWork.Questions.Update(entity);
             unitOfWork.Save();

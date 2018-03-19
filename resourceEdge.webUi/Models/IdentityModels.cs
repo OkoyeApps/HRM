@@ -11,34 +11,32 @@ namespace resourceEdge.webUi.Models
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
-        public string emprole { get; set; }
-        public string userstatus { get; set; }
-        public string firstname { get; set; }
-        public string lastname { get; set; }
-        public string userfullname
+        public string EmpRole { get; set; }
+        public string UserStatus { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string UserfullName
         {
             get
             {
-                return this.firstname + this.lastname;
+                return this.FirstName + this.LastName;
             }
         }
-        public string contactnumber { get; set; }
-        public string businessunitId { get; set; }
-        public string departmentId { get; set; }
-        public string createdby { get; set; }
-        public string modifiedby { get; set; }
-        public Nullable<System.DateTime> createddate { get; set; }
-        public Nullable<System.DateTime> modifieddate { get; set; }
-        public string employeeId { get; set; }
-        public string modeofentry { get; set; }
-        public string other_modeofentry { get; set; }
-        public string entrycomments { get; set; }
-        public Nullable<System.DateTime> selecteddate { get; set; }
-        public string candidatereferredby { get; set; }
-        public Nullable<int> company_id { get; set; }
+        public string BusinessunitId { get; set; }
+        public string DepartmentId { get; set; }
+      
+        public string EmployeeId { get; set; }
+        public string ModeofEntry { get; set; }
+        public string EntryComments { get; set; }
+        public DateTime? SelectedDate { get; set; }
+        public string Candidatereferredby { get; set; }
         public int JobtitleId { get; set; }
+        public string CreatedBy { get; set; }
+        public string ModifiedBy { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
         public Nullable<bool> Isactive { get; set; }
-        public  Employees employees { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

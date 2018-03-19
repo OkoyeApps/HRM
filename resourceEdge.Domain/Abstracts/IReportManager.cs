@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Abstracts
 {
-    public interface IReportManager : GenericInterface<ReportManagers>
+    public interface IReportManager : GenericInterface<ReportManager>
     {
         void Delete(string UserId);
-        ReportManagers GetById(string id);
-        List<ReportManagers> GetManagersByBusinessunit(int id);
-        List<ReportManagers> GetReportmanagerCount(string userId);
+        ReportManager GetById(string id);
+        List<ReportManager> GetManagersByBusinessunit(int id);
+        List<ReportManager> GetReportmanagerCount(string userId);
     }
 }

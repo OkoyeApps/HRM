@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Abstracts
 {
-   public  interface IidentityCodes : GenericInterface<IdentityCodes>
+   public  interface IidentityCodes : GenericInterface<IdentityCode>
     {
 
     }

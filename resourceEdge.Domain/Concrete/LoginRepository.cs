@@ -17,17 +17,17 @@ namespace resourceEdge.Domain.Concrete
             unitofWork.Save();
         }
 
-        public IEnumerable<Logins> Get()
+        public IEnumerable<Login> Get()
         {
             throw new NotImplementedException();
         }
 
-        public Logins GetById(int id)
+        public Login GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Logins GetByUserId(string userId)
+        public Login GetByUserId(string userId)
         {
             var AllUserLogin = unitofWork.Logins.Get(x => x.userId == userId && x.LogOutTime == null && x.IsLogOut == false).FirstOrDefault();
             return AllUserLogin; 
@@ -38,18 +38,18 @@ namespace resourceEdge.Domain.Concrete
             return unitofWork.GetDbContext();
         }
 
-        public void Insert(Logins entity)
+        public void Insert(Login entity)
         {
             unitofWork.Logins.Insert(entity);
             unitofWork.Save();
         }
 
-        public void update(Logins entity)
+        public void update(Login entity)
         {
             unitofWork.Logins.Update(entity);
             unitofWork.Save();
         }
-        public Logins GetUserLastLogin(string userId)
+        public Login GetUserLastLogin(string userId)
         {
             var user = unitofWork.Logins.Get(filter: x => x.userId == userId).ToList().LastOrDefault();
             return user ?? null;

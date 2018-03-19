@@ -12,15 +12,15 @@ namespace resourceEdge.Domain.Concrete
     {
         UnitofWork.UnitOfWork unitOfWork = new UnitofWork.UnitOfWork();
   
-        public IEnumerable<Files> Get()=> unitOfWork.Files.Get();
-        public Files GetById(int id) => unitOfWork.Files.GetByID(id);
-        public Files GetByUserId(string userId) => unitOfWork.GetDbContext().File.Where(x => x.UserId == userId).FirstOrDefault();
-        public void Insert(Files entity)
+        public IEnumerable<File> Get()=> unitOfWork.Files.Get();
+        public File GetById(int id) => unitOfWork.Files.GetByID(id);
+        public File GetByUserId(string userId) => unitOfWork.GetDbContext().File.Where(x => x.UserId == userId).FirstOrDefault();
+        public void Insert(File entity)
         {
             unitOfWork.Files.Insert(entity);
             unitOfWork.Save();
         }
-        public void update(Files entity)
+        public void update(File entity)
         {
             unitOfWork.Files.Update(entity);
             unitOfWork.Save();
@@ -31,7 +31,7 @@ namespace resourceEdge.Domain.Concrete
             unitOfWork.Save();
         }
 
-        public Files GetFileByUserId(string userId, FileType type)
+        public File GetFileByUserId(string userId, FileType type)
         {
             var result = unitOfWork.Files.Get(filter: x => x.UserId == userId && x.FileType == FileType.Avatar).FirstOrDefault();
             if (result != null)

@@ -29,7 +29,7 @@ namespace resourceEdge.Domain.ViewModels
     {
         [Key,HiddenInput(DisplayValue =false)]
         public int ID { get; set; }
-        public IEnumerable<Questions> Questions { get; set; }
+        public IEnumerable<Question> Questions { get; set; }
         public string RatingType { get; set; }
          
     }

@@ -21,7 +21,7 @@ namespace resourceEdge.webUi.Infrastructure
             EmpRepo = Eparam;
             unitofWork = new UnitOfWork();
         }
-        public EmployeeLeaveTypes GetLeaveDetails(int id)
+        public EmployeeLeaveType GetLeaveDetails(int id)
         {
             var leave = unitofWork.GetDbContext().LeaveType.Find(id);
             if (leave != null)
@@ -193,7 +193,7 @@ namespace resourceEdge.webUi.Infrastructure
         {
             if (allotedDays != null && splitId != null)
             {
-                EmployeeLeaves leave = new EmployeeLeaves();
+                EmployeeLeave leave = new EmployeeLeave();
                 for (int id = 0, allotTime = 0; id < splitId.Length; id++, allotTime++)
                 {
                     leave.UserId = splitId[id];
@@ -212,7 +212,7 @@ namespace resourceEdge.webUi.Infrastructure
         }
         public bool allotIndividualLeave(string allotDays, string id, string year, string userId)
         {
-            EmployeeLeaves leave = new EmployeeLeaves();
+            EmployeeLeave leave = new EmployeeLeave();
             if (allotDays != null && id != null && userId != null)
             {
                 leave.UserId = id;

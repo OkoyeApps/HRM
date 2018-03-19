@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Abstracts
 {
-   public  interface IPositions : GenericInterface<Positions>
+   public  interface IPositions : GenericInterface<Position>
     {
     }
 }

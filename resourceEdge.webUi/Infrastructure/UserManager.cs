@@ -38,22 +38,22 @@ namespace resourceEdge.webUi.Infrastructure
 
                     UserName = email,
                     Email = email,
-                    emprole = empRole,
-                    userstatus = userstatus,
-                    firstname = fname,
-                    lastname = lname,
-                    businessunitId = BUnitId,
-                    departmentId = DeptId,
-                    contactnumber = phoneNo,
-                    createdby = createdBy,
-                    modifiedby = modifiedBy,
-                    createddate = DateTime.Now,
-                    modifieddate = DateTime.Now,
-                    employeeId = empId,
-                    modeofentry = modeofEntry,
-                    entrycomments = Comments,
-                    selecteddate = selectedDate,
-                    candidatereferredby = candidateReferredBy,
+                    EmpRole = empRole,
+                    UserStatus = userstatus,
+                    FirstName = fname,
+                    LastName = lname,
+                    BusinessunitId = BUnitId,
+                    DepartmentId = DeptId,
+                    PhoneNumber = phoneNo,
+                    CreatedBy = createdBy,
+                    ModifiedBy = modifiedBy,
+                    CreatedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                    EmployeeId = empId,
+                    ModeofEntry = modeofEntry,
+                    EntryComments = Comments,
+                    SelectedDate = selectedDate,
+                    Candidatereferredby = candidateReferredBy,
                     JobtitleId = int.Parse(jobId),
                     Isactive = isactive,
                 };
@@ -117,7 +117,7 @@ namespace resourceEdge.webUi.Infrastructure
         }
         public static bool checkEmployeeId(string id, string email)
         {
-            var user = context.Users.Where(x => x.employeeId == id || x.Email == email).FirstOrDefault();
+            var user = context.Users.Where(x => x.EmployeeId == id || x.Email == email).FirstOrDefault();
             if (user != null)
             {
                 return true;

@@ -26,7 +26,7 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
         string userId = "No user Yet";
         private void Logging()
         {
-            List<ActivityLogs> activityLogs = new List<ActivityLogs>();
+            List<ActivityLog> activityLogs = new List<ActivityLog>();
             LoggingEvents logEvent = new LoggingEvents(LogsRepo);
             HttpContextBase currentCurrent = new HttpContextWrapper(HttpContext.Current);
             UrlHelper urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
@@ -42,7 +42,7 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                 dataparameter = inputStream.ReadToEnd();
             }
             requesturl = Request.Url.AbsoluteUri;
-            activityLogs.Add(new ActivityLogs()
+            activityLogs.Add(new ActivityLog()
             {
                 actionname = action,
                 controllername = controller,

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Abstracts
 {
-   public interface IJobtitles : GenericInterface<Jobtitles>
+   public interface IJobtitles : GenericInterface<Jobtitle>
     {
     }
 }

@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Abstracts
 {
-    public interface IBusinessUnits : GenericInterface<BusinessUnits>
+    public interface IBusinessUnits : GenericInterface<BusinessUnit>
     {
-       BusinessUnits DoesUnitExitByName(string Name);
-       BusinessUnits GetUnitByLocation(int locationId, string unitName);
-       List<BusinessUnits> GetUnitsByLocation(int locationId);
+       BusinessUnit DoesUnitExitByName(string Name);
+       BusinessUnit GetUnitByLocation(int locationId, string unitName);
+       List<BusinessUnit> GetUnitsByLocation(int locationId);
     }
 }

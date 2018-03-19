@@ -237,7 +237,7 @@ namespace resourceEdge.webUi.Infrastructure
             
             return employeeByUnit ?? null;
         }
-        public List<Employees> GetEligibleManagerBybBusinessUnit(int id)
+        public List<Employee> GetEligibleManagerBybBusinessUnit(int id)
         {
             var unit = unitOfWork.BusinessUnit.GetByID(id); //This gets the business unit by ID 
             var employeeByUnit = unitOfWork.GetDbContext().Employee.Where(x => x.businessunitId == id && x.LocationId == unit.LocationId && x.empRoleId != 3 && x.empRoleId != 2 && x.empRoleId != 1).ToList();
@@ -252,7 +252,7 @@ namespace resourceEdge.webUi.Infrastructure
         }
 
 
-        public List<Employees> GetReportManagerBusinessUnit(int id)
+        public List<Employee> GetReportManagerBusinessUnit(int id)
         {
             var ReportManager = unitOfWork.GetDbContext().ReportManager.Where(x => x.BusinessUnitId == id).FirstOrDefault();
             if (ReportManager != null)
@@ -266,13 +266,13 @@ namespace resourceEdge.webUi.Infrastructure
             return null;
         }
 
-        public EmployeeLeaves getEmpLeaveByUserId(string userId)
+        public EmployeeLeave getEmpLeaveByUserId(string userId)
         {
             var employee = unitOfWork.GetDbContext().EmployeeLeave.Where(x => x.UserId == userId).SingleOrDefault();
             return employee ?? null;
         }
 
-        public EmployeeLeaveTypes LeaveTypeById(int id)
+        public EmployeeLeaveType LeaveTypeById(int id)
         {
             var leave = unitOfWork.GetDbContext().LeaveType.Where(x => x.id == id).SingleOrDefault();
             if (leave != null)
@@ -281,12 +281,12 @@ namespace resourceEdge.webUi.Infrastructure
             }
             return null;
         }
-        public List<Employees> GetEmployeeByDept(int dept)
+        public List<Employee> GetEmployeeByDept(int dept)
         {
             return unitOfWork.GetDbContext().Employee.Where(x => x.departmentId == dept).ToList();
         }
 
-        public Employees GetEmployeeByUserId(string userid)
+        public Employee GetEmployeeByUserId(string userid)
         {
             var employee = unitOfWork.GetDbContext().Employee.Where(x => x.userId == userid).SingleOrDefault();
             if (employee != null)
@@ -307,7 +307,7 @@ namespace resourceEdge.webUi.Infrastructure
                         empID = x.employeeId,
                         businessunitId = x.BusinessUnitId,
                         departmentId = x.DepartmentId,
-                        userId = x.managerId,
+                        userId = x.ManagerUserId,
                         FullName = x.FullName,
 
                     }).ToList();
@@ -354,14 +354,14 @@ namespace resourceEdge.webUi.Infrastructure
             return null;
         }
 
-        public List<Employees> GetUnitMembersBySearch(string userId, string searchString)
+        public List<Employee> GetUnitMembersBySearch(string userId, string searchString)
         {
             var userUnitId = unitOfWork.employees.Get(x => x.userId == userId).FirstOrDefault();
             string searchparam = searchString.ToLower();
-            List<Employees> TeamMembers = new List<Employees>();
+            List<Employee> TeamMembers = new List<Employee>();
             if (searchparam.StartsWith("tenece"))
             {
-                var TeamByEmpId = db.Users.Where(x => x.businessunitId == userUnitId.businessunitId.ToString() && x.employeeId == searchparam).FirstOrDefault();
+                var TeamByEmpId = db.Users.Where(x => x.BusinessunitId == userUnitId.businessunitId.ToString() && x.EmployeeId == searchparam).FirstOrDefault();
                 if (TeamByEmpId != null)
                 {
                     var TeamMember = unitOfWork.employees.Get(x => x.userId == TeamByEmpId.Id).SingleOrDefault();
@@ -395,7 +395,7 @@ namespace resourceEdge.webUi.Infrastructure
         /// <param name="location"></param>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public List<BusinessUnits> GetBusinessunitByLocation(int? location = null)
+        public List<BusinessUnit> GetBusinessunitByLocation(int? location = null)
         {
             if (location == null)
             {
@@ -414,13 +414,13 @@ namespace resourceEdge.webUi.Infrastructure
             var result = unitOfWork.GetDbContext().Location.Where(x => x.GroupId == id).ToList();
             return result ?? null;
         }
-        public List<Employees> GetAllHrsByGroup(int id)
+        public List<Employee> GetAllHrsByGroup(int id)
         {
             var result = unitOfWork.GetDbContext().Employee.Where(X => X.GroupId == id && X.empRoleId == 3).ToList();
             return result ?? null;
         }
 
-        public AppraisalPeriods GetPeriodForAppraisal(int appraisalModeId)
+        public AppraisalPeriod GetPeriodForAppraisal(int appraisalModeId)
         {
             var result = unitOfWork.GetDbContext().AppraisalMode.Where(x => x.Id == appraisalModeId).SingleOrDefault();
             var period = unitOfWork.GetDbContext().AppraisalPeriod.ToList();
@@ -513,18 +513,18 @@ namespace resourceEdge.webUi.Infrastructure
             {
                 int id = 0;
                 int.TryParse(QueryString.ToString(), out id);
-                var result = unitOfWork.GetDbContext().ReportManager.Where(X => X.BusinessUnitId == id).Select(x => new UnitHeadListItems { UnitId = x.BusinessUnitId.ToString(), UserId = x.managerId, FullName = x.FullName }).ToList();
+                var result = unitOfWork.GetDbContext().ReportManager.Where(X => X.BusinessUnitId == id).Select(x => new UnitHeadListItems { UnitId = x.BusinessUnitId.ToString(), UserId = x.ManagerUserId, FullName = x.FullName }).ToList();
                 return result ?? null;
             }
             if (QueryString.ToLower() == "all")
             {
-                var result = unitOfWork.GetDbContext().ReportManager.Select(x=> new UnitHeadListItems { UnitId = x.BusinessUnitId.ToString(), UserId = x.managerId, FullName = x.FullName }).ToList();
+                var result = unitOfWork.GetDbContext().ReportManager.Select(x=> new UnitHeadListItems { UnitId = x.BusinessUnitId.ToString(), UserId = x.ManagerUserId, FullName = x.FullName }).ToList();
                 return result ?? null;
             }
             return null;
         }
 
-        public List<Months> GetAllMonths()
+        public List<Month> GetAllMonths()
         {
             return unitOfWork.GetDbContext().Month.ToList();
         }
@@ -533,11 +533,11 @@ namespace resourceEdge.webUi.Infrastructure
         {
             return unitOfWork.GetDbContext().MonthList.ToList();
         }
-        public List<WeekDays> GetWeekDays()
+        public List<WeekDay> GetWeekDays()
         {
             return unitOfWork.GetDbContext().WeekDay.ToList();
         }
-        public List<Weeks> GetWeeks()
+        public List<Week> GetWeeks()
         {
             return unitOfWork.GetDbContext().Week.ToList();
         }

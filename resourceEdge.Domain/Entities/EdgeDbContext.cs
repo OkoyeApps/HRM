@@ -15,12 +15,12 @@ namespace resourceEdge.Domain.Entities
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            //modelBuilder.Conventions.Remove<IncludeMetadataConvention>();
-                Configuration.LazyLoadingEnabled = true;
+            Configuration.LazyLoadingEnabled = true;
             modelBuilder.Conventions.Remove(new PluralizingTableNameConvention());
             modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             
+            //modelBuilder.Conventions.Remove<IncludeMetadataConvention>();
 
             //modelBuilder.Entity<Employees>()
             //    .HasRequired(x => x.Departments)
@@ -38,38 +38,38 @@ namespace resourceEdge.Domain.Entities
             // throw new UnintentionalCodeFirstException();
         }
 
-        public virtual DbSet<Employees> Employee { get; set; }
-        public virtual DbSet<IdentityCodes> IdentityCode { get; set; }
-        public virtual DbSet<BusinessUnits> Businessunit { get; set; }
+        public virtual DbSet<Employee> Employee { get; set; }
+        public virtual DbSet<IdentityCode> IdentityCode { get; set; }
+        public virtual DbSet<BusinessUnit> Businessunit { get; set; }
         public virtual DbSet<Departments> departments { get; set; }
-        public virtual DbSet<Jobtitles> Jobtitle { get; set; }
-        public virtual DbSet<Positions> Position { get; set; }
-        public virtual DbSet<Prefixes> Prefix { get; set; }
+        public virtual DbSet<Jobtitle> Jobtitle { get; set; }
+        public virtual DbSet<Position> Position { get; set; }
+        public virtual DbSet<Prefix> Prefix { get; set; }
         public virtual DbSet<EmploymentStatus> EmploymentStatus { get; set; }
         public virtual DbSet<products> products { get; set; }
-        public virtual DbSet<ReportManagers> ReportManager { get; set; }
-        public virtual DbSet<EmpHolidays> EmpHoliday { get; set; }
-        public virtual DbSet<EmployeeLeaves> EmployeeLeave { get; set; }
+        public virtual DbSet<ReportManager> ReportManager { get; set; }
+        public virtual DbSet<EmpHoliday> EmpHoliday { get; set; }
+        public virtual DbSet<EmployeeLeave> EmployeeLeave { get; set; }
         public virtual DbSet<LeaveManagement> LeaveManagement { get; set; }
         public virtual DbSet<LeaveManagementSummary> LeaveManagementSummary { get; set; }
         public virtual DbSet<LeaveRequest> LeaveRequest { get; set; }
         public virtual DbSet<MonthList> MonthList { get; set; }
-        public virtual DbSet<Months> Month { get; set; }
-        public virtual DbSet<WeekDays> WeekDay { get; set; }
-        public virtual DbSet<Weeks> Week { get; set; }
-        public virtual DbSet<EmployeeLeaveTypes> LeaveType { get; set; }
+        public virtual DbSet<Month> Month { get; set; }
+        public virtual DbSet<WeekDay> WeekDay { get; set; }
+        public virtual DbSet<Week> Week { get; set; }
+        public virtual DbSet<EmployeeLeaveType> LeaveType { get; set; }
         public DbSet<Requisition> Requisition { get; set; }
         public DbSet<EmpPayroll> Payroll { get; set; }
-        public DbSet<Files> File { get; set; }
-        public DbSet<Logins> Login { get; set; }
-        public DbSet<Levels> Level { get; set; }
-        public DbSet<Careers> Career { get; set; }
+        public DbSet<File> File { get; set; }
+        public DbSet<Login> Login { get; set; }
+        public DbSet<Level> Level { get; set; }
+        public DbSet<Career> Career { get; set; }
         public DbSet<CareerPath> CareerPath { get; set; }
         public DbSet<Location> Location { get; set; }
-        public DbSet<ActivityLogs> ActivityLog { get; set; }
-        public DbSet<Groups> Group { get; set; }
+        public DbSet<ActivityLog> ActivityLog { get; set; }
+        public DbSet<Group> Group { get; set; }
         public DbSet<AppraisalMode> AppraisalMode { get; set; }
-        public DbSet<AppraisalPeriods> AppraisalPeriod { get; set; }
+        public DbSet<AppraisalPeriod> AppraisalPeriod { get; set; }
         public DbSet<AppraisalRating> ApprasialRating { get; set; }
         public DbSet<AppraisalStatus> AppraisalStatus { get; set; }
         public DbSet<Ratings> Rating { get; set; }
@@ -78,8 +78,8 @@ namespace resourceEdge.Domain.Entities
         public DbSet<Parameters> Parameter { get; set; }
         public DbSet<SubscribedAppraisal> SubscribedAppraisal { get; set; }
         public DbSet<MailDispatcher> MailDispatcher { get; set; }
-        public DbSet<Questions> Question { get; set; }
-        public DbSet<Menus> Menu { get; set; }
+        public DbSet<Question> Question { get; set; }
+        public DbSet<Menu> Menu { get; set; }
         public DbSet<AppraisalQuestion> AppraisalQuestion { get; set; }
     }
     

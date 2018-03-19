@@ -15,7 +15,7 @@ namespace resourceEdge.Domain.Entities
         public string ModifiedBy { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }
-        public Careers CarrierName { get; set; }
-        public Levels level { get; set; }
+        public Career CarrierName { get; set; }
+        public Level level { get; set; }
     }
 }

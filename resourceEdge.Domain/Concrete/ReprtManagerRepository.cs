@@ -11,18 +11,18 @@ namespace resourceEdge.Domain.Concrete
     public class ReprtManagerRepository : IReportManager
     {
         UnitofWork.UnitOfWork unitOfWork = new UnitofWork.UnitOfWork();
-        public void Insert(ReportManagers manager)
+        public void Insert(ReportManager manager)
         {
             unitOfWork.ReportManager.Insert(manager);
             unitOfWork.Save();
         }
 
-        public IEnumerable<ReportManagers> Get()
+        public IEnumerable<ReportManager> Get()
         {
             return unitOfWork.ReportManager.Get();
         }
 
-        public ReportManagers GetById(string userId)
+        public ReportManager GetById(string userId)
         {
             return unitOfWork.GetDbContext().ReportManager.Find(userId);
         }
@@ -33,7 +33,7 @@ namespace resourceEdge.Domain.Concrete
             unitOfWork.Save();
         }
 
-        public ReportManagers GetById(int id)
+        public ReportManager GetById(int id)
         {
             throw new NotImplementedException();
         }
@@ -43,14 +43,14 @@ namespace resourceEdge.Domain.Concrete
             throw new NotImplementedException();
         }
 
-        public void update(ReportManagers entity)
+        public void update(ReportManager entity)
         {
             throw new NotImplementedException();
         }
 
-        public ReportManagers GetByUserId(string userId)
+        public ReportManager GetByUserId(string userId)
         {
-          var result =   unitOfWork.ReportManager.Get(filter: x => x.managerId == userId).FirstOrDefault();
+          var result =   unitOfWork.ReportManager.Get(filter: x => x.ManagerUserId == userId).FirstOrDefault();
             if (result != null)
             {
                 return result;
@@ -58,7 +58,7 @@ namespace resourceEdge.Domain.Concrete
             return null;
         }
 
-        public List<ReportManagers> GetManagersByBusinessunit(int id)
+        public List<ReportManager> GetManagersByBusinessunit(int id)
         {
             var result = unitOfWork.ReportManager.Get(filter: x => x.BusinessUnitId == id).ToList();
             if (result != null)
@@ -68,9 +68,9 @@ namespace resourceEdge.Domain.Concrete
             return null;
         }
 
-        public List<ReportManagers> GetReportmanagerCount(string userId)
+        public List<ReportManager> GetReportmanagerCount(string userId)
         {
-            var result = unitOfWork.ReportManager.Get(filter: x => x.managerId == userId).ToList();
+            var result = unitOfWork.ReportManager.Get(filter: x => x.ManagerUserId == userId).ToList();
             if (result != null)
             {
                 return result;

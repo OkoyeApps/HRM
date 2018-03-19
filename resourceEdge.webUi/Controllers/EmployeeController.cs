@@ -70,7 +70,7 @@ namespace resourceEdge.webUi.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employees employees = EmployeeRepo.GetById(id.Value);
+            Employee employees = EmployeeRepo.GetById(id.Value);
 
             if (employees == null)
             {
@@ -164,7 +164,7 @@ namespace resourceEdge.webUi.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UpdateEmpAvater(Files model, string userId, string returnUrl, HttpPostedFileBase File)
+        public ActionResult UpdateEmpAvater(Domain.Entities.File model, string userId, string returnUrl, HttpPostedFileBase File)
         {
             var user = userManager.FindById(userId);
             var employee = EmployeeRepo.GetByUserId(userId);

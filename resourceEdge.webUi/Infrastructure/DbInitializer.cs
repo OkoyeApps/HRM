@@ -19,12 +19,12 @@ namespace resourceEdge.webUi.Infrastructure
             var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(new ApplicationDbContext()));
             UnitOfWork context = new UnitOfWork();
 
-            var group = new List<Groups>()
+            var group = new List<Group>()
             {
 
-                new Groups() { GroupName = "Tenece", CreatedDate = DateTime.Now },
-                new Groups() { GroupName = "Genesys", CreatedDate = DateTime.Now },
-                new Groups() {GroupName = "Piewa", CreatedDate = DateTime.Now }
+                new Group() { GroupName = "Tenece", CreatedDate = DateTime.Now },
+                new Group() { GroupName = "Genesys", CreatedDate = DateTime.Now },
+                new Group() {GroupName = "Piewa", CreatedDate = DateTime.Now }
             };
             group.ForEach(X => context.Groups.Insert(X));
             var Locations = new List<Location>()
@@ -42,21 +42,21 @@ namespace resourceEdge.webUi.Infrastructure
             };
             Locations.ForEach(x => context.Locations.Insert(x));
             context.Save();
-            var BusinessUnit = new List<BusinessUnits>()
+            var BusinessUnit = new List<BusinessUnit>()
             {
-                new BusinessUnits()
+                new BusinessUnit()
                 {
                 unitname = "TestUnit1", unitcode = "Test111",
                 descriptions = "Tesing Business Unit Description",  isactive = true,startdate = DateTime.Now, LocationId = 1
                 },
 
-                new BusinessUnits()
+                new BusinessUnit()
                 {
                  unitname = "TestUnit2", unitcode = "Test111",
                 descriptions = "Tesing Business Unit Description",  isactive = true,startdate = DateTime.Now,LocationId = 1
                },
 
-                new BusinessUnits()
+                new BusinessUnit()
                 {
                 unitname = "TestUnit3", unitcode = "Test111",
                 descriptions = "Tesing Business Unit Description",  isactive = true,startdate = DateTime.Now,LocationId = 1
@@ -91,19 +91,19 @@ namespace resourceEdge.webUi.Infrastructure
                 context.Department.Insert(item);
                 context.Save();
             }
-            var jobs = new List<Jobtitles>()
+            var jobs = new List<Jobtitle>()
             {
-                new Jobtitles()
+                new Jobtitle()
                 {
                     jobtitlename = "TestJob", jobtitlecode = "JobT", jobpayfrequency ="Monthly", jobpaygradecode ="A",jobdescription = "Test Job description",
                     minexperiencerequired = 2, isactive = true, comments = "Testing Job"
                 },
-                   new Jobtitles()
+                   new Jobtitle()
                 {
                     jobtitlename = "TestJob2", jobtitlecode = "JobT", jobpayfrequency ="Monthly", jobpaygradecode ="A",jobdescription = "Test Job description",
                     minexperiencerequired = 2, isactive = true, comments = "Testing Job"
                 },
-                      new Jobtitles()
+                      new Jobtitle()
                 {
                     jobtitlename = "TestJob3", jobtitlecode = "JobT", jobpayfrequency ="Monthly", jobpaygradecode ="A", jobdescription = "Test Job description",
                     minexperiencerequired = 2, isactive = true, comments = "Testing Job"
@@ -115,12 +115,12 @@ namespace resourceEdge.webUi.Infrastructure
                 context.Save();
             }
 
-            var position = new List<Positions>()
+            var position = new List<Position>()
             {
-                new Positions() { positionname = "TestPosi", jobtitleid = 1, isactive =true },
-                new Positions() { positionname = "TestPosi", jobtitleid = 1, isactive =true },
-                new Positions() { positionname = "TestPosi", jobtitleid = 2, isactive =true },
-                new Positions() { positionname = "TestPosi", jobtitleid = 2, isactive =true }
+                new Position() { positionname = "TestPosi", jobtitleid = 1, isactive =true },
+                new Position() { positionname = "TestPosi", jobtitleid = 1, isactive =true },
+                new Position() { positionname = "TestPosi", jobtitleid = 2, isactive =true },
+                new Position() { positionname = "TestPosi", jobtitleid = 2, isactive =true }
             };
             foreach (var item in position)
             {
@@ -137,13 +137,13 @@ namespace resourceEdge.webUi.Infrastructure
                 context.employmentStatus.Insert(item);
                 context.Save();
             }
-            var level = new List<Levels>()
+            var level = new List<Level>()
             {
-                new Levels() { LevelName ="Beginner", EligibleYears = 3, levelNo = 1, CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
-                new Levels() { LevelName ="Professional", EligibleYears = 7, levelNo = 8, CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
+                new Level() { LevelName ="Beginner", EligibleYears = 3, levelNo = 1, CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                new Level() { LevelName ="Professional", EligibleYears = 7, levelNo = 8, CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
             };
             level.ForEach(x => context.Levels.Insert(x));
-            var identityCode = new IdentityCodes()
+            var identityCode = new IdentityCode()
             {
                 employee_code = "Tenece",
                 backgroundagency_code = "Bck",
@@ -173,32 +173,32 @@ namespace resourceEdge.webUi.Infrastructure
                 new ApplicationUser() {Email = "DeptHead@example.com", UserName = "DeptHead@example.com" },
                 new ApplicationUser() {Email = "LocationHead@example.com", UserName = "LocationHead@example.com" }
             };
-            var Employee = new Employees[]
+            var Employee = new Employee[]
             {
-                new Domain.Entities.Employees() { businessunitId = 1, departmentId = 2, empEmail = "Test1@example.com",
+                new Domain.Entities.Employee() { businessunitId = 1, departmentId = 2, empEmail = "Test1@example.com",
                     empRoleId = 4, empStatusId = "Test User", GroupId = 1, LevelId = 1, FullName = "Test User",
                     positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
                     jobtitleId = 1, isactive = true   },
-                new Domain.Entities.Employees() { businessunitId = 1, departmentId = 2, empEmail = "Hr@example.com",
+                new Domain.Entities.Employee() { businessunitId = 1, departmentId = 2, empEmail = "Hr@example.com",
                     empRoleId = 3, empStatusId = "Test Hr", GroupId = 1, LevelId = 1,FullName = "Test HR",
                     positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
                     jobtitleId = 1, isactive = true   },
-                new Domain.Entities.Employees() { businessunitId = 1, departmentId = 2, empEmail = "Manager@example.com",
+                new Domain.Entities.Employee() { businessunitId = 1, departmentId = 2, empEmail = "Manager@example.com",
                     empRoleId = 2, empStatusId = "Test User", GroupId = 1, LevelId = 1,FullName = "Test Manager",
                     positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
                     jobtitleId = 1, isactive = true   },
-                  new Domain.Entities.Employees() { businessunitId = 1, departmentId = 2, empEmail = "DeptHead@example.com",
+                  new Domain.Entities.Employee() { businessunitId = 1, departmentId = 2, empEmail = "DeptHead@example.com",
                     empRoleId = 2, empStatusId = "Test User", GroupId = 1, LevelId = 1,FullName = "Test Dept",
                     positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
                     jobtitleId = 1, IsDepthead = true, isactive = true   },
-                      new Domain.Entities.Employees() { businessunitId = 1, departmentId = 2, empEmail = "LocationHead@example.com",
+                      new Domain.Entities.Employee() { businessunitId = 1, departmentId = 2, empEmail = "LocationHead@example.com",
                     empRoleId = 7, empStatusId = "Test location", GroupId = 1, LevelId = 1,FullName = "Test Location Head",
                     positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
                     jobtitleId = 1, IsDepthead = true, isactive = true   }
             };
             for (int i = 0, j = 0; i < TestUser1.Count; i++,j++)
             {
-                TestUser1[i].employeeId = "Tenece" + i;
+                TestUser1[i].EmployeeId = "Tenece" + i;
                 var result2 = userManager.Create(TestUser1[i], "1234567");
                 if (result.Succeeded)
                 {
@@ -214,10 +214,10 @@ namespace resourceEdge.webUi.Infrastructure
                     else if (TestUser1[i].Email.StartsWith("Manager"))
                     {
                         userManager.AddToRole(TestUser1[i].Id, "Manager");
-                        var manager = new ReportManagers() { BusinessUnitId = Employee[i].businessunitId,
+                        var manager = new ReportManager() { BusinessUnitId = Employee[i].businessunitId,
                             DepartmentId = Employee[i].departmentId,
                             employeeId = 3,
-                            FullName = "Test Manager", managerId = TestUser1[i].Id
+                            FullName = "Test Manager", ManagerUserId = TestUser1[i].Id
                         };
                         context.ReportManager.Insert(manager);
                     }
@@ -255,20 +255,20 @@ namespace resourceEdge.webUi.Infrastructure
                 context.Save();
             }
 
-            var Months = new List<Months>()
+            var Months = new List<Month>()
             {
-                new Months() { MonthId = "1", MonthName = "January", Isactive = true, },
-                new Months() { MonthId = "2", MonthName = "February", Isactive = true },
-                new Months() { MonthId = "3", MonthName = "March", Isactive = true },
-                new Months() { MonthId = "4", MonthName = "April", Isactive = true },
-                new Months() { MonthId = "5", MonthName = "May", Isactive = true },
-                new Months() { MonthId = "6", MonthName = "June", Isactive = true },
-                new Months() { MonthId = "7", MonthName = "July", Isactive = true },
-                new Months() { MonthId = "8", MonthName = "August", Isactive = true },
-                new Months() { MonthId = "9", MonthName = "September", Isactive = true },
-                new Months() { MonthId = "10", MonthName = "October", Isactive = true },
-                new Months() { MonthId = "11", MonthName = "November", Isactive = true },
-                new Months() { MonthId = "12", MonthName = "December", Isactive = true }
+                new Month() { MonthId = "1", MonthName = "January", Isactive = true, },
+                new Month() { MonthId = "2", MonthName = "February", Isactive = true },
+                new Month() { MonthId = "3", MonthName = "March", Isactive = true },
+                new Month() { MonthId = "4", MonthName = "April", Isactive = true },
+                new Month() { MonthId = "5", MonthName = "May", Isactive = true },
+                new Month() { MonthId = "6", MonthName = "June", Isactive = true },
+                new Month() { MonthId = "7", MonthName = "July", Isactive = true },
+                new Month() { MonthId = "8", MonthName = "August", Isactive = true },
+                new Month() { MonthId = "9", MonthName = "September", Isactive = true },
+                new Month() { MonthId = "10", MonthName = "October", Isactive = true },
+                new Month() { MonthId = "11", MonthName = "November", Isactive = true },
+                new Month() { MonthId = "12", MonthName = "December", Isactive = true }
             };
             foreach (var item in Months)
             {
@@ -276,15 +276,15 @@ namespace resourceEdge.webUi.Infrastructure
                 context.Save();
             }
 
-            var WeekDays = new List<WeekDays>()
+            var WeekDays = new List<WeekDay>()
             {
-                      new WeekDays() {  DayName =  "1", DayShortCode =  "Mo",DayLongCode =  "Mon", description = "Monday", Isactive = true },
-                      new WeekDays() { DayName =  "2", DayShortCode =  "Tu", DayLongCode =  "Tue", description =  "Tueday", CreatedBy =  "1", Isactive = true },
-                      new WeekDays() {  DayName =  "3", DayShortCode =  "We", DayLongCode =  "Wed", description =  "Wednesday", CreatedBy =  "1", Isactive = true },
-                      new WeekDays() {  DayName =  "4", DayShortCode =  "Th", DayLongCode =  "Thu", description =  "Thursday", CreatedBy =  "1", Isactive = true },
-                      new WeekDays() {  DayName =  "5", DayShortCode =  "Fr", DayLongCode =  "Fri", description =  "Friday", CreatedBy =  "1", Isactive = true },
-                      new WeekDays() {  DayName =  "6", DayShortCode =  "Sa", DayLongCode =  "Sat", description =  "Saturday", CreatedBy =  "1", Isactive = true },
-                      new WeekDays() {  DayName =  "7", DayShortCode =  "Su", DayLongCode =  "Sun", description =  "Sunday", CreatedBy =  "1", Isactive = true }
+                      new WeekDay() {  DayName =  "1", DayShortCode =  "Mo",DayLongCode =  "Mon", description = "Monday", Isactive = true },
+                      new WeekDay() { DayName =  "2", DayShortCode =  "Tu", DayLongCode =  "Tue", description =  "Tueday", CreatedBy =  "1", Isactive = true },
+                      new WeekDay() {  DayName =  "3", DayShortCode =  "We", DayLongCode =  "Wed", description =  "Wednesday", CreatedBy =  "1", Isactive = true },
+                      new WeekDay() {  DayName =  "4", DayShortCode =  "Th", DayLongCode =  "Thu", description =  "Thursday", CreatedBy =  "1", Isactive = true },
+                      new WeekDay() {  DayName =  "5", DayShortCode =  "Fr", DayLongCode =  "Fri", description =  "Friday", CreatedBy =  "1", Isactive = true },
+                      new WeekDay() {  DayName =  "6", DayShortCode =  "Sa", DayLongCode =  "Sat", description =  "Saturday", CreatedBy =  "1", Isactive = true },
+                      new WeekDay() {  DayName =  "7", DayShortCode =  "Su", DayLongCode =  "Sun", description =  "Sunday", CreatedBy =  "1", Isactive = true }
             };
             foreach (var item in WeekDays)
             {
@@ -293,15 +293,15 @@ namespace resourceEdge.webUi.Infrastructure
             }
 
 
-            var weeks = new List<Weeks>()
+            var weeks = new List<Week>()
             {
-                new Weeks() {  WeekId = "1", WeekName = "Sunday", Isactive = true  },
-                 new Weeks() {  WeekId = "2", WeekName = "Monday", Isactive = true  },
-                  new Weeks() {  WeekId = "3", WeekName = "Tuesday", Isactive = true  },
-                   new Weeks() {WeekId = "4", WeekName = "Wednesday", Isactive = true  },
-                    new Weeks() {  WeekId = "5", WeekName = "Thursday", Isactive = true  },
-                     new Weeks() {  WeekId = "6", WeekName = "Friday", Isactive = true  },
-                     new Weeks() { WeekId = "7", WeekName = "Saturday", Isactive = true  }
+                new Week() {  WeekId = "1", WeekName = "Sunday", Isactive = true  },
+                 new Week() {  WeekId = "2", WeekName = "Monday", Isactive = true  },
+                  new Week() {  WeekId = "3", WeekName = "Tuesday", Isactive = true  },
+                   new Week() {WeekId = "4", WeekName = "Wednesday", Isactive = true  },
+                    new Week() {  WeekId = "5", WeekName = "Thursday", Isactive = true  },
+                     new Week() {  WeekId = "6", WeekName = "Friday", Isactive = true  },
+                     new Week() { WeekId = "7", WeekName = "Saturday", Isactive = true  }
             };
             foreach (var item in weeks)
             {
@@ -342,11 +342,11 @@ namespace resourceEdge.webUi.Infrastructure
                 context.AppraislRating.Insert(item);
                 context.Save();
             }
-            var periods = new List<AppraisalPeriods>()
+            var periods = new List<AppraisalPeriod>()
             {
-                new AppraisalPeriods() { Name = "Q1" },
-                new AppraisalPeriods() {Name = "H1" },
-                new AppraisalPeriods() {Name = "Yearly" }
+                new AppraisalPeriod() { Name = "Q1" },
+                new AppraisalPeriod() {Name = "H1" },
+                new AppraisalPeriod() {Name = "Yearly" }
             };
             periods.ForEach(X => context.AppraisalPeriod.Insert(X));
             var parameter = new List<Parameters>()
@@ -355,10 +355,10 @@ namespace resourceEdge.webUi.Infrastructure
             };
             parameter.ForEach(X => context.Parameters.Insert(X));
 
-            var Menus = new List<Menus>()
+            var Menus = new List<Menu>()
             {
-                new Domain.Entities.Menus() { Id= 1, Name = "Question", Role = "Manager,HR,System Admin", Active = false },
-                new Domain.Entities.Menus() { Id = 2, Name="EmployeeAppraisal", Role =  "Employee, HR,Manager", Active = false }
+                new Domain.Entities.Menu() { Id= 1, Name = "Question", Role = "Manager,HR,System Admin", Active = false },
+                new Domain.Entities.Menu() { Id = 2, Name="EmployeeAppraisal", Role =  "Employee, HR,Manager", Active = false }
             };
             Menus.ForEach(x => context.Menu.Insert(x));
 

@@ -25,7 +25,7 @@ namespace resourceEdge.webUi.Infrastructure
         public bool ValidateUser(string EmpId)
         {
             string empId = "Tenece" + EmpId;
-            var employee = dbContext.Users.Where(x => x.employeeId.Contains(EmpId) || x.employeeId == EmpId).FirstOrDefault();
+            var employee = dbContext.Users.Where(x => x.EmployeeId.Contains(EmpId) || x.EmployeeId == EmpId).FirstOrDefault();
             if (employee != null)
             {
                 return true;

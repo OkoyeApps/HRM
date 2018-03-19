@@ -16,22 +16,22 @@ namespace resourceEdge.Domain.Concrete
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Careers> Get() => unitOfWork.Careers.Get();
+        public IEnumerable<Career> Get() => unitOfWork.Careers.Get();
 
-        public Careers GetById(int id) => unitOfWork.Careers.GetByID(id);
+        public Career GetById(int id) => unitOfWork.Careers.GetByID(id);
 
-        public Careers GetByUserId(string userId)
+        public Career GetByUserId(string userId)
         {
             throw new NotImplementedException();
         }
 
-        public void Insert(Careers entity)
+        public void Insert(Career entity)
         {
             unitOfWork.Careers.Insert(entity);
             unitOfWork.Save();
         }
 
-        public void update(Careers entity)
+        public void update(Career entity)
         {
             unitOfWork.Careers.Update(entity);
             unitOfWork.Save();

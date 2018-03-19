@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Abstracts
 {
-    public interface IQuestions : GenericInterface<Questions>
+    public interface IQuestions : GenericInterface<Question>
     {
-        IEnumerable<Questions> GetAllUserQuestion(string userId);
-        IEnumerable<Questions> GetAllQuestionsEagerly(string properties);
+        IEnumerable<Question> GetAllUserQuestion(string userId);
+        IEnumerable<Question> GetAllQuestionsEagerly(string properties);
     }
 }

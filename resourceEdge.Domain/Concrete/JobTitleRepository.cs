@@ -11,7 +11,7 @@ namespace resourceEdge.Domain.Concrete
     public class JobTitleRepository : IJobtitles
     {
         UnitofWork.UnitOfWork unitOfWork = new UnitofWork.UnitOfWork();
-        public void Insert(Jobtitles jobs)
+        public void Insert(Jobtitle jobs)
         {
             unitOfWork.jobTitles.Insert(jobs);
             unitOfWork.Save();
@@ -20,15 +20,15 @@ namespace resourceEdge.Domain.Concrete
         {
             unitOfWork.jobTitles.Delete(id);
         }
-        public IEnumerable<Jobtitles> Get() => unitOfWork.jobTitles.Get();
-        public Jobtitles GetById(int id) => unitOfWork.jobTitles.GetByID(id);
+        public IEnumerable<Jobtitle> Get() => unitOfWork.jobTitles.Get();
+        public Jobtitle GetById(int id) => unitOfWork.jobTitles.GetByID(id);
 
-        public void update(Jobtitles entity)
+        public void update(Jobtitle entity)
         {
             throw new NotImplementedException();
         }
 
-        public Jobtitles GetByUserId(string userId)
+        public Jobtitle GetByUserId(string userId)
         {
             throw new NotImplementedException();
         }

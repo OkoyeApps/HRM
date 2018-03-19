@@ -14,37 +14,37 @@ namespace resourceEdge.Domain.UnitofWork
     {
 
         private EdgeDbContext myContext;
-        private GenericRepository<BusinessUnits> BusinessRepo;
+        private GenericRepository<BusinessUnit> BusinessRepo;
         private GenericRepository<Departments> departmentRepo;
-        private GenericRepository<Employees> employeesRepo;
+        private GenericRepository<Employee> employeesRepo;
         private GenericRepository<EmploymentStatus> employementStatusRepo;
-        private GenericRepository<IdentityCodes> identitycodesRepo;
-        private GenericRepository<Jobtitles> jobTitleRepo;
-        private GenericRepository<Positions> positionRepo;
-        private GenericRepository<Prefixes> prefixRepo;
+        private GenericRepository<IdentityCode> identitycodesRepo;
+        private GenericRepository<Jobtitle> jobTitleRepo;
+        private GenericRepository<Position> positionRepo;
+        private GenericRepository<Prefix> prefixRepo;
         private GenericRepository<products> productRepo;
         private GenericRepository<LeaveManagement> LeaveManagementRepo;
-        private GenericRepository<ReportManagers> ReportManagerRepo;
-        private GenericRepository<EmployeeLeaveTypes> LeaveTypeRepo;
-        private GenericRepository<EmployeeLeaves> EmpLeaveRepo;
+        private GenericRepository<ReportManager> ReportManagerRepo;
+        private GenericRepository<EmployeeLeaveType> LeaveTypeRepo;
+        private GenericRepository<EmployeeLeave> EmpLeaveRepo;
         private GenericRepository<LeaveRequest> leaveRequestRepo;
         private GenericRepository<Requisition> requistionRepo;
         private GenericRepository<EmpPayroll> PayrollRepo;
-        private GenericRepository<Files> FilesRepo;
-        private GenericRepository<Logins> LoginRepo;
+        private GenericRepository<File> FilesRepo;
+        private GenericRepository<Login> LoginRepo;
         private GenericRepository<Location> LocationRepo;
-        private GenericRepository<Levels> levelRepo;
-        private GenericRepository<Careers> careerRepo;
+        private GenericRepository<Level> levelRepo;
+        private GenericRepository<Career> careerRepo;
         private GenericRepository<CareerPath> careerPathRepo;
-        private GenericRepository<ActivityLogs> activityLogRepo;
-        private GenericRepository<Groups> GroupRepo;
+        private GenericRepository<ActivityLog> activityLogRepo;
+        private GenericRepository<Group> GroupRepo;
         private GenericRepository<EmployeeRating> EmpRatingRepo;
         private GenericRepository<Ratings> RatingRepo;
-        private GenericRepository<Questions> QuestionRepo;
+        private GenericRepository<Question> QuestionRepo;
         private GenericRepository<Skills> SkillRepo;
         private GenericRepository<Parameters> parameterRepo;
         private GenericRepository<AppraisalMode> AppraisalModeRepo;
-        private GenericRepository<AppraisalPeriods> AppraisalPeriodRepo;
+        private GenericRepository<AppraisalPeriod> AppraisalPeriodRepo;
         private GenericRepository<AppraisalRating> AppraisalRatinRepo;
         private GenericRepository<AppraisalStatus> AppraisalStatusRepo;
         private GenericRepository<AppraisalInitialization> AppraisalInitilizationRepo;
@@ -52,9 +52,9 @@ namespace resourceEdge.Domain.UnitofWork
         private GenericRepository<SubscribedAppraisal> SubscibedAppraisalRepo;
         private GenericRepository<MailDispatcher> MailDispacthRepo;
         private GenericRepository<EmployeeDetailDispatcher> EMpDetailDispatchRepo;
-        private GenericRepository<Menus> MenuRepository;
+        private GenericRepository<Menu> MenuRepository;
         private GenericRepository<AppraisalQuestion> AppraisalQuestionRepo;
-        public EdgeDbContext Context
+        private EdgeDbContext Context
         {
             get
             {
@@ -74,38 +74,38 @@ namespace resourceEdge.Domain.UnitofWork
             return myContext;
         }
 
-        public GenericRepository<BusinessUnits> BusinessUnit
+        public GenericRepository<BusinessUnit> BusinessUnit
         {
-            get { return this.BusinessRepo ?? new GenericRepository<BusinessUnits>(Context); }
+            get { return this.BusinessRepo ?? new GenericRepository<BusinessUnit>(Context); }
         }
         public GenericRepository<Departments> Department
         {
             get { return this.departmentRepo ?? new GenericRepository<Departments>(Context); }
         }
-        public GenericRepository<Employees> employees
+        public GenericRepository<Employee> employees
         {
-            get { return this.employeesRepo ?? new GenericRepository<Employees>(Context); }
+            get { return this.employeesRepo ?? new GenericRepository<Employee>(Context); }
         }
 
         public GenericRepository<EmploymentStatus> employmentStatus
         {
             get { return this.employementStatusRepo ?? new GenericRepository<EmploymentStatus>(Context); }
         }
-        public GenericRepository<IdentityCodes> identityCodes
+        public GenericRepository<IdentityCode> identityCodes
         {
-            get { return this.identitycodesRepo ?? new GenericRepository<IdentityCodes>(Context); }
+            get { return this.identitycodesRepo ?? new GenericRepository<IdentityCode>(Context); }
         }      
-        public GenericRepository<Jobtitles> jobTitles
+        public GenericRepository<Jobtitle> jobTitles
         {
-            get { return this.jobTitleRepo ?? new GenericRepository<Jobtitles>(Context); }
+            get { return this.jobTitleRepo ?? new GenericRepository<Jobtitle>(Context); }
         }
-        public GenericRepository<Positions> positions
+        public GenericRepository<Position> positions
         {
-            get { return this.positionRepo ?? new GenericRepository<Positions>(Context); }
+            get { return this.positionRepo ?? new GenericRepository<Position>(Context); }
         }
-        public GenericRepository<Prefixes> prefix
+        public GenericRepository<Prefix> prefix
         {
-            get { return this.prefixRepo ?? new GenericRepository<Prefixes>(Context); }
+            get { return this.prefixRepo ?? new GenericRepository<Prefix>(Context); }
         }
         public GenericRepository<LeaveManagement> LeaveManagement
         {
@@ -116,18 +116,18 @@ namespace resourceEdge.Domain.UnitofWork
             get { return this.productRepo ?? new GenericRepository<products>(Context); }
         }
 
-        public GenericRepository<ReportManagers> ReportManager
+        public GenericRepository<ReportManager> ReportManager
         {
-            get { return this.ReportManagerRepo ?? new GenericRepository<ReportManagers>(Context); }
+            get { return this.ReportManagerRepo ?? new GenericRepository<ReportManager>(Context); }
         }
 
-        public GenericRepository<EmployeeLeaveTypes> LeaveType
+        public GenericRepository<EmployeeLeaveType> LeaveType
         {
-            get { return this.LeaveTypeRepo ?? new GenericRepository<EmployeeLeaveTypes>(Context); }
+            get { return this.LeaveTypeRepo ?? new GenericRepository<EmployeeLeaveType>(Context); }
         }
-        public GenericRepository<EmployeeLeaves> EmployeeLeave
+        public GenericRepository<EmployeeLeave> EmployeeLeave
         {
-            get { return this.EmpLeaveRepo ?? new GenericRepository<EmployeeLeaves>(Context); }
+            get { return this.EmpLeaveRepo ?? new GenericRepository<EmployeeLeave>(Context); }
         }
         public GenericRepository<LeaveRequest> LRequest
         {
@@ -144,41 +144,41 @@ namespace resourceEdge.Domain.UnitofWork
             get { return PayrollRepo ?? new GenericRepository<EmpPayroll>(Context); }
         }
 
-        public GenericRepository<Files> Files
+        public GenericRepository<File> Files
         {
-            get { return FilesRepo ?? new GenericRepository<Entities.Files>(Context); }
+            get { return FilesRepo ?? new GenericRepository<Entities.File>(Context); }
         }
-        public GenericRepository<Logins> Logins
+        public GenericRepository<Login> Logins
         {
-            get { return this.LoginRepo ?? new GenericRepository<Entities.Logins>(Context); }
+            get { return this.LoginRepo ?? new GenericRepository<Entities.Login>(Context); }
         }
         public GenericRepository<Location> Locations
         {
             get { return this.LocationRepo ?? new GenericRepository<Location>(Context); }
         }
-        public GenericRepository<Levels> Levels
+        public GenericRepository<Level> Levels
         {
-            get { return this.levelRepo ?? new GenericRepository<Entities.Levels>(Context); }
+            get { return this.levelRepo ?? new GenericRepository<Entities.Level>(Context); }
         }
-        public GenericRepository<Careers> Careers
+        public GenericRepository<Career> Careers
         {
-            get { return this.careerRepo ?? new GenericRepository<Entities.Careers>(Context); }
+            get { return this.careerRepo ?? new GenericRepository<Entities.Career>(Context); }
         }
         public GenericRepository<CareerPath> CareerPath
         {
             get { return this.careerPathRepo ?? new GenericRepository<Entities.CareerPath>(Context); }
         }
-        public GenericRepository<ActivityLogs> ActivityLogs
+        public GenericRepository<ActivityLog> ActivityLogs
         {
-            get { return activityLogRepo ?? new GenericRepository<Entities.ActivityLogs>(Context); }
+            get { return activityLogRepo ?? new GenericRepository<Entities.ActivityLog>(Context); }
         }
-        public GenericRepository<Groups> Groups
+        public GenericRepository<Group> Groups
         {
-            get { return GroupRepo ?? new GenericRepository<Entities.Groups>(Context); }
+            get { return GroupRepo ?? new GenericRepository<Entities.Group>(Context); }
         }
-        public GenericRepository<Questions> Questions
+        public GenericRepository<Question> Questions
         {
-            get { return this.QuestionRepo ?? new GenericRepository<Entities.Questions>(Context); }
+            get { return this.QuestionRepo ?? new GenericRepository<Entities.Question>(Context); }
         }
         public GenericRepository<Skills> Skills
         {
@@ -200,9 +200,9 @@ namespace resourceEdge.Domain.UnitofWork
         {
             get { return this.AppraisalModeRepo ?? new GenericRepository<Entities.AppraisalMode>(Context); }
         }
-        public GenericRepository<AppraisalPeriods> AppraisalPeriod
+        public GenericRepository<AppraisalPeriod> AppraisalPeriod
         {
-            get { return this.AppraisalPeriodRepo ?? new GenericRepository<AppraisalPeriods>(Context); }
+            get { return this.AppraisalPeriodRepo ?? new GenericRepository<AppraisalPeriod>(Context); }
         }
         public GenericRepository<AppraisalRating> AppraislRating
         {
@@ -232,9 +232,9 @@ namespace resourceEdge.Domain.UnitofWork
         {
             get { return this.EMpDetailDispatchRepo ?? new GenericRepository<EmployeeDetailDispatcher>(Context); }
         }
-        public GenericRepository<Menus> Menu
+        public GenericRepository<Menu> Menu
         {
-            get { return this.MenuRepository ?? new GenericRepository<Menus>(Context); }
+            get { return this.MenuRepository ?? new GenericRepository<Menu>(Context); }
         }
         public GenericRepository<AppraisalQuestion> AppraisalQuestion
         {
@@ -242,8 +242,13 @@ namespace resourceEdge.Domain.UnitofWork
         }
         public void Save()
         {
-          myContext.SaveChanges();
-           // Dispose();
+            try
+            {
+                myContext.SaveChanges();
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private bool disposed = false;

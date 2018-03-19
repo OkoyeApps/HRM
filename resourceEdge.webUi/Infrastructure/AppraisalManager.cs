@@ -115,7 +115,7 @@ namespace resourceEdge.webUi.Infrastructure
             return false;
         }
 
-        public AppraisalPeriods GetPeriodByName(string name)
+        public AppraisalPeriod GetPeriodByName(string name)
         {
             var period = unitOfWork.AppraisalPeriod.Get(filter: x => x.Name == name).FirstOrDefault();
             return period ?? null;
@@ -144,7 +144,7 @@ namespace resourceEdge.webUi.Infrastructure
             }
             return false;
         }
-        public List<BusinessUnits> GetBusinessUnitsByLocation(int Id)
+        public List<BusinessUnit> GetBusinessUnitsByLocation(int Id)
         {
             var location = unitOfWork.BusinessUnit.Get(filter: x => x.LocationId == Id).ToList();
             if (location != null)
@@ -224,9 +224,9 @@ namespace resourceEdge.webUi.Infrastructure
                         {
                             var question = myDictionary[allquestions.ElementAtOrDefault(i)].ToString();
                             var description = myDictionary[alldescriptions.ElementAtOrDefault(i)].ToString();
-                            Questions Question = new Questions()
+                            Question Question = new Question()
                             {
-                                Question = question,
+                                EmpQuestion = question,
                                 UserIdForQuestion = myDictionary[Employee.ElementAtOrDefault(0)].ToString(),
                                 Description = description,
                                 Createdby = UserId,
@@ -250,7 +250,7 @@ namespace resourceEdge.webUi.Infrastructure
                     var existingQuestion = unitOfWork.Questions.GetByID(id);
                     if (existingQuestion != null)
                     {
-                        existingQuestion.Question = model.Question;
+                        existingQuestion.EmpQuestion = model.Question;
                         existingQuestion.Description = model.Description;
                         QuestionRepo.update(existingQuestion);
                         return true;

@@ -7,22 +7,22 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Abstracts
 {
-    public interface IEmployees : GenericInterface<Employees>
+    public interface IEmployees : GenericInterface<Employee>
     {
 
-        Employees GetEmployeeLazily(string userId);
-        Employees GetEmployeeByEmail(string email);
-        List<Employees> GetEmpByBusinessUnit(int id);
-        IEnumerable<Employees> GetAllEmployeesByLocation(int id);
-        Employees CheckIfEmployeeExistByUserId(string userId);
-        List<Employees> GetEmployeeByDepts(int dept);
-        List<Employees> GetUnitHead(int unitId);
-        List<Employees> GetHrs();
-        List<Employees> GetEmployeeUnitMembers(int unitId);
-        List<Employees> GetReportManagers(string userId, int unitId);
-        List<Employees> GetAllHrsBYGroup(int groupId);
-        Employees GetEmployeeByGroupId(string userId, int groupId);
-        IEnumerable<Employees> GetAllEmployeesByGroup(int groupId);
+        Employee GetEmployeeLazily(string userId);
+        Employee GetEmployeeByEmail(string email);
+        List<Employee> GetEmpByBusinessUnit(int id);
+        IEnumerable<Employee> GetAllEmployeesByLocation(int id);
+        Employee CheckIfEmployeeExistByUserId(string userId);
+        List<Employee> GetEmployeeByDepts(int dept);
+        List<Employee> GetUnitHead(int unitId);
+        List<Employee> GetHrs();
+        List<Employee> GetEmployeeUnitMembers(int unitId);
+        List<Employee> GetReportManagers(string userId, int unitId);
+        List<Employee> GetAllHrsBYGroup(int groupId);
+        Employee GetEmployeeByGroupId(string userId, int groupId);
+        IEnumerable<Employee> GetAllEmployeesByGroup(int groupId);
 
     }
 }

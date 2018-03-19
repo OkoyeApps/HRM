@@ -115,7 +115,7 @@ namespace resourceEdge.webUi.Models
         public string profileimg { get; set; }
         public int jobtitle_id { get; set; }
         public Nullable<bool> isactive { get; set; }
-        public virtual Employees employees { get; set; }
+        public virtual Employee employees { get; set; }
     }
 
 

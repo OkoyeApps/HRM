@@ -32,7 +32,7 @@ namespace resourceEdge.Domain.Entities
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public Nullable<bool> Isactive { get; set; }
-        public virtual BusinessUnits BusinessUnits { get; set; }
-        public virtual ReportManagers ReportManagers { get; set; }
+        public virtual BusinessUnit BusinessUnits { get; set; }
+        public virtual ReportManager ReportManagers { get; set; }
     }
 }

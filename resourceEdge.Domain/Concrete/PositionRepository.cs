@@ -11,7 +11,7 @@ namespace resourceEdge.Domain.Concrete
     public class PositionRepository : IPositions
     {
         UnitofWork.UnitOfWork unitOfWork = new UnitofWork.UnitOfWork();
-        public void Insert(Positions position)
+        public void Insert(Position position)
         {
             unitOfWork.positions.Insert(position);
             unitOfWork.Save();
@@ -21,15 +21,15 @@ namespace resourceEdge.Domain.Concrete
             unitOfWork.positions.Delete(id);
             unitOfWork.Save();
         }
-        public IEnumerable<Positions> Get() => unitOfWork.positions.Get();
-        public Positions GetById(int id) => unitOfWork.positions.GetByID(id);
+        public IEnumerable<Position> Get() => unitOfWork.positions.Get();
+        public Position GetById(int id) => unitOfWork.positions.GetByID(id);
 
-        public void update(Positions entity)
+        public void update(Position entity)
         {
             throw new NotImplementedException();
         }
 
-        public Positions GetByUserId(string userId)
+        public Position GetByUserId(string userId)
         {
             throw new NotImplementedException();
         }

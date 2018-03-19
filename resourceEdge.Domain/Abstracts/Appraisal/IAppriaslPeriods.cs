@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Abstracts
 {
-    public interface IAppriaslPeriods : GenericInterface<AppraisalPeriods>
+    public interface IAppriaslPeriods : GenericInterface<AppraisalPeriod>
     {
     }
 }

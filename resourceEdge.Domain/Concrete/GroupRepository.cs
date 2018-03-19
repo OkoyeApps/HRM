@@ -16,22 +16,22 @@ namespace resourceEdge.Domain.Concrete
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Groups> Get() => unitOfWork.Groups.Get();
+        public IEnumerable<Group> Get() => unitOfWork.Groups.Get();
 
-        public Groups GetById(int id) => unitOfWork.Groups.GetByID(id);
+        public Group GetById(int id) => unitOfWork.Groups.GetByID(id);
 
-        public Groups GetByUserId(string userId)
+        public Group GetByUserId(string userId)
         {
             throw new NotImplementedException();
         }
 
-        public void Insert(Groups entity)
+        public void Insert(Group entity)
         {
             unitOfWork.Groups.Insert(entity);
             unitOfWork.Save();
         }
 
-        public void update(Groups entity)
+        public void update(Group entity)
         {
             unitOfWork.Groups.Update(entity);
             unitOfWork.Save();

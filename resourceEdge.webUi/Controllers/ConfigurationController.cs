@@ -78,9 +78,9 @@ namespace resourceEdge.webUi.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //[Route("addCode")]
-        public ActionResult AddCode(IdentityCodes codes, string returnUrl)
+        public ActionResult AddCode(IdentityCode codes, string returnUrl)
         {
-            IdentityCodes code = codes;
+            IdentityCode code = codes;
             if (ModelState.IsValid)
             {
                 code.createddate = DateTime.Now;
@@ -110,7 +110,7 @@ namespace resourceEdge.webUi.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditCode([Bind(Include = "employee_code,backgroundagency_code,vendors_code,staffing_code,users_code,requisition_code")] IdentityCodes code)
+        public ActionResult EditCode([Bind(Include = "employee_code,backgroundagency_code,vendors_code,staffing_code,users_code,requisition_code")] IdentityCode code)
         {
             if (ModelState.IsValid)
             {
@@ -138,7 +138,7 @@ namespace resourceEdge.webUi.Controllers
 
             if (ModelState.IsValid)
             {
-                Prefixes prefixes = new Prefixes()
+                Prefix prefixes = new Prefix()
                 {
                     prefixName = model.prefixName,
 
@@ -185,7 +185,7 @@ namespace resourceEdge.webUi.Controllers
                 {
                     var existingUnit = ConfigManager.DoesUnitExstInLocation(model.LocationId.Value, model.unitname);
                     int? location = null;
-                    BusinessUnits unit = new BusinessUnits();
+                    BusinessUnit unit = new BusinessUnit();
                     if (model.LocationId.HasValue)
                     {
                         location = model.LocationId.Value;
@@ -245,7 +245,7 @@ namespace resourceEdge.webUi.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditUnit(BusinessUnits units)
+        public ActionResult EditUnit(BusinessUnit units)
         {
             if (ModelState.IsValid)
             {
@@ -262,12 +262,12 @@ namespace resourceEdge.webUi.Controllers
 
         public ActionResult unitDetail(int id)
         {
-            BusinessUnits unit = BusinessRepo.GetById(id);
+            BusinessUnit unit = BusinessRepo.GetById(id);
             return View(unit);
         }
         public ActionResult deleteUnit(int id)
         {
-            BusinessUnits unit = BusinessRepo.GetById(id);
+            BusinessUnit unit = BusinessRepo.GetById(id);
             var unitName = unit.unitname;
             if (unit == null)
             {
@@ -378,18 +378,18 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.PageTitle = "Add Job Title";
             ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
             ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(X => X.Id), "Id", "GroupName", "Id");
-            return View(new Jobtitles());
+            return View(new Jobtitle());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddJobTitle(Jobtitles jobs = null, FormCollection collection = null, string returnUrl = null)
+        public ActionResult AddJobTitle(Jobtitle jobs = null, FormCollection collection = null, string returnUrl = null)
         {
             if (jobs != null && !collection.AllKeys.Contains("jobtitlename[0]"))
             {
                 if (ModelState.IsValid)
                 {
-                    Jobtitles job = jobs;
+                    Jobtitle job = jobs;
                     job.createdby = null;
                     job.modifieddate = DateTime.Now;
                     JobRepo.Insert(job);
@@ -427,18 +427,18 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.PageTitle = "Add Position";
             ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
             ViewBag.jobTitles = new SelectList(Apimanager.JobList().OrderBy(x => x.JobName), "JobId", "JobName", "JobId");
-            return View(new Positions());
+            return View(new Position());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult addPosition(Positions model = null, FormCollection collection = null, string returnUrl = null)
+        public ActionResult addPosition(Position model = null, FormCollection collection = null, string returnUrl = null)
         {
             if (model != null)
             {
                 if (ModelState.IsValid)
                 {
-                    Positions position = model;
+                    Position position = model;
                     position.createdby = User.Identity.GetUserId();
                     position.modifiedby = User.Identity.GetUserId(); 
                     position.modifieddate = DateTime.Now;
@@ -540,7 +540,7 @@ namespace resourceEdge.webUi.Controllers
     {
         if (ModelState.IsValid)
         {
-            EmployeeLeaveTypes leaveType = new EmployeeLeaveTypes();
+            EmployeeLeaveType leaveType = new EmployeeLeaveType();
             leaveType.leavetype = model.leavetype;
             leaveType.leavecode = model.leavecode;
             leaveType.leavepreallocated = model.leavepreallocated.ToString();
@@ -578,7 +578,7 @@ namespace resourceEdge.webUi.Controllers
 
             if (ModelState.IsValid)
             {
-                Levels level = new Levels();
+                Level level = new Level();
                 level.LevelName = model.LevelName;
                 level.levelNo = model.levelNo;
                 level.EligibleYears = model.EligibleYears;
@@ -685,7 +685,7 @@ namespace resourceEdge.webUi.Controllers
         {
             if (ModelState.IsValid)
             {
-                Careers career = new Careers();
+                Career career = new Career();
                 career.CareerName = model.CareerName;
                 career.ShortCode = model.ShortCode;
                 career.CreatedBy = User.Identity.GetUserId();
@@ -727,7 +727,7 @@ namespace resourceEdge.webUi.Controllers
         {
             if (ModelState.IsValid)
             {
-                Groups Group = new Groups();
+                Group Group = new Group();
                 Group.GroupName = model.GroupName;
                 Group.Descriptions = model.Descriptions;
                 Group.CreatedBy = User.Identity.GetUserId();

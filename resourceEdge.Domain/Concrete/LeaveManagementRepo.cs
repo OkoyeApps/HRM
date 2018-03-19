@@ -17,13 +17,13 @@ namespace resourceEdge.Domain.Concrete
             unitOfWork.Save();
         }
 
-        public void AllotEmployeeLeave(EmployeeLeaves empLeave)
+        public void AllotEmployeeLeave(EmployeeLeave empLeave)
         {
             unitOfWork.GetDbContext().EmployeeLeave.Add(empLeave);
             unitOfWork.Save();
         }
 
-        public IEnumerable<EmployeeLeaves> GetAllotedLeave()
+        public IEnumerable<EmployeeLeave> GetAllotedLeave()
         {
             return unitOfWork.GetDbContext().EmployeeLeave.ToList();
         }
@@ -50,13 +50,13 @@ namespace resourceEdge.Domain.Concrete
             unitOfWork.Save();
         }
 
-        public void AddLeaveTypes(EmployeeLeaveTypes leaveType)
+        public void AddLeaveTypes(EmployeeLeaveType leaveType)
         {
             unitOfWork.LeaveType.Insert(leaveType);
             unitOfWork.Save();
         }
 
-        public IEnumerable<EmployeeLeaveTypes> GetLeaveTypes()
+        public IEnumerable<EmployeeLeaveType> GetLeaveTypes()
         {
             return unitOfWork.LeaveType.Get();
         }
@@ -73,7 +73,7 @@ namespace resourceEdge.Domain.Concrete
             unitOfWork.Save();
         }
 
-        public void UpdateEmployeeLeave(EmployeeLeaves empLeave)
+        public void UpdateEmployeeLeave(EmployeeLeave empLeave)
         {
             unitOfWork.EmployeeLeave.Update(empLeave);
             unitOfWork.Save();
@@ -97,14 +97,14 @@ namespace resourceEdge.Domain.Concrete
             return unitOfWork.LRequest.Get();
         }
 
-        public EmployeeLeaves GetEmplyeeLeaveByUserId(string id)
+        public EmployeeLeave GetEmplyeeLeaveByUserId(string id)
         {
             var result = unitOfWork.EmployeeLeave.Get(filter: x=>x.UserId == id).FirstOrDefault();
             return result ?? null;
 
         }
         
-        public IEnumerable<EmployeeLeaves> GetEmployeeLeaves()
+        public IEnumerable<EmployeeLeave> GetEmployeeLeaves()
         {
             return unitOfWork.EmployeeLeave.Get();
         }
