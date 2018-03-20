@@ -38,21 +38,26 @@
     $('#dateleave').on('change', function () {
         var date1 = $('#dateJoin').val();
         var date2 = $('#dateleave').val()
-        ValidateDatesFromBackend(date1, date2);
-        var newdate1 = date2.split('/');
-        var currentDay1 = newdate1[1] + '/' + newdate1[0] + '/' + newdate1[2];
-        $('#dateleave').val(currentDay2);
+        if (date2 != undefined) {
+            ValidateDatesFromBackend(date1, date2);
+        }
+        //var newdate1 = date2.split('/');
+        //var currentDay1 = newdate1[1] + '/' + newdate1[0] + '/' + newdate1[2];
+        //$('#dateleave').val(currentDay2);
     })
 
        $('#dateJoin').on('change', function () {
            var date1 = $('#dateJoin').val();
            var date2 = $('#dateleave').val()
-        ValidateDatesFromBackend(date1, date2)
-        var newdate1 = date1.split('/');
-        console.log(newdate1);
-        var currentDay1 = newdate1[1] + '/' + newdate1[0] + '/' + newdate1[2];
-        console.log(currentDay1);
-        $('#dateJoin').val(currentDay1);
+           console.log(date2);
+           if (date1 != undefined) {
+               ValidateDatesFromBackend(date1, date2);
+           }
+        //var newdate1 = date1.split('/');
+        //console.log(newdate1);
+        //var currentDay1 = newdate1[1] + '/' + newdate1[0] + '/' + newdate1[2];
+        //console.log(currentDay1);
+        //$('#dateJoin').val(currentDay1);
     })
 
     
@@ -62,10 +67,10 @@
         console.log("#########################")
         console.log(date1);
         console.log(date2);
-        var newdate1 = date1.split('/');
+        var newdate1 = date1.split('-');
         console.log(newdate1);
         var currentDay1 = newdate1[1] + '/' + newdate1[0] + '/' + newdate1[2];
-        var newdate2 = date2.split('/');
+        var newdate2 = date2.split('-');
         var currentDay2 = newdate2[1] + '/' + newdate2[0] + '/' + newdate2[2];
         console.log(currentDay1);
         $.ajax({
@@ -76,16 +81,16 @@
             success: function (data) {
                 console.log(data);
                 if (data.message == false) {
-                    $('#dateSpan').html(
-                    `
-                        <i class ="fa fa-check tooltips" data-original-title="success input!"></i>
+                    $('#dateSpan').append(
+                    `   <span class="red">Entry date must be less than Exist date</span>
                         `)
                 }
                 else {
-                    $('#dateSpan').removeClass('fa fa-calendar');
-                    $('#dateSpan').addClass("fa fa-check tooltips"); $('#dateSpan').attr("data-original-title", "success input!");
-
-                    //`<div class="alert alert-success>Valid date/div>`
+                    //$('#dateSpan').removeClass('fa fa-calendar');
+                    //$('#dateSpan').addClass("fa fa-check tooltips"); $('#dateSpan').attr("data-original-title", "success input!");
+                    $('#dateSpan').append(
+                    `<div class="alert alert-success>Valid date/div>`
+                    )
                 }
             },
             failure: function () {

@@ -272,8 +272,7 @@ namespace resourceEdge.webUi.Controllers
         {
             bool result = AppraisalManager.EnableAppraisal(Id);
             if (result != false)
-            {
-                
+            { 
                 ViewBag.Success = "Sucessfuly Enabled the Appraisal, Please wait while it is on-going";
                 return View("AllInitializedAppraisal");
             }
@@ -285,15 +284,6 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult SubscribeToAppraisal(string Code)
         {
             var userSessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
-            //if (Code != null)
-            //{
-            //    var result = AppraisalManager.SubscribeForAppraisal(Code, userSessionObject.LocationId,User.Identity.GetUserId());
-            //    if (result != false)
-            //    {
-            //        this.AddNotification("Subscription Successful", NotificationType.SUCCESS);
-            //        return View(""); //This shoould redirect to viewQuestions of the Hr controller
-            //    }
-            //}
             return View();
         }
 
@@ -351,7 +341,7 @@ namespace resourceEdge.webUi.Controllers
             {
              return View(Question);
             }
-            this.AddNotification("Sorry you can't perform this appraisal process now", NotificationType.ERROR);
+            this.AddNotification("Sorry you can't perform this appraisal process Now", NotificationType.ERROR);
             return RedirectToAction("Leave", "SelfService");
         }
 

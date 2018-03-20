@@ -200,7 +200,7 @@ namespace resourceEdge.webUi.Controllers
                             throw ex;
                         }
                         this.AddNotification("Employee Created Successfully", NotificationType.SUCCESS);
-                        return Redirect(returnUrl);
+                        return RedirectToAction("Create");
                     }
                     this.AddNotification("Sorry, Please the entry date must not be less than or equal to the Exit Date Please try Again", NotificationType.WARNING);
                     return Redirect(returnUrl);
