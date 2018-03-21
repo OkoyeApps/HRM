@@ -185,7 +185,8 @@
 }
 
 <div class="hide">
-
+    @{ ViewBag.aa = "Checking";}
+    <span id="empId">Action("GetEmployeeCodeByGroup", "settings")</span>
     @Html.Partial("AddJobTitle");
     @Html.Partial("addPosition");
     @Html.Partial("AddCode");

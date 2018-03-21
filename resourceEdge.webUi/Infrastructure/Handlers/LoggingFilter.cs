@@ -1,7 +1,9 @@
-﻿using resourceEdge.Domain.Abstracts;
+﻿using Microsoft.AspNet.Identity;
+using resourceEdge.Domain.Abstracts;
 using resourceEdge.Domain.Concrete;
 using resourceEdge.Domain.Entities;
 using resourceEdge.webUi.Infrastructure.ActitivityLogs;
+using resourceEdge.webUi.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,7 +15,7 @@ using System.Web.Routing;
 
 namespace resourceEdge.webUi.Infrastructure.Handlers
 {
-    public class LoggingFilter : System.Web.HttpApplication
+    public class LoggingFilter : FilterAttribute, IActionFilter
     {
         string action = "";
         string controller = "";
@@ -21,39 +23,66 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
         string hostName = "";
         string ipaddress = "";
         string requesturl = "";
-        string dataparameter = String.Empty;
-        IActivityLog LogsRepo = new ActivityLogRepo();
         string userId = "No user Yet";
-        private void Logging()
+        string userFullName = "No user Yet";
+        SessionModel sessionObject;
+        IActivityLog LogsRepo = new ActivityLogRepo();
+        public void Logging(HttpSessionStateBase Session, RequestContext Request)
         {
             List<ActivityLog> activityLogs = new List<ActivityLog>();
             LoggingEvents logEvent = new LoggingEvents(LogsRepo);
-            HttpContextBase currentCurrent = new HttpContextWrapper(HttpContext.Current);
-            UrlHelper urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
-            RouteData routeDate = urlHelper.RouteCollection.GetRouteData(currentCurrent);
-            action = routeDate.Values["action"].ToString();
-            controller = routeDate.Values["controller"].ToString();
-            parameter = routeDate.Values["id"].ToString();
+            //HttpContextBase currentContext = new HttpContextWrapper(HttpContext.Current);
+            //UrlHelper urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
+            //RouteData routeDate = urlHelper.RouteCollection.GetRouteData(currentContext); 
+            //var allkeys = routeDate.Values.Keys;
+            //action =(string) routeDate.Values["action"] ?? null;
+            //controller =(string) routeDate.Values["controller"] ?? null;
+            //if (routeDate.Values.ContainsKey("id"))
+            //{
+            //parameter =routeDate.Values["id"].ToString() ?? null;
+            //}
             hostName = Dns.GetHostName();
-            ipaddress = Dns.GetHostByName(hostName).AddressList[0].ToString();
+            ipaddress = Dns.GetHostEntry(hostName).AddressList[0].ToString();
             HttpContext.Current.Request.InputStream.Position = 0;
-            using (StreamReader inputStream = new StreamReader(HttpContext.Current.Request.InputStream))
+            if (Session != null)
             {
-                dataparameter = inputStream.ReadToEnd();
+               sessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+               requesturl = Request.HttpContext.Request.Url.AbsoluteUri;
+               userId = Request.HttpContext.User.Identity.GetUserId() ?? null;
+               userFullName = sessionObject.FullName;
             }
-            requesturl = Request.Url.AbsoluteUri;
+            //using (StreamReader inputStream = new StreamReader(HttpContext.Current.Request.InputStream))
+            //{
+            //    dataparameter = inputStream.ReadToEnd();
+            //}
             activityLogs.Add(new ActivityLog()
             {
                 actionname = action,
                 controllername = controller,
-                dataparameter = dataparameter,
                 myip = ipaddress,
                 parameters = parameter,
                 requesturl = requesturl,
-                UserId = userId
+                UserId = userId,
+                UserName = userFullName
+                
             });
-
             logEvent.InsertActivityLogs(activityLogs);
+        }
+
+        public void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+             controller = filterContext.RouteData.Values["controller"].ToString();
+             action = filterContext.RouteData.Values["action"].ToString();
+            
+            if( filterContext.RouteData.Values.ContainsKey("id")) parameter = filterContext.RouteData.Values["id"].ToString();
+            var Request = filterContext.RequestContext;
+            var Session = filterContext.HttpContext.Session;
+            Logging(Session, Request);
+        }
+
+        public void OnActionExecuted(ActionExecutedContext filterContext)
+        {
+          
         }
     }
 }

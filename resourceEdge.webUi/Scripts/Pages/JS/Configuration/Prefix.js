@@ -20,7 +20,9 @@
                 `);
         }
         else {
-            $('#overload').removeClass('hidden');
+            $('#overload').append(`<div class="alert alert-danger alert-dismissable">
+    <span>Sorry you can't add more than Three(3) Prefix(es) at a time. kindly submit and then add again</span>
+</div>`);
         }
     })
 

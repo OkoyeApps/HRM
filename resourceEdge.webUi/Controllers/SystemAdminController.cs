@@ -14,7 +14,6 @@ namespace resourceEdge.webUi.Controllers
 {
     [Authorize(Roles ="System Admin")]
     [RoutePrefix("Admin")]
-    [EdgeIdentityFilter]
     public class SystemAdminController : Controller
     {
         IEmployees empRepo;

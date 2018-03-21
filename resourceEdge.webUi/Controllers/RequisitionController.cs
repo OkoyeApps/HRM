@@ -12,7 +12,6 @@ namespace resourceEdge.webUi.Controllers
 {
 
     [RoutePrefix("Request")]
-    [EdgeIdentityFilter]
     public class RequisitionController : Controller
     {
         private IRequisition RequisitionRepo;

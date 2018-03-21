@@ -1,6 +1,6 @@
 ﻿(function () {
     $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
-
+    window.myUrl = "http:\/\/\/";
 
     function validateDateOfJoining() {
         if (dateOfJoining == '') {
@@ -147,7 +147,7 @@
     function getidentityCode(id) {
     $.ajax({
         type: 'GET',
-        url: '/api/Settings/GetEmployeeCodeByGroup/' + id,
+        url:myUrl+ '/api/Settings/GetEmployeeCodeByGroup/' + id,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
@@ -203,7 +203,7 @@
     function getJobs() {
             $.ajax({
                 type: 'GET',
-                url: '/api/settings/getjobs',
+                url:'/api/settings/getjobs',
                 success: function (data) {
                     console.log('data returned from getJobs')
                     console.log(data)
@@ -278,4 +278,9 @@
  $('#businessunitId').bind('change', function () {
      getDepartmentByBusinessUnit($(this).val());
  })
+ window.onload = function () {
+     console.log(window.location.origin + '/api/Settings/GetDepartmentsById/');
+     console.log(document.localName)
+     console.log($('#empId').html());
+ }
 })()

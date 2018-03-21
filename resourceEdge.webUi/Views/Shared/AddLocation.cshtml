@@ -2,7 +2,13 @@
 @{
     Layout = ViewBag.Layout;
 }
-
+@section css{
+    <style>
+        textarea {
+            resize: none;
+        }
+    </style>
+}
             <div id="locationContent">
                 <div class="modal-body" id="empFrm">
                     @using (Ajax.BeginForm("AddLocation", "Configuration", new { returnurl = ViewBag.returnUrl }, new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "body" }, new { data_parsley_validate = "" }))
@@ -67,7 +73,6 @@
                 </div>
             </div>
 <div class="pull-right col-md-2">
-
-    <a href="@Url.Action("AddLevel", "Configuration", new { returnUrl = Request.Url.PathAndQuery})" class="btn btn-danger ">Next</a>
+    <a href="@Url.Action("AddLevel", "Configuration")" class="btn btn-danger ">Next</a>
 </div>
 

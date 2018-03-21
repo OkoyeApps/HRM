@@ -1,4 +1,11 @@
-﻿@{
+﻿@section css{
+    <style>
+        textarea {
+            resize: none;
+        }
+    </style>
+}
+@{
     Layout = ViewBag.Layout;
 }
 @model resourceEdge.Domain.Entities.IdentityCode
@@ -19,9 +26,9 @@
                         @Html.DropDownListFor(model => model.GroupId, (SelectList)ViewBag.Groups, "Select Group", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "bs-select form-control", required = "" })
                         @Html.ValidationMessageFor(model => model.GroupId, "", new { @class = "text-danger" })
                     </div>
-
                 </div>
             </div>
+
             <div class="col-md-4" style="padding-left:50px">
                 <div class="form-group">
                     <label>Employee Code</label>
@@ -61,6 +68,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-md-4" style="padding-left:50px">
                 <div class="form-group">
                     <label>User Code</label>
@@ -70,6 +78,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-md-4" style="padding-left:50px">
                 <div class="form-group">
                     <label>Requisition Code</label>
@@ -79,6 +88,7 @@
                     </div>
                 </div>
             </div>
+
             <div style="clear:both"><span></span></div>
             <hr />
 
@@ -91,7 +101,6 @@
     }
 </div>
 <div class="pull-right col-md-2">
-    @*<button type="reset" data-dismiss="modal" class="btn btn-outline dark" onclick="Code.close()">Close</button>*@
     <a href="@Url.Action("AddLocation", "Configuration")" class="btn btn-danger ">Next</a>
 </div>
 

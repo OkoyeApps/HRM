@@ -18,7 +18,6 @@ using static resourceEdge.webUi.Infrastructure.EmployeeManager;
 
 namespace resourceEdge.webUi.Controllers
 {
-    [EdgeIdentityFilter]
     public class EmployeeController : Controller
     {
 

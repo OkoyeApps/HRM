@@ -3,7 +3,7 @@
     $('#add').on('click', function () {
         var current = count++;
         console.log(current);
-        if (current < 2) {
+        if (current < 1) {
             $('#jobForm').append(`
         <div class ="col-md-6">
             <label for="jobtitlename" class ="control-label">Name</label>
@@ -37,10 +37,18 @@
             <label for="Address2" class ="control-label">Address2</label>
             <textarea cols="2" name="Address2[0]" id="Address2" class ="form-control"></textarea>
         </div>
+
+         <div class ="col-md-12">
+            <hr />
+        </div>
                 `);
         }
         else {
-            $('#overload').removeClass('hidden');
+            $('#overload').append(`<div class="alert alert-danger alert-dismissable" id="overload">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <span>Sorry you can't add more than Two(2) Jobs at a time. kindly submit and then add again</span>
+    </div>`)
+            //.toggleClass('hidden').addClass("alert-dismiss");
         }
     })
 

@@ -36,7 +36,9 @@
                 `);
         }
         else {
-            $('#overload').removeClass('hidden');
+            $('#overload').append(`<div class="alert alert-danger hidden">
+    <span>Sorry you can't add more than Three(3) Location at a time. kindly submit and then add again</span>
+</div>`);
         }
         })
 

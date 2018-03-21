@@ -4,7 +4,13 @@
     Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
 }
 
-
+@section css{
+    <style>
+        textarea {
+            resize: none;
+        }
+    </style>
+}
 
 @using (Html.BeginForm("addDepartment", "Configuration", null, FormMethod.Post, new { data_parsley_validate = "" }))
 {

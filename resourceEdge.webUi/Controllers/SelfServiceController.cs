@@ -13,7 +13,6 @@ namespace resourceEdge.webUi.Controllers
 {
     
     [Authorize]
-    [EdgeIdentityFilter]
     public class SelfServiceController : Controller
     {
         ILeaveManagement leaveRepo;

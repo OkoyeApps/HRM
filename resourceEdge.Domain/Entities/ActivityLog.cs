@@ -13,9 +13,10 @@ namespace resourceEdge.Domain.Entities
         public string actionname { get; set; }
         public string myip { get; set; }
         public string parameters { get; set; }
-        public string dataparameter { get; set; }
+        //public string dataparameter { get; set; }
         public string requesturl { get; set; }
-        public DateTime CreatedDate { get; set; }
         public string UserId { get; set; }
+        public string UserName { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

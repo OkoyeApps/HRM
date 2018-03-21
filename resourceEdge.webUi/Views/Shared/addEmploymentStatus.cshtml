@@ -1,6 +1,14 @@
 ﻿@model resourceEdge.Domain.Entities.employeeStatusViewModel
+@section css{
+    <style>
+        textarea {
+            resize: none;
+        }
+    </style>
+}
 @{
     Layout = ViewBag.Layout;
+    var prev = ViewBag.previousUrl;
 }
 <div id="statusContent">
     <div class="modal-body" id="empFrm">
@@ -29,7 +37,6 @@
 </div>
 
 <div class="pull-right col-md-2">
-
-    <a href="@Url.Action("addPrefix", "Configuration")" class="btn btn-danger ">Next</a>
+    <a href="@Url.Action("addPrefix", "Configuration")" class="btn btn-warning ">Next</a>
 </div>
 

@@ -10,7 +10,9 @@ namespace resourceEdge.webUi
         {
             filters.Add(new HandleErrorAttribute(),2);
             filters.Add(new EdgeIdentityFilter(),1);
-            filters.Add(new MenuFilter(), 3);
+            filters.Add(new LoggingFilter(), 3);
+            filters.Add(new MenuFilter(), 4);
+
             
         }
     }

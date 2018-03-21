@@ -2,7 +2,13 @@
 @{
     Layout = ViewBag.Layout;
 }
-
+@section css{
+    <style>
+        textarea {
+            resize: none;
+        }
+    </style>
+}
 <div id="groupContent">
     <div class="modal-body" id="empFrm">
         @using (Ajax.BeginForm("AddGroup", "Configuration", new { returnurl = ViewBag.returnUrl }, new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "body" }, new { data_parsley_validate = "" }))

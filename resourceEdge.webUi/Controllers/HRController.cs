@@ -21,7 +21,6 @@ using resourceEdge.webUi.Infrastructure.Core;
 namespace resourceEdge.webUi.Controllers
 {
     [Authorize(Roles = "System Admin,HR")]
-    [EdgeIdentityFilter]
     public class HRController : Controller
     {
         IEmployees empRepo;

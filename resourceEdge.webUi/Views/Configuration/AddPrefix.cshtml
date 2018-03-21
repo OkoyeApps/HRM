@@ -10,9 +10,10 @@
     ViewBag.Title = "Contact";
     Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
 }
-<div class="alert alert-danger hidden" id="overload">
-    <span>Sorry you can't add more than Three(3) Prefix(es) at a time. kindly submit and then add again</span>
+<div id="overload">
+
 </div>
+
 @using (Html.BeginForm("addPrefix", "Configuration", FormMethod.Post, new { returnurl = ViewBag.returnUrl }))
 {
     @Html.AntiForgeryToken()

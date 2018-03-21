@@ -66,10 +66,11 @@ namespace resourceEdge.webUi.Controllers
         {
             return View(IdentityRepo.Get());
         }
-        public ActionResult AddCode(string returnUrl)
+        public ActionResult AddCode(string returnUrl, string previousUrl)
         {
 
             ViewBag.returnUrl = returnUrl;
+            ViewBag.previousUrl = previousUrl;
             ViewBag.PageTitle = "Add Code";
             ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
             ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(X => X.Id), "Id", "GroupName", "Id");
@@ -123,16 +124,17 @@ namespace resourceEdge.webUi.Controllers
                 return View();
             }
         }
-        public ActionResult addPrefix(string returnUrl)
+        public ActionResult addPrefix(string returnUrl, string previousUrl)
         {
             ViewBag.returnUrl = returnUrl;
+            ViewBag.previousUrl = previousUrl;
             ViewBag.PageTitle = "Add Prefix";
             ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
             return View(new prefixViewModel());
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult addPrefix(prefixViewModel model, string returnUrl)
+        public ActionResult addPrefix(prefixViewModel model, string returnUrl, string previousUrl)
         {
 
 
@@ -372,9 +374,10 @@ namespace resourceEdge.webUi.Controllers
             return View(JobRepo.Get());
         }
 
-        public ActionResult AddJobTitle(string returnUrl)
+        public ActionResult AddJobTitle(string returnUrl, string previousUrl)
         {
             ViewBag.returnUrl = returnUrl;
+            ViewBag.previousUrl = previousUrl;
             ViewBag.PageTitle = "Add Job Title";
             ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
             ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(X => X.Id), "Id", "GroupName", "Id");
@@ -383,7 +386,7 @@ namespace resourceEdge.webUi.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddJobTitle(Jobtitle jobs = null, FormCollection collection = null, string returnUrl = null)
+        public ActionResult AddJobTitle(string returnUrl, FormCollection collection = null, Jobtitle jobs = null)
         {
             if (jobs != null && !collection.AllKeys.Contains("jobtitlename[0]"))
             {
@@ -418,12 +421,14 @@ namespace resourceEdge.webUi.Controllers
 
         public ActionResult AllPosition()
         {
+
             return View(positionRepo.Get());
         }
 
-        public ActionResult addPosition(string returnUrl)
+        public ActionResult addPosition(string returnUrl, string previousUrl)
         {
             ViewBag.returnUrl = returnUrl;
+            ViewBag.previousUrl = previousUrl;
             ViewBag.PageTitle = "Add Position";
             ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
             ViewBag.jobTitles = new SelectList(Apimanager.JobList().OrderBy(x => x.JobName), "JobId", "JobName", "JobId");
@@ -472,9 +477,10 @@ namespace resourceEdge.webUi.Controllers
 
 
         [HttpGet]
-        public ActionResult addEmploymentStatus(string returnUrl)
+        public ActionResult addEmploymentStatus(string returnUrl, string previousUrl)
         {
             ViewBag.status = returnUrl;
+            ViewBag.previousUrl = previousUrl;
             ViewBag.PageTitle = "Add Employement Status";
             ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
             return View(new employeeStatusViewModel());
@@ -560,10 +566,11 @@ namespace resourceEdge.webUi.Controllers
         return View(model);
     }
 
-    public ActionResult AddLevel(string retunUrl)
+    public ActionResult AddLevel(string retunUrl, string previousUrl)
     {
         ViewBag.returnUrl = retunUrl;
-        ViewBag.PageTitle = "Add Level";
+            ViewBag.previousUrl = previousUrl;
+            ViewBag.PageTitle = "Add Level";
         ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
         ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(X => X.Id), "Id", "GroupName", "Id");
 
@@ -615,10 +622,11 @@ namespace resourceEdge.webUi.Controllers
         return View(model);
     }
 
-    public ActionResult AddLocation(string returnUrl)
+    public ActionResult AddLocation(string returnUrl, string previousUrl)
     {
         ViewBag.returnUrl = returnUrl;
-        ViewBag.pageTitle = "Add Location";
+            ViewBag.previousUrl = previousUrl;
+            ViewBag.pageTitle = "Add Location";
         ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
         ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(X => X.Id), "Id", "GroupName", "Id");
         return View();
@@ -670,10 +678,11 @@ namespace resourceEdge.webUi.Controllers
         this.AddNotification("Something went wrong, please try again", NotificationType.ERROR);
         return View(model);
     }
-    public ActionResult AddCareer(string returnUrl)
+    public ActionResult AddCareer(string returnUrl, string previousUrl)
     {
         ViewBag.returnUrl = returnUrl;
-        ViewBag.PageTitle = "Add Career";
+            ViewBag.previousUrl = previousUrl;
+            ViewBag.PageTitle = "Add Career";
         ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
         return View();
     }
@@ -712,10 +721,11 @@ namespace resourceEdge.webUi.Controllers
         return View(model);
     }
 
-    public ActionResult AddGroup(string returnUrl)
+    public ActionResult AddGroup(string returnUrl, string previousUrl)
     {
         ViewBag.returnUrl = returnUrl;
-        ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+            ViewBag.previousUrl = previousUrl;
+            ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
         ViewBag.PageTitle = "Add  Group";
         return View();
     }

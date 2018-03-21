@@ -30,8 +30,8 @@ namespace resourceEdge.webUi.Infrastructure.ActitivityLogs
                     activityLogs.parameters = item.parameters;
                     activityLogs.requesturl = item.requesturl;
                     activityLogs.CreatedDate = DateTime.Now;
-                    activityLogs.dataparameter = item.dataparameter;
                     activityLogs.UserId = item.UserId;
+                    activityLogs.UserName = item.UserName;
                 }
                 logRepo.Insert(activityLogs);
                 
