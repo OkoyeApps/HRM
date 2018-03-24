@@ -1,6 +1,7 @@
 ﻿using resourceEdge.Domain.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -8,8 +9,10 @@ namespace resourceEdge.webUi.Infrastructure.Core
 {
     public class EmployeeListItem
     {
+        public int Id { get; set; }
         public int empID { get; set; }
         public string userId { get; set; }
+        [Required, EmailAddress]
         public string empEmail { get; set; }
         public int empRoleId { get; set; }
         public string FullName { get; set; }
@@ -18,6 +21,7 @@ namespace resourceEdge.webUi.Infrastructure.Core
         public string empStatusId { get; set; }
         public int businessunitId { get; set; }
         public int departmentId { get; set; }
+        public int LocationId { get; set; }
         public int GroupId { get; set; }
         public BusinessUnit Units { get; set; }
         public Group Group { get; set; }

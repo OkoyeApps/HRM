@@ -12,6 +12,7 @@
     </style>
 }
 
+<div style="font-weight:bolder;">
 <span id="modal" onclick="Code.open()">Add Code</span>|
 <span id="modal" onclick="career.open()">Add Career</span>|
 <span id="modal" onclick="stat.open()">Addd Status</span>|
@@ -21,6 +22,8 @@
 <span id="modal" onclick="locmodal.open()">Add Location</span>|
 <span id="modal" onclick="position.open()">Add Position</span>|
 <span id="modal" onclick="prefixes.open()">Add Prefix</span>
+
+</div>
 <hr />
 @using (Html.BeginForm("Create", "HR", new { returnUrl = ViewBag.returnUrl }, FormMethod.Post, new { data_parsley_validate = "" }))
 {
@@ -50,7 +53,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     @Html.Label("Employee Id", htmlAttributes: new { @class = "control-label " })
-                    @Html.EditorFor(model => model.empUserId, new { htmlAttributes = new { id = "mask_number", placeholder = "Employee Id", @class = "form-control", required = "" } })
+                    @Html.EditorFor(model => model.empUserId, new { htmlAttributes = new { id = "empId", placeholder = "Employee Id (only Numbers)", @class = "form-control", required = "" } })
                     @Html.ValidationMessageFor(model => model.empUserId, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -58,7 +61,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     @Html.Label("First name", htmlAttributes: new { @class = "control-label " })
-                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", required = "" } })
+                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", required = "", placeholder = "Enter First name" } })
                     @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -66,7 +69,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     @Html.Label("Last name", htmlAttributes: new { @class = "control-label " })
-                    @Html.EditorFor(model => model.lastName, new { htmlAttributes = new { @class = "form-control", required = "" } })
+                    @Html.EditorFor(model => model.lastName, new { htmlAttributes = new { @class = "form-control", required = "", placeholder = "Enter last name" } })
                     @Html.ValidationMessageFor(model => model.lastName, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -80,7 +83,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     @Html.Label("Email", htmlAttributes: new { @class = "control-label " })
-                    @Html.EditorFor(model => model.empEmail, new { htmlAttributes = new { @class = "form-control ", required = "" } })
+                    @Html.EditorFor(model => model.empEmail, new { htmlAttributes = new { @class = "form-control ", required = "",data_parsley_type = "email", placeholder = "Enter Email address" } })
                     @Html.ValidationMessageFor(model => model.empEmail, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -134,7 +137,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     @Html.Label("Years of experience", htmlAttributes: new { @class = "control-label " })
-                    @Html.EditorFor(model => model.yearsExp, new { htmlAttributes = new { @class = "form-control", required = "" } })
+                    @Html.EditorFor(model => model.yearsExp, new { htmlAttributes = new { @class = "form-control", required = "", placeholder = "Enter years of experience" } })
                     @Html.ValidationMessageFor(model => model.yearsExp, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -165,11 +168,11 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     @Html.Label("Office number", htmlAttributes: new { @class = "control-label " })
-                                    @Html.EditorFor(model => model.officeNumber, new { htmlAttributes = new { @class = "form-control", required = "" } })
+                                    @Html.EditorFor(model => model.officeNumber, new { htmlAttributes = new { @class = "form-control", @type = "tel", required = "", data_parsley_type = "number", placeholder="Enter Phone Number" } })
                                     @Html.ValidationMessageFor(model => model.officeNumber, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-
+                            
                             <div class="pull-right" style="clear:both;">
                                 <input type="submit" id="hrSubmit" onclick="validateDateOfJoining" class="btn btn-success" value="Save" />
                             </div>

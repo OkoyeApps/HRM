@@ -170,15 +170,15 @@ namespace resourceEdge.webUi.Controllers
                 return Ok(result);
             }
         }
-        [Route("api/Settings/GetEmpByDept/{id:int}")]
+        [Route("api/Settings/GetEmpByDeptForLeave/{id:int}")]
         [HttpGet]
-        public IHttpActionResult GetEmpByDept(int? id)
+        public IHttpActionResult GetEmpByDeptForLeave(int? id)
         {
             if (id == null)
             {
                 return BadRequest();
             }
-            var result = Apimanager.GetEmployeeByDept(id.Value);
+            var result = Apimanager.GetNonAllotedEmployeeByDept(id.Value);
             if (result == null)
             {
                 return NotFound();

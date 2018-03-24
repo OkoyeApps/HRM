@@ -28,14 +28,14 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     @Html.Label("Level No")
-                                    @Html.EditorFor(model => model.levelNo, new { htmlAttributes = new { @class = "form-control", required = "" } })
+                                    @Html.EditorFor(model => model.levelNo, new { htmlAttributes = new { @class = "form-control", required = "", @type = "text", placeholder = "level number in ranking (Only Numbers)" } })
                                     @Html.ValidationMessageFor(model => model.levelNo, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     @Html.Label("Eligible Years")
-                                    @Html.EditorFor(model => model.EligibleYears, new { htmlAttributes = new { @class = "form-control", required = "" } })
+                                    @Html.EditorFor(model => model.EligibleYears, new { htmlAttributes = new { @class = "form-control", required = "", @type = "text", placeholder = "Eligible years for level (Only Numbers)" } })
                                     @Html.ValidationMessageFor(model => model.EligibleYears, "", new { @class = "text-danger" })
                                 </div>
                             </div>

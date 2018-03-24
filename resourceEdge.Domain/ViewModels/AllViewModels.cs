@@ -211,9 +211,9 @@ namespace resourceEdge.Domain.Entities
         public int Location { get; set; }
         [Display(Name = "Years of Experience")]
         public string yearsExp { get; set; }
-        [Required(ErrorMessage = "please specify a prefix"), Display(Name = "Prefix")]
+        [Required(ErrorMessage = "please specify a prefix"), Display(Name = "Prefix"),Range(0,50, ErrorMessage ="must be >= 0")]
         public prefixes prefixId { get; set; }
-        [Required(ErrorMessage = "Please specify a Phone number"), Display(Name = "Phone Number")]
+        [Required(ErrorMessage = "Please specify a Phone number"), Display(Name = "Phone Number"), Phone(ErrorMessage ="Must be a phone number")]
         public string officeNumber { get; set; }
 
         [Required(ErrorMessage = "please select a mode of entry")]

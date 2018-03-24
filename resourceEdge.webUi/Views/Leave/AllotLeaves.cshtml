@@ -9,7 +9,7 @@
         @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                        <div class="col-md-4">
+                    <div class="col-md-4">
                     <div class="form-group">
                         @Html.Label("Business Units")
                             @Html.DropDownList("businessunitId", (SelectList)ViewBag.businessUnits, "Select Business Unit", htmlAttributes: new { @class = "form-control", placeholder = "please input business unit" })
@@ -26,27 +26,28 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Year</label>
-                            <input class="date-own form-control" style="width: 300px;" type="text" name="year" required ="">
-                            <br/>
+                            <input class="form-control" type="text" name="year" required ="">
+                          
                         </div>
                     </div>
-                    <button id="searchEmp" type="button" class="btn btn-success pull-right" style="clear:both;">Search Employees <br /></button>
-                    <br />
-                  <span id="noEmp" class="alert alert-danger hidden col-md-12" style=" font:bolder; text-align:center">No Employee in this department yet</span>
+                    <div>
+                    <button id="searchEmp" type="button" class="btn btn-success pull-right" style="clear:both;">Search Employees</button>
+                        <br /><br /><br />
+                    </div>
+                    <div class="col-md-12" style="clear:both;">
+                  <span id="noEmp" class="alert alert-danger" style="clear:both; font:bolder;">No Employee in this department yet or all Employees in this department has been assigned. <br />To assign more leave please use the Employee Configuration menu</span>
+                    </div>
                   <br /><br />
-                    <div id="getCount" class="hidden col-md-6" style="clear:both">
-                        <table class="table table-bordered table-hover">
+                    <div id="getCount" class="hidden col-md-8" style="clear:both">
+                        <table class="table table-bordered table-hover" >
                             <thead>
                                 <tr>
                                     <th>Employee</th>
                                     <th>Allot Leave</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td id="tbluser"></td>
-                                    <td id="tblTime"></td>
-                                </tr>
+                            <tbody id="searchBody">
+
                             </tbody>
                         </table>
                         <button type="submit" class="btn btn-success pull-right" style="clear:both">Save</button>

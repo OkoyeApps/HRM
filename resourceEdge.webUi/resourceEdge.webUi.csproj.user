@@ -13,7 +13,7 @@
     <ProjectView>ShowAllFiles</ProjectView>
     <WebStackScaffolding_IsViewGenerationSelected>True</WebStackScaffolding_IsViewGenerationSelected>
     <IISExpressSSLPort>44333</IISExpressSSLPort>
-    <NameOfLastUsedPublishProfile>ResourceEdge - Web Deploy</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>Test</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>

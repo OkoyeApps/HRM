@@ -159,17 +159,13 @@ namespace resourceEdge.Domain.Concrete
         }
         public IEnumerable<LeaveRequest> GetEmployeeAllLeaveRequest(string userId)
         {
-            var result = unitOfWork.LRequest.Get(filter: x => x.UserId == userId);
-            if (result != null)
-            {
-                return result;
-            }
-            return null;
+            var result = unitOfWork.LRequest.Get(filter: x => x.UserId == userId );
+            return result ?? null;
         }
 
         public IEnumerable<LeaveRequest> GetLeaveRequestsForManager(string userId)
         {
-            var result = unitOfWork.LRequest.Get(filter: x => x.RepmangId == userId);
+            var result = unitOfWork.LRequest.Get(filter: x => x.RepmangId == userId && x.Approval1 == null);
             if (result != null)
             {
                 return result;

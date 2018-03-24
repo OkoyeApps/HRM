@@ -44,6 +44,7 @@
                 `);
         }
         else {
+            $('#overload').empty();
             $('#overload').append(`<div class="alert alert-danger alert-dismissable" id="overload">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
     <span>Sorry you can't add more than Two(2) Jobs at a time. kindly submit and then add again</span>

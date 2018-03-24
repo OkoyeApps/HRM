@@ -27,20 +27,35 @@
     function GetEmpByDept(id) {
         $.ajax({
             type: 'GET',
-            url: '/api/Settings/GetEmpByDept/' + id,
+            url: '/api/Settings/GetEmpByDeptForLeave/' + id,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
                 if (data.length > 0) {
                     $('#tbluser').empty();
-                    $('#tblTime').empty();
+                    $('#searchBody').empty();
                     data.forEach(function (element, index) {
                         console.log(element);
                         console.log(index);
                         $('#getCount').removeClass("hidden");
                        
-                        $('#tbluser').append("<tr><td>" + element.FullName + "</td><br /></tr>");
-                        $('#tblTime').append("<tr><td><input name='Emp' class='form-control value='' /> <br /></td><input type='hidden' Name='id' Value='" + element.userId + "'/></tr>'")
+                        //$('#tbluser').append("<tr><td>" + element.FullName + "</td><br /></tr>");
+                        //$('#tblTime').append("<tr><td><input name='amount' class='form-control value='' /> <br /></td><input type='hidden' Name='id' Value='" + element.userId + "'/></tr>'")
+                        $('#searchBody').append(`
+                              <tr>
+                                    <td id="tbluser">${element.FullName}</td>
+                                    <td>
+                                        <table>
+                                            <tr>
+                                                <td id="tblTime" class="pull-right">
+                                                    <input name="amount" class ="form-control" value="" />
+                                                    <input type='hidden' Name='id' Value="${element.userId}"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            `)
                     });
                 } else {
                     $('#noEmp').removeClass("hidden");

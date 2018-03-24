@@ -176,45 +176,6 @@
     <Compile Include="Concrete\ProductRepository.cs" />
     <Compile Include="Concrete\ReprtManagerRepository.cs" />
     <Compile Include="Concrete\RequisitionRepo.cs" />
-    <Compile Include="DbEntities\Appraisal.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Appraisal.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DbEntities\Appraisal.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Appraisal.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DbEntities\Appraisal.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Appraisal.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="DbEntities\main_pa_appraisalhistory.cs">
-      <DependentUpon>Appraisal.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DbEntities\main_pa_category.cs">
-      <DependentUpon>Appraisal.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DbEntities\main_pa_employee_ratings.cs">
-      <DependentUpon>Appraisal.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DbEntities\main_pa_ff_employee_ratings.cs">
-      <DependentUpon>Appraisal.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DbEntities\main_pa_questions.cs">
-      <DependentUpon>Appraisal.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DbEntities\main_pa_questions_privileges.cs">
-      <DependentUpon>Appraisal.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DbEntities\main_pa_ratings.cs">
-      <DependentUpon>Appraisal.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DbEntities\main_pa_skills.cs">
-      <DependentUpon>Appraisal.tt</DependentUpon>
-    </Compile>
     <Compile Include="DbEntities\products.cs" />
     <Compile Include="Entities\ActivityLog.cs" />
     <Compile Include="Entities\AppraisalPeriod.cs" />
@@ -277,32 +238,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <EntityDeploy Include="DbEntities\Appraisal.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Appraisal.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="DbEntities\Appraisal.edmx.diagram">
-      <DependentUpon>Appraisal.edmx</DependentUpon>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DbEntities\Appraisal.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Appraisal.edmx</DependentUpon>
-      <LastGenOutput>Appraisal.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="DbEntities\Appraisal.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Appraisal.edmx</DependentUpon>
-      <LastGenOutput>Appraisal.cs</LastGenOutput>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Entities\TableSummary\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">

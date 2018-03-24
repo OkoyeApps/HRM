@@ -8,8 +8,8 @@ namespace resourceEdge.webUi
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new HandleErrorAttribute(),2);
-            filters.Add(new EdgeIdentityFilter(),1);
+            filters.Add(new HandleErrorAttribute(),1);
+            filters.Add(new EdgeIdentityFilter(),2);
             filters.Add(new LoggingFilter(), 3);
             filters.Add(new MenuFilter(), 4);
 

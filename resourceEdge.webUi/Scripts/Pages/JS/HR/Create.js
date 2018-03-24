@@ -3,8 +3,8 @@
     window.myUrl = "http:\/\/\/";
 
     function validateDateOfJoining() {
+        var dateOfJoining = $('#dateOfJoining').val();
         if (dateOfJoining == '') {
-            var dateOfJoining = $('#dateOfJoining').val();
             console.log(dateOfJoining);
             var error_message_dateJoin = false;
             //$('#error_message_dateJoin').html("The Days exceeds the alloted date for the specified leave");
@@ -147,7 +147,7 @@
     function getidentityCode(id) {
     $.ajax({
         type: 'GET',
-        url:myUrl+ '/api/Settings/GetEmployeeCodeByGroup/' + id,
+        url:'/api/Settings/GetEmployeeCodeByGroup/' + id,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
@@ -278,9 +278,33 @@
  $('#businessunitId').bind('change', function () {
      getDepartmentByBusinessUnit($(this).val());
  })
- window.onload = function () {
-     console.log(window.location.origin + '/api/Settings/GetDepartmentsById/');
-     console.log(document.localName)
-     console.log($('#empId').html());
- }
+
+ //function isNumberKey(evt, obj) {
+
+ //    var charCode = (evt.which) ? evt.which : event.keyCode
+
+ //    var value = obj.value;
+ //    var dotcontains = value.indexOf(".") != -1;
+ //    if (dotcontains)
+ //        if (charCode == 46) return false;
+ //    if (charCode == 46) return true;
+ //    if (charCode > 31 && (charCode < 48 || charCode > 57))
+ //        return false;
+ //    return true;
+ //}
+ $('#officeNumber').on('keypress', function (event) {
+     return $.ValidateNumber(event, this);
+ });
+
+ $('#empId').on('keypress', function (event) {
+     return $.ValidateNumber(event, this);
+ })
+
+ $('#levelNo').on('keypress', function (event) {
+     return $.ValidateNumber(event, this);
+ })
+ $('#EligibleYears').on('keypress', function (event) {
+     return $.ValidateNumber(event, this);
+ })
+ 
 })()

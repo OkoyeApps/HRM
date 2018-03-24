@@ -530,7 +530,11 @@ namespace resourceEdge.webUi.Controllers
             {
                 return RedirectToAction("create", "HR");
             }
+            else if (UserManager.IsInRole(user.Id, "System Admin"))
+            {
                 return RedirectToAction("create", "HR");
+            }
+                return RedirectToAction("LogOff");
         }
 
         public ActionResult UpdateLogin(string email,string password)

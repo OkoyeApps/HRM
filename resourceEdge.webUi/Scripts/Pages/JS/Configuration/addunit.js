@@ -3,7 +3,7 @@
     function getLocationByGroup(id) {
         $.ajax({
             type: 'GET',
-            url: '/api/settings/GetLocationByGroup/' + id,
+            url: '/resourceedge/api/settings/GetLocationByGroup/' + id,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {

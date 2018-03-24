@@ -48,8 +48,11 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
             {
                sessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
                requesturl = Request.HttpContext.Request.Url.AbsoluteUri;
-               userId = Request.HttpContext.User.Identity.GetUserId() ?? null;
+                if (sessionObject != null)
+                {
+               userId = Request.HttpContext.User.Identity.GetUserId();
                userFullName = sessionObject.FullName;
+                }
             }
             //using (StreamReader inputStream = new StreamReader(HttpContext.Current.Request.InputStream))
             //{
@@ -71,18 +74,21 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
 
         public void OnActionExecuting(ActionExecutingContext filterContext)
         {
-             controller = filterContext.RouteData.Values["controller"].ToString();
-             action = filterContext.RouteData.Values["action"].ToString();
-            
-            if( filterContext.RouteData.Values.ContainsKey("id")) parameter = filterContext.RouteData.Values["id"].ToString();
-            var Request = filterContext.RequestContext;
-            var Session = filterContext.HttpContext.Session;
-            Logging(Session, Request);
+             
         }
 
         public void OnActionExecuted(ActionExecutedContext filterContext)
         {
-          
+            if (filterContext.Controller.ControllerContext.HttpContext.User.Identity.IsAuthenticated)
+            {
+                controller = filterContext.RouteData.Values["controller"].ToString();
+                action = filterContext.RouteData.Values["action"].ToString();
+
+                if (filterContext.RouteData.Values.ContainsKey("id")) parameter = filterContext.RouteData.Values["id"].ToString();
+                var Request = filterContext.RequestContext;
+                var Session = filterContext.HttpContext.Session;
+                Logging(Session, Request);
+            }
         }
     }
 }

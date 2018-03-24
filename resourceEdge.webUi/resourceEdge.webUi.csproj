@@ -249,29 +249,38 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\ActitivityLogs\LoggingEvents.cs" />
-    <Compile Include="Infrastructure\AdminManager.cs" />
-    <Compile Include="Infrastructure\Apimanager.cs" />
-    <Compile Include="Infrastructure\AppraisalManager.cs" />
-    <Compile Include="Infrastructure\BackendValidationManager.cs" />
-    <Compile Include="Infrastructure\ConfigurationManager.cs" />
+    <Compile Include="Infrastructure\SystemManagers\AdminManager.cs" />
+    <Compile Include="Infrastructure\SystemManagers\Apimanager.cs" />
+    <Compile Include="Infrastructure\SystemManagers\AppraisalManager.cs" />
+    <Compile Include="Infrastructure\SystemManagers\BackendValidationManager.cs" />
+    <Compile Include="Infrastructure\SystemManagers\ConfigurationManager.cs" />
     <Compile Include="Infrastructure\Core\CronJob.cs" />
     <Compile Include="Infrastructure\Core\EmployeeListItem.cs" />
     <Compile Include="Infrastructure\Core\Generators.cs" />
     <Compile Include="Infrastructure\Core\NotificationExtension.cs" />
     <Compile Include="Infrastructure\DbInitializer.cs" />
-    <Compile Include="Infrastructure\EmployeeManager.cs" />
+    <Compile Include="Infrastructure\SystemManagers\EmployeeManager.cs" />
     <Compile Include="Infrastructure\Handlers\EdgeIdentityFilter.cs" />
     <Compile Include="Infrastructure\Handlers\LoggingFilter.cs" />
     <Compile Include="Infrastructure\Handlers\MenuFilter.cs" />
     <Compile Include="Infrastructure\Handlers\SessionFilter.cs" />
     <Compile Include="Infrastructure\Handlers\SubscriptionFilter.cs" />
     <Compile Include="Infrastructure\Handlers\UnAuthorizationFilter.cs" />
-    <Compile Include="Infrastructure\LeaveManager.cs" />
+    <Compile Include="Infrastructure\SystemManagers\LeaveManager.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
-    <Compile Include="Infrastructure\NotificationManager.cs" />
-    <Compile Include="Infrastructure\RoleManager.cs" />
-    <Compile Include="Infrastructure\StatManager.cs" />
-    <Compile Include="Infrastructure\UserManager.cs" />
+    <Compile Include="Infrastructure\SystemManagers\NotificationManager.cs" />
+    <Compile Include="Infrastructure\SystemManagers\RoleManager.cs" />
+    <Compile Include="Infrastructure\SystemManagers\StatManager.cs" />
+    <Compile Include="Infrastructure\SystemManagers\UserManager.cs" />
+    <Compile Include="Migrations\ApplicationDbConntextMigrations\201803211503312_InitialCreate.cs" />
+    <Compile Include="Migrations\ApplicationDbConntextMigrations\201803211503312_InitialCreate.Designer.cs">
+      <DependentUpon>201803211503312_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\ApplicationDbConntextMigrations\201803221936281_LocationAndGroupForUser.cs" />
+    <Compile Include="Migrations\ApplicationDbConntextMigrations\201803221936281_LocationAndGroupForUser.Designer.cs">
+      <DependentUpon>201803221936281_LocationAndGroupForUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\ApplicationDbConntextMigrations\Configuration.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BreadCrumb.cs" />
@@ -1205,11 +1214,11 @@
     <Content Include="Scripts\Pages\JS\Configuration\Location.js" />
     <Content Include="Scripts\Pages\JS\Configuration\Prefix.js" />
     <Content Include="Scripts\Pages\JS\DataTableInitialization.js" />
+    <Content Include="Scripts\Pages\JS\EdgeValidation.js" />
+    <Content Include="Scripts\Pages\JS\HR\SystemAdmin.js" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Appraisal\EditQuestion.cshtml" />
     <Content Include="Views\Appraisal\EmployeeAppraisal.cshtml" />
-    <None Include="Properties\PublishProfiles\ResourceEdge - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\ResourceEdge - Web Deploy.pubxml" />
     <None Include="Views\Appraisal\ConfigureAppraisal.cshtml" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -1423,6 +1432,7 @@
     <Content Include="Views\Configuration\AddLevel.cshtml" />
     <Content Include="Views\Configuration\AddLocation.cshtml" />
     <Content Include="Views\Configuration\AddPrefix.cshtml" />
+    <Content Include="Views\HR\AddSystemAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1450,6 +1460,14 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\ApplicationDbConntextMigrations\201803211503312_InitialCreate.resx">
+      <DependentUpon>201803211503312_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\ApplicationDbConntextMigrations\201803221936281_LocationAndGroupForUser.resx">
+      <DependentUpon>201803221936281_LocationAndGroupForUser.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

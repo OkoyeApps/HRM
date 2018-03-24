@@ -116,7 +116,7 @@
         }
     });
     $('#FromDate').change(function () {
-        if ($('#ToDate').val() != null) {
+        if ($('#ToDate').val() != '') {
         var result = dateDifference($('#FromDate').val(), $('#ToDate').val());
         checkTimeAgainstDate(result);
         ValidateTotalRequestDay($('#requestDays').val());
@@ -175,7 +175,7 @@
     function ValidateTotalRequestDay(days) {
         console.log("in the validateTotalRequest");
         if (days < 0) {
-
+            $('#btnSubmit').prop('disabled', true);
         }
         if (days == 0) {
             $('#btnSubmit').prop('disabled', true);
@@ -200,8 +200,9 @@
         } else {
             $('#Date_error_message').html("The Days exceeds the alloted date for the specified leave");
             $('#Date_error_message').addClass("show");
-            $('#btnSubmit').prop('disabled', true);
             Date_error_message = true;
+            $('#requestDays').val(daysPicked);
+            $('#btnSubmit').prop('disabled', true);
             console.log('got here');
         }
         }
@@ -213,14 +214,14 @@
         console.log("GetRmByUserId Method entered");
         $.ajax({
             type: 'GET',
-            url: '/hr/api/Settings/GetRmByUserId/' + id,
+            url: '/api/Settings/GetRmByUserId/' + id,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
                 console.log('in the GetRmByUserId method');
                 console.log(data);
                 if (data.length > 0) {
-                    $('#RepmangId').append('<option value="">' + 'Select Employee' + '</option>');
+                    $('#RepmangId').append('<option value="">' + 'Select Report Manager' + '</option>');
                     $.each(data, function (index, data) {
                         $('#RepmangId').append('<option value="' + data.userId + '">' + data.FullName + '</option>');
                     })

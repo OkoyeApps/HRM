@@ -15,13 +15,10 @@ namespace resourceEdge.webUi.Models
         public string UserStatus { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string UserfullName
-        {
-            get
-            {
-                return this.FirstName + this.LastName;
-            }
-        }
+        public string UserfullName { get; set; }
+        public int GroupId { get; set; }
+        public int LocationId { get; set; }
+
         public string BusinessunitId { get; set; }
         public string DepartmentId { get; set; }
       
@@ -54,7 +51,6 @@ namespace resourceEdge.webUi.Models
         {
          
         }
-
         public static ApplicationDbContext Create()
         {
             

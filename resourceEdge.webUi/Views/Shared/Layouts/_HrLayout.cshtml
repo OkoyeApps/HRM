@@ -360,10 +360,10 @@
 
                             <li>@Html.ActionLink("Appraisal", "InitilizeAppraisal", "Appraisal", null, new { @class = "nav-link  title" })</li>
                             <li>
-                                @if (User.IsInRole("Head HR"))
+                                @*@if (User.IsInRole("Head HR"))
                                 {
                                     @Html.ActionLink("Add Questions", "AddQuestion", "Appraisal", null, new { @class = "nav-link  title" })
-                                }
+                                }*@
                             </li>
                         </ul>
                     </li>
@@ -384,7 +384,7 @@
                                     @Html.ActionLink("Add Location", "AddLocation", "Configuration", null, new { @class = "nav-link  title" })
                                 </li>
                                 <li>
-                                    @Html.ActionLink("Add Level", "addBusinessUnits", "Configuration", null, new { @class = "nav-link  title" })
+                                    @Html.ActionLink("Add Level", "addLevel", "Configuration", null, new { @class = "nav-link  title" })
                                 </li>
                                 <li>
                                     @Html.ActionLink("Add Job", "AddJobTitle", "Configuration", null, new { @class = "nav-link  title" })
@@ -565,6 +565,7 @@
     <script src="~/assets/AdminTemplate/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="~/assets/AdminTemplate/assets/plugins/jquery-cookie/jquery.cookie.js"></script>
     <!-- ================== END BASE JS ================== -->
+    <script src="~/Scripts/Pages/JS/EdgeValidation.js"></script>
     @RenderSection("Scripts", required: false)
     <script src="~/assets/AdminTemplate/assets/plugins/parsley/dist/parsley.js"></script>
     <script src="~/assets/AdminTemplate/assets/js/apps.min.js"></script>

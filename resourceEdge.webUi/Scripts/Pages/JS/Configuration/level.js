@@ -18,7 +18,7 @@
 
         <div class ="col-md-6">
             <label for="levelNo" class ="control-label">Level Number</label>
-            <input name="levelNo[0]" id="City" class ="form-control" type="number" placeholder="level number in ranking" required />
+            <input name="levelNo[0]" id="lNo" class ="form-control" type="number" placeholder="level number in ranking" required />
         </div>
           <div class ="col-md-12">
             <hr />
@@ -27,10 +27,18 @@
         }
         else {
             $('#overload').append(`<div class="alert alert-danger alert-dismissable">
+                <button type="button" class ="close" data-dismiss="alert" aria-hidden="true">&times; </button>
     <span>Sorry you can't add more than Three(3) Level at a time. kindly submit and then add again</span>
 </div>`);
         }
     })
 
+    
+    $('#eNo').on('keypress', function (event) {
+        return $.ValidateNumber(event, this);
+    })
 
+    $('#lNo').on('keypress', function (event) {
+        return $.ValidateNumber(event, this);
+    })
 })();

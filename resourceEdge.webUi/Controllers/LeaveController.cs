@@ -11,6 +11,7 @@ using resourceEdge.Domain.Abstracts;
 using Microsoft.AspNet.Identity;
 using resourceEdge.webUi.Infrastructure;
 using resourceEdge.webUi.Infrastructure.Handlers;
+using resourceEdge.webUi.Infrastructure.Core;
 
 namespace resourceEdge.webUi.Controllers
 {
@@ -20,13 +21,14 @@ namespace resourceEdge.webUi.Controllers
         private EdgeDbContext db = new EdgeDbContext();
         private ILeaveManagement leaveRepo;
         private IBusinessUnits BunitsRepo;
-        LeaveManager leavemanagerRepo;
+        private LeaveManager LmanagerRepo;
         Apimanager Apimanager;
-        public LeaveController(ILeaveManagement lParam, IBusinessUnits bparam)
+        public LeaveController(IEmployees eParam, ILeaveManagement lParam, IBusinessUnits bparam)
         {
             leaveRepo = lParam;
             BunitsRepo = bparam;
             Apimanager = new Apimanager();
+            LmanagerRepo = new LeaveManager(eParam, lParam);
         }
 
         [Authorize(Roles = "HR")]
@@ -97,31 +99,27 @@ namespace resourceEdge.webUi.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AllotLeaves(FormCollection collection)
         {
-            var Days = collection["Emp"];
-            var userid = collection["id"];
-            var year = collection["year"];
-            var array = new string[] { };
-            if (Days.Contains(",") && userid.Contains(","))
+            var leaveAmounts = collection["amount"];
+            if (leaveAmounts.Contains(","))
             {
-              var allotedDays =   Days.Split(',');
-              var splitId = userid.Split(',');
-              var result =   leavemanagerRepo.AllotCollectiveLeave(allotedDays, splitId, year, User.Identity.GetUserId());
+              var result =   LmanagerRepo.AllotCollectiveLeave(collection);
                 if (result != false)
                 {
-                    RedirectToAction("Index");
+                    this.AddNotification("Yay!", NotificationType.SUCCESS);
+                    return RedirectToAction("Index");
                 }
             }
             else
             {
-                var result = leavemanagerRepo.allotIndividualLeave(Days, userid, year, User.Identity.GetUserId());
+                var result = LmanagerRepo.AllotOrUpdateIndividualLeave(collection);
                 if (result != false)
                 {
-                    RedirectToAction("Index");
+                    this.AddNotification("Yay!", NotificationType.SUCCESS);
+                    return RedirectToAction("Index");
                 }
             }
-            TempData["Error"] = "Something went wrong, please kindly make sure you fill all fields for allocation";
-            ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.Id), "Id", "unitname", "Id");
-            return View();
+            this.AddNotification("Something went wrong, please kindly Try Again", NotificationType.ERROR);
+            return RedirectToAction("AllotLeaves");
         }
 
         // GET: LeaveManagementViewModels/Edit/5
@@ -190,20 +188,21 @@ namespace resourceEdge.webUi.Controllers
             return View(requests);
         }
 
-        [Authorize(Roles ="HR")]
+        [Authorize(Roles ="HR, Manager")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public RedirectResult ApproveLeave(int? id, string userId, string returnUrl)
         {
             if (id != null && userId != null)
             {
-               var result =  leavemanagerRepo.Approveleave(id.Value, userId, User.Identity.GetUserId());
+               var result =  LmanagerRepo.Approveleave(id.Value, userId, User.Identity.GetUserId());
                 if (result != false)
                 {
+                    this.AddNotification("Leave Approved", NotificationType.SUCCESS);
                    return Redirect(returnUrl);
                 }
             }
-            TempData["Error"] = "Something went wong and this request could not be completed. please retry in a moment";
+            this.AddNotification("Something went wong and this request could not be completed. please retry in a moment", NotificationType.ERROR);
             return Redirect(returnUrl);
         }
 
@@ -215,13 +214,14 @@ namespace resourceEdge.webUi.Controllers
         {
             if (id != null && userid != null)
             {
-                var result = leavemanagerRepo.DenyLeave(id.Value, userid);
+                var result = LmanagerRepo.DenyLeave(id.Value, userid);
                 if (result != false)
                 {
+                    this.AddNotification("Leave Denied", NotificationType.SUCCESS);
                     return Redirect(returnUrl);
                 }
             }
-            TempData["Error"] = "Something went wong and this request could not be completed. please retry in a moment";
+            this.AddNotification("Something went wrong and this request could not be completed. please retry in a moment", NotificationType.ERROR);
             return Redirect(returnUrl);
         }
 

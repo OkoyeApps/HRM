@@ -9,6 +9,7 @@ using resourceEdge.webUi.Models;
 using resourceEdge.Domain.UnitofWork;
 using Microsoft.AspNet.Identity;
 using resourceEdge.webUi.Security;
+using System.Data.Entity.Migrations;
 
 namespace resourceEdge.webUi.Infrastructure
 {
@@ -18,7 +19,7 @@ namespace resourceEdge.webUi.Infrastructure
         {
             var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(new ApplicationDbContext()));
             UnitOfWork context = new UnitOfWork();
-
+           
             var group = new List<Group>()
             {
 
@@ -26,7 +27,8 @@ namespace resourceEdge.webUi.Infrastructure
                 new Group() { GroupName = "Genesys", CreatedDate = DateTime.Now },
                 new Group() {GroupName = "Piewa", CreatedDate = DateTime.Now }
             };
-            group.ForEach(X => context.Groups.Insert(X));
+            group.ForEach(X => context.GetDbContext().Group.AddOrUpdate(X));
+           
             var Locations = new List<Location>()
             {
                 new Location()
@@ -40,7 +42,7 @@ namespace resourceEdge.webUi.Infrastructure
                  CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now
                  }
             };
-            Locations.ForEach(x => context.Locations.Insert(x));
+            Locations.ForEach(x => context.GetDbContext().Location.AddOrUpdate(x));
             context.Save();
             var BusinessUnit = new List<BusinessUnit>()
             {
@@ -66,7 +68,7 @@ namespace resourceEdge.webUi.Infrastructure
             };
             foreach (var item in BusinessUnit)
             {
-                context.BusinessUnit.Insert(item);
+                context.GetDbContext().Businessunit.AddOrUpdate(item);
                 context.Save();
             }
             var department = new List<Departments>()
@@ -88,7 +90,7 @@ namespace resourceEdge.webUi.Infrastructure
             };
             foreach (var item in department)
             {
-                context.Department.Insert(item);
+                context.GetDbContext().departments.AddOrUpdate(item);
                 context.Save();
             }
             var jobs = new List<Jobtitle>()
@@ -111,7 +113,7 @@ namespace resourceEdge.webUi.Infrastructure
             };
             foreach (var item in jobs)
             {
-                context.jobTitles.Insert(item);
+                context.GetDbContext().Jobtitle.AddOrUpdate(item);
                 context.Save();
             }
 
@@ -124,7 +126,7 @@ namespace resourceEdge.webUi.Infrastructure
             };
             foreach (var item in position)
             {
-                context.positions.Insert(item);
+                context.GetDbContext().Position.AddOrUpdate(item);
                 context.Save();
             }
             var employmentStatus = new List<EmploymentStatus>()
@@ -134,7 +136,7 @@ namespace resourceEdge.webUi.Infrastructure
             };
             foreach (var item in employmentStatus)
             {
-                context.employmentStatus.Insert(item);
+                context.GetDbContext().EmploymentStatus.AddOrUpdate(item);
                 context.Save();
             }
             var level = new List<Level>()
@@ -142,7 +144,7 @@ namespace resourceEdge.webUi.Infrastructure
                 new Level() { LevelName ="Beginner", EligibleYears = 3, levelNo = 1, CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
                 new Level() { LevelName ="Professional", EligibleYears = 7, levelNo = 8, CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
             };
-            level.ForEach(x => context.Levels.Insert(x));
+            level.ForEach(x => context.GetDbContext().Level.AddOrUpdate(x));
             var identityCode = new IdentityCode()
             {
                 employee_code = "Tenece",
@@ -153,7 +155,7 @@ namespace resourceEdge.webUi.Infrastructure
                 vendors_code = "Ven",
                  GroupId = 1
             };
-            context.identityCodes.Insert(identityCode);
+           
             context.Save();
             var appUser = new ApplicationUser() { Email = "Admin@example.com", UserName = "Admin@example.com" };
 
@@ -230,7 +232,7 @@ namespace resourceEdge.webUi.Infrastructure
                     }
                 }
                 Employee[i].userId = TestUser1[i].Id;
-                context.employees.Insert(Employee[j]);
+                context.GetDbContext().Employee.AddOrUpdate(Employee[j]);
              }
             
             context.Save();
@@ -251,7 +253,7 @@ namespace resourceEdge.webUi.Infrastructure
             };
             foreach (var item in MonthsList)
             {
-                context.GetDbContext().MonthList.Add(item);
+                context.GetDbContext().MonthList.AddOrUpdate(item);
                 context.Save();
             }
 
@@ -272,7 +274,7 @@ namespace resourceEdge.webUi.Infrastructure
             };
             foreach (var item in Months)
             {
-                context.GetDbContext().Month.Add(item);
+                context.GetDbContext().Month.AddOrUpdate(item);
                 context.Save();
             }
 
@@ -288,7 +290,7 @@ namespace resourceEdge.webUi.Infrastructure
             };
             foreach (var item in WeekDays)
             {
-                context.GetDbContext().WeekDay.Add(item);
+                context.GetDbContext().WeekDay.AddOrUpdate(item);
                 context.Save();
             }
 
@@ -305,7 +307,7 @@ namespace resourceEdge.webUi.Infrastructure
             };
             foreach (var item in weeks)
             {
-                context.GetDbContext().Week.Add(item);
+                context.GetDbContext().Week.AddOrUpdate(item);
                 context.Save();
             }
 
@@ -317,7 +319,7 @@ namespace resourceEdge.webUi.Infrastructure
             };
             foreach (var item in AppraisalStatus)
             {
-                context.AppraisalStatus.Insert(item);
+                context.GetDbContext().AppraisalStatus.AddOrUpdate(item);
                 context.Save();
             }
             var AppraisalMode = new List<AppraisalMode>()
@@ -328,7 +330,7 @@ namespace resourceEdge.webUi.Infrastructure
             };
             foreach (var item in AppraisalMode)
             {
-                context.AppraisalMode.Insert(item);
+                context.GetDbContext().AppraisalMode.AddOrUpdate(item);
                 context.Save();
             }
             var AppraisalRating = new List<AppraisalRating>()
@@ -339,7 +341,7 @@ namespace resourceEdge.webUi.Infrastructure
             };
             foreach (var item in AppraisalRating)
             {
-                context.AppraislRating.Insert(item);
+                context.GetDbContext().ApprasialRating.AddOrUpdate(item);
                 context.Save();
             }
             var periods = new List<AppraisalPeriod>()
@@ -353,7 +355,7 @@ namespace resourceEdge.webUi.Infrastructure
             {
                 new Parameters() { ParameterName = "KPI", Descriptions = "Key Performance Index" }
             };
-            parameter.ForEach(X => context.Parameters.Insert(X));
+            parameter.ForEach(X => context.GetDbContext().Parameter.AddOrUpdate(X));
 
             var Menus = new List<Menu>()
             {

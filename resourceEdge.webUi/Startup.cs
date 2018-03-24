@@ -1,4 +1,5 @@
-﻿using Microsoft.Owin;
+﻿using Hangfire;
+using Microsoft.Owin;
 using Owin;
 using resourceEdge.webUi.Infrastructure;
 using System.Data.Entity;
@@ -13,7 +14,12 @@ namespace resourceEdge.webUi
         {
             ConfigureAuth(app);
             CreateDeafaultRoles();
-            app.MapSignalR();           
+            //app.MapSignalR();
+            GlobalConfiguration.Configuration
+              .UseSqlServerStorage("ResourceDbContext");
+
+            app.UseHangfireDashboard();
+            app.UseHangfireServer();
         }
 
         public void CreateDeafaultRoles()

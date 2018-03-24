@@ -26,7 +26,7 @@ namespace resourceEdge.webUi.Infrastructure.Core
                     try
                     {
                         EmailObject mailObject;
-                        mailObject = new EmailObject { Body = item.Message, Subject = item.Subject, Reciever = item.Reciever, Sender = item.Sender, Footer = item.GroupName, FullName = item.FullName };
+                        mailObject = new EmailObject { Body = item.Message, Subject = item.Subject, Reciever = item.Reciever, Sender = item.Sender, Footer = item.GroupName, FullName = item.FullName, Type = item.Type };
 
                         var result = await manager.sendEmailNotification(mailObject);
                         if (result != false)

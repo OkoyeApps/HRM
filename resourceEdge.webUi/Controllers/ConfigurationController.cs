@@ -82,27 +82,29 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult AddCode(IdentityCode codes, string returnUrl)
         {
             IdentityCode code = codes;
-            if (ModelState.IsValid)
+            var existngCode = ConfigManager.DoesIdentityCodeExistForGroup(code.GroupId);
+            if (existngCode != true)
             {
-                code.createddate = DateTime.Now;
-                code.modifiedBy = User.Identity.GetUserId();
-                code.createdBy = User.Identity.GetUserId();
-                code.createdBy = null;
-                code.createdBy = null;
-                IdentityRepo.Insert(code);
-                ModelState.Clear();
-                this.AddNotification("Code created successfully", NotificationType.SUCCESS);
-                if (returnUrl != null)
+                if (ModelState.IsValid)
                 {
-                    return Redirect(returnUrl);
+                    code.createddate = DateTime.Now;
+                    code.modifiedBy = User.Identity.GetUserId();
+                    code.createdBy = User.Identity.GetUserId();
+                    code.createdBy = null;
+                    code.createdBy = null;
+                    IdentityRepo.Insert(code);
+                    ModelState.Clear();
+                    this.AddNotification("Code created successfully", NotificationType.SUCCESS);
+                    if (returnUrl != null)
+                    {
+                        return Redirect(returnUrl);
+                    }
+                    return RedirectToAction("Create", "HR");
                 }
-                return RedirectToAction("Create", "HR");
+
             }
-            else
-            {
-                TempData["Error"] = "Something went wrong. please make sure you fill all the appropriate details";
-                return View(codes);
-            }
+                this.AddNotification("Sorry Identity Code has been Added for this Group already", NotificationType.ERROR);
+                return RedirectToAction("AddCode");
         }
         public ActionResult EditCode(int id = 1)
         {
@@ -735,6 +737,7 @@ namespace resourceEdge.webUi.Controllers
     {
         try
         {
+                
             if (ModelState.IsValid)
             {
                 Group Group = new Group();

@@ -166,7 +166,7 @@ namespace resourceEdge.webUi.Controllers
                         try
                         {
                             var newCreatedUser = await Infrastructure.UserManagement.CreateUser(employees.empEmail, employees.empRoleId.ToString(), employees.empStatusId, employees.FirstName, employees.lastName, employees.officeNumber,
-                                 RealUserId, employees.jobtitleId.ToString(), null, null, User.Identity.GetUserId(), employees.modeofEmployement.ToString(),
+                                 RealUserId, employees.jobtitleId.ToString(), null, User.Identity.GetUserId(), User.Identity.GetUserId(), employees.modeofEmployement.ToString(),
                                   employees.dateOfJoining, null, true, employees.departmentId.ToString(), employees.businessunitId.ToString());
                             if (newCreatedUser.Item1.Id != null)
                             {
@@ -326,6 +326,37 @@ namespace resourceEdge.webUi.Controllers
 
             }
             return RedirectToAction("AssignDepartmentHead");
+        }
+
+        public ActionResult AddSystemAdmin()
+        {
+            ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(X => X.Id), "Id", "GroupName", "Id");
+            ViewBag.PageTitle = "Add Admin";
+            return View();
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult AddSystemAdmin(EmployeeListItem model)
+        {
+            if (model.empEmail != null)
+            {
+                ApplicationUser user = new ApplicationUser()
+                {
+                    Email = model.empEmail,
+                    UserName = model.empEmail,
+                    LocationId = model.LocationId,
+                    GroupId = model.GroupId,
+                    UserfullName = "System Admin"
+                    
+                };
+                UserManager.Create(user, "1234567");
+                UserManager.AddToRole(user.Id, "System Admin");
+                ModelState.Clear();
+                this.AddNotification("Successfully Created!", NotificationType.SUCCESS);
+                return RedirectToAction("CreateSystemAdmin");
+            }
+            this.AddNotification("Something went wrong please try Again", NotificationType.ERROR);
+            return RedirectToAction("AddSystemAdmin");
         }
 
         public ActionResult AllQuestions()
