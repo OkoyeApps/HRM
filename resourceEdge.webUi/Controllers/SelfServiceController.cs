@@ -2,6 +2,7 @@
 using resourceEdge.Domain.Abstracts;
 using resourceEdge.Domain.Entities;
 using resourceEdge.webUi.Infrastructure;
+using resourceEdge.webUi.Infrastructure.Core;
 using resourceEdge.webUi.Infrastructure.Handlers;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ using System.Web.Mvc;
 namespace resourceEdge.webUi.Controllers
 {
     
-    [Authorize]
+    [CustomAuthorizationFilter]
     public class SelfServiceController : Controller
     {
         ILeaveManagement leaveRepo;
@@ -35,6 +36,7 @@ namespace resourceEdge.webUi.Controllers
             return View();
         }
 
+        [LeaveFilter]
         public ActionResult RequestLeave()
         {
             ViewBag.PageTitle = "Request Leave";
@@ -44,6 +46,7 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.AvailableLeave = leavemanagerRepo.GetEmpAvailableLeave(User.Identity.GetUserId());
             return View();
         }
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult RequestLeave(LeaveRequestViewModel model)
@@ -72,13 +75,14 @@ namespace resourceEdge.webUi.Controllers
                 leave.AppliedleavesCount =+ model.requestDays + getPreviousAppliedDateNo; //Remember to do this with the modelState to check if leave is finished
                 leave.requestDaysNo = model.requestDays;
                 leaveRepo.AddLeaveRequest(leave);
+                this.AddNotification("", NotificationType.SUCCESS);
                 return RedirectToAction("Leave", "selfService"); //redirect to employee selservice page for him to see his requests
             }
-            ViewBag.Error = "Something went wrong";
+            this.AddNotification("Something went wrong, Please try again", NotificationType.ERROR);
             ViewBag.leaveType = new SelectList(leaveRepo.GetLeaveTypes().OrderBy(x => x.leavetype), "id", "leavetype", "id");
             ViewBag.userId = User.Identity.GetUserId();
-            ModelState.AddModelError("", "Please make sure your leave your leave hasn't been exhausted or you can ask The HR to assign more leave for you.");
-            return View(model);
+            this.AddNotification("Please make sure your leave your leave hasn't been exhausted or you can ask The HR to assign more leave for you.", NotificationType.WARNING);
+            return RedirectToAction("RequestLeave");
         }
     }
 }

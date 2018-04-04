@@ -22,21 +22,8 @@ namespace resourceEdge.webUi
 {
     public class MvcApplication : System.Web.HttpApplication
     {
-        //string action = "";
-        //string controller = "";
-        //string parameter = "";
-        //string hostName = "";
-        //string ipaddress = "";
-        //string requesturl = "";
-        //string dataparameter = String.Empty;
-        //IActivityLog LogsRepo = new ActivityLogRepo();
-        //string userId = "No user Yet";
-        //ControllerContext context = new ControllerContext();
-        public void Application_BeginRequest(object sender, EventArgs args)
-        {
-            LoggingFilter Logs = new LoggingFilter();
-            //Logs.Logging();
-        }
+
+  
         protected void Application_Start()
         {
             //Database.SetInitializer(new resourceEdge.webUi.Infrastructure.DbInitializer());

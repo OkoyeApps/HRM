@@ -15,7 +15,7 @@ using resourceEdge.webUi.Infrastructure.Core;
 
 namespace resourceEdge.webUi.Controllers
 {
-    [Authorize(Roles = "System Admin,HR")]
+    [CustomAuthorizationFilter(Roles = "System Admin,HR")]
     public class ConfigurationController : Controller
     {
         private ApplicationUserManager userManager;
@@ -136,35 +136,45 @@ namespace resourceEdge.webUi.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult addPrefix(prefixViewModel model, string returnUrl, string previousUrl)
+        public ActionResult addPrefix(FormCollection collection, prefixViewModel model, string returnUrl, string previousUrl)
         {
-
-
-            if (ModelState.IsValid)
+            if (!collection.AllKeys.Contains("prefixName[0]"))
             {
-                Prefix prefixes = new Prefix()
+                if (ModelState.IsValid)
                 {
-                    prefixName = model.prefixName,
-
-                    createdby = null,
-                    createddate = DateTime.Now,
-                    modifiedby = null,
-                    isactive = true
-                };
-                prefixRepo.Insert(prefixes);
-                this.AddNotification("Prefix added Successfully", NotificationType.SUCCESS);
-                if (returnUrl != null)
-                {
-                    return Redirect(returnUrl);
+                    Prefix prefixes = new Prefix()
+                    {
+                        prefixName = model.prefixName,
+                        createdby = null,
+                        createddate = DateTime.Now,
+                        modifiedby = null,
+                        isactive = true
+                    };
+                    prefixRepo.Insert(prefixes);
+                    this.AddNotification("Prefix added Successfully", NotificationType.SUCCESS);
+                    if (returnUrl != null)
+                    {
+                        return Redirect(returnUrl);
+                    }
+                    return RedirectToAction("addPrefix");
                 }
-                return RedirectToAction("Create", "HR");
-
             }
             else
             {
-                this.AddNotification("Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
-                return View(model);
+                var result = ConfigManager.AddorUpdatePrefix(collection);
+                if (result != false && returnUrl != null)
+                {
+                    this.AddNotification("", NotificationType.SUCCESS);
+                    return Redirect(returnUrl);
+                }
+                else if (result != false && returnUrl == null)
+                {
+                    this.AddNotification("", NotificationType.SUCCESS);
+                    return RedirectToAction("addPrefix");
+                }
             }
+            this.AddNotification("Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
+                return View(model);
 
         }
         public ActionResult AllBusinessUnits()
@@ -402,8 +412,10 @@ namespace resourceEdge.webUi.Controllers
                     ModelState.Clear();
                     if (returnUrl != null)
                     {
+                        this.AddNotification("", NotificationType.SUCCESS);
                         return Redirect(returnUrl);
                     }
+                    this.AddNotification("", NotificationType.SUCCESS);
                     return RedirectToAction("AddJobTitle");
                 }
             }
@@ -412,13 +424,18 @@ namespace resourceEdge.webUi.Controllers
                 var result = ConfigManager.AddOrUpdateJobs(collection);
                 if (result != false && returnUrl != null)
                 {
-                    this.AddNotification($"Operation Successful!", NotificationType.SUCCESS);
+                    this.AddNotification("", NotificationType.SUCCESS);
                     return Redirect(returnUrl);
+                }
+                else if (result != false && returnUrl == null)
+                {
+                    this.AddNotification("", NotificationType.SUCCESS);
+                    return RedirectToAction("AddJobTitle");
                 }
             }
 
             this.AddNotification("Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
-            return View(jobs);
+            return RedirectToAction("AddJobTitle");
         }
 
         public ActionResult AllPosition()
@@ -441,7 +458,7 @@ namespace resourceEdge.webUi.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult addPosition(Position model = null, FormCollection collection = null, string returnUrl = null)
         {
-            if (model != null)
+            if (!collection.AllKeys.Contains("positionname[0]"))
             {
                 if (ModelState.IsValid)
                 {
@@ -464,16 +481,18 @@ namespace resourceEdge.webUi.Controllers
                 var result = ConfigManager.AddOrUpdatePosition(collection);
                 if (result != false && returnUrl != null)
                 {
+                    this.AddNotification("", NotificationType.SUCCESS);
                     return Redirect(returnUrl);
                 }
                 else if (result != false && returnUrl == null)
                 {
-                    return RedirectToAction("Create", "HR");
+                    this.AddNotification("", NotificationType.SUCCESS);
+                    return RedirectToAction("addPosition");
                 }
             }
             ViewBag.jobTitles = new SelectList(Apimanager.JobList().OrderBy(x => x.JobName), "JobId", "JobName", "JobId");
             this.AddNotification("Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
-            return View(model);
+            return RedirectToAction("addPosition");
         }
 
 
@@ -493,7 +512,7 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult addEmploymentStatus(employeeStatusViewModel model = null, FormCollection collection = null, string returnUrl = null)
         {
 
-            if (model != null)
+            if (!collection.AllKeys.Contains("employementStatus[0]"))
             {
                 if (ModelState.IsValid)
                 {
@@ -523,7 +542,7 @@ namespace resourceEdge.webUi.Controllers
                 }
                 else if (result != false && returnUrl == null)
                 {
-                    return RedirectToAction("Create", "HR");
+                    return RedirectToAction("addEmploymentStatus");
                 }
             }
             ModelState.AddModelError("", "Something went wrong.\n please make sure your data's are valid \n if the problem persist contact the system Administrator");
@@ -624,11 +643,11 @@ namespace resourceEdge.webUi.Controllers
         return View(model);
     }
 
-    public ActionResult AddLocation(string returnUrl, string previousUrl)
+    public ActionResult AddLocation(string returnUrl)
     {
         ViewBag.returnUrl = returnUrl;
-            ViewBag.previousUrl = previousUrl;
-            ViewBag.pageTitle = "Add Location";
+         
+        ViewBag.pageTitle = "Add Location";
         ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
         ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(X => X.Id), "Id", "GroupName", "Id");
         return View();
@@ -655,12 +674,13 @@ namespace resourceEdge.webUi.Controllers
                 location.GroupId = model.GroupId;
                 LocationRepo.Insert(location);
                 ModelState.Clear();
-                this.AddNotification("Location Added Successfully", NotificationType.SUCCESS);
                 if (returnUrl != null)
                 {
+                this.AddNotification("Location Added", NotificationType.SUCCESS);
                     return Redirect(returnUrl);
                 }
-                return RedirectToAction("Create", "HR");
+                    this.AddNotification("Location Added", NotificationType.SUCCESS);
+                    return RedirectToAction("Create", "HR");
             }
         }
         else
@@ -672,11 +692,10 @@ namespace resourceEdge.webUi.Controllers
             }
             else if (result != false && returnUrl == null)
             {
-                return RedirectToAction("AddLocation");
+                    this.AddNotification("Something went wrong, please try again", NotificationType.ERROR);
+                    return RedirectToAction("AddLocation");
             }
         }
-
-        ModelState.AddModelError("", "please refill the form and make try submitting again");
         this.AddNotification("Something went wrong, please try again", NotificationType.ERROR);
         return View(model);
     }

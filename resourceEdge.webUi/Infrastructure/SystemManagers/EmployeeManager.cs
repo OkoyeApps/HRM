@@ -607,7 +607,7 @@ namespace resourceEdge.webUi.Infrastructure
                     listItem = new EmloyeDetailistItem();
                     var ImagList = unitofWork.Files.Get(filter: x => x.UserId == item.userId && x.FileType == FileType.Avatar).Select(x=>x.FilePath).FirstOrDefault();
                     var userlist = userManager.FindById(item.userId);
-                    bool? loginList = unitofWork.Logins.Get(filter: x => x.userId == item.userId && x.IsLogOut == false).Select(x=>x.IsLogIn).LastOrDefault();
+                    bool? loginList = unitofWork.Logins.Get(filter: x => x.UserID == item.userId && x.IsLogOut == false).Select(x=>x.IsLogIn).LastOrDefault();
                     var employeeUnit = unitofWork.BusinessUnit.GetByID(item.businessunitId).unitname;
                     var employeeDept = unitofWork.Department.GetByID(item.departmentId).deptname;
                     listItem.BusinessUnitName = employeeUnit;

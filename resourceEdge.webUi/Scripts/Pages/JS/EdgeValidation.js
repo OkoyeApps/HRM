@@ -1,4 +1,5 @@
 ﻿(function () {
+
     $.ValidateNumber =
 
      function isNumberKey(evt, obj) {
@@ -14,7 +15,4 @@
              return false;
          return true;
      }
-
-
-
 })();

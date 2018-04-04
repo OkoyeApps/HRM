@@ -1,5 +1,16 @@
-﻿@using resourceEdge.webUi.Models
-@model LoginViewModel
+﻿@*@{
+    ViewBag.Title = "NotSubscribed";
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+}
+
+<div style="text-align:center"> <h2>Please you have no leave assigned to you yet.</h2></div>
+<br />
+<p> Please contact your HR for your leave.</p>
+<a href="@Url.Action("leave","SelfService")" class="btn btn-danger pull-right">Return Home</a>*@
+
+
+
+
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if !IE]><!-->
@@ -7,7 +18,7 @@
 <!--<![endif]-->
 <head>
     <meta charset="utf-8" />
-    <title>Login Page</title>
+    <title>No Leave</title>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <meta content="" name="description" />
     <meta content="" name="author" />
@@ -26,70 +37,33 @@
     <script src="~/assets/AdminTemplate/assets/plugins/pace/pace.min.js"></script>
     <!-- ================== END BASE JS ================== -->
 </head>
-<body class="pace-top bg-white">
+<body class="pace-top">
     <!-- begin #page-loader -->
     <div id="page-loader" class="fade in"><span class="spinner"></span></div>
     <!-- end #page-loader -->
     <!-- begin #page-container -->
     <div id="page-container" class="fade">
-        <!-- begin register -->
-        <div class="register register-with-news-feed">
-            <!-- begin news-feed -->
-            <div class="news-feed">
-                <div class="news-image">
-                    <img src="~/assets/AdminTemplate/assets/img/login-bg/bg-8.jpg" alt="" />
+        <!-- begin error -->
+        <div class="error">
+            <div class="error-code m-b-10">OOPs <i class="fa fa-warning"></i></div>
+            <div class="error-content">
+                <div class="error-message">No Leave Yet...</div>
+                <div class="error-desc m-b-20">
+                    You are seeing this page because your HR hasn't allocated any leave for you yet.
+                    <br />
+                    Please you can remind you Hr for you Leave
                 </div>
-                <div class="news-caption">
-                    <h4 class="caption-title"><i class="fa fa-edit text-success"></i> Resource Edge</h4>
-                    <p>
-                        Effective organizations needs effecient Resource Manage.
-                    </p>
+                <div>
+                    <a href="@Url.Action("leave","SelfService")"  class="btn btn-danger">Return Home</a>
                 </div>
             </div>
-            <!-- end news-feed -->
-            <!-- begin right-content -->
-            <div class="right-content">
-                <!-- begin register-header -->
-                <h1 class="register-header">
-                    Log in
-                    <small>Login to assess your Dashboard.</small>
-                </h1>
-                <!-- end register-header -->
-                <!-- begin register-content -->
-                <div class="register-content">
-             @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "login-form", role = "form" }))
-                       {
-                        @Html.AntiForgeryToken()
-                        <label class="control-label">Email</label>
-                        <div class="row m-b-15">
-                            <div class="col-md-12">
-                                <input type="email" name="Email" class="form-control" placeholder="Email Address" />
-                            </div>
-                        </div>
-                        <label class="control-label">Password</label>
-                        <div class="row m-b-15">
-                            <div class="col-md-12">
-                                <input type="password" name="Password" class="form-control" placeholder="Enter Password" />
-                            </div>
-                        </div>
-                        <div class="checkbox m-b-30">
-                            <label>
-                                <input type="checkbox" name="RememberMe" checked ="checked" value="true" /> Remember me.
-                            </label>
-                        </div>
-                        <div class="register-buttons">
-                            <button type="submit" class="btn btn-primary btn-block btn-lg">LOG IN</button>
-                        </div>
-                        <hr />
-                        <p class="text-center text-inverse">
-                            &copy; Tenece All Right Reserved @DateTime.Now.Year;
-                        </p>
-                       }
-                </div>
-                <!-- end register-content -->
-            </div>
-            <!-- end right-content -->
         </div>
+        <!-- end error -->
+        <!-- begin theme-panel -->
+        <!-- end theme-panel -->
+        <!-- begin scroll to top btn -->
+        <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i class="fa fa-angle-up"></i></a>
+        <!-- end scroll to top btn -->
     </div>
     <!-- end page container -->
     <!-- ================== BEGIN BASE JS ================== -->
@@ -98,9 +72,9 @@
     <script src="~/assets/AdminTemplate/assets/plugins/jquery-ui/ui/minified/jquery-ui.min.js"></script>
     <script src="~/assets/AdminTemplate/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
     <!--[if lt IE 9]>
-        <script src="~/assets/AdminTemplate/assets/crossbrowserjs/html5shiv.js"></script>
-        <script src="~/assets/AdminTemplate/assets/crossbrowserjs/respond.min.js"></script>
-        <script src="~/assets/AdminTemplate/assets/crossbrowserjs/excanvas.min.js"></script>
+        <script src="assets/crossbrowserjs/html5shiv.js"></script>
+        <script src="assets/crossbrowserjs/respond.min.js"></script>
+        <script src="assets/crossbrowserjs/excanvas.min.js"></script>
     <![endif]-->
     <script src="~/assets/AdminTemplate/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="~/assets/AdminTemplate/assets/plugins/jquery-cookie/jquery.cookie.js"></script>
@@ -108,6 +82,7 @@
     <!-- ================== BEGIN PAGE LEVEL JS ================== -->
     <script src="~/assets/AdminTemplate/assets/js/apps.min.js"></script>
     <!-- ================== END PAGE LEVEL JS ================== -->
+
     <script>
 		$(document).ready(function() {
 			App.init();
@@ -124,5 +99,5 @@
 
     </script>
 </body>
-<!-- Mirrored from seantheme.com/color-admin-v2.0/admin/html/register_v3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 01 Sep 2016 09:34:56 GMT -->
+<!-- Mirrored from seantheme.com/color-admin-v2.0/admin/html/extra_404_error.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 01 Sep 2016 09:32:14 GMT -->
 </html>

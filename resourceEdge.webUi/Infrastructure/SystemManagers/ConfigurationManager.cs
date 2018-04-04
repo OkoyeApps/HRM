@@ -143,10 +143,11 @@ namespace resourceEdge.webUi.Infrastructure
                 {
                     var UserId = HttpContext.Current.User.Identity.GetUserId();
                     var allKeys = collection.AllKeys;
-                    var allNames = allKeys.Where(x => x.ToLower().StartsWith("prefixName")).ToList();
+                    var allNames = allKeys.Where(x => x.ToLower().StartsWith("prefixname")).ToList();
                     var allDescription = allKeys.Where(x => x.ToLower().StartsWith("description")).ToList();
                     allKeys.ToList().RemoveRange(0, 2);
-                    for (int i = 0; i < allKeys.Length; i++)
+                    var Length = (allKeys.Length - 1) / 2;
+                    for (int i = 0; i < Length; i++)
                     {
                         model = new prefixViewModel();
                         Prefix prefix = new Prefix()
@@ -192,11 +193,11 @@ namespace resourceEdge.webUi.Infrastructure
                 {
                     var UserId = HttpContext.Current.User.Identity.GetUserId();
                     var allKeys = collection.AllKeys;
-                    var allStatus = allKeys.Where(x => x.ToLower().StartsWith("employemntStatus")).ToList();
+                    var allStatus = allKeys.Where(x => x.ToLower().StartsWith("employementstatus")).ToList();
 
                     allKeys.ToList().RemoveRange(0, 2);
-
-                    for (int i = 0; i < allKeys.Length; i++)
+                    var Length = (allKeys.Length - 1);
+                    for (int i = 0; i < Length; i++)
                     {
                         EmploymentStatus status = new EmploymentStatus()
                         {
@@ -240,32 +241,35 @@ namespace resourceEdge.webUi.Infrastructure
                     var allPayFreq = allKeys.Where(x => x.ToLower().StartsWith("jobpayfrequency")).ToList();
                     var allDescription = allKeys.Where(x => x.ToLower().StartsWith("jobdescription")).ToList();
                     var allGradeCode = allKeys.Where(x => x.ToLower().StartsWith("jobpaygradecode")).ToList();
-                    var Group = allKeys.Where(x => x.ToLower().StartsWith("GroupId")).FirstOrDefault();
+                    var Group = allKeys.Where(x => x.ToLower().StartsWith("group")).FirstOrDefault();
                     allKeys.ToList().RemoveRange(0, 2);
                     int groupId = 0;
                     double experience = 0;
-                    int.TryParse(Group, out groupId);
+                    //int.TryParse(Group, out groupId);
                     for (int i = 0; i < allKeys.Length; i++)
                     {
                         double.TryParse(collection[allExperience[i].ToString()], out experience);
-                        Jobtitle job = new Jobtitle()
+                        int.TryParse(collection[Group], out groupId);
+                        if (experience != 0 && groupId != 0)
                         {
-                            createdby = UserId,
-                       
-                            createddate = DateTime.Now,
-                            GroupId = groupId,
-                            jobdescription = collection[allDescription[i].ToString()],
-                            jobpayfrequency = collection[allPayFreq[i].ToString()],
-                            jobpaygradecode = collection[allGradeCode[i].ToString()],
-                            jobtitlecode = collection[allCode[i].ToString()],
-                            jobtitlename = collection[allTitleName[i].ToString()],
-                            minexperiencerequired = experience,
-                            isactive = true
-                        };
-                        unitOfWork.jobTitles.Insert(job);
-                    }
+                            Jobtitle job = new Jobtitle()
+                            {
+                                createdby = UserId,
+                                createddate = DateTime.Now,
+                                GroupId = groupId,
+                                jobdescription = collection[allDescription[i].ToString()] != "" ? collection[allDescription[i].ToString()] : null,
+                                jobpayfrequency = collection[allPayFreq[i].ToString()] != "" ? collection[allPayFreq[i].ToString()] : null,
+                                jobpaygradecode = collection[allGradeCode[i].ToString()] != "" ? collection[allGradeCode[i].ToString()] : null,
+                                jobtitlecode = collection[allCode[i].ToString()],
+                                jobtitlename = collection[allTitleName[i].ToString()],
+                                minexperiencerequired = experience,
+                                isactive = true
+                            };
+                            unitOfWork.jobTitles.Insert(job);
                     unitOfWork.Save();
                     return true;
+                        }
+                    }
                 }
                 else if(Id != null)
                 {
@@ -289,7 +293,7 @@ namespace resourceEdge.webUi.Infrastructure
         {
             try
             {
-                if (collection != null)
+                if (collection != null && Id == null)
                 {
                     var UserId = HttpContext.Current.User.Identity.GetUserId();
                     var allKeys = collection.AllKeys;
@@ -298,21 +302,27 @@ namespace resourceEdge.webUi.Infrastructure
                     var allDescription = allKeys.Where(x => x.ToLower().StartsWith("description")).ToList();
                     allKeys.ToList().RemoveRange(0, 2);
                     int jobId = 0;
-                    int.TryParse(allJobId, out jobId);
-                    for (int i = 0; i < allKeys.Length; i++)
+                    var Length =(allKeys.Length - 1) / 3;
+                    for (int i = 0; i < Length; i++)
                     {
-                        Position position = new Position()
+                    int.TryParse(collection[allJobId], out jobId);
+                        if (jobId != 0)
                         {
-                            createdby = UserId,
-                            createddate = DateTime.Now,
-                            description = collection[allDescription[i].ToString()],
-                            jobtitleid = jobId,
-                            positionname = collection[allName[i].ToString()],
-                            isactive = true
-                        };
-                        unitOfWork.positions.Insert(position);
-                        unitOfWork.Save();
+                            Position position = new Position()
+                            {
+
+                                createdby = UserId,
+                                createddate = DateTime.Now,
+                                description = collection[allDescription[i].ToString()],
+                                jobtitleid = jobId,
+                                positionname = collection[allName[i].ToString()],
+                                isactive = true
+                            };
+                            unitOfWork.positions.Insert(position);
+                            unitOfWork.Save();
+                        }
                     }
+                    return true;
                 }
                 else if (Id != null)
                 {

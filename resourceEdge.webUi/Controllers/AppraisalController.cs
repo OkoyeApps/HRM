@@ -16,7 +16,7 @@ using resourceEdge.Domain.ViewModels;
 
 namespace resourceEdge.webUi.Controllers
 {
-    [Authorize]
+   [CustomAuthorizationFilter]
     public class AppraisalController : Controller
     {
         IEmployees  EmpRepo;
@@ -91,7 +91,7 @@ namespace resourceEdge.webUi.Controllers
             return View(model);
         }
 
-        [Authorize(Roles ="Manager")]
+        [CustomAuthorizationFilter(Roles ="Manager")]
         public ActionResult AddQuestion()
         {
             var userObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
@@ -280,7 +280,7 @@ namespace resourceEdge.webUi.Controllers
             return View("AllInitializedAppraisal");
         }
 
-        [Authorize(Roles ="HR")]
+        [CustomAuthorizationFilter(Roles ="HR")]
         public ActionResult SubscribeToAppraisal(string Code)
         {
             var userSessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
@@ -305,8 +305,7 @@ namespace resourceEdge.webUi.Controllers
         }
 
 
-        [Authorize(Roles = "HR")]
-        [SubscriptionFilter]
+        [CustomAuthorizationFilter(Roles = "HR"), SubscriptionFilter]
         public ActionResult ConfigureAppraisal()
         {
             var userSessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];

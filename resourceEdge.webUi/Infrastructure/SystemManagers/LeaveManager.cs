@@ -39,10 +39,10 @@ namespace resourceEdge.webUi.Infrastructure
             return leave != null ? leave.EmpLeaveLimit : null;
         }
 
-        public double GetEmployeeUsedLeave(string userId)
+        public double? GetEmployeeUsedLeave(string userId)
         {
             var result = unitofWork.EmployeeLeave.Get(filter: x => x.UserId == userId).FirstOrDefault();
-            return result != null ? result.UsedLeaves.Value : 0;
+            return result != null ? result.UsedLeaves : 0;
         }
 
         public List<LeaveRequest> GetPendingLeaveForManager(string userid)

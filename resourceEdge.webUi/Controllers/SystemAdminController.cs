@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace resourceEdge.webUi.Controllers
 {
-    [Authorize(Roles ="System Admin")]
+    [CustomAuthorizationFilter(Roles ="System Admin")]
     [RoutePrefix("Admin")]
     public class SystemAdminController : Controller
     {

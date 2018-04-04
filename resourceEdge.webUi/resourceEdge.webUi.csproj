@@ -249,6 +249,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\ActitivityLogs\LoggingEvents.cs" />
+    <Compile Include="Infrastructure\Handlers\LeaveFilter.cs" />
+    <Compile Include="Infrastructure\Handlers\LoginsFilters.cs" />
     <Compile Include="Infrastructure\SystemManagers\AdminManager.cs" />
     <Compile Include="Infrastructure\SystemManagers\Apimanager.cs" />
     <Compile Include="Infrastructure\SystemManagers\AppraisalManager.cs" />
@@ -261,11 +263,11 @@
     <Compile Include="Infrastructure\DbInitializer.cs" />
     <Compile Include="Infrastructure\SystemManagers\EmployeeManager.cs" />
     <Compile Include="Infrastructure\Handlers\EdgeIdentityFilter.cs" />
-    <Compile Include="Infrastructure\Handlers\LoggingFilter.cs" />
+    <Compile Include="Infrastructure\Handlers\ActionLoggingFilter.cs" />
     <Compile Include="Infrastructure\Handlers\MenuFilter.cs" />
     <Compile Include="Infrastructure\Handlers\SessionFilter.cs" />
     <Compile Include="Infrastructure\Handlers\SubscriptionFilter.cs" />
-    <Compile Include="Infrastructure\Handlers\UnAuthorizationFilter.cs" />
+    <Compile Include="Infrastructure\Handlers\CustomAuthorizationFilter.cs" />
     <Compile Include="Infrastructure\SystemManagers\LeaveManager.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\SystemManagers\NotificationManager.cs" />
@@ -275,10 +277,6 @@
     <Compile Include="Migrations\ApplicationDbConntextMigrations\201803211503312_InitialCreate.cs" />
     <Compile Include="Migrations\ApplicationDbConntextMigrations\201803211503312_InitialCreate.Designer.cs">
       <DependentUpon>201803211503312_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\ApplicationDbConntextMigrations\201803221936281_LocationAndGroupForUser.cs" />
-    <Compile Include="Migrations\ApplicationDbConntextMigrations\201803221936281_LocationAndGroupForUser.Designer.cs">
-      <DependentUpon>201803221936281_LocationAndGroupForUser.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\ApplicationDbConntextMigrations\Configuration.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -1433,6 +1431,8 @@
     <Content Include="Views\Configuration\AddLocation.cshtml" />
     <Content Include="Views\Configuration\AddPrefix.cshtml" />
     <Content Include="Views\HR\AddSystemAdmin.cshtml" />
+    <Content Include="Views\Validation\NoLeave.cshtml" />
+    <Content Include="Views\Validation\UnAuthorized.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1464,9 +1464,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\ApplicationDbConntextMigrations\201803211503312_InitialCreate.resx">
       <DependentUpon>201803211503312_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\ApplicationDbConntextMigrations\201803221936281_LocationAndGroupForUser.resx">
-      <DependentUpon>201803221936281_LocationAndGroupForUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

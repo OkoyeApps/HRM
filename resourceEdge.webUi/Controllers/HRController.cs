@@ -20,7 +20,8 @@ using resourceEdge.webUi.Infrastructure.Core;
 
 namespace resourceEdge.webUi.Controllers
 {
-    [Authorize(Roles = "System Admin,HR")]
+   // [Authorize(Roles = "System Admin,HR")]
+    [CustomAuthorizationFilter(Roles ="System Admin, HR")]
     public class HRController : Controller
     {
         IEmployees empRepo;
@@ -230,6 +231,7 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult AssignReportManager()
         {
             var CurrentEmployee = empRepo.GetByUserId(User.Identity.GetUserId());
+            ViewBag.PageTitle = "Assign Manager";
             ViewBag.businessUnits = new SelectList(BunitsRepo.GetUnitsByLocation(CurrentEmployee.LocationId.Value).OrderBy(x => x.Id), "Id", "unitname", "Id");
             return View();
         }
@@ -262,19 +264,21 @@ namespace resourceEdge.webUi.Controllers
                             userManager.AddToRole(result.userId, "Manager");
                             ReportRepo.Insert(manager);
                         }
+                        this.AddNotification("", NotificationType.SUCCESS);
                         return RedirectToAction("allEmployee");
                     }
                     else
                     {
+                        this.AddNotification("No manager found with the specified Id, Please make sure you are not editing the request", NotificationType.ERROR);
                         return new HttpStatusCodeResult(HttpStatusCode.NotFound);
                     }
                 }
-                ViewBag.Error = "Cannot Assign More Than two managers to a Business Unit";
+                this.AddNotification("Cannot Assign More Than two managers to a Business Unit", NotificationType.WARNING);
+                return RedirectToAction("AssignReportManager");
             }
 
-            ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.Id), "Id", "unitname", "Id");
-            ViewBag.Error = "Make sure that the report Manager does not exist already for the business unit";
-            ViewBag.Warning = "Also make sure that you don't add an employee twice for particlar business unit";
+           // ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.Id), "Id", "unitname", "Id");
+           this.AddNotification("Make sure that the report Manager does not exist already for the business unit", NotificationType.ERROR);
             return RedirectToAction("AssignReportManager");
         }
 
@@ -300,7 +304,7 @@ namespace resourceEdge.webUi.Controllers
             {
                 ViewBag.businessUnits = new SelectList(BunitsRepo.GetUnitsByLocation(UserFromSession.LocationId).OrderBy(x => x.Id), "Id", "unitname", "Id");
             }
-            ViewBag.PageTitle = "Assgin Department Head";
+            ViewBag.PageTitle = "Assign Department Head";
             return View();
         }
 
@@ -314,17 +318,19 @@ namespace resourceEdge.webUi.Controllers
                 int.TryParse(model.BunitId, out unitId);
                 int.TryParse(model.DeptId, out deptId);
                 var user = employeeManager.GetEmployeeByUserId(model.userId);
-                if (user != null)
+                if (user != null && unitId != 0 && deptId != 0)
                 {
                     if (user.IsDepthead != true)
                     {
                         user.IsDepthead = true;
                         empRepo.update(user);
+                        this.AddNotification("", NotificationType.SUCCESS);
                         return RedirectToAction("AssignDepartmentHead");
                     }
                 }
 
             }
+            this.AddNotification("Something went wrong, please try again", NotificationType.ERROR);
             return RedirectToAction("AssignDepartmentHead");
         }
 
@@ -453,7 +459,7 @@ namespace resourceEdge.webUi.Controllers
             }
             if (result != false)
             {
-                this.AddNotification("Successfuly Rejected Question(s)", NotificationType.SUCCESS);
+                this.AddNotification("Successfully Rejected Question(s)", NotificationType.SUCCESS);
                 return RedirectToAction("AddedQuestions");
             }
             this.AddNotification("Question could not be Rejected please try again", NotificationType.ERROR);

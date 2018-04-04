@@ -30,7 +30,7 @@ namespace resourceEdge.webUi.Controllers
 
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -42,9 +42,9 @@ namespace resourceEdge.webUi.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -65,13 +65,13 @@ namespace resourceEdge.webUi.Controllers
         [AllowAnonymous]
         public ActionResult Login()
         {
-           
+
             return View();
         }
 
         //
         // POST: /Account/Login
-        
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -82,7 +82,7 @@ namespace resourceEdge.webUi.Controllers
                 return View(model);
             }
 
-           AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
@@ -93,8 +93,10 @@ namespace resourceEdge.webUi.Controllers
                     Session.Clear();
                     var userId = SignInManager.AuthenticationManager.AuthenticationResponseGrant.Identity.GetUserId();
                     TempData["UserId"] = userId;
+                    TempData["Email"] = model.Email;
+                    TempData["Password"] = model.Password;
                     return RedirectionUrls(model.Email);
-                   // return RedirectToLocal(returnUrl);
+                // return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -135,7 +137,7 @@ namespace resourceEdge.webUi.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -168,11 +170,11 @@ namespace resourceEdge.webUi.Controllers
             {
                 var user = new ApplicationUser { UserName = model.emailaddress, Email = model.emailaddress };
                 var result = await UserManager.CreateAsync(user, model.emppassword);
-                
+
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -407,54 +409,54 @@ namespace resourceEdge.webUi.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            var login = LoginRepo.GetByUserId(User.Identity.GetUserId());
-            if (login != null)
-            {
-            login.IsLogOut = true;
-            login.LogOutTime = DateTime.Now;
-            LoginRepo.update(login);
-            }
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Login");
         }
 
-        public ActionResult CustomLogOff(string userId, string email, string password)
+        public ActionResult CustomLogOff(string email, string password)
         {
-            var login = LoginRepo.GetUserLastLogin(userId);
-            if (login != null)
+
+            HttpContext.Session.Abandon();
+            HttpContext.Session.Clear();
+            if (email == null && password == null)
             {
-                login.IsLogOut = true;
-                login.LogOutTime = DateTime.Now;
-                LoginRepo.update(login);
-                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            Dictionary<string, object> postData = new Dictionary<string, object>();
-            postData.Add("email", email);
-            postData.Add("password", password);
-            RedirectAndPostActionResult.RedirectAndPost("http://localhost:58124/Account/CustomLogin", postData);
-                //return new RedirectAndPostActionResult("http://localhost:58124/Account/CustomLogin", postData);
-                return RedirectionUrls(email);
+                return RedirectToAction("Login");
             }
-            return RedirectionUrls(email);
-            ///<summary>
+            LoginViewModel model = new LoginViewModel()
+            {
+                Email = email,
+                Password = password,
+                RememberMe = true
+            };
+            return RedirectToAction("CustomLogin", model);
+
+            //return RedirectionUrls(email);
+            /////<summary>
             ///The RedirectAndPostActionResult method is an external method that was used to redirect to a post event.
             ///i did this so as to check and if the user is logged in another browser and log him out of the system 
             ///then at the same time log him into the system on the new browser without having him reenter his details.
             ///<param name="email"></param>
             ///<param name="password"></param>
-            ///Note never use the customLogin method to collect values from a form because it is a security risk because it does not validate antiforgery tokens;
+            ///Note never use the customLogin method to collect values from a form. It is a security risk, because it does not validate antiforgery tokens;
             /// </summary>
         }
-        [HttpPost]
+
         public async Task<ActionResult> CustomLogin(LoginViewModel model)
         {
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
-                    return UpdateLogin(model.Email, model.Password);
+                    var userId = SignInManager.AuthenticationManager.AuthenticationResponseGrant.Identity.GetUserId();
+                    TempData["UserId"] = userId;
+                    TempData["Email"] = model.Email;
+                    TempData["Password"] = model.Password;
+                    return RedirectionUrls(model.Email);
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
-                    return View(model);
+                    return View();
             }
         }
 
@@ -519,14 +521,14 @@ namespace resourceEdge.webUi.Controllers
         {
             var user = UserManager.FindByEmail(email);
             if (UserManager.IsInRole(user.Id, "Employee"))
-            {             
-              return  RedirectToAction("Leave", "SelfService");
+            {
+                return RedirectToAction("Leave", "SelfService");
             }
             else if (UserManager.IsInRole(user.Id, "Manager"))
             {
                 return RedirectToAction("Leave", "SelfService");
             }
-            else if(UserManager.IsInRole(user.Id, "HR"))
+            else if (UserManager.IsInRole(user.Id, "HR"))
             {
                 return RedirectToAction("create", "HR");
             }
@@ -534,36 +536,7 @@ namespace resourceEdge.webUi.Controllers
             {
                 return RedirectToAction("create", "HR");
             }
-                return RedirectToAction("LogOff");
-        }
-
-        public ActionResult UpdateLogin(string email,string password)
-        {
-            var user = UserManager.FindByEmail(email);
-            var isLoggedIn = CheckIfLoggedIn(user.Id);
-            if (isLoggedIn == false)
-            {
-                var LoginEntity = new Login()
-                {
-                    IsLogIn = true,
-                    IsLogOut = false,
-                    LoginTime = DateTime.Now,
-                    LogOutTime = null,
-                    userId = user.Id
-                };
-                LoginRepo.Insert(LoginEntity);
-                return RedirectionUrls(user.Email);
-            }
-           return CustomLogOff(user.Id, email, password);
-        }
-        public bool CheckIfLoggedIn(string userId)
-        {
-            var loggedInUser = LoginRepo.GetUserLastLogin(userId);
-            if (loggedInUser != null && loggedInUser.IsLogOut == false)
-            {
-                return true;
-            }
-            return false;
+            return RedirectToAction("LogOff");
         }
 
 

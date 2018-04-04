@@ -5,10 +5,11 @@ using System.Linq;
 using System.Web;
 using resourceEdge.webUi.Infrastructure.Core;
 using System.Web.Mvc;
+using resourceEdge.webUi.Infrastructure.Handlers;
 
 namespace resourceEdge.webUi.Controllers
 {
-    [Authorize(Roles ="System Admin,HR, Head HR")]
+    [CustomAuthorizationFilter(Roles ="System Admin,HR, Head HR")]
     public class MenuController : Controller
     {
         IMenu MenuRepo;

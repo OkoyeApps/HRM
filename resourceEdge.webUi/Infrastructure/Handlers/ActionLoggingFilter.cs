@@ -2,6 +2,7 @@
 using resourceEdge.Domain.Abstracts;
 using resourceEdge.Domain.Concrete;
 using resourceEdge.Domain.Entities;
+using resourceEdge.Domain.UnitofWork;
 using resourceEdge.webUi.Infrastructure.ActitivityLogs;
 using resourceEdge.webUi.Models;
 using System;
@@ -15,7 +16,7 @@ using System.Web.Routing;
 
 namespace resourceEdge.webUi.Infrastructure.Handlers
 {
-    public class LoggingFilter : FilterAttribute, IActionFilter
+    public class ActionLoggingFilter : FilterAttribute, IActionFilter
     {
         string action = "";
         string controller = "";
@@ -70,6 +71,10 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                 
             });
             logEvent.InsertActivityLogs(activityLogs);
+            //UnitOfWork unitOfWork = new UnitOfWork();
+            //GenericRepository<ActivityLog> gg = new GenericRepository<ActivityLog>(unitOfWork.GetDbContext());
+            
+
         }
 
         public void OnActionExecuting(ActionExecutingContext filterContext)
@@ -87,7 +92,10 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                 if (filterContext.RouteData.Values.ContainsKey("id")) parameter = filterContext.RouteData.Values["id"].ToString();
                 var Request = filterContext.RequestContext;
                 var Session = filterContext.HttpContext.Session;
+                if (!string.IsNullOrEmpty(controller) && !string.IsNullOrEmpty(action))
+                {
                 Logging(Session, Request);
+                }
             }
         }
     }

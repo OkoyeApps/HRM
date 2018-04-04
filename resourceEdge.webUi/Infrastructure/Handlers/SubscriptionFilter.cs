@@ -40,14 +40,14 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                     else
                     {
                         var returnUrl = filterContext.HttpContext.Request.Url.AbsoluteUri;
-                        filterContext.Result = new RedirectResult("http://localhost:58124/subcription?returnUrl=" + returnUrl);
+                        filterContext.Result = new RedirectResult("~/subcription?returnUrl=" + returnUrl);
                     }
                 }
                else
                 {
                     
                     var returnUrl = filterContext.HttpContext.Request.Url.AbsoluteUri;
-                    filterContext.Result = new RedirectResult("http://localhost:58124/subcription?returnUrl=" + returnUrl);
+                    filterContext.Result = new RedirectResult("~/subcription?returnUrl=" + returnUrl);
 
                 }
             }

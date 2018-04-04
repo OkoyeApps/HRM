@@ -9,6 +9,8 @@ namespace resourceEdge.webUi.Models
     {
         public string Controller { get; set; }
         public string Action { get; set; }
+        public string  ActionUrl { get; set; }
+        public string   ControllerName { get; set; }
 
     }
 }

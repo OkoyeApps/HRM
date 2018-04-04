@@ -53,7 +53,20 @@ namespace resourceEdge.webUi.Controllers
         public ViewResult NotSubscribed(string returnUrl)
         {
             ViewBag.returnUrl = returnUrl;
+            ViewBag.PageTitle = "No Subscription";
             return View("NotSubscribed");
+        }
+        [Route("NoLeave")]
+        public ViewResult NoLeave()
+        {
+            ViewBag.PageTitle = "No Leave";
+            return View("NoLeave");
+        }
+        [Route("UnAuthorized")]
+        public ActionResult UnAuthorizesAccess()
+        {
+            ViewBag.PageTitle = "UnAuthorized";
+            return View("UnAuthorized");
         }
     }
 }
