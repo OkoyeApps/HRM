@@ -230,6 +230,15 @@
     <Compile Include="Entities\WeekDay.cs" />
     <Compile Include="Entities\Week.cs" />
     <Compile Include="Infrastructures\Enumerations.cs" />
+    <Compile Include="Migrations\EdgeDbContext\201803271100227_Initialize.cs" />
+    <Compile Include="Migrations\EdgeDbContext\201803271100227_Initialize.Designer.cs">
+      <DependentUpon>201803271100227_Initialize.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\EdgeDbContext\201803271438306_Login Table Update.cs" />
+    <Compile Include="Migrations\EdgeDbContext\201803271438306_Login Table Update.Designer.cs">
+      <DependentUpon>201803271438306_Login Table Update.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\EdgeDbContext\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitofWork\GenericRepository.cs" />
     <Compile Include="UnitofWork\UnitOfWork.cs" />
@@ -245,7 +254,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Entities\TableSummary\" />
-    <Folder Include="Migrations\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
@@ -258,6 +266,14 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\EdgeDbContext\201803271100227_Initialize.resx">
+      <DependentUpon>201803271100227_Initialize.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext\201803271438306_Login Table Update.resx">
+      <DependentUpon>201803271438306_Login Table Update.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

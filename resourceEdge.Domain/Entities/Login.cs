@@ -8,8 +8,9 @@ namespace resourceEdge.Domain.Entities
 {
    public class Login
     {
-        public int Id { get; set; }
-        public string userId { get; set; }
+        public int ID { get; set; }
+        public string UserID { get; set; }
+        public string SessionID { get; set; }
         public DateTime LoginTime { get; set; }
         public DateTime? LogOutTime { get; set; }
         public bool IsLogIn { get; set; }

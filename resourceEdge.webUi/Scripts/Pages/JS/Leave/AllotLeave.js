@@ -41,6 +41,9 @@
                        
                         //$('#tbluser').append("<tr><td>" + element.FullName + "</td><br /></tr>");
                         //$('#tblTime').append("<tr><td><input name='amount' class='form-control value='' /> <br /></td><input type='hidden' Name='id' Value='" + element.userId + "'/></tr>'")
+                        try{
+
+                       
                         $('#searchBody').append(`
                               <tr>
                                     <td id="tbluser">${element.FullName}</td>
@@ -48,7 +51,7 @@
                                         <table>
                                             <tr>
                                                 <td id="tblTime" class="pull-right">
-                                                    <input name="amount" class ="form-control" value="" />
+                                                    <input name="amount" id="amountLeave" class ="form-control" value="" placeholder="Enter numbers only" data-parsley-type="number" data-parsley-range="[0, 1865]" data-parsley-range-message="This value should be between 0 and 1865, which is a provision for a 5 years leave "/>
                                                     <input type='hidden' Name='id' Value="${element.userId}"/>
                                                 </td>
                                             </tr>
@@ -56,9 +59,17 @@
                                     </td>
                                 </tr>
                             `)
+                        }catch(ex){console.log(ex);};
                     });
                 } else {
-                    $('#noEmp').removeClass("hidden");
+                    $('#noEmp').empty();
+                    $('#noEmp').append(
+                        `
+                        <div class ="alert alert-danger alert-dismissable" style="text-align:center;"  >
+                            <button type="button" class ="close" data-dismiss="alert" aria-hidden="true">&times; </button>
+                            <span>No Employee in this department yet or all Employees in this department has been assigned.<br />To assign more leave please use the Employee Configuration Menu</span>
+                        </div>
+                        `);
                 }
             },
             failure: function () {
@@ -69,17 +80,23 @@
             }
         })
     }
+    var searchValue = null;
     $('#departmentId').bind('change', function () {
         searchValue = $(this).val();
-        $('#noEmp').addClass("hidden");
     });
 
-    var searchValue = null;
 
     $('#searchEmp').on("click", function () {
         $('#getCount').addClass("hidden");
-        $('#noEmp').addClass("hidden");
-        GetEmpByDept(searchValue);
+        if (searchValue != null) {
+             GetEmpByDept(searchValue);
+        }
     })
 
+    
+
+    $('#year').on('keypress', function (event) {
+        return $.ValidateNumber(event, this);
+    });
+    
 })();

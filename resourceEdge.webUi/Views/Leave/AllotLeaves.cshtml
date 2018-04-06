@@ -1,9 +1,11 @@
 ﻿@{
     Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
 }
-@section css{
-    <link href="~/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" />
-}
+<div id="noEmp" >
+
+</div>
+
+
     @using (Html.BeginForm("AllotLeaves", "Leave",null,FormMethod.Post, new { data_parsley_validate = "" }))
     {
         @Html.AntiForgeryToken()
@@ -26,24 +28,22 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Year</label>
-                            <input class="form-control" type="text" name="year" required ="">
-                          
+                            <input class="form-control" type="text" name="year" id="year" required ="" data-parsley-length="[4, 4]" data-parsley-required-message="Input Required and length should be 4 characters only">
+
                         </div>
                     </div>
                     <div>
                     <button id="searchEmp" type="button" class="btn btn-success pull-right" style="clear:both;">Search Employees</button>
                         <br /><br /><br />
                     </div>
-                    <div class="col-md-12" style="clear:both;">
-                  <span id="noEmp" class="alert alert-danger" style="clear:both; font:bolder;">No Employee in this department yet or all Employees in this department has been assigned. <br />To assign more leave please use the Employee Configuration menu</span>
-                    </div>
+                  
                   <br /><br />
                     <div id="getCount" class="hidden col-md-8" style="clear:both">
                         <table class="table table-bordered table-hover" >
                             <thead>
                                 <tr>
                                     <th>Employee</th>
-                                    <th>Allot Leave</th>
+                                    <th>Number of Days</th>
                                 </tr>
                             </thead>
                             <tbody id="searchBody">
@@ -55,14 +55,8 @@
                     </div>
     }
 
-<script type="text/javascript">
-
-</script>
 
 @section Scripts{
-    <script src="~/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-    <script src="~/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-    <script src="~/Scripts/bootstrap-select.min.js"></script>
     <script src="~/Scripts/Pages/JS/Leave/AllotLeave.js"></script>
 
 }

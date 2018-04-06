@@ -23,7 +23,7 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                using(UnitOfWork Context = new UnitOfWork())
                 {
                     var result = Context.EmployeeLeave.Get(filter: x => x.UserId == userId).FirstOrDefault();
-                    if (result == null)
+                    if (result == null || result.EmpLeaveLimit == 0)
                     {
                         filterContext.Controller.TempData["Error"] = "Sorry No Leave for you yet. Kindly ask the Hr For Leave";
 

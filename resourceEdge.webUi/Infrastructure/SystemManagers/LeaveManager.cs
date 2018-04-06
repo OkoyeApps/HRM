@@ -184,13 +184,16 @@ namespace resourceEdge.webUi.Infrastructure
             var splitId = Userid.Split(',');
             
             double Days = 0;
-            if (allotedDays != null && splitId != null)
+            int year = 0;
+            int.TryParse(AllotYear, out year);
+            if (allotedDays != null && splitId != null && year != 0 && AllotYear.Length == 4)
             {
                 EmployeeLeave leave = new EmployeeLeave();
                 for (int id = 0, allotTime = 0; id < splitId.Length; id++, allotTime++)
                 {
                     double.TryParse(allotedDays[allotTime], out Days);
                     double? allotDays = Days;
+
                     leave.UserId = splitId[id];
                     leave.AllotedYear = int.Parse(AllotYear);
                     leave.EmpLeaveLimit = allotDays != 0 ? allotDays : null;

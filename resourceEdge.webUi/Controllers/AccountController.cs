@@ -75,7 +75,7 @@ namespace resourceEdge.webUi.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model)
+        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
@@ -95,8 +95,8 @@ namespace resourceEdge.webUi.Controllers
                     TempData["UserId"] = userId;
                     TempData["Email"] = model.Email;
                     TempData["Password"] = model.Password;
-                    return RedirectionUrls(model.Email);
-                // return RedirectToLocal(returnUrl);
+                    //return RedirectionUrls(model.Email);
+                 return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:

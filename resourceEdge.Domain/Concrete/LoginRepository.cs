@@ -29,7 +29,7 @@ namespace resourceEdge.Domain.Concrete
 
         public Login GetByUserId(string userId)
         {
-            var AllUserLogin = unitofWork.Logins.Get(x => x.userId == userId && x.LogOutTime == null && x.IsLogOut == false).FirstOrDefault();
+            var AllUserLogin = unitofWork.Logins.Get(x => x.UserID == userId && x.LogOutTime == null && x.IsLogOut == false).FirstOrDefault();
             return AllUserLogin; 
         }
 
@@ -51,7 +51,7 @@ namespace resourceEdge.Domain.Concrete
         }
         public Login GetUserLastLogin(string userId)
         {
-            var user = unitofWork.Logins.Get(filter: x => x.userId == userId).ToList().LastOrDefault();
+            var user = unitofWork.Logins.Get(filter: x => x.UserID == userId).ToList().LastOrDefault();
             return user ?? null;
         }
 

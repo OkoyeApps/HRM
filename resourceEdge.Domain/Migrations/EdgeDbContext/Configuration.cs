@@ -1,4 +1,4 @@
-namespace resourceEdge.Domain.Migrations.EdgeDbConntextMigrations
+namespace resourceEdge.Domain.Migrations.EdgeDbContext
 {
     using System;
     using System.Data.Entity;
@@ -10,7 +10,7 @@ namespace resourceEdge.Domain.Migrations.EdgeDbConntextMigrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            MigrationsDirectory = @"Migrations\EdgeDbConntextMigrations";
+            MigrationsDirectory = @"Migrations\EdgeDbContext";
         }
 
         protected override void Seed(resourceEdge.Domain.Entities.EdgeDbContext context)

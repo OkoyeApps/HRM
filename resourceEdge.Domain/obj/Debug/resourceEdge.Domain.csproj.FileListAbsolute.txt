@@ -25,3 +25,6 @@ C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdg
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.csprojResolveAssemblyReference.cache
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.dll
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.pdb
+C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.csproj.GenerateResource.Cache
+C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.Migrations.EdgeDbContext.InitialMigration.resources
+C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.Migrations.EdgeDbContext.LoginTableUpdate.resources
