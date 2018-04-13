@@ -4,81 +4,67 @@
 }
 
 <hr />
-            <div id="jobContent">
-                <div class="modal-body" id="empFrm">
-                    @using (Ajax.BeginForm("AddJobTitle", "Configuration", new { returnurl = ViewBag.returnUrl }, new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "body" }, new { data_parsley_validate = "" }))
-                    {
+<div id="jobContent">
+    <div class="modal-body" id="empFrm">
+        @using (Ajax.BeginForm("AddJobTitle", "Configuration", new { returnurl = Request.Url.PathAndQuery }, new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "body" }, new { data_parsley_validate = "" }))
+        {
 
-                                @Html.AntiForgeryToken()
+            @Html.AntiForgeryToken()
 
-                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.Label("Job Titile Code")
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                                            @Html.EditorFor(model => model.jobtitlecode, new { htmlAttributes = new { @class = "form-control", required = "" } })
-                                            @Html.ValidationMessageFor(model => model.jobtitlecode, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.Label("Job Name")
-                                      
-                                            @Html.EditorFor(model => model.jobtitlename, new { htmlAttributes = new { @class = "form-control", required = "" } })
-                                            @Html.ValidationMessageFor(model => model.jobtitlename, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                  <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.Label("Description")
-                                            @Html.EditorFor(model => model.jobdescription, new { htmlAttributes = new { @class = "form-control", required = "" } })
-                                            @Html.ValidationMessageFor(model => model.jobdescription, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                        <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.Label("Minimum Experience Required")
-                                            @Html.EditorFor(model => model.minexperiencerequired, new { htmlAttributes = new { @class = "form-control", required = "" } })
-                                            @Html.ValidationMessageFor(model => model.minexperiencerequired, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                        <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.Label("Pay Grade Code")
-                                            @Html.EditorFor(model => model.jobpaygradecode, new { htmlAttributes = new { @class = "form-control", required = "" } })
-                                            @Html.ValidationMessageFor(model => model.jobpaygradecode, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                        <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.Label("Pay Code")
-                                            @Html.EditorFor(model => model.jobpayfrequency, new { htmlAttributes = new { @class = "form-control", required = "" } })
-                                            @Html.ValidationMessageFor(model => model.jobpayfrequency, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                   <div class="col-md-6">
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.comments)
-                                            <textarea cols="4" name="comments" class="form-control"></textarea>
-                                            @Html.ValidationMessageFor(model => model.comments, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                    <div style="clear:both"><span></span></div>
-                                    <hr />
-
-                                    <div class="pull-left" style="">
-                                        <input type="submit" class="btn btn-success" value="Svae">
-                                    </div>
-
-                    }
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.Label("Job Name")
+                    @Html.EditorFor(model => model.jobtitlename, new { htmlAttributes = new { @class = "form-control", required = "" } })
                 </div>
             </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.Label("Job Code")
+                    @Html.EditorFor(model => model.jobtitlecode, new { htmlAttributes = new { @class = "form-control", required = "" } })
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.Label("Minimum Experience Required")
+                    @Html.EditorFor(model => model.minexperiencerequired, new { htmlAttributes = new { @class = "form-control", required = "" } })
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.Label("Pay Grade Code")
+                    @Html.EditorFor(model => model.jobpaygradecode, new { htmlAttributes = new { @class = "form-control"} })
+                </div>
+            </div>
+
+            <div class="col-md-6"style="clear:both">
+                <div class="form-group">
+                    @Html.Label("Pay Code")
+                    @Html.EditorFor(model => model.jobpayfrequency, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+            <div class="col-md-6" >
+                <div class="form-group">
+                    @Html.Label("Description")
+                    <textarea cols="2" name="jobdescription" class="form-control"></textarea>
+                </div>
+            </div>
+
+            <div style="clear:both"><span></span></div>
+            <hr />
+
+            <div class="pull-left" style="">
+                <input type="submit" class="btn btn-success" value="Save">
+            </div>
+
+        }
+    </div>
+</div>
 <div class="pull-right col-md-2">
 
     <a href="@Url.Action("addPosition", "Configuration")" class="btn btn-danger ">Next</a>

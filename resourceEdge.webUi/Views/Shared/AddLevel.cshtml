@@ -12,7 +12,7 @@
 <hr />
 <div id="levelContent">
     <div class="modal-body" id="empFrm">
-        @using (Ajax.BeginForm("AddLevel", "Configuration", new { returnurl = ViewBag.returnUrl }, new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "body" }, new { data_parsley_validate = "" }))
+        @using (Ajax.BeginForm("AddLevel", "Configuration", new { returnurl = Request.Url.PathAndQuery }, new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "body" }, new { data_parsley_validate = "" }))
         {
             @Html.AntiForgeryToken()
 

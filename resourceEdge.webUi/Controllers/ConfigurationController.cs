@@ -402,14 +402,22 @@ namespace resourceEdge.webUi.Controllers
         {
             if (jobs != null && !collection.AllKeys.Contains("jobtitlename[0]"))
             {
-                if (ModelState.IsValid)
+                if (ModelState.IsValid || string.IsNullOrEmpty(jobs.GroupId.ToString()))
                 {
-                    Jobtitle job = jobs;
-                    job.createdby = null;
-                    job.modifieddate = DateTime.Now;
-                    JobRepo.Insert(job);
-                    this.AddNotification($"{job.jobtitlename} has been created", NotificationType.SUCCESS);
-                    ModelState.Clear();
+                    if (User.IsInRole("HR"))
+                    {
+                        var userSessionDetail = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+                        if (userSessionDetail != null)
+                        {
+                            jobs.GroupId = userSessionDetail.GroupId;
+                            Jobtitle job = jobs;
+                            job.createdby = null;
+                            job.modifieddate = DateTime.Now;
+                            JobRepo.Insert(job);
+                            ModelState.Clear();
+                        }
+                    }
+                    
                     if (returnUrl != null)
                     {
                         this.AddNotification("", NotificationType.SUCCESS);

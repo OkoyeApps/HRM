@@ -26,7 +26,7 @@
     function getEmployeesByDept(id) {
         $.ajax({
             type: 'GET',
-            url: '/api/Settings/GetEmpByDept/' + id,
+            url: '/api/Settings/GetEmpByDeptForLeave/' + id,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {

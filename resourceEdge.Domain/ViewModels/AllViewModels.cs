@@ -498,5 +498,11 @@ namespace resourceEdge.Domain.Entities
         public string LineManager3 { get; set; }
     }
 
+    public class AppraisalQuestionViewModel
+    {
+        public int id { get; set; }
+        public string Question { get; set; }
+        public int Answers { get; set; }
+    }
 
 }

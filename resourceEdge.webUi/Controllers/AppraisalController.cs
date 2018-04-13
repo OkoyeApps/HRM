@@ -13,6 +13,8 @@ using System.Web;
 using System.Web.Mvc;
 using resourceEdge.webUi.Infrastructure.Core;
 using resourceEdge.Domain.ViewModels;
+using System.Collections;
+using resourceEdge.webUi.Models.SystemModel;
 
 namespace resourceEdge.webUi.Controllers
 {
@@ -108,7 +110,7 @@ namespace resourceEdge.webUi.Controllers
             if (result != false)
             {
                 ModelState.Clear();
-               this.AddNotification("Question(s) added Sucessfully", NotificationType.SUCCESS);
+               this.AddNotification("Question(s) added", NotificationType.SUCCESS);
                 return RedirectToAction("AddQuestion");
             }
             this.AddNotification("Sorry Something went wrong, Please enter the Questions again", NotificationType.ERROR);
@@ -309,9 +311,12 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult ConfigureAppraisal()
         {
             var userSessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+            //IList<LocationListItem> locationHeadDetails = new List<LocationListItem>();
             ViewBag.groupId = userSessionObject.GroupId;
             ViewBag.dropDowns = AppraisalManager.ConfigureAppraisal(userSessionObject.LocationId);
             ViewBag.PageTitle = "Configure Appraisal";
+          //  locationHeadDetails.Add(EmployeeManager.GetLocationHeadDetails(userSessionObject.GroupId, userSessionObject.LocationId));
+            //ViewBag.LocationHeads = new SelectList(locationHeadDetails, locationHeadDetails.Select(x=>new {Manager = builder, "Name", "Id");
             return View();
         }
 
@@ -323,14 +328,14 @@ namespace resourceEdge.webUi.Controllers
             {
                 var userSessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
                 var result = AppraisalManager.AddOrUpdateAppraisalConfiguration(model,User.Identity.GetUserId(), userSessionObject.GroupId, userSessionObject.LocationId);
-                this.AddNotification("Appraisal Configuration successful", NotificationType.SUCCESS);
+                this.AddNotification("", NotificationType.SUCCESS);
                 return RedirectToAction("ConfigureAppraisal");
             }
             this.AddNotification("Something went wrong, Appraisal not configured", NotificationType.ERROR);
             return RedirectToAction("ConfigureAppraisal");
         }
 
-        [Authorize]
+        [CustomAuthorizationFilter]
         public ActionResult EmployeeAppraisal()
         {
             var userSessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
@@ -345,7 +350,7 @@ namespace resourceEdge.webUi.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult EmployeeAppraisal(FormCollection model)
+        public ActionResult EmployeeAppraisal(FormCollection model, AppraiseeDropDown dropDown)
         {
             var result = AppraisalManager.AddOrUpdateAppraisalQuestion(model, User.Identity.GetUserId());
             if (result != false)
@@ -354,6 +359,55 @@ namespace resourceEdge.webUi.Controllers
                 return RedirectToAction("Leave", "SelfService");
             }
             return RedirectToAction("EmployeeAppraisal");
+        }
+
+        [CustomAuthorizationFilter(Roles = "L1,L2,L3")]
+        public ActionResult EmployeesToAppraise()
+        {
+            var result = AppraisalManager.GetAllEmployeeForLineManagerToAppraise();
+            ViewBag.PageTitle = "All Employee To Appraise";
+            ViewBag.AllEmployees = result;
+            return View(result);
+        }
+
+        [HttpPost, CustomAuthorizationFilter(Roles = "L1,L2,L3")]
+        public ActionResult ViewSubmittedAppraisal(string userId)
+        {
+            ViewBag.userId = userId;
+            var result = AppraisalManager.ViewSubmittedEmployeeAppraisal(userId);
+            return View("SubmittedAppraisal",result);
+        }
+        //public ActionResult AllSubmittedAppraisal()
+        //{
+        //    var result = AppraisalManager.GetAppraisalForLineManager();
+        //    ViewBag.PageTitle = "All Submitted Appraisal";
+        //    ViewBag.AllAppraisal = result;
+        //    return View();
+        //}
+        public ActionResult AppraisalForApproval()
+        {
+            ViewBag.Result = null;
+            var result = AppraisalManager.GetL1View();
+
+            if (result.Item1 != null && result.Item2 != null && result.Item3 != null && User.IsInRole("L1"))
+                return View("");
+            else if (result.Item1 == null && result.Item2 != null && result.Item3 == null && User.IsInRole("L2"))          
+                return View("");
+            else if (result.Item1 == null && result.Item2 == null && result.Item3 != null && User.IsInRole("L3"))
+                return View("");
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        }
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult ApproveSubmittedAppraisalQuestion(string userId, int? QuestionId)
+        {
+            var result = AppraisalManager.ApproveAppraisalQuestion(userId, QuestionId);
+            return RedirectToAction("ViewSubmittedEmployeeAppraisal", new { userId = userId });
+        }
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult DenySubmittedAppraisalQuestion(string userId, int? QuestionId)
+        {
+            var result = AppraisalManager.DenyAppraisalQuestion(userId, QuestionId);
+            return RedirectToAction("ViewSubmittedEmployeeAppraisal", new { userId = userId });
         }
     }
 }

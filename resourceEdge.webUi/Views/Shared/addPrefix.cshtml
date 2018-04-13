@@ -12,7 +12,7 @@
 
 <div id="prefixContent">
     <div class="modal-body" id="pre">
-        @using (Ajax.BeginForm("addPrefix", "Configuration", new { returnurl = ViewBag.returnUrl }, new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "body" }))
+        @using (Ajax.BeginForm("addPrefix", "Configuration", new { returnurl = Request.Url.PathAndQuery }, new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "body" }))
             {
 
             @Html.AntiForgeryToken()

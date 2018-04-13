@@ -1,0 +1,69 @@
+﻿@model IEnumerable<resourceEdge.Domain.Entities.AppraisalQuestionViewModel> 
+@{ 
+    if (User.IsInRole("HR"))
+    {
+        Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/Layouts/_EmployeeLayout.cshtml";
+    }
+    int counter = 1;
+}
+@if (Model.Count() > 0)
+{
+    <table class="table table-striped table-bordered display table-responsive"> 
+        <thead>
+            <tr>
+                <th>S/N</th>
+                <th>Question</th>
+                <th>Answer</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@counter</td>
+                    <td>@item.Question</td>
+                    <td>@item.Answers</td>
+                    <td>
+                        <table>
+                            <tr>
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                @using (Html.BeginForm("ApproveSubmittedAppraisalQuestion", "Appraisal", new { userId = ViewBag.userId, QuestionId = item.id }, FormMethod.Post, null))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                <button class="btn btn-success" type="submit" >Accept</button>
+                                            }
+                                            </td>
+                                        
+                                            <td>
+                                            @using (Html.BeginForm("DenySubmittedAppraisalQuestion", "Appraisal", new { userId = ViewBag.userId, QuestionId = item.id }, FormMethod.Post, null))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                <button class="btn btn-danger" type="submit">Reject</button>
+                                            }</td>
+                                        </tr>
+                                    </table>
+
+                                    <span></span>
+                                 
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                {counter++;}
+                    }
+        </tbody>
+    </table>
+}
+else
+{
+<div class="alert alert-warning"> Sorry! No appriasal submitted yet</div>
+}

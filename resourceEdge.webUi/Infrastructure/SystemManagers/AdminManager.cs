@@ -45,8 +45,6 @@ namespace resourceEdge.webUi.Infrastructure
                     }
                     try
                     {
-
-
                         var result = await userManager.AddToRoleAsync(newHeadHr.userId, "Head HR");
                         if (result.Succeeded)
                         {

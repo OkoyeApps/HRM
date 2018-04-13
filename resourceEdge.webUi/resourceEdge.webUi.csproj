@@ -281,11 +281,12 @@
     <Compile Include="Migrations\ApplicationDbConntextMigrations\Configuration.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\BreadCrumb.cs" />
-    <Compile Include="Models\EmailObject.cs" />
+    <Compile Include="Models\SystemModel\AllSystemModels.cs" />
+    <Compile Include="Models\SystemModel\BreadCrumb.cs" />
+    <Compile Include="Models\SystemModel\EmailObject.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\SessionModel.cs" />
+    <Compile Include="Models\SystemModel\SessionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\CustomValidators\CustomUserValidator.cs" />
     <Compile Include="Security\CustomValidators\PasswordValidator.cs" />
@@ -1433,6 +1434,11 @@
     <Content Include="Views\HR\AddSystemAdmin.cshtml" />
     <Content Include="Views\Validation\NoLeave.cshtml" />
     <Content Include="Views\Validation\UnAuthorized.cshtml" />
+    <Content Include="Views\Appraisal\LineManager1.cshtml" />
+    <Content Include="Views\Appraisal\LineManager2.cshtml" />
+    <Content Include="Views\Appraisal\LineManager3.cshtml" />
+    <Content Include="Views\Appraisal\SubmittedAppraisal.cshtml" />
+    <Content Include="Views\Appraisal\EmployeesToAppraise.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

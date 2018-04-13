@@ -1,4 +1,4 @@
-﻿@model resourceEdge.Domain.Entities.Questions
+﻿@*@model resourceEdge.Domain.Entities.Questions*@
 
 @{
     ViewBag.Title = "SubscribeToAppraisal";
@@ -21,16 +21,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <button type="submit" class="btn btn-success">Subscribe!</button>
             </div>
         </div>
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
 }

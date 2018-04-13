@@ -2,7 +2,8 @@
  
     window.unitObject = {
         unitId: 0,
-        groupId :0
+        groupId: 0,
+        locationDetail : null
     }
     $('#BusinessUnit').on('change', function () {
         unitObject.unitId = $('#BusinessUnit').find(":selected").val();
@@ -49,6 +50,7 @@
             success: function (data) {
                 $('#sLine1').html("");
                 $('#sLine1').val("");
+                unitObject.locationDetail = data;
                 console.log(data + "From location Manager");
                 if (data != null) {
                     if (data.Manager1) {
@@ -62,7 +64,8 @@
                     
                 }
                 else {
-                    $('#LineManager1').html('<option value="">' + 'No department Yet' + '</option>');
+                    $('#LineManager1').empty();
+                    $('#LineManager1').html('<option value="">' + 'No Heads Yet' + '</option>');
                 }
 
             },
@@ -73,7 +76,11 @@
         getLocationManagers($('#group').text());
         unitObject.groupId = $('#group').text();
         console.log(unitObject.groupId);
-        getUnitHeads($)
+        var counter = 0;
+        if (locationDetail.Manager1 == null && counter <2) {
+            document.location.reload();
+        }
+        
     }
 
         $('#LineManager1').on('change', function () {

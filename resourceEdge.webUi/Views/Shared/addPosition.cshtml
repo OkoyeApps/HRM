@@ -12,7 +12,7 @@
 }
 <div id="positionContent">
     <div class="modal-body" id="pos">
-        @using (Ajax.BeginForm("addPosition", "Configuration", new { returnurl = ViewBag.returnUrl }, new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "body" }, new { data_parsley_validate = "" }))
+        @using (Ajax.BeginForm("addPosition", "Configuration", new { returnurl = Request.Url.PathAndQuery }, new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "body" }, new { data_parsley_validate = "" }))
         {
 
             @Html.AntiForgeryToken()

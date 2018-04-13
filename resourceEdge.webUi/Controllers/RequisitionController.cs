@@ -11,7 +11,7 @@ using System.Web.Mvc;
 namespace resourceEdge.webUi.Controllers
 {
 
-    [RoutePrefix("Request")]
+    [RoutePrefix("Request"), CustomAuthorizationFilter]
     public class RequisitionController : Controller
     {
         private IRequisition RequisitionRepo;

@@ -19,7 +19,7 @@ namespace resourceEdge.webUi.Infrastructure
     {
         private static ApplicationDbContext context = new ApplicationDbContext();
         static UnitOfWork unitOfWork = new UnitOfWork();
-        private static ApplicationUserManager userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
+        public static ApplicationUserManager userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
         
         /// <summary>
         /// 

@@ -374,6 +374,8 @@
                                 <span>Configuration Manager</span>
                             </a>
                             <ul class="sub-menu">
+                                @if (User.IsInRole("System Admin"))
+	                            {
                                 <li>
                                     @Html.ActionLink("Add Group", "AddGroup", "Configuration", null, new { @class = "nav-link  title" })
                                 </li>
@@ -383,12 +385,17 @@
                                 <li>
                                     @Html.ActionLink("Add Location", "AddLocation", "Configuration", null, new { @class = "nav-link  title" })
                                 </li>
+	                            }
                                 <li>
                                     @Html.ActionLink("Add Level", "addLevel", "Configuration", null, new { @class = "nav-link  title" })
                                 </li>
-                                <li>
-                                    @Html.ActionLink("Add Job", "AddJobTitle", "Configuration", null, new { @class = "nav-link  title" })
-                                </li>
+                                @if (User.IsInRole("System Admin"))
+                                {
+                                    <li>
+                                        @Html.ActionLink("Add Job", "AddJobTitle", "Configuration", null, new { @class = "nav-link  title" })
+                                    </li>
+                                }
+                               
                                 <li>
                                     @Html.ActionLink("Add Position", "Addposition", "Configuration", null, new { @class = "nav-link  title" })
                                 </li>

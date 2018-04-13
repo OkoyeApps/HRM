@@ -92,6 +92,40 @@ namespace resourceEdge.webUi.Infrastructure
                 roleManager.Create(role);
             }
         }
+
+        
+
+        public void CreateTemporaryRoleForAppraisal()
+        {
+            if (!roleManager.RoleExists("L1"))
+            {
+                var role = new IdentityRole() { Name = "L1", Id = "8" };
+                roleManager.Create(role);
+            }
+            if (!roleManager.RoleExists("L2"))
+            {
+                var role = new IdentityRole() { Name = "L2", Id = "9" };
+                roleManager.Create(role);
+            }
+            if (!roleManager.RoleExists("L3"))
+            {
+                var role = new IdentityRole() { Name = "L3", Id = "10" };
+                roleManager.Create(role);
+            }
+        }
+
+        public void RemoveTemporaryRoleForAppraisal()
+        {
+            if (!roleManager.RoleExists("L1"))
+            {
+                var role = new IdentityRole() { Name = "L1", Id = "8" };
+                var role2 = new IdentityRole() { Name = "L2", Id = "9" };
+                var role3 = new IdentityRole() { Name = "L3", Id = "10" };
+                roleManager.Delete(role);
+                roleManager.Delete(role2);
+                roleManager.Delete(role3);
+            }
+        }
         //private bool disposed = false;
 
         //protected virtual void Dispose(bool disposing)

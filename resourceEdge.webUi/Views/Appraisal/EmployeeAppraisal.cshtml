@@ -1,7 +1,6 @@
 ﻿@model resourceEdge.Domain.ViewModels.AppraiseeDropDown
 
 @{
-    ViewBag.Title = "EmployeeAppraisal";
     Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
     int counter = 1;
 }
@@ -24,17 +23,18 @@
   border-left: 3px solid #eee;
 }
 </style>
-
+@if (Model.Questions.Count() > 0)
+{
 <div class="bs-callout bs-callout-warning hidden">
     <h4>Oh snap!</h4>
-    <p>Please all question needs to be answered. If not application please pick the lasr option:(</p>
+    <p>Please all question needs to be answered. If not applicable please pick the last option</p>
 </div>
-@using (Html.BeginForm("EmployeeAppraisal", "Appraisal",null, FormMethod.Post,new {id = "appraisalForm", data_parsley_validate = "" }))
+using (Html.BeginForm("EmployeeAppraisal", "Appraisal", null, FormMethod.Post, new { id = "appraisalForm", data_parsley_validate = "" }))
 {
     @Html.AntiForgeryToken()
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        foreach (var item in Model.Questions)
-        {
+    foreach (var item in Model.Questions)
+    {
             <table class="table table-responsive table-bordered">
                 <thead>
                     <tr>
@@ -46,8 +46,8 @@
                     <tr>
                         <td>@counter</td>
                         <td>
-                            @item.Question
-                            @Html.Hidden("Question",@item.Id)
+                            @item.EmpQuestion
+                            @Html.Hidden("Question", @item.Id)
                   
                             <hr />
                             <table>
@@ -90,8 +90,12 @@
                 <input type="submit" value="Submit Answers" class="btn btn-success" />
             </div>
         </div>
+    }
 }
-
+else
+{
+    <div class="alert alert-warning">Please it seems like you have already participated for this appraisal. Kindly check back for Corrections if rejected by your Line Manager.</div>
+}
 @section InitScript{
 <script>
     $(function () {
@@ -101,7 +105,7 @@
             $('.bs-callout-warning').toggleClass('hidden', ok);
         })
           .on('form:success', function () {
-              return true; // Don't submit form for this demo
+             // return true;
           });
     });
     </script>    

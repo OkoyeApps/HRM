@@ -1,0 +1,180 @@
+﻿@using resourceEdge.webUi.Infrastructure.Core
+@using System.Collections.Generic
+@{
+    Layout = null;
+    var modelForview = (Tuple<IList<EmployeeListItem>, IList<EmployeeListItem>, IList < EmployeeListItem>>) ViewBag.Result;
+}
+@if (User.IsInRole("L1"))
+{
+    <div class="col-md-12">
+        <ul class="nav nav-tabs nav-tabs-inverse nav-justified nav-justified-mobile" data-sortable-id="index-2">
+            <li class="active"><a href="#approved" data-toggle="tab"><i class="fa fa-calender m-r-5"></i> <span class="hidden-xs">Approved</span></a></li>
+            <li class=""><a href="#denied" data-toggle="tab"><i class="fa fa-calendar m-r-5"></i> <span class="hidden-xs">Denied</span></a></li>
+            <li class=""><a href="#pending" data-toggle="tab"><i class="fa fa-calendar m-r-5"></i> <span class="hidden-xs">Pending</span></a></li>
+            <li class=""><a href="#all" data-toggle="tab"><i class="fa fa-calendar m-r-5"> <span class="hidden-xs"> All Request</span></i></a></li>
+        </ul>
+        <div class="tab-content" data-sortable-id="index-3">
+            <div class="tab-pane fade active in" id="approved" name="approved">
+                <div class="height-sm" data-scrollbar="true">
+                    <table id="tblapproved" class="table table-striped table-bordered display table-responsive" width="100%">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Leave Name</th>
+                                <th><i class="icon-plane"></i> Requested Days</th>
+                                <th><i class="icon-calendar font-dark"></i> From</th>
+                                <th><i class="icon-calendar font-dark"></i> To</th>
+                                <th>Reason</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="green portlet-body">
+                            @{ int i = 1;}
+                            @foreach (var item in Approved)
+                            {
+                                <tr>
+                                    <td>@{int sn = i++;} @sn</td>
+                                    <td>@item.LeaveName</td>
+                                    <td>@item.requestDaysNo</td>
+                                    <td>@item.FromDate.Value.ToShortDateString()</td>
+                                    <td>@item.ToDate.Value.ToShortDateString()</td>
+                                    <td>@item.Reason</td>
+                                    <td><span class="label label-sm label-success">Approved</span></td>
+                                </tr>
+                                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="denied" name="denied">
+                <div class="height-sm" data-scrollbar="true">
+                    <table class="table table-responsive table-striped table-bordered table-hover table-checkable" id="tbldenied">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Leave Name</th>
+                                <th><i class="icon-plane"></i> Requested Days</th>
+                                <th><i class="icon-calendar font-dark"></i> From</th>
+                                <th><i class="icon-calendar font-dark"></i> To</th>
+                                <th>Reason</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="green portlet-body">
+                            @{ int j = 1;}
+                            @foreach (var item in Denied)
+                            {
+                                <tr>
+                                    <td>@{int sn = j++;} @sn</td>
+                                    <td>@item.LeaveName</td>
+                                    <td>@item.requestDaysNo</td>
+                                    <td>@item.FromDate.Value.ToShortDateString()</td>
+                                    <td>@item.ToDate.Value.ToShortDateString()</td>
+                                    <td>@item.Reason</td>
+                                    <td><span class="label label-sm label-danger">Denied</span></td>
+                                </tr>
+                                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="pending" name="pending">
+                <div class="height-sm" data-scrollbar="true">
+                    <table class="table table-responsive table-striped table-bordered table-hover table-checkable display" id="tblpending">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Leave Name</th>
+                                <th><i class="icon-plane"></i> Requested Days</th>
+                                <th><i class="icon-calendar font-dark"></i> From </th>
+                                <th><i class="icon-calendar font-dark"></i> To</th>
+                                <th>Reason</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="green portlet-body">
+                            @{ int k = 1;}
+                            @foreach (var item in pending)
+                            {
+                                <tr>
+                                    <td>@{var sn = k++;} @sn</td>
+                                    <td>@item.LeaveName</td>
+                                    <td>@item.requestDaysNo</td>
+                                    <td>@item.FromDate.Value.ToShortDateString()</td>
+                                    <td>@item.ToDate.Value.ToShortDateString()</td>
+                                    <td>@item.Reason</td>
+                                    <td><span class="label label-sm label-warning">Pending</span></td>
+                                </tr>
+                                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="all" name="all">
+                <div class="height-sm" data-scrollbar="true">
+                    <table class="table table-responsive table-striped table-bordered table-hover table-checkable" id="tblall">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Leave Name</th>
+                                <th><i class="icon-plane"></i> Requested Days</th>
+                                <th><i class="icon-calendar font-dark"></i> From</th>
+                                <th><i class="icon-calendar font-dark"></i> To</th>
+                                <th>Reason</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="green portlet-body">
+                            @{ int l = 1;}
+                            @foreach (var item in All)
+                            {
+                                <tr>
+                                    <td>@{var sn = l++;} @sn</td>
+                                    <td>@item.LeaveName</td>
+                                    <td>@item.requestDaysNo</td>
+                                    <td>@item.FromDate.Value.ToShortDateString()</td>
+                                    <td>@item.ToDate.Value.ToShortDateString()</td>
+                                    <td>@item.Reason</td>
+
+                                    @if (item.LeaveStatus == null)
+                                    {
+                                        <td><span class="label label-sm label-warning">Pending</span></td>
+                                    }
+                                    @if (item.LeaveStatus == true)
+                                    {
+                                        <td><span class="label label-sm label-success">Approved</span></td>
+                                    }
+                                    @if (item.LeaveStatus == false)
+                                    {
+                                        <td><span class="label label-sm label-danger">Denied</span></td>
+                                    }
+                                </tr>
+                                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+                                        }
+                                        else if (User.IsInRole("L2"))
+                                        {
+
+                                        }
+                                        else if (User.IsInRole("L3"))
+                                        {
+
+                                        }
+@*@if(modelForview.Item1 != null && modelForview.Item2 != null && modelForview.Item3 != null)
+{
+
+}
+else if(modelForview.Item2 != null && modelForview.Item1 == null)
+{
+
+}
+else if(modelForview.Item3 != null && modelForview.Item1 == null)
+{
+
+}*@

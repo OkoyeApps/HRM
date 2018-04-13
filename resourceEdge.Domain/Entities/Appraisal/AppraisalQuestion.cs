@@ -22,6 +22,9 @@ namespace resourceEdge.Domain.Entities
         public bool? L1Status { get; set; }
         public bool? L2Status { get; set; }
         public bool? L3Status { get; set; }
+        public int? EditCount { get; set; }
+        public bool? IsSubmitted { get; set; }
+        public bool? IsAccepted { get; set; }
         public Question Question { get; set; }
         public AppraisalConfiguration Configuration { get; set; }
     }

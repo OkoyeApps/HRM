@@ -14,6 +14,8 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using resourceEdge.webUi.Infrastructure.Core;
 
+using resourceEdge.webUi.Models.SystemModel;
+
 namespace resourceEdge.webUi.Infrastructure
 {
     /// <summary>
@@ -419,6 +421,46 @@ namespace resourceEdge.webUi.Infrastructure
 
         }
 
+        //Also know that this method is in the ApiManager. i left it there because i don't want the Apimanager to be dependent on any part of the system.
+        //So i went ahead to duplicate the code...
+        public LocationListItem GetLocationHeadDetails(int groupId, int LocationId)
+        {
+            var result = unitofWork.GetDbContext().Location.Where(m => m.Id == LocationId && m.GroupId == groupId).Select(x => new LocationListItem() { GroupId = x.GroupId, LocationId = x.Id, Manager1 = x.LocationHead1, Manager2 = x.LocationHead2, Manager3 = x.LocationHead3 }).FirstOrDefault();
+            var resultArray = new string[]
+            {
+               result.Manager1, result.Manager2, result.Manager3
+            };
+            Dictionary<string, string> ManagerWithFullname = new Dictionary<string, string>();
+            foreach (var item in resultArray)
+            {
+                if (item != null)
+                {
+                    if (userManager.IsInRole(item, "Location Head"))
+                    {
+                        var check = unitofWork.GetDbContext().Employee.Where(x => x.LocationId == LocationId && x.userId == item).Select(x => x.FullName).FirstOrDefault();
+                        ManagerWithFullname.Add(item, check);
+                    }
+                }
+            }
+            if (result.Manager1 != null && ManagerWithFullname.ContainsKey(result.Manager1))
+            {
+                result.FullName1 = ManagerWithFullname[result.Manager1];
+            }
+            if (result.Manager2 != null && ManagerWithFullname.ContainsKey(result.Manager2))
+            {
+                result.FullName1 = ManagerWithFullname[result.Manager1];
+            }
+            if (result.Manager3 != null && ManagerWithFullname.ContainsKey(result.Manager3))
+            {
+                result.FullName3 = ManagerWithFullname[result.Manager3];
+            }
+
+            return result ?? null;
+        }
+        public List<EmployeeListItem> GetLocationHeads(int groupId, int LocationId)
+        {
+            return null;
+        }
         public List<EmployeeListItem> GetEmployeesByLocation(int id)
         {
             var result = EmployeeRepo.GetAllEmployeesByLocation(id)

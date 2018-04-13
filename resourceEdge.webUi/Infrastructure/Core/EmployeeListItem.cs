@@ -23,6 +23,8 @@ namespace resourceEdge.webUi.Infrastructure.Core
         public int departmentId { get; set; }
         public int LocationId { get; set; }
         public int GroupId { get; set; }
+        public string DepartmentName { get; set; }
+        public string BusinessUnitName { get; set; }
         public BusinessUnit Units { get; set; }
         public Group Group { get; set; }
         public Location Location { get; set; }

@@ -75,13 +75,21 @@ namespace resourceEdge.webUi.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl, Dictionary<string, object> CustomLoginDetails = null)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
+            if (CustomLoginDetails != null)
+            {
+                if (CustomLoginDetails.ContainsKey("LoginDetails"))
+                {
+                    var customObject = CustomLoginDetails["LoginDetails"];
+                    model =(LoginViewModel) customObject;
+                } 
+            }
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
@@ -95,8 +103,11 @@ namespace resourceEdge.webUi.Controllers
                     TempData["UserId"] = userId;
                     TempData["Email"] = model.Email;
                     TempData["Password"] = model.Password;
-                    //return RedirectionUrls(model.Email);
+                    if (returnUrl != null)
+                    {
                  return RedirectToLocal(returnUrl);
+                    }
+                   return RedirectionUrls(model.Email);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -444,20 +455,23 @@ namespace resourceEdge.webUi.Controllers
         public async Task<ActionResult> CustomLogin(LoginViewModel model)
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            Dictionary<string, object> modelToSend = new Dictionary<string, object>();
+            modelToSend.Add("LoginDetails", new LoginViewModel() { Email = model.Email, Password = model.Password, RememberMe = model.RememberMe });
 
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    var userId = SignInManager.AuthenticationManager.AuthenticationResponseGrant.Identity.GetUserId();
-                    TempData["UserId"] = userId;
-                    TempData["Email"] = model.Email;
-                    TempData["Password"] = model.Password;
-                    return RedirectionUrls(model.Email);
-                default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return View();
-            }
+            return this.RedirectAndPost("/account/Login", modelToSend);
+            //var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            //switch (result)
+            //{
+            //    case SignInStatus.Success:
+            //        var userId = SignInManager.AuthenticationManager.AuthenticationResponseGrant.Identity.GetUserId();
+            //        TempData["UserId"] = userId;
+            //        TempData["Email"] = model.Email;
+            //        TempData["Password"] = model.Password;
+            //        return RedirectionUrls(model.Email);
+            //    default:
+            //        ModelState.AddModelError("", "Invalid login attempt.");
+            //        return View();
+            //}
         }
 
         //
