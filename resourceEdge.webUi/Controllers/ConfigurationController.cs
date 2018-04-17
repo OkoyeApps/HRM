@@ -103,7 +103,7 @@ namespace resourceEdge.webUi.Controllers
                 }
 
             }
-                this.AddNotification("Sorry Identity Code has been Added for this Group already", NotificationType.ERROR);
+                this.AddNotification($"Sorry Identity Code has been Added for this Group already|{Request.Url.AbsolutePath}", NotificationType.ERROR);
                 return RedirectToAction("AddCode");
         }
         public ActionResult EditCode(int id = 1)
@@ -118,11 +118,12 @@ namespace resourceEdge.webUi.Controllers
             if (ModelState.IsValid)
             {
                 IdentityRepo.update(code);
+                this.AddNotification($"|{ Request.Url.AbsolutePath}", NotificationType.SUCCESS);
                 return View("AddCode");
             }
             else
             {
-                TempData["Error"] = "Something went wrong. please make sure you fill all the appropriate details";
+             this.AddNotification($"Something went wrong. please make sure you fill all the appropriate details|{ Request.Url.AbsolutePath}", NotificationType.ERROR);
                 return View();
             }
         }
@@ -151,7 +152,7 @@ namespace resourceEdge.webUi.Controllers
                         isactive = true
                     };
                     prefixRepo.Insert(prefixes);
-                    this.AddNotification("Prefix added Successfully", NotificationType.SUCCESS);
+                    this.AddNotification($"|{Request.Url.AbsolutePath}", NotificationType.SUCCESS);
                     if (returnUrl != null)
                     {
                         return Redirect(returnUrl);
@@ -173,7 +174,7 @@ namespace resourceEdge.webUi.Controllers
                     return RedirectToAction("addPrefix");
                 }
             }
-            this.AddNotification("Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
+            this.AddNotification($"Something went wrong. please make sure you fill all the appropriate details|{Request.Url.AbsolutePath}", NotificationType.ERROR);
                 return View(model);
 
         }
@@ -207,7 +208,7 @@ namespace resourceEdge.webUi.Controllers
                     if (existingUnit)
                     {
                     
-                        this.AddNotification("Please Unit alreasy existing with same name in this location. Kindly try using another name or a different Location", NotificationType.ERROR);
+                        this.AddNotification($"Please Unit alreasy existing with same name in this location. Kindly try using another name or a different Location|{Request.Url.AbsolutePath}", NotificationType.ERROR);
                         ViewBag.Locations = new SelectList(LocationRepo.Get().OrderBy(x => x.State), "Id", "State", "Id");
                         return View(model);
                     }
@@ -224,7 +225,7 @@ namespace resourceEdge.webUi.Controllers
                     unit.isactive = true;
                     BusinessRepo.Insert(unit);
 
-                    this.AddNotification("Business unit Successfully Added", NotificationType.SUCCESS);
+                    this.AddNotification($"|{Request.Url.AbsolutePath}", NotificationType.SUCCESS);
                     return RedirectToAction("addBusinessUnits");
                 }
             }
@@ -234,7 +235,7 @@ namespace resourceEdge.webUi.Controllers
                 throw ex;
             }
 
-            this.AddNotification("Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
+            this.AddNotification($"Something went wrong. please make sure you fill all the appropriate details|{Request.Url.AbsolutePath}", NotificationType.ERROR);
             ViewBag.Locations = new SelectList(LocationRepo.Get().OrderBy(x => x.State), "Id", "State", "Id");
             return View(model);
         }
@@ -263,13 +264,13 @@ namespace resourceEdge.webUi.Controllers
         {
             if (ModelState.IsValid)
             {
-                this.AddNotification($"{units.unitname} has been modified", NotificationType.SUCCESS);
+                this.AddNotification($"|{Request.Url.AbsolutePath}", NotificationType.SUCCESS);
                 BusinessRepo.update(units);
                 return RedirectToAction("AllBusinessUnits");
             }
             else
             {
-                this.AddNotification("Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
+                this.AddNotification($"Something went wrong. please make sure you fill all the appropriate details|{Request.Url.AbsolutePath}", NotificationType.ERROR);
                 return View(units);
             }
         }
@@ -287,7 +288,7 @@ namespace resourceEdge.webUi.Controllers
             {
                 return HttpNotFound();
             }
-            TempData["unitName"] = string.Format($"{unitName} has been deleted");
+           this.AddNotification($"Deleted!", NotificationType.SUCCESS);
             BusinessRepo.Delete(id);
             return RedirectToAction("AllBusinessUnits");
         }
@@ -324,12 +325,12 @@ namespace resourceEdge.webUi.Controllers
 
                 };
                 DeptRepo.addepartment(depts);
-                this.AddNotification($"{depts.deptname} has been created", NotificationType.SUCCESS);
+                this.AddNotification($"|{Request.Url.AbsolutePath}", NotificationType.SUCCESS);
                 return RedirectToAction("addDepartment");
             }
 
             ViewBag.businessUnits = new SelectList(BusinessRepo.Get().OrderBy(x => x.unitname), "Id", "unitname", "Id");
-            this.AddNotification("Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
+            this.AddNotification($"Something went wrong. please make sure you fill all the appropriate details|{Request.Url.AbsolutePath}", NotificationType.ERROR);
             return View(model);
         }
 
@@ -351,11 +352,11 @@ namespace resourceEdge.webUi.Controllers
         {
             if (ModelState.IsValid)
             {
-                this.AddNotification($"{dept.deptname} has been Updated", NotificationType.SUCCESS);
+                this.AddNotification($"|{Request.Url.AbsolutePath}", NotificationType.SUCCESS);
                 DeptRepo.Updatedepartment(dept);
                 return View("AllDepartment");
             }
-            this.AddNotification("Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
+            this.AddNotification($"Something went wrong. please make sure you fill all the appropriate details|{Request.Url.AbsolutePath}", NotificationType.ERROR);
             return View(dept);
         }
 
@@ -375,7 +376,7 @@ namespace resourceEdge.webUi.Controllers
             }
             else
             {
-                this.AddNotification($"{dept.deptname} has been deleted", NotificationType.SUCCESS);
+                this.AddNotification($"|{Request.Url.AbsolutePath}", NotificationType.SUCCESS);
                 DeptRepo.DeleteDepartment(id);
                 return RedirectToAction("AllDepartment");
             }
@@ -400,7 +401,7 @@ namespace resourceEdge.webUi.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddJobTitle(string returnUrl, FormCollection collection = null, Jobtitle jobs = null)
         {
-            if (jobs != null && !collection.AllKeys.Contains("jobtitlename[0]"))
+            if (!collection.AllKeys.Contains("jobtitlename[0]"))
             {
                 if (ModelState.IsValid || string.IsNullOrEmpty(jobs.GroupId.ToString()))
                 {
@@ -420,10 +421,10 @@ namespace resourceEdge.webUi.Controllers
                     
                     if (returnUrl != null)
                     {
-                        this.AddNotification("", NotificationType.SUCCESS);
+                        this.AddNotification($"|{Request.Url.AbsolutePath}", NotificationType.SUCCESS);
                         return Redirect(returnUrl);
                     }
-                    this.AddNotification("", NotificationType.SUCCESS);
+                    this.AddNotification($"|{Request.Url.AbsolutePath}", NotificationType.SUCCESS);
                     return RedirectToAction("AddJobTitle");
                 }
             }
@@ -437,12 +438,13 @@ namespace resourceEdge.webUi.Controllers
                 }
                 else if (result != false && returnUrl == null)
                 {
-                    this.AddNotification("", NotificationType.SUCCESS);
+                    this.AddNotification($"|{Request.Url.AbsolutePath}", NotificationType.SUCCESS);
                     return RedirectToAction("AddJobTitle");
                 }
             }
 
-            this.AddNotification("Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
+            this.AddNotification($"Something went wrong. please make sure you fill all the appropriate details|{Request.Url.AbsolutePath}", NotificationType.ERROR);
+
             return RedirectToAction("AddJobTitle");
         }
 
@@ -476,7 +478,7 @@ namespace resourceEdge.webUi.Controllers
                     position.modifieddate = DateTime.Now;
                     positionRepo.Insert(position);
                     ModelState.Clear();
-                    this.AddNotification($"{position.positionname} has been created", NotificationType.SUCCESS);
+                    this.AddNotification($"|{Request.Url.AbsolutePath}", NotificationType.SUCCESS);
                     if (returnUrl != null)
                     {
                         return RedirectToAction(returnUrl);
@@ -494,12 +496,12 @@ namespace resourceEdge.webUi.Controllers
                 }
                 else if (result != false && returnUrl == null)
                 {
-                    this.AddNotification("", NotificationType.SUCCESS);
+                    this.AddNotification($"|{Request.Url.AbsolutePath}", NotificationType.SUCCESS);
                     return RedirectToAction("addPosition");
                 }
             }
             ViewBag.jobTitles = new SelectList(Apimanager.JobList().OrderBy(x => x.JobName), "JobId", "JobName", "JobId");
-            this.AddNotification("Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
+            this.AddNotification($"Something went wrong. please make sure you fill all the appropriate details|{Request.Url.AbsolutePath}", NotificationType.ERROR);
             return RedirectToAction("addPosition");
         }
 
@@ -533,7 +535,7 @@ namespace resourceEdge.webUi.Controllers
                     status.isactive = true;
                     statusRepo.Insert(status);
                     ModelState.Clear();
-                    this.AddNotification($"{model.employemntStatus} has been created", NotificationType.SUCCESS);
+                    this.AddNotification($"|{Request.Url.AbsolutePath}", NotificationType.SUCCESS);
                     if (returnUrl != null)
                     {
                         return Redirect(returnUrl);
@@ -553,9 +555,9 @@ namespace resourceEdge.webUi.Controllers
                     return RedirectToAction("addEmploymentStatus");
                 }
             }
-            ModelState.AddModelError("", "Something went wrong.\n please make sure your data's are valid \n if the problem persist contact the system Administrator");
-            this.AddNotification("Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
-            return View(model);
+           // ModelState.AddModelError($"|{Request.Url.AbsolutePath}", "Something went wrong.\n please make sure your data's are valid \n if the problem persist contact the system Administrator");
+            this.AddNotification($"Something went wrong. please make sure you fill all the appropriate details|{Request.Url.AbsolutePath}", NotificationType.ERROR);
+            return RedirectToAction("addEmploymentStatus");
         }
 
 
@@ -590,8 +592,8 @@ namespace resourceEdge.webUi.Controllers
             ModelState.Clear();
             this.AddNotification("Operation Successful!", NotificationType.SUCCESS);
         }
-        ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
-        this.AddNotification("Something went wrong try again later", NotificationType.ERROR);
+        ModelState.AddModelError($"|{Request.Url.AbsolutePath}", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+        this.AddNotification($"Something went wrong try again later|{Request.Url.AbsolutePath}", NotificationType.ERROR);
         return View(model);
     }
 
@@ -609,9 +611,8 @@ namespace resourceEdge.webUi.Controllers
     [ValidateAntiForgeryToken]
     public ActionResult AddLevel(LevelsViewModel model = null, FormCollection collection = null, string returnUrl = null)
     {
-        if (model != null)
+        if (!collection.AllKeys.Contains("LevelName[0]"))
         {
-
             if (ModelState.IsValid)
             {
                 Level level = new Level();
@@ -625,7 +626,7 @@ namespace resourceEdge.webUi.Controllers
                 level.GroupId = model.GroupId;
                 levelRepo.Insert(level);
                 ModelState.Clear();
-                this.AddNotification("Level Added SuccessFully Successful", NotificationType.SUCCESS);
+                this.AddNotification($"|{Request.Url.AbsolutePath}", NotificationType.SUCCESS);
                 if (returnUrl != null)
                 {
                     return Redirect(returnUrl);
@@ -636,19 +637,15 @@ namespace resourceEdge.webUi.Controllers
         else
         {
             var result = ConfigManager.AddOrUpdateLevel(collection);
-            if (result != false && returnUrl != null)
+            if (result != false && returnUrl == null)
             {
-                return Redirect(returnUrl);
-            }
-            else if (result != false && returnUrl == null)
-            {
-                return RedirectToAction("Create", "HR");
+                    this.AddNotification($"|{Request.Url.AbsolutePath}", NotificationType.SUCCESS);
+                    return RedirectToAction("AddLevel");
             }
         }
-
-        ModelState.AddModelError("", "Please review the form and resend");
-        this.AddNotification("Something went wrong, please try again", NotificationType.ERROR);
-        return View(model);
+            this.AddNotification($"Something went wrong, please try again|{Request.Url.AbsolutePath}", NotificationType.ERROR);
+            ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(X => X.Id), "Id", "GroupName", "Id");
+            return View(model);
     }
 
     public ActionResult AddLocation(string returnUrl)
@@ -664,7 +661,7 @@ namespace resourceEdge.webUi.Controllers
     [ValidateAntiForgeryToken]
     public ActionResult AddLocation(LocationViewModel model = null, FormCollection collection = null, string returnUrl = null)
     {
-        if (model != null && !collection.AllKeys.Contains("Country[0]"))
+        if (!collection.AllKeys.Contains("Country[0]"))
         {
 
             if (ModelState.IsValid)
@@ -684,10 +681,10 @@ namespace resourceEdge.webUi.Controllers
                 ModelState.Clear();
                 if (returnUrl != null)
                 {
-                this.AddNotification("Location Added", NotificationType.SUCCESS);
+                this.AddNotification($"|{Request.Url.AbsolutePath}", NotificationType.SUCCESS);
                     return Redirect(returnUrl);
                 }
-                    this.AddNotification("Location Added", NotificationType.SUCCESS);
+                    this.AddNotification($"|{Request.Url.AbsolutePath}", NotificationType.SUCCESS);
                     return RedirectToAction("Create", "HR");
             }
         }
@@ -700,12 +697,13 @@ namespace resourceEdge.webUi.Controllers
             }
             else if (result != false && returnUrl == null)
             {
-                    this.AddNotification("Something went wrong, please try again", NotificationType.ERROR);
+                    this.AddNotification($"Something went wrong, please try again|{Request.Url.AbsolutePath}", NotificationType.ERROR);
                     return RedirectToAction("AddLocation");
             }
         }
-        this.AddNotification("Something went wrong, please try again", NotificationType.ERROR);
-        return View(model);
+            this.AddNotification($"Something went wrong, please try again|{Request.Url.AbsolutePath}", NotificationType.ERROR);
+            ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(X => X.Id), "Id", "GroupName", "Id");
+            return View(model);
     }
     public ActionResult AddCareer(string returnUrl, string previousUrl)
     {
@@ -732,7 +730,7 @@ namespace resourceEdge.webUi.Controllers
                 career.ModifiedOn = DateTime.Now;
                 careerRepo.Insert(career);
                 ModelState.Clear();
-                this.AddNotification("Career successfully Added", NotificationType.SUCCESS);
+                this.AddNotification($"|{Request.Url.AbsolutePath}", NotificationType.SUCCESS);
                 if (returnUrl != null)
                 {
                     return Redirect(returnUrl);
@@ -745,8 +743,8 @@ namespace resourceEdge.webUi.Controllers
             ModelState.AddModelError("", ex.Message);
             throw ex;
         }
-        ModelState.AddModelError("", "please refill the form and try submitting again");
-        this.AddNotification("Something went wrong, please try again", NotificationType.ERROR);
+        
+        this.AddNotification($"Something went wrong, please try again|{Request.Url.AbsoluteUri}", NotificationType.ERROR);
         return View(model);
     }
 
@@ -776,7 +774,7 @@ namespace resourceEdge.webUi.Controllers
                 Group.ModifiedDate = DateTime.Now;
                 GroupRepo.Insert(Group);
                 ModelState.Clear();
-                this.AddNotification("Group Successfully Added!", NotificationType.SUCCESS);
+                this.AddNotification($"|{Request.Url.AbsolutePath}", NotificationType.SUCCESS);
                 if (returnUrl != null)
                 {
                     return Redirect(returnUrl);
@@ -789,8 +787,7 @@ namespace resourceEdge.webUi.Controllers
             ModelState.AddModelError("", ex.Message);
             throw ex;
         }
-        ModelState.AddModelError("", "please refill the form and make try submitting again");
-        this.AddNotification("Something went wrong, Please try again", NotificationType.ERROR);
+        this.AddNotification($"Something went wrong, Please try again|{Request.Url.AbsolutePath}", NotificationType.ERROR);
         return View(model);
     }
 }

@@ -1,20 +1,21 @@
 ﻿@using resourceEdge.webUi.Infrastructure.Core
 @using System.Collections.Generic
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/Layouts/_EmployeeLayout.cshtml";
     var modelForview = (Tuple<IList<EmployeeListItem>, IList<EmployeeListItem>, IList<EmployeeListItem>>)ViewBag.Result;
+    int i = 1;
 }
 @if (User.IsInRole("L2"))
 {
     <div class="col-md-12">
-        <ul class="nav nav-tabs nav-tabs-inverse nav-justified nav-justified-mobile" data-sortable-id="index-2">
-            <li class="active"><a href="#Pending" data-toggle="tab"><i class="fa fa-calender m-r-5"></i> <span class="hidden-xs">Approved</span></a></li>
-            <li class=""><a href="#L2" data-toggle="tab"><i class="fa fa-calendar m-r-5"></i> <span class="hidden-xs">Denied</span></a></li>
-            <li class=""><a href="#L3" data-toggle="tab"><i class="fa fa-calendar m-r-5"></i> <span class="hidden-xs">Pending</span></a></li>
-            <li class=""><a href="#all" data-toggle="tab"><i class="fa fa-calendar m-r-5"> <span class="hidden-xs"> All Request</span></i></a></li>
+        <ul class="nav nav-tabs nav-tabs-inverse nav-justified nav-justified-mobile" data-sortable-id="index-2" style="background-color:dodgerblue">
+            <li class="active"><a href="#Pending" data-toggle="tab"><i class="fa fa-calender m-r-5"></i> <span class="hidden-xs">Pending</span></a></li>
+            <li class=""><a href="#L2" data-toggle="tab"><span class="hidden-xs">Line Manager 3</span></a></li>
         </ul>
         <div class="tab-content" data-sortable-id="index-3">
-            <div class="tab-pane fade active in" id="approved" name="approved">
+            <div class="tab-pane fade active in" id="Pending" name="Pending">
+@if (modelForview.Item2.Count > 0)
+{
                 <div class="height-sm" data-scrollbar="true">
                     <table id="tblapproved" class="table table-striped table-bordered display table-responsive" width="100%">
                         <thead>
@@ -30,51 +31,7 @@
                             </tr>
                         </thead>
                         <tbody class="green portlet-body">
-                            @{ int i = 1;}
-                            @foreach (var item in modelForview.Item1)
-                            {
-                                <tr>
-                                    <td>@{int sn = i++;} @sn</td>
-                                    <td>@item.FullName</td>
-                                    <td>@item.BusinessUnitName</td>
-                                    <td>@item.DepartmentName</td>
-                                    @*<td>@item.ToDate.Value.ToShortDateString()</td>
-                                        <td>@item.Reason</td>*@
-                                    <td><span class="label label-sm label-success">Pending</span></td>
-                                    <td>
-                                        <table>
-                                            <tr>
-                                                <td>
-                                                    @Html.BeginForm("ViewSubmittedEmployeeAppraisal", "AppraisalController", new { userId = item.userId }, FormMethod.Post, null){
-                                                    @Html.AntiForgeryToken()
-                                                    <button class="btn btn-warning" type="submit"><i class="icon-eye"></i>View</button>
-                                                    }
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                        }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="denied" name="denied">
-                <div class="height-sm" data-scrollbar="true">
-                    <table class="table table-responsive table-striped table-bordered table-hover table-checkable" id="tbldenied">
-                        <thead>
-                            <tr>
-                                <th>S/N</th>
-                                <th>Fullname</th>
-                                <th><i class="icon-plane"></i> Business unit</th>
-                                <th><i class="icon-calendar font-dark"></i> Department</th>
-                                @*<th><i class="icon-calendar font-dark"></i> To</th>
-                                    <th>Reason</th>*@
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody class="green portlet-body">
-                            @{ int j = 1;}
+                            @{ }
                             @foreach (var item in modelForview.Item2)
                             {
                                 <tr>
@@ -89,9 +46,10 @@
                                         <table>
                                             <tr>
                                                 <td>
-                                                    @Html.BeginForm("ViewSubmittedEmployeeAppraisal", "AppraisalController", new { userId = item.userId }, FormMethod.Post, null){
-                                                    @Html.AntiForgeryToken()
-                                                    <button class="btn btn-warning" type="submit"><i class="icon-eye"></i>View</button>
+                                                    @using (Html.BeginForm("SubmittedAppraisal", "AppraisalController", new { userId = item.userId }, FormMethod.Post, null))
+                                                    {
+                                                                    @Html.AntiForgeryToken()
+                                                                    <button class="btn btn-warning" type="submit"><i class="icon-eye"></i>View</button>
                                                     }
                                                 </td>
                                             </tr>
@@ -102,10 +60,15 @@
                         </tbody>
                     </table>
                 </div>
+                }
+                else
+                {
+                    <div class="alert alert-warning centered">No Pending appraisal for approval yet</div>
+             }
             </div>
-            <div class="tab-pane fade" id="pending" name="pending">
+            <div class="tab-pane fade" id="L2" name="L2">
                 <div class="height-sm" data-scrollbar="true">
-                    <table class="table table-responsive table-striped table-bordered table-hover table-checkable display" id="tblpending">
+                    <table class="table table-responsive table-striped table-bordered table-hover table-checkable" id="tbldenied">
                         <thead>
                             <tr>
                                 <th>S/N</th>
@@ -115,10 +78,11 @@
                                 @*<th><i class="icon-calendar font-dark"></i> To</th>
                                     <th>Reason</th>*@
                                 <th>Status</th>
+                                @*<th></th>*@
                             </tr>
                         </thead>
                         <tbody class="green portlet-body">
-                            @{ int k = 1;}
+                            @{ int j = 1;}
                             @foreach (var item in modelForview.Item3)
                             {
                                 <tr>
@@ -129,31 +93,26 @@
                                     @*<td>@item.ToDate.Value.ToShortDateString()</td>
                                         <td>@item.Reason</td>*@
                                     <td><span class="label label-sm label-success">Pending</span></td>
-                                    <td>
+                                    @*<td>
                                         <table>
                                             <tr>
                                                 <td>
-                                                    @Html.BeginForm("ViewSubmittedEmployeeAppraisal", "AppraisalController", new { userId = item.userId }, FormMethod.Post, null){
+                                                    @using (Html.BeginForm("ViewSubmittedEmployeeAppraisal", "AppraisalController", new { userId = item.userId }, FormMethod.Post, null))
+                                                    {
                                                     @Html.AntiForgeryToken()
                                                     <button class="btn btn-warning" type="submit"><i class="icon-eye"></i>View</button>
                                                     }
                                                 </td>
                                             </tr>
                                         </table>
-                                    </td>
+                                    </td>*@
                                 </tr>
-                                        }
+                                                    }
                         </tbody>
                     </table>
                 </div>
             </div>
-            <div class="tab-pane fade" id="all" name="all">
-                <div class="height-sm" data-scrollbar="true">
-
-                </div>
-            </div>
-
-        </div>
+                 </div>
     </div>
                                         }
 

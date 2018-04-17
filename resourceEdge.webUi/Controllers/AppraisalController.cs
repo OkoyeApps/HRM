@@ -88,8 +88,7 @@ namespace resourceEdge.webUi.Controllers
             {
                 throw ex;
             }
-            ModelState.AddModelError("", "Please try again");
-            this.AddNotification("Something went wrong please try again", NotificationType.ERROR);
+            this.AddNotification($"Something went wrong please try again|{Request.Url.AbsolutePath}", NotificationType.ERROR);
             return View(model);
         }
 
@@ -110,10 +109,10 @@ namespace resourceEdge.webUi.Controllers
             if (result != false)
             {
                 ModelState.Clear();
-               this.AddNotification("Question(s) added", NotificationType.SUCCESS);
+               this.AddNotification($"Question(s) added|{Request.Url.AbsolutePath}", NotificationType.SUCCESS);
                 return RedirectToAction("AddQuestion");
             }
-            this.AddNotification("Sorry Something went wrong, Please enter the Questions again", NotificationType.ERROR);
+            this.AddNotification($"Sorry Something went wrong, Please enter the Questions again|{Request.Url.AbsolutePath}", NotificationType.ERROR);
             return RedirectToAction("AddQuestion");
         }
 
@@ -139,7 +138,7 @@ namespace resourceEdge.webUi.Controllers
             {
                 return View();
             }
-            this.AddNotification("Sorry Something went wrong, please try again", NotificationType.ERROR);
+            this.AddNotification($"Sorry Something went wrong, please try again|{Request.Url.AbsolutePath}", NotificationType.ERROR);
             return View(model);
         }
 
@@ -169,7 +168,7 @@ namespace resourceEdge.webUi.Controllers
                     };
                     skillRepo.Insert(skill);
                     ModelState.Clear();
-                    this.AddNotification("Skill Added Successfully", NotificationType.SUCCESS);
+                    this.AddNotification($"Skill Added!|{Request.Url.AbsolutePath}", NotificationType.SUCCESS);
                     return View();
                 }
             }
@@ -177,8 +176,8 @@ namespace resourceEdge.webUi.Controllers
             {
                 throw ex;
             }
-            ModelState.AddModelError("", "Could Not be saved, please ensure that that you fill all fields");
-            this.AddNotification("Could Not be saved, please ensure that that you fill all fields", NotificationType.ERROR);
+           
+            this.AddNotification($"Could Not be saved, please ensure that that you fill all fields|{Request.Url.AbsolutePath}", NotificationType.ERROR);
             return View();
         }
 
@@ -214,6 +213,7 @@ namespace resourceEdge.webUi.Controllers
                         };
                         RatingRepo.Insert(Rating);
                     }
+                    this.AddNotification($"|{Request.Url.AbsolutePath}", NotificationType.SUCCESS);
                     return View();
                 }
             }
@@ -221,7 +221,7 @@ namespace resourceEdge.webUi.Controllers
             {
                 throw ex;
             }
-            ViewBag.Error = "Something went wrong. Please Contact your system Administrator";
+         this.AddNotification($"Something went wrong. Please Contact your system Administrator|{Request.Url.AbsolutePath}", NotificationType.ERROR);
             return View();
         }
 
@@ -264,7 +264,7 @@ namespace resourceEdge.webUi.Controllers
                 InitializtionRepo.Insert(initilize);
                 ModelState.Clear();
                 //AppraisalManager.AddInitializationToMail(model.Group, model.StartDate);
-                ViewBag.Success = "Appraisal Initilzation Successful";
+                this.AddNotification($"Appraisal Initilzation Successful!|{ Request.Url.AbsolutePath}", NotificationType.SUCCESS);
                 return RedirectToAction("AllInitializedAppraisal");
             }
             return RedirectToAction("InitilizeAppraisal");
@@ -275,10 +275,10 @@ namespace resourceEdge.webUi.Controllers
             bool result = AppraisalManager.EnableAppraisal(Id);
             if (result != false)
             { 
-                ViewBag.Success = "Sucessfuly Enabled the Appraisal, Please wait while it is on-going";
+                this.AddNotification($"Enabled the Appraisal, Please remember to Monitor while it is on-going|{Request.Url.AbsolutePath}", NotificationType.ERROR);
                 return View("AllInitializedAppraisal");
             }
-            ViewBag.Error = "Something went wrong, please Try enabling again";
+            this.AddNotification($"Something went wrong, please Try enabling again|{Request.Url.AbsolutePath}", NotificationType.ERROR);
             return View("AllInitializedAppraisal");
         }
 
@@ -298,7 +298,7 @@ namespace resourceEdge.webUi.Controllers
                 var result = AppraisalManager.SubscribeForAppraisal(code, userSessionObject.LocationId, User.Identity.GetUserId());
                 if (result != false)
                 {
-                    this.AddNotification("Successfully subscribed for appraisal", NotificationType.SUCCESS);
+                    this.AddNotification($"Subscribed for appraisal|{Request.Url.AbsolutePath}", NotificationType.SUCCESS);
                   return  RedirectToAction("ConfigureAppraisal");
                 }
             }
@@ -311,7 +311,6 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult ConfigureAppraisal()
         {
             var userSessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
-            //IList<LocationListItem> locationHeadDetails = new List<LocationListItem>();
             ViewBag.groupId = userSessionObject.GroupId;
             ViewBag.dropDowns = AppraisalManager.ConfigureAppraisal(userSessionObject.LocationId);
             ViewBag.PageTitle = "Configure Appraisal";
@@ -328,10 +327,10 @@ namespace resourceEdge.webUi.Controllers
             {
                 var userSessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
                 var result = AppraisalManager.AddOrUpdateAppraisalConfiguration(model,User.Identity.GetUserId(), userSessionObject.GroupId, userSessionObject.LocationId);
-                this.AddNotification("", NotificationType.SUCCESS);
+                this.AddNotification($"|{Request.Url.AbsolutePath}", NotificationType.SUCCESS);
                 return RedirectToAction("ConfigureAppraisal");
             }
-            this.AddNotification("Something went wrong, Appraisal not configured", NotificationType.ERROR);
+            this.AddNotification($"Something went wrong, Appraisal not configured|{Request.Url.AbsolutePath}", NotificationType.ERROR);
             return RedirectToAction("ConfigureAppraisal");
         }
 
@@ -345,7 +344,7 @@ namespace resourceEdge.webUi.Controllers
             {
              return View(Question);
             }
-            this.AddNotification("Sorry you can't perform this appraisal process Now", NotificationType.ERROR);
+            this.AddNotification($"Sorry you can't perform this appraisal process Now|{Request.Url.AbsolutePath}", NotificationType.ERROR);
             return RedirectToAction("Leave", "SelfService");
         }
 
@@ -355,7 +354,7 @@ namespace resourceEdge.webUi.Controllers
             var result = AppraisalManager.AddOrUpdateAppraisalQuestion(model, User.Identity.GetUserId());
             if (result != false)
             {
-                this.AddNotification("Thanks, Operation Successful!", NotificationType.SUCCESS);
+                this.AddNotification($"Thanks, Operation Successful!|{Request.Url.AbsolutePath}", NotificationType.SUCCESS);
                 return RedirectToAction("Leave", "SelfService");
             }
             return RedirectToAction("EmployeeAppraisal");
@@ -371,37 +370,32 @@ namespace resourceEdge.webUi.Controllers
         }
 
         [HttpPost, CustomAuthorizationFilter(Roles = "L1,L2,L3")]
-        public ActionResult ViewSubmittedAppraisal(string userId)
+        public ActionResult SubmittedAppraisal(string userId)
         {
             ViewBag.userId = userId;
             var result = AppraisalManager.ViewSubmittedEmployeeAppraisal(userId);
             return View("SubmittedAppraisal",result);
         }
-        //public ActionResult AllSubmittedAppraisal()
-        //{
-        //    var result = AppraisalManager.GetAppraisalForLineManager();
-        //    ViewBag.PageTitle = "All Submitted Appraisal";
-        //    ViewBag.AllAppraisal = result;
-        //    return View();
-        //}
+
+        [CustomAuthorizationFilter(Roles = "L1,L2,L3")]
         public ActionResult AppraisalForApproval()
         {
-            ViewBag.Result = null;
-            var result = AppraisalManager.GetL1View();
-
+            ViewBag.PageTitle = "Appraisal Management";
+            var result = AppraisalManager.GetLineManagerViews();
+            ViewBag.Result = result;
             if (result.Item1 != null && result.Item2 != null && result.Item3 != null && User.IsInRole("L1"))
-                return View("");
-            else if (result.Item1 == null && result.Item2 != null && result.Item3 == null && User.IsInRole("L2"))          
-                return View("");
-            else if (result.Item1 == null && result.Item2 == null && result.Item3 != null && User.IsInRole("L3"))
-                return View("");
-            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("LineManager1");
+            else if (result.Item1.Count == 0 && (result.Item2.Count > 0 || result.Item2.Count == 0) && result.Item3.Count > 0 && User.IsInRole("L2"))          
+                return View("LineManager2");
+            else if (result.Item1.Count == 0 && result.Item2.Count == 0 && (result.Item3.Count> 0 || result.Item3.Count == 0) && User.IsInRole("L3"))
+                return View("LineManager3");
+            return View("");
         }
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult ApproveSubmittedAppraisalQuestion(string userId, int? QuestionId)
         {
             var result = AppraisalManager.ApproveAppraisalQuestion(userId, QuestionId);
-            return RedirectToAction("ViewSubmittedEmployeeAppraisal", new { userId = userId });
+            return RedirectToAction("EmployeesToAppraise");
         }
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult DenySubmittedAppraisalQuestion(string userId, int? QuestionId)

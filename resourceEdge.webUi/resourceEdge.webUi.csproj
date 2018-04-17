@@ -1325,7 +1325,7 @@
     <Content Include="Views\HR\AssignDepartmentHead.cshtml" />
     <Content Include="Views\Shared\Layouts\_HrLayout.cshtml" />
     <Content Include="Views\Shared\Layouts\_EmployeeLayout.cshtml" />
-    <Content Include="Views\SelfService\Leave.cshtml" />
+    <Content Include="Views\SelfService\Leave1.cshtml" />
     <Content Include="Views\Shared\_Notifications.cshtml" />
     <Content Include="Views\Menu\Index.cshtml" />
     <Content Include="Views\HR\AllQuestions.cshtml" />
@@ -1439,6 +1439,7 @@
     <Content Include="Views\Appraisal\LineManager3.cshtml" />
     <Content Include="Views\Appraisal\SubmittedAppraisal.cshtml" />
     <Content Include="Views\Appraisal\EmployeesToAppraise.cshtml" />
+    <Content Include="Views\SelfService\Leave.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

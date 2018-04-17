@@ -3,6 +3,11 @@
 @{ var usersessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
     var crumbs = (BreadCrumb)Session["_Crumbs"];
     var Menu = (List<Menu>)Session["_Menu"];
+    string[] UrlName = null;
+    if (Request.UrlReferrer != null)
+    {
+        UrlName = Request.UrlReferrer.AbsolutePath.Split('/');
+    }
 }
 
 <!DOCTYPE html>
@@ -249,6 +254,7 @@
                     <li class="dropdown navbar-user">
                         <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="~/assets/AdminTemplate/assets/img/user-13.jpg" alt="" />
+                            @{usersessionObject.FullName = usersessionObject.FullName != null ? usersessionObject.FullName : "";}
                             <span class="hidden-xs">@usersessionObject.FullName</span> <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu animated fadeInLeft">
@@ -264,7 +270,7 @@
                                     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "" }))
                                     {
                                         @Html.AntiForgeryToken()
-                                        <a href="javascript:document.getElementById('logoutForm').submit()" style="text-decoration:none; font-weight:bold" class="btn btn-block font-dark">Log off </a>
+                                        <a href="javascript:document.getElementById('logoutForm').submit()" style="text-decoration:none; font-weight:bold" class="btn btn-block font-dark">Log Out </a>
                                         //<button type="submit">Logout</button>
                                     }
                                 }
@@ -290,6 +296,7 @@
                             <a href="javascript:;"><img src="~/assets/AdminTemplate/assets/img/user-13.jpg" alt="" /></a>
                         </div>
                         <div class="info">
+                            @{usersessionObject.FullName = usersessionObject.FullName != null ? usersessionObject.FullName : "";}
                             @usersessionObject.FullName
                             <small>@usersessionObject.UnitName</small>
                         </div>
@@ -307,10 +314,10 @@
                         </a>
                         <ul class="sub-menu">
                             <li>
-                                @Html.ActionLink("Leave Dashboard", "Leave", null, new { @class = "nav-link  title" })
+                                @Html.ActionLink("Leave Dashboard", "Leave","SelfService", null, new { @class = "nav-link  title" })
                             </li>
                             <li>
-                                @Html.ActionLink("Request Leave", "RequestLeave", null, new { @class = "nav-link  title" })
+                                @Html.ActionLink("Request Leave", "RequestLeave", "SelfService", null, new { @class = "nav-link  title" })
                             </li>
                             @if (User.IsInRole("Manager"))
                             {
@@ -343,7 +350,7 @@
                             </a>
                             <ul class="sub-menu">
                                 <li>
-                                    @Html.ActionLink("Employee Leaves", "AllRequest")
+                                    @Html.ActionLink("Employee Leaves", "AllRequest", "Leave")
                                 </li>
                                 @if (Menu != null)
                                 {
@@ -386,7 +393,7 @@
                                 </a>
                                 <ul class="sub-menu">
                                     <li>
-                                        @Html.ActionLink("Start Appraisal", "EmployeeAppraisal")
+                                        @Html.ActionLink("Start Appraisal", "EmployeeAppraisal","Appraisal")
                                     </li>
                                     @if (Menu != null)
                                     {
@@ -395,7 +402,7 @@
                                         {
 
                                             <li>
-                                            @Html.ActionLink("Start Appraisal", "EmployeeAppraisal")
+                                            @Html.ActionLink("Start Appraisal", "EmployeeAppraisal", "Appraisal")
                                             </li>
                                         }
                                     }
@@ -437,7 +444,17 @@
             <ol class="breadcrumb pull-right">
                 <li><a href="javascript:;">@crumbs.Action</a></li>
                 <li><a href="javascript:;">@crumbs.Controller</a></li>
-                @*<li class="active">Wizards + Validation</li>*@
+                @if (UrlName != null)
+                {
+                    if (UrlName.Length == 3)
+                    {
+                        <li>@Html.ActionLink(UrlName[1], UrlName[2], UrlName[1])</li>
+                    }
+                    if (UrlName.Length == 4)
+                    {
+                        <li>@Html.ActionLink(UrlName[2], UrlName[3], UrlName[2])</li>
+                    }
+                }
             </ol>
             <!-- end breadcrumb -->
             <!-- begin page-header -->
@@ -445,6 +462,13 @@
             @Html.Partial("_Notifications")
             <!-- end page-header -->
             <!-- begin row -->
+            @if (Request.Url.AbsolutePath.ToLower() == "/" || Request.Url.AbsolutePath.ToLower().StartsWith("/selfservice/leave"))
+            {
+                @RenderBody()
+            }
+            else
+            {
+
             <div class="row">
                 <!-- begin col-12 -->
                 <div class="col-md-12">
@@ -469,6 +493,7 @@
                 </div>
                 <!-- end col-12 -->
             </div>
+            }
             <!-- end row -->
         </div>
         <!-- end #content -->

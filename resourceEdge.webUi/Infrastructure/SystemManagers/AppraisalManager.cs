@@ -279,14 +279,21 @@ namespace resourceEdge.webUi.Infrastructure
 
                 var userQuestions = unitOfWork.Questions.Get(filter: x => x.UserIdForQuestion == userId && x.Approved == true).ToList();
                 List<Question> QuestionToRemove = new List<Question>();
+                Dictionary<string,int> answers = new Dictionary<string, int>();
                 if (userQuestions.Count > 0)
                 {
                     foreach (var item in userQuestions)
                     {                       
-                        var AnswerdQuestion = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == item.UserIdForQuestion).Any(x=>x.QuestionId == item.Id && x.L1Status ==null || x.L1Status == true);
-                        if (AnswerdQuestion)
+                        var AnswerdQuestion = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == item.UserIdForQuestion).Where(x=>x.QuestionId == item.Id && x.L3Status == false && x.IsSubmitted ==true).FirstOrDefault();
+                        
+                        
+                        if (AnswerdQuestion == null)
                         {
                             QuestionToRemove.Add(item);
+                        }
+                        else
+                        {
+                             answers.Add(item.UserIdForQuestion,AnswerdQuestion.Answer);
                         }
                     }
                     if (QuestionToRemove.Count > 0)
@@ -295,7 +302,8 @@ namespace resourceEdge.webUi.Infrastructure
                     }
                 AppraiseeDropDown dropDown = new AppraiseeDropDown()
                 {
-                    Questions = userQuestions
+                    Questions = userQuestions,
+                     PreviousAnswer = answers
                     //RatingType = subscribedAppraisal.AppraisalInitialization.RatingType
                 };
                 return dropDown ?? null;
@@ -433,9 +441,21 @@ namespace resourceEdge.webUi.Infrastructure
 
         public IEnumerable<AppraisalQuestionViewModel> ViewSubmittedEmployeeAppraisal(string userId)
         {
-            var EmployeeQuestions = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == userId && x.IsSubmitted == true, includeProperties: "Question" )
-                .Select(x=> new AppraisalQuestionViewModel() { Question = x.Question.EmpQuestion, Answers = x.Answer, id = x.QuestionId });
-            return EmployeeQuestions ?? null;
+            var EmployeeQuestions = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == userId && x.IsSubmitted == true, includeProperties: "Question");
+            IEnumerable<AppraisalQuestionViewModel> EmployeeAppraisalQuestion = new List<AppraisalQuestionViewModel>();
+            if (HttpContext.Current.User.IsInRole("L1"))
+            {
+                EmployeeAppraisalQuestion = EmployeeQuestions.Where(X => X.L1Status == null).Select(x => new AppraisalQuestionViewModel() { Question = x.Question.EmpQuestion, Answers = x.Answer, id = x.QuestionId }); ;
+            }
+            if (HttpContext.Current.User.IsInRole("L2"))
+            {
+                EmployeeAppraisalQuestion = EmployeeQuestions.Where(X => X.L2Status == null).Select(x => new AppraisalQuestionViewModel() { Question = x.Question.EmpQuestion, Answers = x.Answer, id = x.QuestionId }); ; ;
+            }
+            if (HttpContext.Current.User.IsInRole("L3"))
+            {
+                EmployeeAppraisalQuestion =  EmployeeQuestions.Where(X => X.L3Status == null).Select(x => new AppraisalQuestionViewModel() { Question = x.Question.EmpQuestion, Answers = x.Answer, id = x.QuestionId }); ; ;
+            }
+            return EmployeeAppraisalQuestion ?? null;
         }
 
         /// <summary>
@@ -452,7 +472,7 @@ namespace resourceEdge.webUi.Infrastructure
                 var result = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == userId && x.QuestionId == QuestionId).FirstOrDefault();
                 if (result != null)
                 {
-                    if (HttpContext.Current.User.IsInRole("L1") && result.EditCount <= 2) //this checks for edits less than or equal to 3 and approves finally from the lineManager1
+                    if (HttpContext.Current.User.IsInRole("L1") && result.EditCount ==null || result.EditCount <= 2) //this checks for edits less than or equal to 3 and approves finally from the lineManager1
                     {
                         result.L1Status = true;
                         result.IsAccepted = true;
@@ -466,6 +486,8 @@ namespace resourceEdge.webUi.Infrastructure
                         result.L3Status = true;
                         
                     }
+                    unitOfWork.AppraisalQuestion.Update(result);
+                    unitOfWork.Save();
                     return true;
                 }
             }
@@ -476,7 +498,7 @@ namespace resourceEdge.webUi.Infrastructure
                 {
                     foreach (var item in result)
                     {
-                        if (HttpContext.Current.User.IsInRole("L1") && item.EditCount <= 2) //this checks for edits less than or equal to 3 and approves finally from the lineManager1
+                        if (HttpContext.Current.User.IsInRole("L1") && item.EditCount == null || item.EditCount <= 2) //this checks for edits less than or equal to 3 and approves finally from the lineManager1
                         {
                             item.L1Status = true;
                             item.IsAccepted = true;
@@ -490,6 +512,8 @@ namespace resourceEdge.webUi.Infrastructure
                             item.L3Status = true;
                         }
                     }
+                    result.ToList().ForEach(X => unitOfWork.AppraisalQuestion.Update(X));
+                    unitOfWork.Save();
                     return true;
                 }
             }
@@ -502,7 +526,7 @@ namespace resourceEdge.webUi.Infrastructure
                 var result = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == userId && x.QuestionId == QuestionId).FirstOrDefault();
                 if (result != null)
                 {
-                    if (HttpContext.Current.User.IsInRole("L1") && result.EditCount <= 2) //this checks for edits less than or equal to 3 and approves finally from the lineManager1
+                    if (HttpContext.Current.User.IsInRole("L1") && result.EditCount == null || result.EditCount <= 2) //this checks for edits less than or equal to 3 and approves finally from the lineManager1
                     {
                         result.L1Status = false;
                         result.IsAccepted = false;
@@ -514,8 +538,9 @@ namespace resourceEdge.webUi.Infrastructure
                     else if (HttpContext.Current.User.IsInRole("L3"))
                     {
                         result.L3Status = false;
-
                     }
+                    unitOfWork.AppraisalQuestion.Update(result);
+                    unitOfWork.Save();
                     return true;
                 }
             }
@@ -526,7 +551,7 @@ namespace resourceEdge.webUi.Infrastructure
                 {
                     foreach (var item in result)
                     {
-                        if (HttpContext.Current.User.IsInRole("L1") && item.EditCount <= 2) //this checks for edits less than or equal to 3 and approves finally from the lineManager1
+                        if (HttpContext.Current.User.IsInRole("L1") && item.EditCount == null || item.EditCount <= 2) //this checks for edits less than or equal to 3 and approves finally from the lineManager1
                         {
                             item.L1Status = false;
                             item.IsAccepted = false;
@@ -540,13 +565,15 @@ namespace resourceEdge.webUi.Infrastructure
                             item.L3Status = false;
                         }
                     }
+                    result.ToList().ForEach(X => unitOfWork.AppraisalQuestion.Update(X));
+                    unitOfWork.Save();
                     return true;
                 }
             }
             return false;
         }
 
-        public Tuple<IList<EmployeeListItem>, IList<EmployeeListItem>, IList<EmployeeListItem>> GetL1View()
+        public Tuple<IList<EmployeeListItem>, IList<EmployeeListItem>, IList<EmployeeListItem>> GetLineManagerViews()
         {
             var UserPrincipal = HttpContext.Current.User;
             var IsInRole = HttpContext.Current.User.IsInRole("L1");
@@ -554,7 +581,8 @@ namespace resourceEdge.webUi.Infrastructure
             IList<EmployeeListItem> EmployeeToAttend = new List<EmployeeListItem>();
             IList<EmployeeListItem> EmployeesForL2 = new List<EmployeeListItem>();
             IList<EmployeeListItem> EmployeesForL3 = new List<EmployeeListItem>();
-            var DepartmentToAppraise = unitOfWork.AppraisalConfiguration.Get(filter: x => x.LineManager1 == UserPrincipal.Identity.GetUserId() || x.LineManager2 == UserPrincipal.Identity.GetUserId() || x.LineManager3 == UserPrincipal.Identity.GetUserId())
+            var userId = UserPrincipal.Identity.GetUserId();
+            var DepartmentToAppraise = unitOfWork.AppraisalConfiguration.Get(filter: x => x.LineManager1 == userId || x.LineManager2 == userId || x.LineManager3 == userId)
                 .Select(x => new EmployeeListItem
                 {
                     departmentId = x.DepartmentId.Value,
@@ -574,9 +602,17 @@ namespace resourceEdge.webUi.Infrastructure
                     //This checks if those current users appraisals is completed
                     foreach (var item in AllEmployeesToAppraise)
                     {
-                        var EmployeeToAppraise = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == item.userId).All(X => X.L1Status == true && X.L2Status == true);
-                        var EmployeeForL2 = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == item.userId).Any(X => X.L1Status == null || X.L1Status == false);
-                        var EmployeeForL3 = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == item.userId).Any(X => X.L1Status == null || X.L1Status == false);
+                    var EmployeeAppraisal = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == item.userId);
+                    bool EmployeeForL2 = false;
+                    bool EmployeeToAppraise = false;
+                    bool EmployeeForL3 = false;
+                    if (EmployeeAppraisal != null && EmployeeAppraisal.Count() > 0)
+                    {
+                       EmployeeToAppraise = EmployeeAppraisal.All(X => X.L3Status != null && X.L3Status == true && X.L2Status != null && X.L2Status.Value == true);
+                       EmployeeForL2 = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == item.userId).All(X => X.L3Status == true);
+                       EmployeeForL3 = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == item.userId).All(X => X.L3Status == null || X.L3Status == false);
+                    }
+                       
                         //This returns the Employees for LineManager 1 to Appraise
                         if (EmployeeToAppraise && UserPrincipal.IsInRole("L1"))
                         {
@@ -585,34 +621,34 @@ namespace resourceEdge.webUi.Infrastructure
                                 {
                                     userId = x.userId,
                                     FullName = x.FullName,
-                                    DepartmentName = x.Departments.deptname,
-                                    BusinessUnitName = x.Departments.BusinessUnits.unitname
+                                    DepartmentName = unitOfWork.Department.GetByID(x.departmentId).deptname,
+                                    BusinessUnitName = unitOfWork.BusinessUnit.GetByID(x.businessunitId).unitname
                                 }).FirstOrDefault();
                             EmployeeToAttend.Add(currentEmployee);
                         }
                         //This returns the Employees for LineManager 2 to Appraise
-                        if (EmployeeForL2 || UserPrincipal.IsInRole("L1") || UserPrincipal.IsInRole("L2"))
+                        if (EmployeeForL2 && (UserPrincipal.IsInRole("L1") || UserPrincipal.IsInRole("L2")))
                         {
                             var currentEmployee = unitOfWork.employees.Get(filter: x => x.userId == item.userId, includeProperties: "Departments")
                             .Select(x => new EmployeeListItem
                             {
                                 userId = x.userId,
                                 FullName = x.FullName,
-                                DepartmentName = x.Departments.deptname,
-                                BusinessUnitName = x.Departments.BusinessUnits.unitname
+                                DepartmentName = unitOfWork.Department.GetByID(x.departmentId).deptname,
+                                BusinessUnitName = unitOfWork.BusinessUnit.GetByID(x.businessunitId).unitname
                             }).FirstOrDefault();
                             EmployeesForL2.Add(currentEmployee);
                         }
                         //This returns the Employees for LineManager 3 to Appraise
-                        if (EmployeeForL3 || UserPrincipal.IsInRole("L1") || UserPrincipal.IsInRole("L3") || UserPrincipal.IsInRole("L2"))
+                        if (EmployeeForL3 && (UserPrincipal.IsInRole("L1") || UserPrincipal.IsInRole("L3") || UserPrincipal.IsInRole("L2")))
                         {
                             var currentEmployee = unitOfWork.employees.Get(filter: x => x.userId == item.userId, includeProperties: "Departments")
                             .Select(x => new EmployeeListItem
                             {
                                 userId = x.userId,
                                 FullName = x.FullName,
-                                DepartmentName = x.Departments.deptname,
-                                BusinessUnitName = x.Departments.BusinessUnits.unitname
+                                DepartmentName = unitOfWork.Department.GetByID(x.departmentId).deptname,
+                                BusinessUnitName = unitOfWork.BusinessUnit.GetByID(x.businessunitId).unitname
                             }).FirstOrDefault();
                             EmployeesForL3.Add(currentEmployee);
                         }

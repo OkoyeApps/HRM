@@ -1,7 +1,7 @@
 ﻿@model resourceEdge.Domain.ViewModels.AppraiseeDropDown
 
 @{
-    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+    Layout = "~/Views/Shared/Layouts/_EmployeeLayout.cshtml";
     int counter = 1;
 }
 <style>
@@ -70,12 +70,21 @@ using (Html.BeginForm("EmployeeAppraisal", "Appraisal", null, FormMethod.Post, n
                                         <input type="radio" value="2" class=""  name="ratingType[@counter]"/><span class="bolder" style="font-weight:600;font:bolder;"> (2 Points)</span> 
                                         <br /><br />
 
-                                        <input type="radio" value="1" class=""  name="ratingType[@counter]"/><span class="bolder" style="font-weight:600;font:bolder;"> (1 Point)</span> 
+                                        <input type="radio"  value="1" class=""  name="ratingType[@counter]"/><span class="bolder" style="font-weight:600;font:bolder;"> (1 Point)</span> 
                                         <br /><br />
                                         <input type="radio" value="0" class="" name="ratingType[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (Not Applicable)</span> 
                                     </td>
+                                  
                                 </tr>
                             </table>
+                            @if (Model.PreviousAnswer != null && Model.PreviousAnswer.Count > 0)
+                            {
+                                if (Model.PreviousAnswer.ContainsKey(item.UserIdForQuestion))
+                                {
+                                    var answer = Model.PreviousAnswer[item.UserIdForQuestion];
+                                <div style="color:dodgerblue" class="pull-right"><p><b>Previous Answer: @answer</b></p></div>
+                                }
+                            }
                         </td>
                     </tr>
                 </tbody>

@@ -5,6 +5,11 @@
     var warningList = Html.GetNotifications(NotificationType.WARNING);
     var successList = Html.GetNotifications(NotificationType.SUCCESS);
     var infoList = Html.GetNotifications(NotificationType.INFO);
+    string RequestReferrer = null;
+    if (Request.UrlReferrer != null)
+    {
+       RequestReferrer = Request.UrlReferrer.AbsolutePath;
+    }
 }
 <!-- display errors -->
 @if (errorList != null)
@@ -17,14 +22,36 @@
             <ul>
                 @foreach (String message in errorList)
                 {
-                    <li>@Html.Raw(message)</li>
+                    if (message.Contains('|'))
+                    {
+                        var splitMessage = message.Split('|');
+                        if (RequestReferrer != null)
+                        {
+                            if (splitMessage[1].ToLower() == RequestReferrer.ToLower())
+                            {
+                            <li>@Html.Raw(splitMessage[0])</li>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <li>@Html.Raw(message)</li>
+                    }
                 }
             </ul>
         }
         else
         {
             <strong><span class="glyphicon glyphicon-remove"></span> Error: </strong>
-            @Html.Raw(errorList.First())
+            if (errorList.First().Contains('|'))
+            {
+                var splitMessage = errorList.First().Split('|');
+                if (splitMessage[1].ToLower() == RequestReferrer.ToLower())
+                {
+                    @Html.Raw(splitMessage[0])
+                }
+            }
+           // @Html.Raw(errorList.First())
         }
     </div>
 }
@@ -40,14 +67,37 @@
             <ul>
                 @foreach (String message in warningList)
                 {
-                    <li>@Html.Raw(message)</li>
+                    //<li>@Html.Raw(message)</li>
+                    if (message.Contains('|'))
+                    {
+                        var splitMessage = message.Split('|');
+                        if (RequestReferrer != null)
+                        {
+                            if (splitMessage[1].ToLower() == RequestReferrer.ToLower())
+                            {
+                                <li>@Html.Raw(splitMessage[0])</li>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <li>@Html.Raw(message)</li>
+                    }
                 }
             </ul>
         }
         else
         {
             <strong><span class="glyphicon glyphicon-warning-sign"></span> Warning: </strong>
-            @Html.Raw(warningList.First())
+            if (warningList.First().Contains('|'))
+            {
+                var splitMessage = warningList.First().Split('|');
+                if (splitMessage[1].ToLower() == RequestReferrer.ToLower())
+                {
+                    @Html.Raw(splitMessage[0])
+                }
+            }
+            //@Html.Raw(warningList.First())
         }
     </div>
 }
@@ -63,14 +113,45 @@
             <ul>
                 @foreach (String message in successList)
                 {
-                    <li>@Html.Raw(message)</li>
+                    //<li>@Html.Raw(message)</li>
+                    if (message.Contains('|'))
+                    {
+                        var splitMessage = message.Split('|');
+                        if (RequestReferrer != null)
+                        {
+                            if (splitMessage[1].ToLower() == RequestReferrer.ToLower())
+                            {
+                                <li>@Html.Raw(splitMessage[0])</li>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <li>@Html.Raw(message)</li>
+                    }
                 }
             </ul>
         }
         else
         {
             <strong><span class="glyphicon glyphicon-ok"></span> Success! </strong>
-            @Html.Raw(successList.First())
+            if (successList.First().Contains('|'))
+            {
+                var splitMessage = successList.First().Split('|');
+                if (RequestReferrer != null)
+                {
+                    if (splitMessage[1].ToLower() == RequestReferrer.ToLower())
+                    {
+                        @Html.Raw(splitMessage[0])
+                    }
+                }
+                else
+                {
+                    @Html.Raw(splitMessage[0])
+                }
+
+            }
+            //@Html.Raw(successList.First())
         }
     </div>
 }

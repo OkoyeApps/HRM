@@ -89,7 +89,7 @@ namespace resourceEdge.webUi.Controllers
                         Request.modifiedDate = DateTime.Now;
              
                     RequisitionRepo.Insert(Request);
-                    TempData["Success"] = "Requisition Successfully created";
+                    //TempData["Success"] = "Requisition Successfully created";
                     return View("Index");
                 }
             }

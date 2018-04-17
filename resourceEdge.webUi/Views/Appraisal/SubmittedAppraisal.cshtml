@@ -1,13 +1,7 @@
 ﻿@model IEnumerable<resourceEdge.Domain.Entities.AppraisalQuestionViewModel> 
 @{ 
-    if (User.IsInRole("HR"))
-    {
-        Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
-    }
-    else
-    {
+
         Layout = "~/Views/Shared/Layouts/_EmployeeLayout.cshtml";
-    }
     int counter = 1;
 }
 @if (Model.Count() > 0)

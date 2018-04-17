@@ -1,7 +1,7 @@
 ﻿@using resourceEdge.webUi.Infrastructure.Core
 @using System.Collections.Generic
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/Layouts/_EmployeeLayout.cshtml";
     var modelForview = (Tuple<IList<EmployeeListItem>, IList<EmployeeListItem>, IList<EmployeeListItem>>)ViewBag.Result;
 }
 @if (User.IsInRole("L3"))
@@ -32,7 +32,8 @@
                     <table>
                         <tr>
                             <td>
-                                @Html.BeginForm("ViewSubmittedEmployeeAppraisal", "AppraisalController", new { userId = item.userId }, FormMethod.Post, null){
+                                @using (Html.BeginForm("ViewSubmittedEmployeeAppraisal", "AppraisalController", new { userId = item.userId }, FormMethod.Post, null))
+                                {
                                 @Html.AntiForgeryToken()
                                 <button class="btn btn-warning" type="submit"><i class="icon-eye"></i>View</button>
                                 }
@@ -41,7 +42,7 @@
                     </table>
                 </td>
             </tr>
-                    }
+                                }
     </tbody>
 </table>
                     }

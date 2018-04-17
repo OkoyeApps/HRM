@@ -347,9 +347,9 @@ namespace resourceEdge.webUi.Infrastructure
                 {
                     var UserId = HttpContext.Current.User.Identity.GetUserId();
                     var allKeys = collection.AllKeys;
-                    var allName = allKeys.Where(x => x.ToLower().StartsWith("LevelName")).ToList();
-                    var allYears = allKeys.Where(x => x.ToLower().StartsWith("EligibleYears")).ToList();
-                    var allLevelNo = allKeys.Where(x => x.ToLower().StartsWith("levelNo")).ToList();
+                    var allName = allKeys.Where(x => x.ToLower().StartsWith("levelname")).ToList();
+                    var allYears = allKeys.Where(x => x.ToLower().StartsWith("eligibleyears")).ToList();
+                    var allLevelNo = allKeys.Where(x => x.ToLower().StartsWith("levelno")).ToList();
                     var Group = allKeys.Where(x => x.ToLower().StartsWith("group")).FirstOrDefault();
 
                     allKeys.ToList().RemoveRange(0, 2);
@@ -358,8 +358,11 @@ namespace resourceEdge.webUi.Infrastructure
                     int.TryParse(collection[Group], out GroupId);
                     int year = 0;
                     int levelNo = 0;
-                    for (int i = 0; i < allKeys.Length; i++)
+                    var Length = (allKeys.Length - 1) / 4;
+
+                    for (int i = 0; i < Length; i++)
                     {
+                        var aa = collection[allYears[i]];
                         int.TryParse(collection[allYears[i].ToString()], out year);
                         int.TryParse(collection[allLevelNo[i].ToString()], out levelNo);
                         Level level = new Level()
@@ -369,8 +372,9 @@ namespace resourceEdge.webUi.Infrastructure
                             EligibleYears = year,
                             LevelName = collection[allName[i].ToString()],
                             levelNo = levelNo,
-                             GroupId = GroupId
+                            GroupId = GroupId, ModifiedOn = DateTime.Now
                         };
+                        
                         unitOfWork.Levels.Insert(level);
                     }
                     unitOfWork.Save();
