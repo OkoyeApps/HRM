@@ -1,63 +1,160 @@
-﻿@model IEnumerable<resourceEdge.Domain.Entities.AppraisalQuestionViewModel> 
-@{ 
+﻿@model IEnumerable<resourceEdge.Domain.Entities.AppraisalQuestionViewModel>
+@{
 
-        Layout = "~/Views/Shared/Layouts/_EmployeeLayout.cshtml";
+    Layout = "~/Views/Shared/Layouts/_EmployeeLayout.cshtml";
     int counter = 1;
+    var isEditCountExceeded = Model.Any(x => x.EditCount == true);
 }
-@if (Model.Count() > 0)
+@if (!isEditCountExceeded)
 {
-    <table class="table table-striped table-bordered display table-responsive"> 
-        <thead>
-            <tr>
-                <th>S/N</th>
-                <th>Question</th>
-                <th>Answer</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@counter</td>
-                    <td>@item.Question</td>
-                    <td>@item.Answers</td>
-                    <td>
-                        <table>
-                            <tr>
-                                <td>
-                                    <table>
-                                        <tr>
-                                            <td>
-                                                @using (Html.BeginForm("ApproveSubmittedAppraisalQuestion", "Appraisal", new { userId = ViewBag.userId, QuestionId = item.id }, FormMethod.Post, null))
-                                            {
-                                                @Html.AntiForgeryToken()
-                                                <button class="btn btn-success" type="submit" >Accept</button>
-                                            }
-                                            </td>
-                                        
-                                            <td>
-                                            @using (Html.BeginForm("DenySubmittedAppraisalQuestion", "Appraisal", new { userId = ViewBag.userId, QuestionId = item.id }, FormMethod.Post, null))
-                                            {
-                                                @Html.AntiForgeryToken()
-                                                <button class="btn btn-danger" type="submit">Reject</button>
-                                            }</td>
-                                        </tr>
-                                    </table>
+    if (Model.Count() > 0)
+    {
+        <div class="pull-right">
 
-                                    <span></span>
-                                 
-                                </td>
+        </div>
+        <br />
+
+        <br />
+        <table class="table table-striped table-bordered display table-responsive">
+            <tr>
+                <td>
+                    <table  class="pull-right">
+                        <tr>
+                            <td>
+                                @using (Html.BeginForm("ApproveSubmittedAppraisalQuestion", "Appraisal", new { userId = ViewBag.userId }, FormMethod.Post, null))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <button class="btn btn-success" type="submit">Accept All</button>
+                                }
+                            </td>
+
+                            <td>
+                                @using (Html.BeginForm("DenySubmittedAppraisalQuestion", "Appraisal", new { userId = ViewBag.userId, all = true }, FormMethod.Post, null))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <button class="btn btn-danger" type="submit">Reject All</button>
+                                }
+                            </td>
+                        </tr>
+
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table class="table table-striped table-bordered display table-responsive">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Question</th>
+                                <th>Answer</th>
+                                    @if (User.IsInRole("L1"))
+                                    {
+                                <th></th>
+                                    }
                             </tr>
-                        </table>
-                    </td>
-                </tr>
-                {counter++;}
-                    }
-        </tbody>
-    </table>
-}
-else
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@counter</td>
+                                    <td>@item.Question</td>
+                                    <td>@item.Answers</td>
+@if (User.IsInRole("L1"))
 {
-<div class="alert alert-warning"> Sorry! No appriasal submitted yet</div>
+                                    <td>
+                                        <table class="table table-striped table-bordered display table-responsive">
+                                            <tr>
+                                                <td>
+                                                    <table>
+                                                     
+                                                        <tr>
+                                                            <td>
+                                                                @using (Html.BeginForm("ApproveSubmittedAppraisalQuestion", "Appraisal", new { userId = ViewBag.userId, QuestionId = item.id }, FormMethod.Post, null))
+                                                                {
+                                                                    @Html.AntiForgeryToken()
+                                                                    <button class="btn btn-success" type="submit">Accept</button>
+                                                                }
+                                                            </td>
+
+                                                            <td>
+                                                                @using (Html.BeginForm("DenySubmittedAppraisalQuestion", "Appraisal", new { userId = ViewBag.userId, QuestionId = item.id }, FormMethod.Post, null))
+                                                                {
+                                                                    @Html.AntiForgeryToken()
+                                                                    <button class="btn btn-danger" type="submit">Reject</button>
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <span></span>
+
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                                    }
+                                </tr>
+                                {counter++;}
+                            }
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-warning" style="text-align:center;font-size:large;"><b> Sorry! No appriasal submitted yet or All appraisal have been confirmed</b></div>
+    }
+}
+@if (isEditCountExceeded)
+{
+    <div class="alert alert-warning alert-dismissable" style="text-align:center;font-size:large;">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times; </button>
+        <b> If you get here then it means the current Appraisee has exceeded his edit limit, please provide the suitable grade for his Appraisals.</b>
+    </div>
+    using (Html.BeginForm("ApproveSubmittedAppraisalQuestion", "Appraisal", new { userId = ViewBag.userId }, FormMethod.Post, null))
+    {
+        @Html.AntiForgeryToken()
+        <table class="table table-striped table-bordered display table-responsive">
+            <tr>
+                <td>
+                    <button class="btn btn-success pull-right" type="submit">Accept All</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table class="table table-striped table-bordered display table-responsive">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Question</th>
+                                <th>Employee Answer</th>
+                                <th>Answer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                @Html.HiddenFor(x => item.id);
+                                <tr>
+                                    <td>@counter</td>
+                                    <td>@item.Question</td>
+                                    <td>@item.Answers</td>
+                                    <td>
+                                        <table>
+                                            <tr>
+                                                <td><input name="AnswerFromL3" type="text" placeholder="Answer" class="form-control" /></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    }
 }

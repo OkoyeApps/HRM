@@ -11,7 +11,7 @@ namespace resourceEdge.Domain.Entities
     public class IdentityCode
     {
         [Key]
-        public int codeId { get; set; }
+        public int Id { get; set; }
         public string employee_code { get; set; }
         public string backgroundagency_code { get; set; }
         public string vendors_code { get; set; }
@@ -23,6 +23,6 @@ namespace resourceEdge.Domain.Entities
         public Nullable<System.DateTime> createddate { get; set; }
         public string modifiedBy { get; set; }
         public Nullable<System.DateTime> modifieddate { get; set; }
-        public Group Groups { get; set; }
+        public Group Group { get; set; }
     }
 }

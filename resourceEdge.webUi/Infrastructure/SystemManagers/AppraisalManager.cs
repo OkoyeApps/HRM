@@ -235,7 +235,7 @@ namespace resourceEdge.webUi.Infrastructure
                                 CreatedDate = DateTime.Now,
                                 Isactive = false,
                                 BusinessUnitId = EmployeeDetail.businessunitId,
-                                DepartmentId = EmployeeDetail.departmentId,
+                                DepartmentId = EmployeeDetail.DepartmentId,
                                 GroupId = EmployeeDetail.GroupId,
                                 LocationId = EmployeeDetail.LocationId.Value,
                                 UserFullName = EmployeeDetail.FullName,
@@ -279,22 +279,24 @@ namespace resourceEdge.webUi.Infrastructure
 
                 var userQuestions = unitOfWork.Questions.Get(filter: x => x.UserIdForQuestion == userId && x.Approved == true).ToList();
                 List<Question> QuestionToRemove = new List<Question>();
-                Dictionary<string,int> answers = new Dictionary<string, int>();
+                Dictionary<int,int> answers = new Dictionary<int, int>();
                 if (userQuestions.Count > 0)
                 {
                     foreach (var item in userQuestions)
-                    {                       
-                        var AnswerdQuestion = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == item.UserIdForQuestion).Where(x=>x.QuestionId == item.Id && x.L3Status == false && x.IsSubmitted ==true).FirstOrDefault();
-                        
-                        
-                        if (AnswerdQuestion == null)
+                    {
+                        var AppraisalQuestion = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == item.UserIdForQuestion && x.QuestionId == item.Id).FirstOrDefault();
+
+                        if (AppraisalQuestion != null)
                         {
-                            QuestionToRemove.Add(item);
-                        }
-                        else
-                        {
-                             answers.Add(item.UserIdForQuestion,AnswerdQuestion.Answer);
-                        }
+                            if (AppraisalQuestion.IsSubmitted == true && (AppraisalQuestion.L3Status == true || AppraisalQuestion.L3Status == null))
+                            {
+                                QuestionToRemove.Add(item);
+                            }
+                            else if(AppraisalQuestion.IsSubmitted == true && AppraisalQuestion.L3Status == false)
+                            {
+                                answers.Add(item.Id, AppraisalQuestion.Answer);
+                            }
+                        }                     
                     }
                     if (QuestionToRemove.Count > 0)
                     {
@@ -372,8 +374,10 @@ namespace resourceEdge.webUi.Infrastructure
                             {
                             //Update Question Answer
                             existingQuestion.Answer = answer;
-                            existingQuestion.L1Status = null;
+                            existingQuestion.L3Status = null;
+                            existingQuestion.EditCount = 1;
                             unitOfWork.AppraisalQuestion.Update(existingQuestion);
+                            
                             unitOfWork.Save();
                             }
                         }
@@ -420,13 +424,13 @@ namespace resourceEdge.webUi.Infrastructure
                 {
                     foreach (var item in lineManagerUnitToAppraise)
                     {
-                        var AllEmployees = unitOfWork.employees.Get(filter: x => x.businessunitId == item.unit && x.departmentId == item.dept)
+                        var AllEmployees = unitOfWork.employees.Get(filter: x => x.businessunitId == item.unit && x.DepartmentId == item.dept)
                                                  .Select(x => new EmployeeListItem()
                                                  {
                                                      FullName = x.FullName,
                                                      userId = x.userId,
                                                      empEmail = x.empEmail,
-                                                     DepartmentName =  unitOfWork.Department.GetByID(x.departmentId).deptname,
+                                                     DepartmentName =  unitOfWork.Department.GetByID(x.DepartmentId).deptname,
                                                      BusinessUnitName = unitOfWork.BusinessUnit.GetByID(x.businessunitId).unitname
                                                      //Be careful when using this, i could do this i.e using the the dbcontext in this manner
                                                      //this is safe because the application uses one dbcontext per request...
@@ -442,20 +446,36 @@ namespace resourceEdge.webUi.Infrastructure
         public IEnumerable<AppraisalQuestionViewModel> ViewSubmittedEmployeeAppraisal(string userId)
         {
             var EmployeeQuestions = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == userId && x.IsSubmitted == true, includeProperties: "Question");
-            IEnumerable<AppraisalQuestionViewModel> EmployeeAppraisalQuestion = new List<AppraisalQuestionViewModel>();
+            var EditCount = EmployeeQuestions.Any(x => x.EditCount == 2);
+            IList<AppraisalQuestionViewModel> EmployeeAppraisalQuestion = new List<AppraisalQuestionViewModel>();
             if (HttpContext.Current.User.IsInRole("L1"))
             {
-                EmployeeAppraisalQuestion = EmployeeQuestions.Where(X => X.L1Status == null).Select(x => new AppraisalQuestionViewModel() { Question = x.Question.EmpQuestion, Answers = x.Answer, id = x.QuestionId }); ;
+                EmployeeAppraisalQuestion = EmployeeQuestions.Where(X => X.L1Status == null).Select(x => new AppraisalQuestionViewModel() { Question = x.Question.EmpQuestion, Answers = x.Answer, id = x.QuestionId }).ToList(); 
             }
             if (HttpContext.Current.User.IsInRole("L2"))
             {
-                EmployeeAppraisalQuestion = EmployeeQuestions.Where(X => X.L2Status == null).Select(x => new AppraisalQuestionViewModel() { Question = x.Question.EmpQuestion, Answers = x.Answer, id = x.QuestionId }); ; ;
+                EmployeeAppraisalQuestion = EmployeeQuestions.Where(X => X.L2Status == null).Select(x => new AppraisalQuestionViewModel() { Question = x.Question.EmpQuestion, Answers = x.Answer, id = x.QuestionId }).ToList();
             }
             if (HttpContext.Current.User.IsInRole("L3"))
             {
-                EmployeeAppraisalQuestion =  EmployeeQuestions.Where(X => X.L3Status == null).Select(x => new AppraisalQuestionViewModel() { Question = x.Question.EmpQuestion, Answers = x.Answer, id = x.QuestionId }); ; ;
+                if (EditCount)
+                {
+                    EmployeeAppraisalQuestion =  EmployeeQuestions.Where(X => X.L3Status == null || X.L3Status == false).Select(x => new AppraisalQuestionViewModel() { Question = x.Question.EmpQuestion, Answers = x.Answer, id = x.QuestionId }).ToList();
+                    var result = EmployeeAppraisalQuestion.Where(x => x.Question != null).FirstOrDefault();
+                    result.EditCount = true;
+                    EmployeeAppraisalQuestion.Remove(result);
+                    EmployeeAppraisalQuestion.Add(result);
+
+                    EmployeeAppraisalQuestion.ElementAt(0).EditCount = true;
+                }
+                else
+                {
+                    EmployeeAppraisalQuestion = EmployeeQuestions.Where(X => X.L3Status == null).Select(x => new AppraisalQuestionViewModel() { Question = x.Question.EmpQuestion, Answers = x.Answer, id = x.QuestionId }).ToList();
+
+                }
             }
-            return EmployeeAppraisalQuestion ?? null;
+          
+            return (IEnumerable<AppraisalQuestionViewModel>) EmployeeAppraisalQuestion ?? null;
         }
 
         /// <summary>
@@ -465,14 +485,14 @@ namespace resourceEdge.webUi.Infrastructure
         /// <param name="userId"></param>
         /// <param name="QuestionId"></param>
         /// <returns></returns>
-        public bool ApproveAppraisalQuestion(string userId, int? QuestionId)
+        public bool ApproveAppraisalQuestion(string userId, int? QuestionId, FormCollection collection)
         {
             if (QuestionId != null)
             {
                 var result = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == userId && x.QuestionId == QuestionId).FirstOrDefault();
                 if (result != null)
                 {
-                    if (HttpContext.Current.User.IsInRole("L1") && result.EditCount ==null || result.EditCount <= 2) //this checks for edits less than or equal to 3 and approves finally from the lineManager1
+                    if (HttpContext.Current.User.IsInRole("L1") && result.EditCount == null || result.EditCount <= 2) //this checks for edits less than or equal to 3 and approves finally from the lineManager1
                     {
                         result.L1Status = true;
                         result.IsAccepted = true;
@@ -484,7 +504,6 @@ namespace resourceEdge.webUi.Infrastructure
                     else if (HttpContext.Current.User.IsInRole("L3"))
                     {
                         result.L3Status = true;
-                        
                     }
                     unitOfWork.AppraisalQuestion.Update(result);
                     unitOfWork.Save();
@@ -493,38 +512,64 @@ namespace resourceEdge.webUi.Infrastructure
             }
             if (QuestionId == null)
             {
-                var result = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == userId);
-                if (result != null)
+                var result = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == userId).Where(x => x.L3Status != true);
+                var editCount = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == userId).Any(x => x.EditCount == 2);
+                Dictionary<string, int> AllModel = new Dictionary<string, int>();
+                if (editCount)
                 {
-                    foreach (var item in result)
+                    var allKeys = collection.AllKeys;
+                    var AllQuestionKeys = allKeys.Where(x => x.StartsWith("item.id")).FirstOrDefault();
+                    var allAnswers = allKeys.Where(x => x.StartsWith("AnswerFromL3")).FirstOrDefault();
+                    var allQuestionId = collection[AllQuestionKeys].Split(',');
+                    var AllAnswers = collection[allAnswers].Split(',');
+                    for (int i = 0; i < allQuestionId.Length; i++)
                     {
-                        if (HttpContext.Current.User.IsInRole("L1") && item.EditCount == null || item.EditCount <= 2) //this checks for edits less than or equal to 3 and approves finally from the lineManager1
-                        {
-                            item.L1Status = true;
-                            item.IsAccepted = true;
-                        }
-                        else if (HttpContext.Current.User.IsInRole("L2"))
-                        {
-                            item.L2Status = true;
-                        }
-                        else if (HttpContext.Current.User.IsInRole("L3"))
-                        {
-                            item.L3Status = true;
-                        }
+                        AllModel.Add(allQuestionId[i], int.Parse(AllAnswers[i])); //Change this code later to tryParse
+
                     }
-                    result.ToList().ForEach(X => unitOfWork.AppraisalQuestion.Update(X));
-                    unitOfWork.Save();
-                    return true;
                 }
+                    if (result != null)
+                    {
+                        foreach (var item in result)
+                        {
+
+                            if (HttpContext.Current.User.IsInRole("L1")) //this checks for edits less than or equal to 3 and approves finally from the lineManager1
+                            {
+                                item.L1Status = true;
+                                item.IsAccepted = true;
+                            }
+                            else if (HttpContext.Current.User.IsInRole("L2"))
+                            {
+                                item.L2Status = true;
+                            }
+                            else if (HttpContext.Current.User.IsInRole("L3"))
+                            {
+                                item.L3Status = true;
+                                if (editCount)
+                                {
+                                if (AllModel.ContainsKey(item.QuestionId.ToString()))
+                                {
+
+                                    var ans = AllModel[item.QuestionId.ToString()];
+                                    item.Answer = ans;
+                                }
+                                }
+                            }
+                        }
+                        result.ToList().ForEach(X => unitOfWork.AppraisalQuestion.Update(X));
+                        unitOfWork.Save();
+                        return true;
+                    }
+                }
+                return false;
             }
-            return false;
-        }
-        public bool DenyAppraisalQuestion(string userId, int? QuestionId)
+        public bool? DenyAppraisalQuestion(string userId, int? QuestionId)
         {
             if (QuestionId != null)
             {
                 var result = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == userId && x.QuestionId == QuestionId).FirstOrDefault();
-                if (result != null)
+                var isEditCountComplete = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == userId).Any(x => x.EditCount == 2);
+                if (result != null && !isEditCountComplete)
                 {
                     if (HttpContext.Current.User.IsInRole("L1") && result.EditCount == null || result.EditCount <= 2) //this checks for edits less than or equal to 3 and approves finally from the lineManager1
                     {
@@ -543,6 +588,7 @@ namespace resourceEdge.webUi.Infrastructure
                     unitOfWork.Save();
                     return true;
                 }
+                return null;
             }
             if (QuestionId == null)
             {
@@ -593,7 +639,7 @@ namespace resourceEdge.webUi.Infrastructure
                     //This foreach gets all the user in a current department for appraisal only
                     foreach (var item in DepartmentToAppraise)
                     {
-                        var employee = unitOfWork.employees.Get(filter: x => x.businessunitId == item.businessunitId && x.departmentId == item.departmentId).Select(x =>new EmployeeListItem() { userId = x.userId });
+                        var employee = unitOfWork.employees.Get(filter: x => x.businessunitId == item.businessunitId && x.DepartmentId == item.departmentId).Select(x =>new EmployeeListItem() { userId = x.userId });
                         if (employee != null)
                         {
                             AllEmployeesToAppraise = employee.ToList();
@@ -610,7 +656,7 @@ namespace resourceEdge.webUi.Infrastructure
                     {
                        EmployeeToAppraise = EmployeeAppraisal.All(X => X.L3Status != null && X.L3Status == true && X.L2Status != null && X.L2Status.Value == true);
                        EmployeeForL2 = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == item.userId).All(X => X.L3Status == true);
-                       EmployeeForL3 = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == item.userId).All(X => X.L3Status == null || X.L3Status == false);
+                       EmployeeForL3 = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == item.userId).Any(X => X.L3Status == null || X.L3Status == false);
                     }
                        
                         //This returns the Employees for LineManager 1 to Appraise
@@ -621,7 +667,7 @@ namespace resourceEdge.webUi.Infrastructure
                                 {
                                     userId = x.userId,
                                     FullName = x.FullName,
-                                    DepartmentName = unitOfWork.Department.GetByID(x.departmentId).deptname,
+                                    DepartmentName = unitOfWork.Department.GetByID(x.DepartmentId).deptname,
                                     BusinessUnitName = unitOfWork.BusinessUnit.GetByID(x.businessunitId).unitname
                                 }).FirstOrDefault();
                             EmployeeToAttend.Add(currentEmployee);
@@ -634,7 +680,7 @@ namespace resourceEdge.webUi.Infrastructure
                             {
                                 userId = x.userId,
                                 FullName = x.FullName,
-                                DepartmentName = unitOfWork.Department.GetByID(x.departmentId).deptname,
+                                DepartmentName = unitOfWork.Department.GetByID(x.DepartmentId).deptname,
                                 BusinessUnitName = unitOfWork.BusinessUnit.GetByID(x.businessunitId).unitname
                             }).FirstOrDefault();
                             EmployeesForL2.Add(currentEmployee);
@@ -647,7 +693,7 @@ namespace resourceEdge.webUi.Infrastructure
                             {
                                 userId = x.userId,
                                 FullName = x.FullName,
-                                DepartmentName = unitOfWork.Department.GetByID(x.departmentId).deptname,
+                                DepartmentName = unitOfWork.Department.GetByID(x.DepartmentId).deptname,
                                 BusinessUnitName = unitOfWork.BusinessUnit.GetByID(x.businessunitId).unitname
                             }).FirstOrDefault();
                             EmployeesForL3.Add(currentEmployee);

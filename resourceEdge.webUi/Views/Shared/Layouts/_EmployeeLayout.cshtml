@@ -4,10 +4,25 @@
     var crumbs = (BreadCrumb)Session["_Crumbs"];
     var Menu = (List<Menu>)Session["_Menu"];
     string[] UrlName = null;
+    string FullName = "";
+    string BusinessUnit = "";
+    string action = "";
+    string controller = "";
     if (Request.UrlReferrer != null)
     {
         UrlName = Request.UrlReferrer.AbsolutePath.Split('/');
     }
+    if (usersessionObject != null)
+    {
+        FullName = usersessionObject.FullName;
+        BusinessUnit = usersessionObject.UnitName;
+    }
+    if (crumbs != null)
+    {
+        action = crumbs.Action;
+        controller = crumbs.Controller;
+    }
+
 }
 
 <!DOCTYPE html>
@@ -254,8 +269,7 @@
                     <li class="dropdown navbar-user">
                         <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="~/assets/AdminTemplate/assets/img/user-13.jpg" alt="" />
-                            @{usersessionObject.FullName = usersessionObject.FullName != null ? usersessionObject.FullName : "";}
-                            <span class="hidden-xs">@usersessionObject.FullName</span> <b class="caret"></b>
+                              <span class="hidden-xs">@FullName</span> <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu animated fadeInLeft">
                             <li class="arrow"></li>
@@ -271,7 +285,6 @@
                                     {
                                         @Html.AntiForgeryToken()
                                         <a href="javascript:document.getElementById('logoutForm').submit()" style="text-decoration:none; font-weight:bold" class="btn btn-block font-dark">Log Out </a>
-                                        //<button type="submit">Logout</button>
                                     }
                                 }
                             </li>
@@ -296,9 +309,8 @@
                             <a href="javascript:;"><img src="~/assets/AdminTemplate/assets/img/user-13.jpg" alt="" /></a>
                         </div>
                         <div class="info">
-                            @{usersessionObject.FullName = usersessionObject.FullName != null ? usersessionObject.FullName : "";}
-                            @usersessionObject.FullName
-                            <small>@usersessionObject.UnitName</small>
+                            @FullName
+                            <small>@BusinessUnit</small>
                         </div>
                     </li>
                 </ul>
@@ -462,7 +474,7 @@
             @Html.Partial("_Notifications")
             <!-- end page-header -->
             <!-- begin row -->
-            @if (Request.Url.AbsolutePath.ToLower() == "/" || Request.Url.AbsolutePath.ToLower().StartsWith("/selfservice/leave"))
+            @if (Request.Url.AbsolutePath.ToLower() == "/" || Request.Url.AbsolutePath.ToLower() == "/selfservice/leave")
             {
                 @RenderBody()
             }

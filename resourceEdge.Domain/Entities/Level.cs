@@ -13,6 +13,7 @@ namespace resourceEdge.Domain.Entities
         public string ModifiedBy { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }
+        public Group Group { get; set; }
 
     }
 }

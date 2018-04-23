@@ -26,7 +26,8 @@ namespace resourceEdge.Domain.Concrete
 
         public void update(Position entity)
         {
-            throw new NotImplementedException();
+            unitOfWork.positions.Update(entity);
+            unitOfWork.Save();
         }
 
         public Position GetByUserId(string userId)

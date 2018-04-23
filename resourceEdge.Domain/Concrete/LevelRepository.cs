@@ -13,7 +13,8 @@ namespace resourceEdge.Domain.Concrete
         UnitofWork.UnitOfWork unitOfWork = new UnitofWork.UnitOfWork();
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            unitOfWork.Levels.Delete(id);
+            unitOfWork.Save();
         }
 
         public IEnumerable<Level> Get()=> unitOfWork.Levels.Get();

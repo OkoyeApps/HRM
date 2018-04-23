@@ -1,0 +1,73 @@
+﻿@model IEnumerable<resourceEdge.Domain.Entities.Jobtitle>
+
+@{
+    ViewBag.Title = "allJob";
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+}
+
+<table class="table table-bordered table-responsive table-striped">
+    <tr>
+        <td>
+            @Html.ActionLink("Add New Job", "addJobtitle", "Configuration", null, new {@class = "btn btn-info pull-right" })
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <table class="table table-bordered table-responsive table-striped">
+            <tr>
+
+                <th>
+                   Job Code
+                </th>
+                <th>
+                   Job Name
+                </th>
+        
+                <th>
+                   Minimum Experience
+                </th>
+                <th>
+                  Pay Grade
+                </th>
+                <th>
+                   Pay Frequency
+                </th>
+                <th>
+                  Description
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.jobtitlecode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.jobtitlename)
+                    </td>
+                 
+                    <td>
+                        @Html.DisplayFor(modelItem => item.minexperiencerequired)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.jobpaygradecode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.jobpayfrequency)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.jobdescription)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "EditJob","Configuration", new { id = item.Id }, new { @class = "btn btn-warning" })
+                    </td>
+                </tr>
+            }
+
+        </table>
+        </td>
+    </tr>
+</table>
+

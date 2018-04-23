@@ -31,7 +31,7 @@ namespace resourceEdge.Domain.Concrete
 
         public List<Departments> GetDepartmentByUnit(int id)
         {
-            var result = unitOfWork.Department.Get(filter: x => x.BunitId == id).ToList();
+            var result = unitOfWork.Department.Get(filter: x => x.BusinessUnitsId == id).ToList();
             return result ?? null;
         }
     }

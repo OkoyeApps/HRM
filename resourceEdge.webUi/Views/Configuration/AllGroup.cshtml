@@ -1,0 +1,45 @@
+﻿@model IEnumerable<resourceEdge.Domain.Entities.Group>
+
+@{
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+}
+
+<table class="table table-striped table-responsive table-bordered">
+    <tr>
+        <td>
+            @Html.ActionLink("Add New Group", "AddGroup", "Configuration", null, new { @class = "btn btn-info pull-right" })
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table class="table table-striped table-responsive table-bordered">
+                <tr>
+                    <th>
+                        Group Name
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GroupName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Descriptions)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "EditGroup", "Configuration", new { id = item.Id }, new { @class = "btn btn-warning" })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </td>
+    </tr>
+</table>
+

@@ -25,7 +25,8 @@ namespace resourceEdge.Domain.Concrete
 
         public void update(Jobtitle entity)
         {
-            throw new NotImplementedException();
+            unitOfWork.jobTitles.Update(entity);
+            unitOfWork.Save();
         }
 
         public Jobtitle GetByUserId(string userId)

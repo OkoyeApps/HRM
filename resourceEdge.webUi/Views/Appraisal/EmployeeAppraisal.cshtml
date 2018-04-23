@@ -79,9 +79,9 @@ using (Html.BeginForm("EmployeeAppraisal", "Appraisal", null, FormMethod.Post, n
                             </table>
                             @if (Model.PreviousAnswer != null && Model.PreviousAnswer.Count > 0)
                             {
-                                if (Model.PreviousAnswer.ContainsKey(item.UserIdForQuestion))
+                                if (Model.PreviousAnswer.ContainsKey(item.Id))
                                 {
-                                    var answer = Model.PreviousAnswer[item.UserIdForQuestion];
+                                    var answer = Model.PreviousAnswer[item.Id];
                                 <div style="color:dodgerblue" class="pull-right"><p><b>Previous Answer: @answer</b></p></div>
                                 }
                             }

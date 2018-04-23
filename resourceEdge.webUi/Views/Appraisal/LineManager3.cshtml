@@ -6,6 +6,8 @@
 }
 @if (User.IsInRole("L3"))
 {
+    if (modelForview.Item3 != null && modelForview.Item3.Count > 0)
+    {
 <table id="tblapproved" class="table table-striped table-bordered display table-responsive" width="100%">
     <thead>
         <tr>
@@ -32,7 +34,7 @@
                     <table>
                         <tr>
                             <td>
-                                @using (Html.BeginForm("ViewSubmittedEmployeeAppraisal", "AppraisalController", new { userId = item.userId }, FormMethod.Post, null))
+                                @using (Html.BeginForm("SubmittedAppraisal", "Appraisal", new { userId = item.userId }, FormMethod.Post, null))
                                 {
                                 @Html.AntiForgeryToken()
                                 <button class="btn btn-warning" type="submit"><i class="icon-eye"></i>View</button>
@@ -42,7 +44,12 @@
                     </table>
                 </td>
             </tr>
-                                }
+                    }
     </tbody>
 </table>
+                        }
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning centered" style="text-align:center;font-size:large;"><b>No Pending appraisal for approval. Kindly Check on Appraisee</b></div>
                     }

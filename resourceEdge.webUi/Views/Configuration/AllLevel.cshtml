@@ -1,0 +1,52 @@
+﻿@model IEnumerable<resourceEdge.Domain.Entities.Level>
+
+@{
+    ViewBag.Title = "AllLevel";
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+}
+<table class="table table-bordered table-responsive table-striped">
+    <tr>
+        <td>
+            @Html.ActionLink("Add New Level", "AddLevel", "Configuration", null, new { @class = "btn btn-info pull-right" })
+        </td>
+    </tr>
+    <tr>
+        <td>
+
+            <table class="table table-bordered table-responsive table-striped">
+                <tr>
+                    <th>
+                       Level Number
+                    </th>
+                    <th>
+                       Level Name
+                    </th>
+                    <th>
+                       Eligible Years
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.levelNo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LevelName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EligibleYears)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Editlevel", "Configuration", new { id = item.Id }, new { @class = "btn btn-warning" })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </td>
+    </tr>
+</table>
+

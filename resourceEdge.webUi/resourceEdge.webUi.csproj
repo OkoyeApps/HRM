@@ -251,6 +251,7 @@
     <Compile Include="Infrastructure\ActitivityLogs\LoggingEvents.cs" />
     <Compile Include="Infrastructure\Handlers\LeaveFilter.cs" />
     <Compile Include="Infrastructure\Handlers\LoginsFilters.cs" />
+    <Compile Include="Infrastructure\Handlers\TempdateInterceptorFilter.cs" />
     <Compile Include="Infrastructure\SystemManagers\AdminManager.cs" />
     <Compile Include="Infrastructure\SystemManagers\Apimanager.cs" />
     <Compile Include="Infrastructure\SystemManagers\AppraisalManager.cs" />
@@ -1440,6 +1441,21 @@
     <Content Include="Views\Appraisal\SubmittedAppraisal.cshtml" />
     <Content Include="Views\Appraisal\EmployeesToAppraise.cshtml" />
     <Content Include="Views\SelfService\Leave.cshtml" />
+    <Content Include="Views\Configuration\AllGroup.cshtml" />
+    <Content Include="Views\Configuration\Alllocation.cshtml" />
+    <Content Include="Views\Configuration\AllLevel.cshtml" />
+    <Content Include="Views\Configuration\allEmployementStatus.cshtml" />
+    <Content Include="Views\Configuration\allJob.cshtml" />
+    <Content Include="Views\Configuration\AllPrefix.cshtml" />
+    <Content Include="Views\Configuration\EditCode.cshtml" />
+    <Content Include="Views\Configuration\EditEmpstatus.cshtml" />
+    <Content Include="Views\Configuration\EditGroup.cshtml" />
+    <Content Include="Views\Configuration\EditJob.cshtml" />
+    <Content Include="Views\Configuration\EditLeaveType.cshtml" />
+    <Content Include="Views\Configuration\Editlevel.cshtml" />
+    <Content Include="Views\Configuration\Editlocation.cshtml" />
+    <Content Include="Views\Configuration\EditPosition.cshtml" />
+    <Content Include="Views\Configuration\EditPrefix.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1450,6 +1466,7 @@
     <Folder Include="Scripts\Pages\JS\NewFolder1\" />
     <Folder Include="SignalR\" />
     <Folder Include="Views\Cron\" />
+    <Folder Include="Views\Default\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

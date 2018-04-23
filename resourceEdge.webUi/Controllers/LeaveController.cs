@@ -70,6 +70,7 @@ namespace resourceEdge.webUi.Controllers
                     leave.modifiedby = User.Identity.GetUserId();
                     leave.Isactive = true;
                     leaveRepo.AddLeaveManagement(leave);
+                    this.AddNotification($"", NotificationType.SUCCESS);
                     return RedirectToAction("Index");
                 }
             }
@@ -80,6 +81,7 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.Id), "Id", "unitname", "Id");
             ViewBag.Months = new SelectList(Apimanager.GetAllMonths().OrderBy(x => x.id), "MonthId", "MonthName", "MonthId");
             ViewBag.weekDays = new SelectList(Apimanager.GetWeekDays().OrderByDescending(x => x.id), "id", "DayLongCode", "id");
+            this.AddNotification($"", NotificationType.ERROR);
             return View(model);
         }
         [Authorize(Roles = "HR")]
@@ -105,7 +107,7 @@ namespace resourceEdge.webUi.Controllers
               var result =   LmanagerRepo.AllotCollectiveLeave(collection);
                 if (result != false)
                 {
-                    this.AddNotification("Yay!", NotificationType.SUCCESS);
+                    this.AddNotification($"Yay!", NotificationType.SUCCESS);
                     return RedirectToAction("Index");
                 }
             }
@@ -114,7 +116,7 @@ namespace resourceEdge.webUi.Controllers
                 var result = LmanagerRepo.AllotOrUpdateIndividualLeave(collection);
                 if (result != false)
                 {
-                    this.AddNotification("Yay!", NotificationType.SUCCESS);
+                    this.AddNotification($"Yay!", NotificationType.SUCCESS);
                     return RedirectToAction("Index");
                 }
             }
@@ -198,11 +200,11 @@ namespace resourceEdge.webUi.Controllers
                var result =  LmanagerRepo.Approveleave(id.Value, userId, User.Identity.GetUserId());
                 if (result != false)
                 {
-                    this.AddNotification("Leave Approved", NotificationType.SUCCESS);
+                    this.AddNotification($"Leave Approved", NotificationType.SUCCESS);
                    return Redirect(returnUrl);
                 }
             }
-            this.AddNotification("Something went wong and this request could not be completed. please retry in a moment", NotificationType.ERROR);
+            this.AddNotification($"Something went wong and this request could not be completed. please retry in a moment", NotificationType.ERROR);
             return Redirect(returnUrl);
         }
 
@@ -217,11 +219,11 @@ namespace resourceEdge.webUi.Controllers
                 var result = LmanagerRepo.DenyLeave(id.Value, userid);
                 if (result != false)
                 {
-                    this.AddNotification("Leave Denied", NotificationType.SUCCESS);
+                    this.AddNotification($"Leave Denied", NotificationType.SUCCESS);
                     return Redirect(returnUrl);
                 }
             }
-            this.AddNotification("Something went wrong and this request could not be completed. please retry in a moment", NotificationType.ERROR);
+            this.AddNotification($"Something went wrong and this request could not be completed. please retry in a moment", NotificationType.ERROR);
             return Redirect(returnUrl);
         }
 

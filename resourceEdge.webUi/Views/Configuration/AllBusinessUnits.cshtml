@@ -1,84 +1,66 @@
-﻿@model IEnumerable<resourceEdge.Domain.Entities.BusinessUnits>
+﻿@model IEnumerable<resourceEdge.Domain.Entities.BusinessUnit>
 
 @{
     ViewBag.Title = "AllBusinessUnits";
-    Layout = "~/Views/Shared/HRLayout.cshtml";
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
 }
 
-<h2>AllBusinessUnits</h2>
-
-<p>
-    @Html.ActionLink("New unit", "addBusinessUnits")
-</p>
-<table class="table">
+<table class="table table-responsive table-bordered table-striped">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.unitname)
+            Location
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.unitcode)
+           Unit Name
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.descriptions)
+           Unit Code
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.startdate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.createdby)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.modifiedby)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.createddate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.modifieddate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.isactive)
+            Descriptions
         </th>
         <th></th>
     </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.unitname)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.unitcode)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.descriptions)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.startdate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.createdby)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.modifiedby)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.createddate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.modifieddate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.isactive)
-        </td>
-        <td>
-            @Html.ActionLink("Details", "unitDetail", new { id=item.Id }) |
-            @if(User.IsInRole("System Admin")){ 
-            Html.ActionLink("Edit", "EditUnit", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "deleteUnit", new { id=item.Id })
-            }
-        </td>
-    </tr>
-}
-
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+           <td>
+             @Html.DisplayFor(x=>item.Location.State)
+               </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.unitname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.unitcode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.descriptions)
+            </td>
+            <td>
+                <table>
+                    <tr>
+                        <td>
+                           @* @Html.ActionLink("Details", "unitDetail", "Configuration", new { id = item.Id }, new { @class = "btn btn-info" })*@ 
+                        </td>
+                        @if (User.IsInRole("System Admin"))
+                                        {
+                        <td>
+                            @Html.ActionLink("Edit", "EditUnit", "Configuration", new { id = item.Id }, new { @class = "btn btn-warning" })
+                        </td>
+                        @*<td>
+                            @using (Html.BeginForm("deleteUnit", "Configuration", new { id = item.Id },FormMethod.Post, null))
+                            {
+                            @Html.AntiForgeryToken()
+                                <button class="btn btn-danger" type="submit">Delete</button>
+                            }
+                            @Html.ActionLink("Delete", "deleteUnit", "Configuration", new { id = item.Id }, new { @class = "btn btn-danger" })
+                        </td>*@
+                        }
+                    </tr>
+                </table>                  
+            </td>
+        </tr>
+    }
+        </tbody>
 </table>

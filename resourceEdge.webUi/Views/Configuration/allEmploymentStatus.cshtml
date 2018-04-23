@@ -1,0 +1,41 @@
+﻿@model IEnumerable<resourceEdge.Domain.Entities.EmploymentStatus>
+
+@{
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+}
+
+<table class="table table-responsive table-bordered table-striped">
+    <tr>
+        <td>
+            @Html.ActionLink("Add Employment Status", "addEmploymentStatus", null, new { @class = "btn btn-info pull-right"})
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table class="table table-responsive table-bordered table-striped">
+                <tr>
+                    <th>
+                       Employmnent Status
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.employemntStatus)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "EditEmpstatus","Configuration", new { id = item.empstId }, new { @class = "btn btn-warning" })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </td>
+    </tr>
+</table>
+
+
+

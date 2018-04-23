@@ -11,7 +11,7 @@ namespace resourceEdge.Domain.Entities
     public class Jobtitle
     {
         [Key]
-        public int JobId { get; set; }
+        public int Id { get; set; }
         public int GroupId { get; set; }
         public string jobtitlecode { get; set; }
         public string jobtitlename { get; set; }
@@ -25,5 +25,6 @@ namespace resourceEdge.Domain.Entities
         public Nullable<System.DateTime> createddate { get; set; }
         public Nullable<System.DateTime> modifieddate { get; set; }
         public Nullable<bool> isactive { get; set; }
+        public Group Group { get; set; }
     }
 }

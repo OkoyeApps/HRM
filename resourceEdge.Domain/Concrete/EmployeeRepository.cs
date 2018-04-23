@@ -56,7 +56,7 @@ namespace resourceEdge.Domain.Concrete
         }
         public List<Employee> GetEmployeeByDepts(int dept)
         {
-            var result = unitOfWork.employees.Get(filter: x => x.departmentId == dept).ToList();
+            var result = unitOfWork.employees.Get(filter: x => x.DepartmentId == dept).ToList();
             return result ?? null;
         }
 

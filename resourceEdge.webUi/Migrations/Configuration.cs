@@ -27,7 +27,7 @@ namespace resourceEdge.webUi.Migrations
 
         //    var group = new List<Group>()
         //    {
-                
+
         //        new Group() { GroupName = "Tenece", CreatedDate = DateTime.Now },
         //        new Group() { GroupName = "Genesys", CreatedDate = DateTime.Now },
         //        new Group() {GroupName = "Piewa", CreatedDate = DateTime.Now }
@@ -80,17 +80,17 @@ namespace resourceEdge.webUi.Migrations
         //    {
         //        new Departments()
         //        {
-        //             deptname = "TestDept",deptcode = "Test101",BunitId = 1,
+        //             deptname = "TestDept",deptcode = "Test101",BusinessUnitsId = 1,
         //              Isactive = true, startdate = DateTime.Now
         //        },
         //           new Departments()
         //        {
-        //             deptname = "TestDept2",deptcode = "Test101", BunitId = 1,
+        //             deptname = "TestDept2",deptcode = "Test101", BusinessUnitsId = 1,
         //             Isactive = true, startdate = DateTime.Now
         //        },
         //              new Departments()
         //        {
-        //             deptname = "TestDept3", deptcode = "Test101", BunitId = 2 ,Isactive = true, startdate = DateTime.Now
+        //             deptname = "TestDept3", deptcode = "Test101", BusinessUnitsId = 2 ,Isactive = true, startdate = DateTime.Now
         //        }
         //    };
         //    foreach (var item in department)
@@ -124,10 +124,10 @@ namespace resourceEdge.webUi.Migrations
 
         //    var position = new List<Position>()
         //    {
-        //        new Position() { positionname = "TestPosi", jobtitleid = 1, isactive =true },
-        //        new Position() { positionname = "TestPosi", jobtitleid = 1, isactive =true },
-        //        new Position() { positionname = "TestPosi", jobtitleid = 2, isactive =true },
-        //        new Position() { positionname = "TestPosi", jobtitleid = 2, isactive =true }
+        //        new Position() { positionname = "TestPosi", JobtitleId = 1, isactive =true },
+        //        new Position() { positionname = "TestPosi", JobtitleId = 1, isactive =true },
+        //        new Position() { positionname = "TestPosi", JobtitleId = 2, isactive =true },
+        //        new Position() { positionname = "TestPosi", JobtitleId = 2, isactive =true }
         //    };
         //    foreach (var item in position)
         //    {
@@ -182,23 +182,23 @@ namespace resourceEdge.webUi.Migrations
         //    };
         //    var Employee = new Employee[]
         //    {
-        //        new Domain.Entities.Employee() { businessunitId = 1, departmentId = 2, empEmail = "Test1@example.com",
+        //        new Domain.Entities.Employee() { businessunitId = 1, DepartmentId = 2, empEmail = "Test1@example.com",
         //            empRoleId = 4, empStatusId = "Test User", GroupId = 1, LevelId = 1, FullName = "Test User",
         //            positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
         //            jobtitleId = 1, isactive = true   },
-        //        new Domain.Entities.Employee() { businessunitId = 1, departmentId = 2, empEmail = "Hr@example.com",
+        //        new Domain.Entities.Employee() { businessunitId = 1, DepartmentId = 2, empEmail = "Hr@example.com",
         //            empRoleId = 3, empStatusId = "Test Hr", GroupId = 1, LevelId = 1,FullName = "Test HR",
         //            positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
         //            jobtitleId = 1, isactive = true   },
-        //        new Domain.Entities.Employee() { businessunitId = 1, departmentId = 2, empEmail = "Manager@example.com",
+        //        new Domain.Entities.Employee() { businessunitId = 1, DepartmentId = 2, empEmail = "Manager@example.com",
         //            empRoleId = 2, empStatusId = "Test User", GroupId = 1, LevelId = 1,FullName = "Test Manager",
         //            positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
         //            jobtitleId = 1, isactive = true   },
-        //          new Domain.Entities.Employee() { businessunitId = 1, departmentId = 2, empEmail = "DeptHead@example.com",
+        //          new Domain.Entities.Employee() { businessunitId = 1, DepartmentId = 2, empEmail = "DeptHead@example.com",
         //            empRoleId = 2, empStatusId = "Test User", GroupId = 1, LevelId = 1,FullName = "Test Dept",
         //            positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
         //            jobtitleId = 1, IsDepthead = true, isactive = true   },
-        //              new Domain.Entities.Employee() { businessunitId = 1, departmentId = 2, empEmail = "LocationHead@example.com",
+        //              new Domain.Entities.Employee() { businessunitId = 1, DepartmentId = 2, empEmail = "LocationHead@example.com",
         //            empRoleId = 7, empStatusId = "Test location", GroupId = 1, LevelId = 1,FullName = "Test Location Head",
         //            positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
         //            jobtitleId = 1, IsDepthead = true, isactive = true   }
@@ -224,7 +224,7 @@ namespace resourceEdge.webUi.Migrations
         //                var manager = new ReportManager()
         //                {
         //                    BusinessUnitId = Employee[i].businessunitId,
-        //                    DepartmentId = Employee[i].departmentId,
+        //                    DepartmentId = Employee[i].DepartmentId,
         //                    employeeId = 3,
         //                    FullName = "Test Manager",
         //                    ManagerUserId = TestUser1[i].Id

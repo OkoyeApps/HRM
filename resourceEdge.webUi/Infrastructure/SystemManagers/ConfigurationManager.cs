@@ -2,9 +2,11 @@
 using resourceEdge.Domain.Abstracts;
 using resourceEdge.Domain.Entities;
 using resourceEdge.Domain.UnitofWork;
+using resourceEdge.webUi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -47,7 +49,7 @@ namespace resourceEdge.webUi.Infrastructure
             {
                 Departments Dept = new Departments()
                 {
-                    BunitId = model.BunitId.Value,
+                    BusinessUnitsId = model.BunitId.Value,
                     CreatedBy = UserId,
                     CreatedDate = DateTime.Now,
                     deptcode = model.deptcode,
@@ -88,7 +90,7 @@ namespace resourceEdge.webUi.Infrastructure
                     var allCountry = allKeys.Where(x => x.ToLower().StartsWith("country")).ToList();
                     var allAddress1 = allKeys.Where(x => x.ToLower().StartsWith("address1")).ToList();
                     var allAddress2 = allKeys.Where(x => x.ToLower().StartsWith("address2")).ToList();
-                    allKeys.ToList().RemoveRange(0,2);
+                    allKeys.ToList().RemoveRange(0, 2);
 
                     int GroupId = 0;
                     int.TryParse(collection[Group], out GroupId);
@@ -266,12 +268,12 @@ namespace resourceEdge.webUi.Infrastructure
                                 isactive = true
                             };
                             unitOfWork.jobTitles.Insert(job);
-                    unitOfWork.Save();
-                    return true;
+                            unitOfWork.Save();
+                            return true;
                         }
                     }
                 }
-                else if(Id != null)
+                else if (Id != null)
                 {
                     var job = unitOfWork.jobTitles.GetByID(Id);
                     job.jobpayfrequency = model.jobpayfrequency;
@@ -283,7 +285,8 @@ namespace resourceEdge.webUi.Infrastructure
                     unitOfWork.Save();
                     return true;
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -302,10 +305,10 @@ namespace resourceEdge.webUi.Infrastructure
                     var allDescription = allKeys.Where(x => x.ToLower().StartsWith("description")).ToList();
                     allKeys.ToList().RemoveRange(0, 2);
                     int jobId = 0;
-                    var Length =(allKeys.Length - 1) / 3;
+                    var Length = (allKeys.Length - 1) / 3;
                     for (int i = 0; i < Length; i++)
                     {
-                    int.TryParse(collection[allJobId], out jobId);
+                        int.TryParse(collection[allJobId], out jobId);
                         if (jobId != 0)
                         {
                             Position position = new Position()
@@ -314,7 +317,7 @@ namespace resourceEdge.webUi.Infrastructure
                                 createdby = UserId,
                                 createddate = DateTime.Now,
                                 description = collection[allDescription[i].ToString()],
-                                jobtitleid = jobId,
+                                JobtitleId = jobId,
                                 positionname = collection[allName[i].ToString()],
                                 isactive = true
                             };
@@ -328,12 +331,13 @@ namespace resourceEdge.webUi.Infrastructure
                 {
                     var position = unitOfWork.positions.GetByID(Id);
                     position.positionname = model.positionname;
-                    position.jobtitleid = model.jobtitleid.Value;
+                    position.JobtitleId = model.jobtitleid.Value;
                     unitOfWork.positions.Update(position);
                     unitOfWork.Save();
                     return true;
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -372,15 +376,16 @@ namespace resourceEdge.webUi.Infrastructure
                             EligibleYears = year,
                             LevelName = collection[allName[i].ToString()],
                             levelNo = levelNo,
-                            GroupId = GroupId, ModifiedOn = DateTime.Now
+                            GroupId = GroupId,
+                            ModifiedOn = DateTime.Now
                         };
-                        
+
                         unitOfWork.Levels.Insert(level);
                     }
                     unitOfWork.Save();
                     return true;
                 }
-                else if(Id != null)
+                else if (Id != null)
                 {
                     var level = unitOfWork.Levels.GetByID(Id);
                     level.LevelName = model.LevelName;
@@ -389,9 +394,89 @@ namespace resourceEdge.webUi.Infrastructure
                     unitOfWork.Save();
                     return true;
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw ex;
+            }
+            return false;
+        }
+        public IEnumerable<IdentityCode> GetAllIdentityCodes()
+        {
+            var codes = unitOfWork.identityCodes.Get(includeProperties: "Group");
+            return codes;
+        }
+        public IEnumerable<Departments> GetAllDepartment()
+        {
+            var department = unitOfWork.Department.Get(includeProperties: "BusinessUnits");
+            return department;
+        }
+        public IEnumerable<EmploymentStatus> GetAllEmploymentStatus()
+        {
+            var result = unitOfWork.employmentStatus.Get(includeProperties: "");
+            return result;
+        }
+        public IEnumerable<Group> GetAllGroup()
+        {
+            var result = unitOfWork.Groups.Get(includeProperties: "");
+            return result;
+        }
+        public IEnumerable<Jobtitle> GetAllJob()
+        {
+            var result = unitOfWork.jobTitles.Get(includeProperties: "Group");
+            return result;
+        }
+        public IEnumerable<EmployeeLeaveType> GetAllLeaveType()
+        {
+            var result = unitOfWork.LeaveType.Get(includeProperties: "");
+            return result;
+        }
+        public IEnumerable<Level> GetAllLevel()
+        {
+            var result = unitOfWork.Levels.Get(includeProperties: "Group");
+            return result;
+        }
+        public IEnumerable<Location> GetAllLocation()
+        {
+            var result = unitOfWork.Locations.Get(includeProperties: "Group");
+            return result;
+        }
+        public IEnumerable<Prefix> GetAllPrefix()
+        {
+            var result = unitOfWork.prefix.Get(includeProperties: "");
+            return result;
+        }
+        public IEnumerable<Position> GetAllPosition()
+        {
+            var result = unitOfWork.positions.Get(includeProperties: "Jobtitle");
+            return result;
+        }
+        public IEnumerable<BusinessUnit> GetAllBusinessUnit()
+        {
+            var result = unitOfWork.BusinessUnit.Get(includeProperties: "Location,Employee");
+            return result;
+        }
+        public bool ChangeAllEmployeeCodes(string oldCode, string newCode)
+        {
+            if (!string.IsNullOrEmpty(oldCode))
+            {
+                using (ApplicationDbContext db = new ApplicationDbContext())
+                {
+                    var allusersWithId = db.Users.Where(x => x.EmployeeId.StartsWith(oldCode)).ToList();
+                    if (allusersWithId != null)
+                    {
+                        foreach (var item in allusersWithId)
+                        {
+                            StringBuilder builder = new StringBuilder();
+                            builder.Append(item.EmployeeId);
+                            builder.Replace(oldCode, newCode);
+                            item.EmployeeId = builder.ToString();
+                            db.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                        return true;
+                    }
+                }
             }
             return false;
         }

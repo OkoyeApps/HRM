@@ -21,8 +21,8 @@
             <div class="col-md-6">
                 <div class="form-group">
                     @Html.Label("Job")
-                    @Html.DropDownListFor(model => model.jobtitleid, (SelectList)ViewBag.jobTitles, "Select Job", htmlAttributes: new { @class = "form-control", required = "" })
-                    @Html.ValidationMessageFor(model => model.jobtitleid, "", new { @class = "text-danger" })
+                    @Html.DropDownListFor(model => model.JobtitleId, (SelectList)ViewBag.jobTitles, "Select Job", htmlAttributes: new { @class = "form-control", required = "" })
+                    @Html.ValidationMessageFor(model => model.JobtitleId, "", new { @class = "text-danger" })
                 </div>
             </div>
 

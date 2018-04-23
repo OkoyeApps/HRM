@@ -16,10 +16,10 @@ namespace resourceEdge.Domain.Entities
         public string CalStartMonth { get; set; }
         public string WeekendStartDay { get; set; }
         public string WeekendEndDay { get; set; }
-        [ForeignKey("BusinessUnits")]
+        [ForeignKey("BusinessUnit")]
         public int? businessunitId { get; set; }
         public string departmentId { get; set; }
-        [ForeignKey("ReportManagers")] //Note this is the userId which is represened as the managerid in the Reportmanager table
+        [ForeignKey("ReportManager")] //Note this is the userId which is represened as the managerid in the Reportmanager table
         public string HrId { get; set; }
         public string HoursDay { get; set; }
         public string IsSatHoliday { get; set; }
@@ -32,7 +32,7 @@ namespace resourceEdge.Domain.Entities
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public Nullable<bool> Isactive { get; set; }
-        public virtual BusinessUnit BusinessUnits { get; set; }
-        public virtual ReportManager ReportManagers { get; set; }
+        public virtual BusinessUnit BusinessUnit { get; set; }
+        public virtual ReportManager ReportManager { get; set; }
     }
 }

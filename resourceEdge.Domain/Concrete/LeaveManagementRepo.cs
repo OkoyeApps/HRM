@@ -172,5 +172,17 @@ namespace resourceEdge.Domain.Concrete
             }
             return null;
         }
+
+        public EmployeeLeaveType GetLeaveTypeById(int id)
+        {
+            var result = unitOfWork.LeaveType.GetByID(id);
+            return result ?? null;
+        }
+
+        public void UpdateLeaveType(EmployeeLeaveType leave)
+        {
+            unitOfWork.LeaveType.Update(leave);
+            unitOfWork.Save();
+        }
     }
 }

@@ -230,19 +230,15 @@
     <Compile Include="Entities\WeekDay.cs" />
     <Compile Include="Entities\Week.cs" />
     <Compile Include="Infrastructures\Enumerations.cs" />
-    <Compile Include="Migrations\EdgeDbContext\201803271100227_Initialize.cs" />
-    <Compile Include="Migrations\EdgeDbContext\201803271100227_Initialize.Designer.cs">
-      <DependentUpon>201803271100227_Initialize.cs</DependentUpon>
+    <Compile Include="Migrations\EdgeDbContext2\201804201720491_InitialDatabaseCreation.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201804201720491_InitialDatabaseCreation.Designer.cs">
+      <DependentUpon>201804201720491_InitialDatabaseCreation.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\EdgeDbContext\201803271438306_Login Table Update.cs" />
-    <Compile Include="Migrations\EdgeDbContext\201803271438306_Login Table Update.Designer.cs">
-      <DependentUpon>201803271438306_Login Table Update.cs</DependentUpon>
+    <Compile Include="Migrations\EdgeDbContext2\201804210321200_Association update For Level.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201804210321200_Association update For Level.Designer.cs">
+      <DependentUpon>201804210321200_Association update For Level.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\EdgeDbContext\201804070604111_AppraisalQuestion_Update.cs" />
-    <Compile Include="Migrations\EdgeDbContext\201804070604111_AppraisalQuestion_Update.Designer.cs">
-      <DependentUpon>201804070604111_AppraisalQuestion_Update.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext\Configuration.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitofWork\GenericRepository.cs" />
     <Compile Include="UnitofWork\UnitOfWork.cs" />
@@ -272,14 +268,11 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\EdgeDbContext\201803271100227_Initialize.resx">
-      <DependentUpon>201803271100227_Initialize.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201804201720491_InitialDatabaseCreation.resx">
+      <DependentUpon>201804201720491_InitialDatabaseCreation.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext\201803271438306_Login Table Update.resx">
-      <DependentUpon>201803271438306_Login Table Update.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext\201804070604111_AppraisalQuestion_Update.resx">
-      <DependentUpon>201804070604111_AppraisalQuestion_Update.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201804210321200_Association update For Level.resx">
+      <DependentUpon>201804210321200_Association update For Level.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

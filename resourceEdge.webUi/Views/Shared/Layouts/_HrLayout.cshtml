@@ -2,9 +2,23 @@
 @{ var usersessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
     var crumbs = (BreadCrumb)Session["_Crumbs"];
     string[] UrlName = null;
+    string action = "";
+    string controller = "";
+    string FullName = "";
+    string BusinessUnit = "";
     if (Request.UrlReferrer != null)
     {
         UrlName = Request.UrlReferrer.AbsolutePath.Split('/');
+    }
+    if (crumbs != null)
+    {
+        action = crumbs.Action;
+        controller = crumbs.Controller;
+    }
+    if (usersessionObject != null)
+    {
+        FullName = usersessionObject.FullName;
+        BusinessUnit = usersessionObject.UnitName;
     }
 }
 
@@ -252,8 +266,8 @@
                     <li class="dropdown navbar-user">
                         <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="~/assets/AdminTemplate/assets/img/user-13.jpg" alt="" />
-                            @{usersessionObject.FullName = usersessionObject.FullName != null ? usersessionObject.FullName : "";}
-                            <span class="hidden-xs">@usersessionObject.FullName</span> <b class="caret"></b>
+                          
+                            <span class="hidden-xs">@FullName</span> <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu animated fadeInLeft">
                             <li class="arrow"></li>
@@ -291,10 +305,9 @@
                         <div class="image">
                             <a href="javascript:;"><img src="~/assets/AdminTemplate/assets/img/user-13.jpg" alt="" /></a>
                         </div>
-                            @{usersessionObject.FullName = usersessionObject.FullName != null ? usersessionObject.FullName : "";}
                         <div class="info">
-                            @usersessionObject.FullName
-                            <small>@usersessionObject.UnitName</small>
+                            @FullName
+                            <small>@BusinessUnit</small>
                         </div>
                     </li>
                 </ul>
@@ -384,33 +397,36 @@
                                 @if (User.IsInRole("System Admin"))
 	                            {
                                 <li>
-                                    @Html.ActionLink("Add Group", "AddGroup", "Configuration", null, new { @class = "nav-link  title" })
+                                    @Html.ActionLink("All Group", "AllGroup", "Configuration", null, new { @class = "nav-link  title" })
                                 </li>
                                 <li>
-                                    @Html.ActionLink("Add Identity Code", "AddCode", "Configuration", null, new { @class = "nav-link title" })
+                                    @Html.ActionLink("All Identity Code", "AllCodes", "Configuration", null, new { @class = "nav-link title" })
                                 </li>
                                 <li>
-                                    @Html.ActionLink("Add Location", "AddLocation", "Configuration", null, new { @class = "nav-link  title" })
+                                    @Html.ActionLink("All Location", "AllLocation", "Configuration", null, new { @class = "nav-link  title" })
                                 </li>
-	                            }
-                                <li>
-                                    @Html.ActionLink("Add Level", "addLevel", "Configuration", null, new { @class = "nav-link  title" })
-                                </li>
-                                @if (User.IsInRole("System Admin"))
-                                {
                                     <li>
-                                        @Html.ActionLink("Add Job", "AddJobTitle", "Configuration", null, new { @class = "nav-link  title" })
+                                        @Html.ActionLink("All Job", "AllJobTitle", "Configuration", null, new { @class = "nav-link  title" })
+                                    </li>
+                                    <li>
+                                        @Html.ActionLink("All Business Unit", "allBusinessUnits", "Configuration", null, new { @class =  "nav-link  title" })
                                     </li>
                                 }
+                                <li>
+                                    @Html.ActionLink("All Department", "AllDepartment", "Configuration", null, new { @class = "nav-link  title" })
+                                </li>
+                                <li>
+                                    @Html.ActionLink("All Level", "AllLevel", "Configuration", null, new { @class = "nav-link  title" })
+                                </li>
                                
                                 <li>
-                                    @Html.ActionLink("Add Position", "Addposition", "Configuration", null, new { @class = "nav-link  title" })
+                                    @Html.ActionLink("All Position", "Allposition", "Configuration", null, new { @class = "nav-link  title" })
                                 </li>
                                 <li>
-                                    @Html.ActionLink("Add Employment Status", "AddEmploymentStatus", "Configuration", null, new { @class = "nav-link  title" })
+                                    @Html.ActionLink("All Employment Status", "AllEmploymentStatus", "Configuration", null, new { @class = "nav-link  title" })
                                 </li>
-                                <li>
-                                    @Html.ActionLink("Add Prefix", "AddPrefix", "Configuration", null, new { @class = "nav-link  title" })
+                                <li>allEmployementStatus
+                                    @Html.ActionLink("All Prefix", "AllPrefix", "Configuration", null, new { @class = "nav-link  title" })
                                 </li>
                             </ul>
                         </li>
@@ -447,8 +463,8 @@
         <div id="content" class="content">
             <!-- begin breadcrumb -->
             <ol class="breadcrumb pull-right">
-                <li><a href="@crumbs.ActionUrl">@crumbs.Action.ToUpper()</a></li>
-                <li><a href="javascript:;">@crumbs.Controller.ToUpper()</a></li>
+                <li><a href="@crumbs.ActionUrl">@action.ToLower()</a></li>
+                <li><a href="javascript:;">@controller.ToLower()</a></li>
                 @if (UrlName != null)
                 {
                     if (UrlName.Length == 3)

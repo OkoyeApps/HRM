@@ -1,88 +1,78 @@
-﻿@model IEnumerable<resourceEdge.Domain.Entities.IdentityCodes>
+﻿@model IEnumerable<resourceEdge.Domain.Entities.IdentityCode>
 
 @{
-    ViewBag.Title = "AllCodes";
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
 }
 
-<h2>AllCodes</h2>
-@if (ViewBag.IdentitySucces != null)
-{
-<div class="alert alert-success"> ViewBag.IdentitySuccess</div>
-}
-<p>
-    @Html.ActionLink("Create New", "AddCode")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.employee_code)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.backgroundagency_code)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.vendors_code)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.staffing_code)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.users_code)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.requisition_code)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.createdBy)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.createddate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.modifiedBy)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.modifieddate)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
+<br />
+<table class="table table-responsive table-bordered table-striped">
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.employee_code)
+            <p>
+                @Html.ActionLink("Add Code", "AddCode", null, new { @class = "btn btn-success pull-right" })
+            </p>
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.backgroundagency_code)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.vendors_code)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.staffing_code)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.users_code)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.requisition_code)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.createdBy)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.createddate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.modifiedBy)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.modifieddate)
-        </td>
-        <td>
-            @Html.ActionLink("Edit Code", "EditCode", "Configuration", new { id = 1 })
-        </td>
+    
     </tr>
-}
+    <tr>
+        <td>
+            <table class="table table-responsive table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            Employee Code
+                        </th>
+                        <th>
+                            Background Agency Code
+                        </th>
+                        <th>
+                            Vendors Code
+                        </th>
+                        <th>
+                            Staff Code
+                        </th>
+                        <th>
+                            User Code
+                        </th>
+                        <th>
+                            Requisition
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.employee_code)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.backgroundagency_code)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.vendors_code)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.staffing_code)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.users_code)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.requisition_code)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit Code", "EditCode", "Configuration", new { id = item.Id }, new { @class = "btn btn-warning" })
+                            </td>
+                        </tr>
+                            }
+                    </tbody>
+                   
+                </table>
+            </td>
 
-</table>
+        </tr>
+
+    </table>

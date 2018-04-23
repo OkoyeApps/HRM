@@ -6,7 +6,7 @@
     ]    
 }
     var count = 0;
-    $('#add').on('click', function () {
+    $('#addquestion').on('click', function () {
         var current = count++;
         console.log(current);
         if (current < 5) {

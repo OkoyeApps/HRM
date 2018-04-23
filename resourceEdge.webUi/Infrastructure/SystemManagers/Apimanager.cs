@@ -58,7 +58,7 @@ namespace resourceEdge.webUi.Infrastructure
 
         public List<DepartmentListItem> DepartmentList()
         {
-            var result = unitOfWork.GetDbContext().departments.Select(x => new DepartmentListItem() { deptId = x.DeptId, deptName = x.deptname, businessUnitId = x.BunitId }).ToList();
+            var result = unitOfWork.GetDbContext().departments.Select(x => new DepartmentListItem() { deptId = x.Id, deptName = x.deptname, businessUnitId = x.BusinessUnitsId }).ToList();
             return result ?? null;
         }
 
@@ -68,7 +68,7 @@ namespace resourceEdge.webUi.Infrastructure
             {
                 return null;
             }
-            var result = unitOfWork.GetDbContext().departments.Where(x => x.BunitId == id).OrderBy(x => x.deptname).Select(x => new DepartmentListItem { deptId = x.DeptId, deptName = x.deptname, businessUnitId = x.BunitId }).ToList();
+            var result = unitOfWork.GetDbContext().departments.Where(x => x.BusinessUnitsId == id).OrderBy(x => x.deptname).Select(x => new DepartmentListItem { deptId = x.Id, deptName = x.deptname, businessUnitId = x.BusinessUnitsId }).ToList();
             return result ?? null;
         }
         public List<PrefixesListItem> PrefixeList()
@@ -78,7 +78,7 @@ namespace resourceEdge.webUi.Infrastructure
             foreach (var item in unitOfWork.prefix.Get())
             {
                 listItem = new PrefixesListItem();
-                listItem.prefixId = item.prefixId;
+                listItem.prefixId = item.Id;
                 listItem.prefixName = item.prefixName;
                 Result.Add(listItem);
             }
@@ -105,7 +105,7 @@ namespace resourceEdge.webUi.Infrastructure
             foreach (var item in unitOfWork.jobTitles.Get())
             {
                 listItem = new JobListItem();
-                listItem.JobId = item.JobId;
+                listItem.JobId = item.Id;
                 listItem.JobName = item.jobtitlename;
                 Result.Add(listItem);
             }
@@ -118,7 +118,7 @@ namespace resourceEdge.webUi.Infrastructure
             foreach (var item in unitOfWork.positions.Get())
             {
                 listItem = new PositionListItem();
-                listItem.PositionId = item.PosId;
+                listItem.PositionId = item.Id;
                 listItem.PositionName = item.positionname;
                 Result.Add(listItem);
             }
@@ -133,7 +133,7 @@ namespace resourceEdge.webUi.Infrastructure
                 var identityCode = unitOfWork.GetDbContext().IdentityCode.Where(x => x.GroupId == groupId).SingleOrDefault();
                 if (identityCode != null)
                 {
-                    listItem.Employeeid = identityCode.codeId;
+                    listItem.Employeeid = identityCode.Id;
                     listItem.EmployeeCode = identityCode.employee_code;
                     listItem.RequisitionCode = identityCode.requisition_code;
                     return listItem;
@@ -152,11 +152,11 @@ namespace resourceEdge.webUi.Infrastructure
         {
             List<PositionListItem> result = new List<PositionListItem>();
             PositionListItem listItem;
-            var positionsByJobID = unitOfWork.GetDbContext().Position.Where(x => x.Jobtitles.JobId == id).ToList();
+            var positionsByJobID = unitOfWork.GetDbContext().Position.Where(x => x.Jobtitle.Id == id).ToList();
             foreach (var item in positionsByJobID)
             {
                 listItem = new PositionListItem();
-                listItem.PositionId = item.PosId;
+                listItem.PositionId = item.Id;
                 listItem.PositionName = item.positionname;
                 result.Add(listItem);
             }
@@ -217,12 +217,12 @@ namespace resourceEdge.webUi.Infrastructure
        
         public List<Employee> GetEmployeeByDept(int dept)
         {
-            return unitOfWork.GetDbContext().Employee.Where(x => x.departmentId == dept).ToList();
+            return unitOfWork.GetDbContext().Employee.Where(x => x.DepartmentId == dept).ToList();
         }
 
         public List<Employee> GetNonAllotedEmployeeByDept(int dept)
         {
-            var Employees =  unitOfWork.GetDbContext().Employee.Where(x => x.departmentId == dept).ToList();
+            var Employees =  unitOfWork.GetDbContext().Employee.Where(x => x.DepartmentId == dept).ToList();
             List<Employee> EligibleEmployeeList = new List<Employee>();
             foreach (var item in Employees)
             {

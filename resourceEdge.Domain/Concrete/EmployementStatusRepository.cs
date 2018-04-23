@@ -27,7 +27,8 @@ namespace resourceEdge.Domain.Concrete
 
         public void update(EmploymentStatus entity)
         {
-            throw new NotImplementedException();
+            unitofWork.employmentStatus.Update(entity);
+            unitofWork.Save();
         }
 
         public EmploymentStatus GetByUserId(string userId)

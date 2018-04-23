@@ -27,7 +27,7 @@ namespace resourceEdge.Domain.Entities
         public string reportingManager2 { get; set; }
         public  string  empStatusId { get; set; }
         public int businessunitId { get; set; }
-        public int departmentId { get; set; }
+        public int DepartmentId { get; set; }
         public int jobtitleId { get; set; }
         public int positionId { get; set; }
         public string yearsExp { get; set; }
@@ -44,7 +44,7 @@ namespace resourceEdge.Domain.Entities
         public ModeOfEmployement modeofEmployement { get; set; }
         public Nullable<bool> IsUnithead { get; set; }
         public Nullable<bool> IsDepthead { get; set; }
-        public  Departments Departments { get; set; }
+        public  Departments Department { get; set; }
         public  Level Level { get; set; }
         public  Group Group { get; set; }
         public Location Location { get; set; }

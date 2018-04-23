@@ -398,7 +398,7 @@ namespace resourceEdge.webUi.Infrastructure
                 {
                     EmpPayroll payroll = new EmpPayroll();
                     payroll.BusinessUnit = employee.businessunitId.ToString();
-                    payroll.Department = employee.departmentId.ToString();
+                    payroll.Department = employee.DepartmentId.ToString();
                     payroll.EmpName = employee.FullName;
                     payroll.UserId = currentUser.Id;
                     payroll.EmpStatus = employee.empStatusId;
@@ -651,7 +651,7 @@ namespace resourceEdge.webUi.Infrastructure
                     var userlist = userManager.FindById(item.userId);
                     bool? loginList = unitofWork.Logins.Get(filter: x => x.UserID == item.userId && x.IsLogOut == false).Select(x=>x.IsLogIn).LastOrDefault();
                     var employeeUnit = unitofWork.BusinessUnit.GetByID(item.businessunitId).unitname;
-                    var employeeDept = unitofWork.Department.GetByID(item.departmentId).deptname;
+                    var employeeDept = unitofWork.Department.GetByID(item.DepartmentId).deptname;
                     listItem.BusinessUnitName = employeeUnit;
                     listItem.DepartmentName = employeeDept;
                     listItem.IsUnitHead = item.IsUnithead;

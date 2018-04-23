@@ -22,8 +22,6 @@ namespace resourceEdge.webUi
 {
     public class MvcApplication : System.Web.HttpApplication
     {
-
-  
         protected void Application_Start()
         {
             //Database.SetInitializer(new resourceEdge.webUi.Infrastructure.DbInitializer());

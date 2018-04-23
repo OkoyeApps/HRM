@@ -503,6 +503,7 @@ namespace resourceEdge.Domain.Entities
         public int id { get; set; }
         public string Question { get; set; }
         public int Answers { get; set; }
+        public bool EditCount { get; set; }
     }
 
 }

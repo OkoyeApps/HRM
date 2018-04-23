@@ -20,15 +20,19 @@ namespace resourceEdge.webUi.Infrastructure
             var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(new ApplicationDbContext()));
             UnitOfWork context = new UnitOfWork();
            
-            var group = new List<Group>()
+            var groups = new List<Group>()
             {
-
                 new Group() { GroupName = "Tenece", CreatedDate = DateTime.Now },
                 new Group() { GroupName = "Genesys", CreatedDate = DateTime.Now },
                 new Group() {GroupName = "Piewa", CreatedDate = DateTime.Now }
             };
-            group.ForEach(X => context.GetDbContext().Group.AddOrUpdate(X));
-           
+            foreach (var group in groups)
+            {
+                context.GetDbContext().Group.AddOrUpdate(group);
+                context.Save();
+            }
+            //group.ForEach(X => context.GetDbContext().Group.AddOrUpdate(X));
+            //context.Save();
             var Locations = new List<Location>()
             {
                 new Location()
@@ -42,25 +46,28 @@ namespace resourceEdge.webUi.Infrastructure
                  CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now
                  }
             };
-            Locations.ForEach(x => context.GetDbContext().Location.AddOrUpdate(x));
-            context.Save();
+            foreach (var local in Locations)
+            {
+                context.GetDbContext().Location.AddOrUpdate(local);
+                context.Save();
+            }
             var BusinessUnit = new List<BusinessUnit>()
             {
                 new BusinessUnit()
                 {
-                unitname = "TestUnit1", unitcode = "Test111",
+                unitname = "TestUnit1", unitcode = "Test111", GroupId = 1,
                 descriptions = "Tesing Business Unit Description",  isactive = true,startdate = DateTime.Now, LocationId = 1
                 },
 
                 new BusinessUnit()
                 {
-                 unitname = "TestUnit2", unitcode = "Test111",
+                 unitname = "TestUnit2", unitcode = "Test111", GroupId =1,
                 descriptions = "Tesing Business Unit Description",  isactive = true,startdate = DateTime.Now,LocationId = 1
                },
 
                 new BusinessUnit()
                 {
-                unitname = "TestUnit3", unitcode = "Test111",
+                unitname = "TestUnit3", unitcode = "Test111", GroupId = 1,
                 descriptions = "Tesing Business Unit Description",  isactive = true,startdate = DateTime.Now,LocationId = 1
 
                 }
@@ -75,17 +82,17 @@ namespace resourceEdge.webUi.Infrastructure
             {
                 new Departments()
                 {
-                     deptname = "TestDept",deptcode = "Test101",BunitId = 1,
+                     deptname = "TestDept",deptcode = "Test101",BusinessUnitsId = 1,
                       Isactive = true, startdate = DateTime.Now
                 },
                    new Departments()
                 {
-                     deptname = "TestDept2",deptcode = "Test101", BunitId = 1,
+                     deptname = "TestDept2",deptcode = "Test101", BusinessUnitsId = 1,
                      Isactive = true, startdate = DateTime.Now
                 },
                       new Departments()
                 {
-                     deptname = "TestDept3", deptcode = "Test101", BunitId = 2 ,Isactive = true, startdate = DateTime.Now
+                     deptname = "TestDept3", deptcode = "Test101", BusinessUnitsId = 2 ,Isactive = true, startdate = DateTime.Now
                 }
             };
             foreach (var item in department)
@@ -98,31 +105,32 @@ namespace resourceEdge.webUi.Infrastructure
                 new Jobtitle()
                 {
                     jobtitlename = "TestJob", jobtitlecode = "JobT", jobpayfrequency ="Monthly", jobpaygradecode ="A",jobdescription = "Test Job description",
-                    minexperiencerequired = 2, isactive = true, comments = "Testing Job"
+                    minexperiencerequired = 2, isactive = true, comments = "Testing Job", GroupId = 1
                 },
                    new Jobtitle()
                 {
                     jobtitlename = "TestJob2", jobtitlecode = "JobT", jobpayfrequency ="Monthly", jobpaygradecode ="A",jobdescription = "Test Job description",
-                    minexperiencerequired = 2, isactive = true, comments = "Testing Job"
+                    minexperiencerequired = 2, isactive = true, comments = "Testing Job",GroupId = 1
                 },
                       new Jobtitle()
                 {
                     jobtitlename = "TestJob3", jobtitlecode = "JobT", jobpayfrequency ="Monthly", jobpaygradecode ="A", jobdescription = "Test Job description",
-                    minexperiencerequired = 2, isactive = true, comments = "Testing Job"
+                    minexperiencerequired = 2, isactive = true, comments = "Testing Job",GroupId = 1
                 }
             };
-            foreach (var item in jobs)
-            {
-                context.GetDbContext().Jobtitle.AddOrUpdate(item);
-                context.Save();
-            }
+            //foreach (var item in jobs)
+            //{
+            //    context.GetDbContext().Jobtitle.AddOrUpdate(item);
+            //}
+            jobs.ForEach(x => context.jobTitles.Insert(x));
+            context.Save();
 
             var position = new List<Position>()
             {
-                new Position() { positionname = "TestPosi", jobtitleid = 1, isactive =true },
-                new Position() { positionname = "TestPosi", jobtitleid = 1, isactive =true },
-                new Position() { positionname = "TestPosi", jobtitleid = 2, isactive =true },
-                new Position() { positionname = "TestPosi", jobtitleid = 2, isactive =true }
+                new Position() { positionname = "TestPosi", JobtitleId = 1, isactive =true },
+                new Position() { positionname = "TestPosi", JobtitleId = 1, isactive =true },
+                new Position() { positionname = "TestPosi", JobtitleId = 2, isactive =true },
+                new Position() { positionname = "TestPosi", JobtitleId = 2, isactive =true }
             };
             foreach (var item in position)
             {
@@ -139,12 +147,18 @@ namespace resourceEdge.webUi.Infrastructure
                 context.GetDbContext().EmploymentStatus.AddOrUpdate(item);
                 context.Save();
             }
-            var level = new List<Level>()
+            var levels = new List<Level>()
             {
-                new Level() { LevelName ="Beginner", EligibleYears = 3, levelNo = 1, CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
-                new Level() { LevelName ="Professional", EligibleYears = 7, levelNo = 8, CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
+                new Level() { LevelName ="Beginner", EligibleYears = 3, GroupId = 1, levelNo = 1, CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                new Level() { LevelName ="Professional", EligibleYears = 7, GroupId = 1, levelNo = 8, CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
             };
-            level.ForEach(x => context.GetDbContext().Level.AddOrUpdate(x));
+            foreach (var level in levels)
+            {
+                context.GetDbContext().Level.AddOrUpdate(level);
+                context.Save();
+            }
+            //level.ForEach(x => context.GetDbContext().Level.AddOrUpdate(x));
+            //context.Save();
             var identityCode = new IdentityCode()
             {
                 employee_code = "Tenece",
@@ -155,7 +169,7 @@ namespace resourceEdge.webUi.Infrastructure
                 vendors_code = "Ven",
                  GroupId = 1
             };
-           
+            context.identityCodes.Insert(identityCode);
             context.Save();
             var appUser = new ApplicationUser() { Email = "Admin@example.com", UserName = "Admin@example.com" };
 
@@ -177,23 +191,23 @@ namespace resourceEdge.webUi.Infrastructure
             };
             var Employee = new Employee[]
             {
-                new Domain.Entities.Employee() { businessunitId = 1, departmentId = 2, empEmail = "Test1@example.com",
+                new Domain.Entities.Employee() { businessunitId = 1, DepartmentId = 2, empEmail = "Test1@example.com",
                     empRoleId = 4, empStatusId = "Test User", GroupId = 1, LevelId = 1, FullName = "Test User",
                     positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
                     jobtitleId = 1, isactive = true   },
-                new Domain.Entities.Employee() { businessunitId = 1, departmentId = 2, empEmail = "Hr@example.com",
+                new Domain.Entities.Employee() { businessunitId = 1, DepartmentId = 2, empEmail = "Hr@example.com",
                     empRoleId = 3, empStatusId = "Test Hr", GroupId = 1, LevelId = 1,FullName = "Test HR",
                     positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
                     jobtitleId = 1, isactive = true   },
-                new Domain.Entities.Employee() { businessunitId = 1, departmentId = 2, empEmail = "Manager@example.com",
+                new Domain.Entities.Employee() { businessunitId = 1, DepartmentId = 2, empEmail = "Manager@example.com",
                     empRoleId = 2, empStatusId = "Test User", GroupId = 1, LevelId = 1,FullName = "Test Manager",
                     positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
                     jobtitleId = 1, isactive = true   },
-                  new Domain.Entities.Employee() { businessunitId = 1, departmentId = 2, empEmail = "DeptHead@example.com",
+                  new Domain.Entities.Employee() { businessunitId = 1, DepartmentId = 2, empEmail = "DeptHead@example.com",
                     empRoleId = 2, empStatusId = "Test User", GroupId = 1, LevelId = 1,FullName = "Test Dept",
                     positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
                     jobtitleId = 1, IsDepthead = true, isactive = true   },
-                      new Domain.Entities.Employee() { businessunitId = 1, departmentId = 2, empEmail = "LocationHead@example.com",
+                      new Domain.Entities.Employee() { businessunitId = 1, DepartmentId = 2, empEmail = "LocationHead@example.com",
                     empRoleId = 7, empStatusId = "Test location", GroupId = 1, LevelId = 1,FullName = "Test Location Head",
                     positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
                     jobtitleId = 1, IsDepthead = true, isactive = true   }
@@ -217,7 +231,7 @@ namespace resourceEdge.webUi.Infrastructure
                     {
                         userManager.AddToRole(TestUser1[i].Id, "Manager");
                         var manager = new ReportManager() { BusinessUnitId = Employee[i].businessunitId,
-                            DepartmentId = Employee[i].departmentId,
+                            DepartmentId = Employee[i].DepartmentId,
                             employeeId = 3,
                             FullName = "Test Manager", ManagerUserId = TestUser1[i].Id
                         };
@@ -233,9 +247,9 @@ namespace resourceEdge.webUi.Infrastructure
                 }
                 Employee[i].userId = TestUser1[i].Id;
                 context.GetDbContext().Employee.AddOrUpdate(Employee[j]);
+                context.Save();
              }
             
-            context.Save();
             var MonthsList = new List<MonthList>()
             {
             new MonthList() {  MonthId = "1", MonthCode = "Jan", Description = "January", Createdby = "1", Modifiedby = "1", Isactive = true },
@@ -351,19 +365,22 @@ namespace resourceEdge.webUi.Infrastructure
                 new AppraisalPeriod() {Name = "Yearly" }
             };
             periods.ForEach(X => context.AppraisalPeriod.Insert(X));
+            context.Save();
             var parameter = new List<Parameters>()
             {
                 new Parameters() { ParameterName = "KPI", Descriptions = "Key Performance Index" }
             };
-            parameter.ForEach(X => context.GetDbContext().Parameter.AddOrUpdate(X));
-
+            foreach (var param in parameter)
+            {
+                context.GetDbContext().Parameter.AddOrUpdate(param);
+                context.GetDbContext().SaveChanges();
+            }
             var Menus = new List<Menu>()
             {
                 new Domain.Entities.Menu() { Id= 1, Name = "Question", Role = "Manager,HR,System Admin", Active = false },
                 new Domain.Entities.Menu() { Id = 2, Name="EmployeeAppraisal", Role =  "Employee, HR,Manager", Active = false }
             };
             Menus.ForEach(x => context.Menu.Insert(x));
-
             context.Save();
         }
     }

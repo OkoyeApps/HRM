@@ -24,8 +24,8 @@ namespace resourceEdge.Domain.Abstracts
 
         void AddLeaveTypes(EmployeeLeaveType leaveType);
         IEnumerable<EmployeeLeaveType> GetLeaveTypes();
-
-        
+        EmployeeLeaveType GetLeaveTypeById(int id);
+        void UpdateLeaveType(EmployeeLeaveType leave);
         
 
         IEnumerable<LeaveRequest> GetLeaveRequest();

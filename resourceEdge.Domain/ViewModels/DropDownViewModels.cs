@@ -31,7 +31,7 @@ namespace resourceEdge.Domain.ViewModels
         public int ID { get; set; }
         public IEnumerable<Question> Questions { get; set; }
         public string RatingType { get; set; }
-        public Dictionary<string,int> PreviousAnswer { get; set; }
+        public Dictionary<int,int> PreviousAnswer { get; set; }
          
     }
 

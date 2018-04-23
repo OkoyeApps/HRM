@@ -11,7 +11,7 @@ namespace resourceEdge.Domain.Entities
     public class Prefix
     {
         [Key]
-        public int prefixId { get; set; }
+        public int Id { get; set; }
         public string prefixName { get; set; }
         public string description { get; set; }
         public string createdby { get; set; }

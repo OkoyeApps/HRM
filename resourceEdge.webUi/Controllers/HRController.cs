@@ -117,7 +117,7 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.returnUrl = returnUrl;
             ViewBag.EmpStatus = new SelectList(statusRepo.Get().Select(x => new { name = x.employemntStatus, id = x.empstId }), "id", "name", "id");
             ViewBag.roles = new SelectList(GetRoles().OrderBy(x => x.Name).Where(u => !u.Name.Contains("System Admin") && !u.Name.Contains("Management")).Select(x => new { name = x.Name, id = x.Id }), "Id", "name", "Id");
-            ViewBag.prefix = new SelectList(Apimanager.PrefixeList(), "prefixId", "prefixName", "prefixId");
+            ViewBag.prefix = new SelectList(Apimanager.PrefixeList(), "Id", "prefixName", "Id");
             ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.Id), "Id", "unitname", "Id");
             ViewBag.jobTitles = new SelectList(Apimanager.JobList().OrderBy(x => x.JobName), "JobId", "JobName", "JobId");
             ViewBag.Levels = new SelectList(levelRepo.Get().OrderBy(x => x.levelNo), "Id", "LevelNo", "Id");
@@ -146,7 +146,7 @@ namespace resourceEdge.webUi.Controllers
                         realEmployee.createdby = User.Identity.GetUserId();
                         realEmployee.dateOfJoining = employees.dateOfJoining;
                         realEmployee.dateOfLeaving = employees.dateOfLeaving;
-                        realEmployee.departmentId = employees.departmentId;
+                        realEmployee.DepartmentId = employees.departmentId;
                         realEmployee.empEmail = employees.empEmail;
                         realEmployee.FullName = employees.FirstName + " " + employees.lastName;
                         realEmployee.empStatusId = employees.empStatusId;
@@ -253,7 +253,7 @@ namespace resourceEdge.webUi.Controllers
                     {
                         var result = empRepo.GetByUserId(model.ManagerId);
                         manager.employeeId = result.empID;
-                        manager.DepartmentId = result.departmentId;
+                        manager.DepartmentId = result.DepartmentId;
                         manager.FullName = result.FullName;
                         result.IsUnithead = true;
                         result.empRoleId = 2;

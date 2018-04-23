@@ -11,7 +11,7 @@ namespace resourceEdge.Domain.Entities
     public partial class Departments
     {
         [Key]
-        public int DeptId { get; set; }
+        public int Id { get; set; }
         public string deptname { get; set; }
         public string deptcode { get; set; }
         public string descriptions { get; set; }
@@ -19,8 +19,8 @@ namespace resourceEdge.Domain.Entities
         public string reportManager1 { get; set; }
         public string reportManager2 { get; set; }
         public string depthead { get; set; }
-       [ForeignKey("BusinessUnits")]
-        public int BunitId { get; set; }
+       //[ForeignKey("BusinessUnits")]
+        public int BusinessUnitsId { get; set; }
         public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }
         public DateTime? CreatedDate { get; set; }

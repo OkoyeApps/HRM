@@ -26,7 +26,8 @@ namespace resourceEdge.Domain.Concrete
 
         public void update(Prefix entity)
         {
-            throw new NotImplementedException();
+            unitofWork.prefix.Update(entity);
+            unitofWork.Save();
         }
 
         public Prefix GetByUserId(string userId)

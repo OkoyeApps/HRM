@@ -1,76 +1,52 @@
-﻿@model IEnumerable<resourceEdge.Domain.Entities.Positions>
+﻿@model IEnumerable<resourceEdge.Domain.Entities.Position>
 
 @{
     ViewBag.Title = "AllPosition";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
 }
-
-<h2>AllPosition</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.jobtitleid)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.positionname)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.createdby)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.modifiedby)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.createddate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.modifieddate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.isactive)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
+<table class="table table-bordered table-responsive table-striped">
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.jobtitleid)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.positionname)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.createdby)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.modifiedby)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.createddate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.modifieddate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.isactive)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.PosId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.PosId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.PosId })
+            @Html.ActionLink("Add New Position", "AddPosition", "Configuration", null, new { @class = "btn btn-info pull-right" })
         </td>
     </tr>
-}
+    <tr>
+        <td>
+            <table class="table table-bordered table-responsive table-striped">
+                <tr>
+                <tr>
+                    <th>
+                       Job
+                    </th>
+                    <th>
+                       Position
+                    </th>
+                    <th>
+                        Description
+                    </th>
 
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Jobtitle.jobtitlename)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.positionname)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.description)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "EditPosition", "Configuration", new { id = item.Id }, new { @class = "btn btn-warning" })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </td>
+    </tr>
 </table>
