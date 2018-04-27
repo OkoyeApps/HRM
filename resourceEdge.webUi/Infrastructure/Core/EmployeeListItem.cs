@@ -30,7 +30,7 @@ namespace resourceEdge.webUi.Infrastructure.Core
         public Location Location { get; set; }
         public Departments Department { get; set; }
     }
-    public class EmloyeDetailistItem
+    public class EmloyeeDetailistItem
     {
         public string UserId { get; set; }
         public string FullName { get; set; }
@@ -41,6 +41,8 @@ namespace resourceEdge.webUi.Infrastructure.Core
         public int EmployeeRole { get; set; }
         public int EmployeeId { get; set; }
         public bool? IsUnitHead { get; set; }
+        public string JobTitle { get; set; }
+        public string PositionName { get; set; }
     }
     
 }

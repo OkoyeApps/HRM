@@ -15,7 +15,7 @@ namespace resourceEdge.Domain.Entities
         public string ReportingId { get; set; }
         public Nullable<int> BusinessunitId { get; set; }
         public Nullable<int> DepartmentId { get; set; }
-        public Nullable<int> JobTitle { get; set; }
+        public Nullable<int> JobTitleId { get; set; }
         public string ReqNoPositions { get; set; }
         public string SelectedMembers { get; set; }
         public string FilledPositions { get; set; }
@@ -30,9 +30,9 @@ namespace resourceEdge.Domain.Entities
         public string Approver1 { get; set; }
         public string Approver2 { get; set; }
         public string Approver3 { get; set; }
-        public string AppStatus1 { get; set; }
-        public string AppStatus2 { get; set; }
-        public string AppStatus3 { get; set; }
+        public bool? AppStatus1 { get; set; }
+        public bool? AppStatus2 { get; set; }
+        public bool? AppStatus3 { get; set; }
         public string Recruiters { get; set; }
         public string ClientId { get; set; }
         public string Createdby { get; set; }

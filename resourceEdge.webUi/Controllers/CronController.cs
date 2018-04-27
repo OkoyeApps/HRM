@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Hangfire;
 
 namespace resourceEdge.webUi.Controllers
 {
@@ -23,6 +24,7 @@ namespace resourceEdge.webUi.Controllers
         }
         public async Task<JsonResult> SendAccountDetail()
         {
+           //BackgroundJob.Schedule( () => cron.GetAllppraisalForCalculation(), TimeSpan.FromMinutes(5));
             await cron.SendAccountDetails();
             return Json("", JsonRequestBehavior.AllowGet);
         }

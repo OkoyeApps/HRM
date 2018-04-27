@@ -68,6 +68,8 @@ namespace resourceEdge.webUi.Infrastructure
                 dept.deptcode = model.deptcode;
                 dept.deptname = model.deptname;
                 dept.startdate = model.StartDate;
+                dept.ModifiedBy = HttpContext.Current.User.Identity.GetUserId();
+                dept.ModifiedDate = DateTime.Now;
                 unitOfWork.Department.Update(dept);
                 unitOfWork.Save();
                 return true;
@@ -125,6 +127,8 @@ namespace resourceEdge.webUi.Infrastructure
                     location.State = model.State;
                     location.City = model.State;
                     location.Address2 = model.Address2;
+                    location.ModifiedBy = HttpContext.Current.User.Identity.GetUserId();
+                    location.ModifiedOn = DateTime.Now;
                     unitOfWork.Locations.Update(location);
                     unitOfWork.Save();
                     return true;
@@ -176,6 +180,8 @@ namespace resourceEdge.webUi.Infrastructure
                 {
                     var prefix = unitOfWork.prefix.GetByID(Id);
                     prefix.prefixName = model.prefixName;
+                    prefix.modifiedby = HttpContext.Current.User.Identity.GetUserId();
+                    prefix.modifieddate = DateTime.Now;
                     unitOfWork.prefix.Update(prefix);
                     unitOfWork.Save();
                     return true;
@@ -217,6 +223,8 @@ namespace resourceEdge.webUi.Infrastructure
                 {
                     var status = unitOfWork.employmentStatus.GetByID(Id);
                     status.employemntStatus = model.employemntStatus;
+                    status.modifiedby = HttpContext.Current.User.Identity.GetUserId();
+                    status.modifieddate = DateTime.Now;
                     unitOfWork.employmentStatus.Update(status);
                     unitOfWork.Save();
                     return false;
@@ -281,6 +289,8 @@ namespace resourceEdge.webUi.Infrastructure
                     job.jobtitlecode = model.jobtitlecode;
                     job.jobtitlename = model.jobtitlename;
                     job.minexperiencerequired = model.minexperiencerequired;
+                    job.modifiedby = HttpContext.Current.User.Identity.GetUserId();
+                    job.modifieddate = DateTime.Now;
                     unitOfWork.jobTitles.Update(job);
                     unitOfWork.Save();
                     return true;
@@ -332,6 +342,8 @@ namespace resourceEdge.webUi.Infrastructure
                     var position = unitOfWork.positions.GetByID(Id);
                     position.positionname = model.positionname;
                     position.JobtitleId = model.jobtitleid.Value;
+                    position.modifiedby = HttpContext.Current.User.Identity.GetUserId();
+                    position.modifieddate = DateTime.Now;
                     unitOfWork.positions.Update(position);
                     unitOfWork.Save();
                     return true;
@@ -390,6 +402,8 @@ namespace resourceEdge.webUi.Infrastructure
                     var level = unitOfWork.Levels.GetByID(Id);
                     level.LevelName = model.LevelName;
                     level.levelNo = model.levelNo;
+                    level.ModifiedBy = HttpContext.Current.User.Identity.GetUserId();
+                    level.ModifiedOn = DateTime.Now;
                     unitOfWork.Levels.Update(level);
                     unitOfWork.Save();
                     return true;

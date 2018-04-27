@@ -54,6 +54,15 @@ namespace resourceEdge.Domain.UnitofWork
         private GenericRepository<EmployeeDetailDispatcher> EMpDetailDispatchRepo;
         private GenericRepository<Menu> MenuRepository;
         private GenericRepository<AppraisalQuestion> AppraisalQuestionRepo;
+        private GenericRepository<AppraisalResult> AppraisalResultRepo;
+        private GenericRepository<Candidate> CandidateRepo;
+        private GenericRepository<CandidateWorkDetail> CandidateWorkRepo;
+        private GenericRepository<CandidateInterview> CandidateInterviewRepo;
+        private GenericRepository<Interview> InterviewRepo;
+        private GenericRepository<CandidateStatus> candidateStatusRepo;
+        private GenericRepository<InterviewStatus> interviewStatusRepo;
+        private GenericRepository<InterviewType> interviewTypeRepo;
+
         private EdgeDbContext Context
         {
             get
@@ -239,6 +248,38 @@ namespace resourceEdge.Domain.UnitofWork
         public GenericRepository<AppraisalQuestion> AppraisalQuestion
         {
             get { return this.AppraisalQuestionRepo ?? new GenericRepository<Entities.AppraisalQuestion>(Context); }
+        }
+        public GenericRepository<AppraisalResult> AppraisalResult
+        {
+            get { return this.AppraisalResultRepo ?? new GenericRepository<Entities.AppraisalResult>(Context); }
+        }
+        public GenericRepository<Candidate> Candidate
+        {
+            get { return this.CandidateRepo?? new GenericRepository<Entities.Candidate>(Context); }
+        }
+        public GenericRepository<CandidateWorkDetail> CandidateWorkDetail
+        {
+            get { return this.CandidateWorkRepo ?? new GenericRepository<Entities.CandidateWorkDetail>(Context); }
+        }
+        public GenericRepository<Interview> Interview
+        {
+            get { return this.InterviewRepo ?? new GenericRepository<Entities.Interview>(Context); }
+        }
+        public GenericRepository<CandidateInterview> CandidateInterview
+        {
+            get { return this.CandidateInterviewRepo ?? new GenericRepository<Entities.CandidateInterview>(Context); }
+        }
+        public GenericRepository<CandidateStatus> CandidateStatus
+        {
+            get { return this.candidateStatusRepo ?? new GenericRepository<Entities.CandidateStatus>(Context); }
+        }
+        public GenericRepository<InterviewStatus> InterviewStatus
+        {
+            get { return this.interviewStatusRepo ?? new GenericRepository<Entities.InterviewStatus>(Context); }
+        }
+        public GenericRepository<InterviewType> InterviewType
+        {
+            get { return this.interviewTypeRepo ?? new GenericRepository<Entities.InterviewType>(Context); }
         }
         public void Save()
         {

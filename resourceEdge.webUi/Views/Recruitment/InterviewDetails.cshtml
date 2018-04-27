@@ -1,0 +1,116 @@
+﻿@using resourceEdge.Domain.Entities
+@using resourceEdge.webUi.Infrastructure.Core
+@{
+    ViewBag.Title = "InterviewDetails";
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+    var DetailModel = (Tuple<Interview, IList<Candidate>, EmloyeeDetailistItem>)ViewBag.Model;
+}
+
+
+    <div class="invoice">
+        <div class="invoice-header">
+            <div class="invoice-from">
+                <strong>Requisition Code:</strong> @DetailModel.Item1.Requisition.RequisitionCode<br />
+                <address class="m-t-5 m-b-5">
+                    <small><b> Business unit:</b></small>  @DetailModel.Item3.BusinessUnitName<br />
+                    <small><b> Department:</b></small> @DetailModel.Item3.DepartmentName<br />
+                    <small><b>Job:</b></small>@DetailModel.Item3.JobTitle<br />
+                    <small><b> Position:</b></small>        @DetailModel.Item3.PositionName
+                </address>
+            </div>
+            <div class="invoice-to">
+                <strong>Name: </strong>@DetailModel.Item1.InterviewName<br />
+                @*<address class="m-t-5 m-b-5">*@
+                <small><b>Country: </b></small> @DetailModel.Item1.Country<br />
+                <small><b>Type:</b></small> @DetailModel.Item1.InterviewType.Name<br />
+                <small><b>State:</b></small>  @DetailModel.Item1.State<br />
+                <small><b>City:</b></small>   @DetailModel.Item1.City<br />
+           
+                @*</address>*@
+            </div>
+            <div class="invoice-date">
+                <strong>Date: @DetailModel.Item1.InterviewDate.ToLongDateString()</strong>
+                <div class="">Time: @DetailModel.Item1.InterviewTime.ToShortTimeString()</div>
+                <div class="invoice-detail">
+
+                </div>
+            </div>
+        </div>
+        <div class="">
+                <table class="table table-responsive table-bordered table-hover table-striped">
+                    <tr>
+                        @if (DetailModel.Item1.FeedBack == null)
+	                    {
+                        <td>
+                            @Html.ActionLink("Add Feedback", "AddFeedBack", "Recruitment", new { Id = DetailModel.Item1.Id }, new { @class = "btn btn-info pull-right"})
+                        </td>
+	                    }
+                    </tr>
+                    <tr>
+                        <td>
+                            <table class="table table-responsive table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>S/N</th>
+                                        <th>First name</th>
+                                        <th>Last name</th>
+                                        <th>Emial</th>
+                                      
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{ int sn = 1;}
+                                    @foreach (var item in DetailModel.Item2)
+                                    {
+                                        <tr>
+                                            <td>@sn</td>
+                                            <td>@item.FirstName</td>
+                                            <td>@item.LastName</td>
+                                            <td>@item.Email</td>
+                                           
+                                            @{sn++;}
+                                        </tr>
+                                                }
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            
+            </div>
+            @*<div class="invoice-price">
+                <div class="invoice-price-left">
+                    <div class="invoice-price-row">
+                        <div class="sub-price">
+                            <small>SUBTOTAL</small>
+                            $4,500.00
+                        </div>
+                        <div class="sub-price">
+                            <i class="fa fa-plus"></i>
+                        </div>
+                        <div class="sub-price">
+                            <small>PAYPAL FEE (5.4%)</small>
+                            $108.00
+                        </div>
+                    </div>
+                </div>
+                <div class="invoice-price-right">
+                    <small>TOTAL</small> $4508.00
+                </div>
+            </div>*@
+        </div>
+        @*<div class="invoice-note">
+            * Make all cheques payable to [Your Company Name]<br />
+            * Payment is due within 30 days<br />
+            * If you have any questions concerning this invoice, contact  [Name, Phone Number, Email]
+        </div>*@
+        @*<div class="invoice-footer text-muted">
+    <p class="text-center m-b-5">
+          THANK YOU FOR YOUR BUSINESS
+      </p>
+      <p class="text-center">
+          <span class="m-r-10"><i class="fa fa-globe"></i> matiasgallipoli.com</span>
+          <span class="m-r-10"><i class="fa fa-phone"></i> T:016-18192302</span>
+          <span class="m-r-10"><i class="fa fa-envelope"></i> rtiemps@gmail.com</span>
+      </p>*@
+       

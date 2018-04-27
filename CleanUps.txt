@@ -1,0 +1,2 @@
+this is to remind me of the tables that needs to be cleaned up after a while
+Candidate table where candidate.status == false

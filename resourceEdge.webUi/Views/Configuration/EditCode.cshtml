@@ -5,9 +5,6 @@
     Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
 }
 
-<h2>EditCode</h2>
-
-
 @using (Html.BeginForm("EditCode", "Configuration", FormMethod.Post))
 {
     @Html.AntiForgeryToken()

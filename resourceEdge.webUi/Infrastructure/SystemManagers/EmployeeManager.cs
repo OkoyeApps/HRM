@@ -15,6 +15,7 @@ using System.Web.Routing;
 using resourceEdge.webUi.Infrastructure.Core;
 
 using resourceEdge.webUi.Models.SystemModel;
+using resourceEdge.Domain.Concrete;
 
 namespace resourceEdge.webUi.Infrastructure
 {
@@ -93,10 +94,14 @@ namespace resourceEdge.webUi.Infrastructure
             LeaveRepo = lParam;
             EmployeeRepo = EParam;
             ReportManagerRepo = RParam;
-
         }
-
-
+        public EmployeeManager(IEmployees EParam, IFiles fParam, IReportManager RParam)
+        {
+            FileRepo = fParam;
+           
+            EmployeeRepo = EParam;
+            ReportManagerRepo = RParam;
+        }
 
         /// <summary>
         /// Every part of this class is divided into sections.
@@ -129,18 +134,26 @@ namespace resourceEdge.webUi.Infrastructure
             //var context = unitofWork.GetDbContext();
             List<Employee> managers = new List<Employee>();
             //var ReportManager = context.ReportManagers.Where(x => x.BusinessUnitId == id).FirstOrDefault(); //Fix this when the reportmanager is fixed
-            var ReportManagers = ReportManagerRepo.GetManagersByBusinessunit(id).FirstOrDefault();
+            var ReportManagers = ReportManagerRepo.GetManagersByBusinessunit(id);
             if (ReportManagers != null)
             {
-                var employees = EmployeeRepo.GetUnitHead(ReportManagers.BusinessUnitId);
-                if (employees != null)
+                foreach (var item in ReportManagers)
                 {
-                    return employees;
+                    managers = EmployeeRepo.GetUnitHead(item.BusinessUnitId);
                 }
-                var result =   EmployeeRepo.GetReportManagers(ReportManagers.ManagerUserId, ReportManagers.BusinessUnitId);
+                if (managers.Count > 0)
+                {
+                    return managers;
+                }
+                var result =   EmployeeRepo.GetReportManagers(ReportManagers.FirstOrDefault().BusinessUnitId);
                 return result;
             }
             return null;
+        }
+        public IEnumerable<Jobtitle> GetJobsByGroupForHr(int groupId)
+        {
+            var jobs = unitofWork.jobTitles.Get(filter: x => x.GroupId == groupId);
+            return jobs;
         }
         public Employee GetEmployeeByUserId(string userid)
         {
@@ -457,10 +470,34 @@ namespace resourceEdge.webUi.Infrastructure
 
             return result ?? null;
         }
-        public List<EmployeeListItem> GetLocationHeads(int groupId, int LocationId)
+        //This is a method identitcal to this that is also found in the Apimanager.
+        //It is looks same but is different in that the other one returns a location listItem and this return an Enumerable of Employeelist item.
+        //the other was used to service only the ApiManaget because of seperation of concerns i.e there should be no relationship between the Apimanager and any sub-system.
+
+        public IEnumerable<EmployeeListItem> GetLocationHeadsDetails(int LocationId)
         {
-            return null;
+            List<EmployeeListItem> EmployeeListItem = new List<EmployeeListItem>();
+            var result = unitofWork.GetDbContext().Location.Where(m => m.Id == LocationId).Select(x => new LocationListItem() { GroupId = x.GroupId, LocationId = x.Id, Manager1 = x.LocationHead1, Manager2 = x.LocationHead2, Manager3 = x.LocationHead3 }).FirstOrDefault();
+            var resultArray = new string[]
+            {
+               result.Manager1, result.Manager2, result.Manager3
+            };
+            foreach (var item in resultArray)
+            {
+                var employee = unitofWork.employees.Get(x => x.userId == item).FirstOrDefault();
+                if (employee != null)
+                {
+                EmployeeListItem emp = new EmployeeListItem()
+                {
+                    userId = employee.userId,
+                    FullName = employee.FullName
+                };
+                EmployeeListItem.Add(emp);
+                }
+            }
+            return EmployeeListItem;
         }
+
         public List<EmployeeListItem> GetEmployeesByLocation(int id)
         {
             var result = EmployeeRepo.GetAllEmployeesByLocation(id)
@@ -637,16 +674,16 @@ namespace resourceEdge.webUi.Infrastructure
 
                 return Tuple.Create(TeamMembers, Images, TeamMemberUserDetail);
             }
-            public List<EmloyeDetailistItem> GetAllEmployeesDetails()
+            public List<EmloyeeDetailistItem> GetAllEmployeesDetails()
             {
                 var employeeQuery = unitofWork.employees.Get();
 
-                List<EmloyeDetailistItem> employeeListItem = new List<EmloyeDetailistItem>();
-                EmloyeDetailistItem listItem;
+                List<EmloyeeDetailistItem> employeeListItem = new List<EmloyeeDetailistItem>();
+                EmloyeeDetailistItem listItem;
                 List<Employee> employees = new List<Employee>();
                 foreach (var item in employeeQuery)
                 {
-                    listItem = new EmloyeDetailistItem();
+                    listItem = new EmloyeeDetailistItem();
                     var ImagList = unitofWork.Files.Get(filter: x => x.UserId == item.userId && x.FileType == FileType.Avatar).Select(x=>x.FilePath).FirstOrDefault();
                     var userlist = userManager.FindById(item.userId);
                     bool? loginList = unitofWork.Logins.Get(filter: x => x.UserID == item.userId && x.IsLogOut == false).Select(x=>x.IsLogIn).LastOrDefault();

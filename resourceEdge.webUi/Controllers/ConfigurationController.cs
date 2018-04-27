@@ -131,6 +131,8 @@ namespace resourceEdge.webUi.Controllers
                         codeToUpdate.users_code = code.users_code;
                         codeToUpdate.vendors_code = code.vendors_code;
                         codeToUpdate.backgroundagency_code = code.backgroundagency_code;
+                        codeToUpdate.modifiedBy = User.Identity.GetUserId();
+                        codeToUpdate.modifieddate = DateTime.Now;
                         IdentityRepo.update(codeToUpdate);
                         this.AddNotification($"|{ Request.Url.AbsolutePath}", NotificationType.SUCCESS);
                     }
@@ -215,6 +217,8 @@ namespace resourceEdge.webUi.Controllers
             if (oldPrefix != null)
             {
                 oldPrefix.prefixName = model.prefixName;
+                oldPrefix.modifiedby = User.Identity.GetUserId();
+                oldPrefix.modifieddate = DateTime.Now;
                 prefixRepo.update(oldPrefix);
                 this.AddNotification("Yay! Prefix Updated", NotificationType.SUCCESS);
                 return RedirectToAction("AllPrefix");
@@ -315,6 +319,8 @@ namespace resourceEdge.webUi.Controllers
                     currentUnit.unitcode = units.unitcode;
                     currentUnit.unitname = units.unitname;
                     currentUnit.startdate = units.startdate != null ? units.startdate : currentUnit.startdate;
+                    currentUnit.modifiedby = User.Identity.GetUserId();
+                    currentUnit.modifieddate = DateTime.Now;
                     this.AddNotification($"", NotificationType.SUCCESS);
                     BusinessRepo.update(currentUnit);
                     return RedirectToAction("AllBusinessUnits");
@@ -410,6 +416,8 @@ namespace resourceEdge.webUi.Controllers
                 {
                     oldDepartment.deptcode = dept.deptcode;
                     oldDepartment.deptname = dept.deptname;
+                    oldDepartment.ModifiedBy = User.Identity.GetUserId();
+                    oldDepartment.ModifiedDate = DateTime.Now;
                     this.AddNotification($"Yay Edited!", NotificationType.SUCCESS);
                     DeptRepo.Updatedepartment(oldDepartment);
                 }
@@ -528,6 +536,8 @@ namespace resourceEdge.webUi.Controllers
                 oldJob.jobtitlecode = job.jobtitlecode;
                 oldJob.jobtitlename = job.jobtitlename;
                 oldJob.minexperiencerequired = job.minexperiencerequired;
+                oldJob.modifiedby = User.Identity.GetUserId(); ;
+                oldJob.modifieddate = DateTime.Now;
                 JobRepo.update(oldJob);
                 this.AddNotification("Yay! Job Edited", NotificationType.SUCCESS);
                 return RedirectToAction("allJob");
@@ -610,6 +620,8 @@ namespace resourceEdge.webUi.Controllers
             if (oldPosition != null)
             {
                 oldPosition.positionname = model.positionname;
+                oldPosition.modifiedby = User.Identity.GetUserId();
+                oldPosition.modifieddate = DateTime.Now;
                 positionRepo.update(oldPosition);
                 this.AddNotification("Yay! Position Updated", NotificationType.SUCCESS);
                 return RedirectToAction("AllPosition");
@@ -696,6 +708,8 @@ namespace resourceEdge.webUi.Controllers
             if (oldStat != null)
             {
                 oldStat.employemntStatus = stat.employemntStatus;
+                oldStat.modifiedby = User.Identity.GetUserId(); ;
+                oldStat.modifieddate = DateTime.Now;
                 statusRepo.update(oldStat);
                 this.AddNotification("Yay Edited!", NotificationType.SUCCESS);
                 return RedirectToAction("allEmployementStatus");
@@ -757,6 +771,8 @@ namespace resourceEdge.webUi.Controllers
                 oldLeave.leavecode = leave.leavecode;
                 oldLeave.leavetype = leave.leavetype;
                 oldLeave.numberofdays = leave.numberofdays;
+                oldLeave.modifiedby = User.Identity.GetUserId();
+                oldLeave.modifieddate = DateTime.Now;
                 leaveRepo.UpdateLeaveType(oldLeave);
                 this.AddNotification("Yay! Leave Edited", NotificationType.SUCCESS);
                 return RedirectToAction("AllLeaveType");
@@ -839,6 +855,8 @@ namespace resourceEdge.webUi.Controllers
                 oldLevel.LevelName = level.LevelName;
                 oldLevel.levelNo = level.levelNo;
                 oldLevel.EligibleYears = level.EligibleYears;
+                oldLevel.ModifiedBy = User.Identity.GetUserId();
+                oldLevel.ModifiedOn = DateTime.Now;
                 levelRepo.update(oldLevel);
                 this.AddNotification("Yay! Level Updated", NotificationType.SUCCESS);
                 return RedirectToAction("AllLevel");
@@ -930,6 +948,8 @@ namespace resourceEdge.webUi.Controllers
                 oldLocation.City = location.City;
                 oldLocation.Country = location.Country;
                 oldLocation.Address2 = location.Address2;
+                oldLocation.ModifiedBy = User.Identity.GetUserId();
+                oldLocation.ModifiedOn = DateTime.Now;
                 LocationRepo.update(oldLocation);
                 this.AddNotification("Yay! Location Updated", NotificationType.SUCCESS);
                 return RedirectToAction("Alllocation");
@@ -1048,6 +1068,8 @@ namespace resourceEdge.webUi.Controllers
             if (oldGroup != null)
             {
                 oldGroup.GroupName = group.GroupName;
+                oldGroup.ModifiedBy = User.Identity.GetUserId(); ;
+                oldGroup.ModifiedDate = DateTime.Now;
                 GroupRepo.update(oldGroup);
                 this.AddNotification("Yay Group Edited!", NotificationType.SUCCESS);
                 return RedirectToAction("AllGroup");

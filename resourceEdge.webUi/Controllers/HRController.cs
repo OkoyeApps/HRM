@@ -114,15 +114,17 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult Create(string returnUrl)
         {
             ViewBag.PageTitle = "Create Employee";
+            var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+            ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(X => X.Id), "Id", "GroupName", "Id");
+            ViewBag.Locations = new SelectList(LocationRepo.Get().OrderBy(x => x.State), "Id", "State", "Id");
+            ViewBag.roles = new SelectList(GetRoles().OrderBy(x => x.Name).Where(u => !u.Name.Contains("System Admin") && !u.Name.Contains("Management") &&(!u.Name.Contains("L1") && !u.Name.Contains("L2") && !u.Name.Contains("L3"))).Select(x => new { name = x.Name, id = x.Id }), "Id", "name", "Id");
             ViewBag.returnUrl = returnUrl;
             ViewBag.EmpStatus = new SelectList(statusRepo.Get().Select(x => new { name = x.employemntStatus, id = x.empstId }), "id", "name", "id");
-            ViewBag.roles = new SelectList(GetRoles().OrderBy(x => x.Name).Where(u => !u.Name.Contains("System Admin") && !u.Name.Contains("Management")).Select(x => new { name = x.Name, id = x.Id }), "Id", "name", "Id");
             ViewBag.prefix = new SelectList(Apimanager.PrefixeList(), "Id", "prefixName", "Id");
             ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.Id), "Id", "unitname", "Id");
-            ViewBag.jobTitles = new SelectList(Apimanager.JobList().OrderBy(x => x.JobName), "JobId", "JobName", "JobId");
+           // ViewBag.jobTitles = new SelectList(Apimanager.JobList().OrderBy(x => x.JobName), "JobId", "JobName", "JobId");
+            ViewBag.jobTitles = new SelectList(employeeManager.GetJobsByGroupForHr(UserFromSession.GroupId).OrderBy(x => x.jobtitlename), "Id", "jobtitlename", "Id");
             ViewBag.Levels = new SelectList(levelRepo.Get().OrderBy(x => x.levelNo), "Id", "LevelNo", "Id");
-            ViewBag.Locations = new SelectList(LocationRepo.Get().OrderBy(x => x.State), "Id", "State", "Id");
-            ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(X => X.Id), "Id", "GroupName", "Id");
             return View();
         }
 

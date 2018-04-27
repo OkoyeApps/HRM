@@ -81,6 +81,14 @@ namespace resourceEdge.Domain.Entities
         public DbSet<Question> Question { get; set; }
         public DbSet<Menu> Menu { get; set; }
         public DbSet<AppraisalQuestion> AppraisalQuestion { get; set; }
+        public DbSet<AppraisalResult> AppraisalResult { get; set; }
+        public DbSet<Candidate> Candidate { get; set; }
+        public DbSet<CandidateWorkDetail> CandidateWorkDetail { get; set; }
+        public DbSet<CandidateStatus> CandidateStatus { get; set; }
+        public DbSet<InterviewStatus> InterviewStatus { get; set; }
+        public DbSet<InterviewType> InterviewType { get; set; }
+        public DbSet<CandidateInterview> CandidateInterview { get; set; }
+        public System.Data.Entity.DbSet<resourceEdge.Domain.Entities.Interview> Interview { get; set; }
     }
     
 }

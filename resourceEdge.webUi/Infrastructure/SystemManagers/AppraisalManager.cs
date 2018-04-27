@@ -512,7 +512,7 @@ namespace resourceEdge.webUi.Infrastructure
             }
             if (QuestionId == null)
             {
-                var result = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == userId).Where(x => x.L3Status != true);
+                var result = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == userId);//.Where(x => x.L3Status != true);
                 var editCount = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == userId).Any(x => x.EditCount == 2);
                 Dictionary<string, int> AllModel = new Dictionary<string, int>();
                 if (editCount)
@@ -654,15 +654,15 @@ namespace resourceEdge.webUi.Infrastructure
                     bool EmployeeForL3 = false;
                     if (EmployeeAppraisal != null && EmployeeAppraisal.Count() > 0)
                     {
-                       EmployeeToAppraise = EmployeeAppraisal.All(X => X.L3Status != null && X.L3Status == true && X.L2Status != null && X.L2Status.Value == true);
-                       EmployeeForL2 = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == item.userId).All(X => X.L3Status == true);
+                       EmployeeToAppraise = EmployeeAppraisal.All(X=> X.L3Status == null && ( X.L3Status != null && X.L3Status == true) &&( X.L2Status != null && X.L2Status.Value == true));
+                       EmployeeForL2 = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == item.userId).All(X => X.L3Status == true && (X.L2Status == null || X.L2Status == false));
                        EmployeeForL3 = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == item.userId).Any(X => X.L3Status == null || X.L3Status == false);
                     }
                        
                         //This returns the Employees for LineManager 1 to Appraise
                         if (EmployeeToAppraise && UserPrincipal.IsInRole("L1"))
                         {
-                            var currentEmployee = unitOfWork.employees.Get(filter: x => x.userId == item.userId, includeProperties: "Departments")
+                            var currentEmployee = unitOfWork.employees.Get(filter: x => x.userId == item.userId, includeProperties: "Department")
                                 .Select(x => new EmployeeListItem
                                 {
                                     userId = x.userId,
@@ -675,7 +675,7 @@ namespace resourceEdge.webUi.Infrastructure
                         //This returns the Employees for LineManager 2 to Appraise
                         if (EmployeeForL2 && (UserPrincipal.IsInRole("L1") || UserPrincipal.IsInRole("L2")))
                         {
-                            var currentEmployee = unitOfWork.employees.Get(filter: x => x.userId == item.userId, includeProperties: "Departments")
+                            var currentEmployee = unitOfWork.employees.Get(filter: x => x.userId == item.userId, includeProperties: "Department")
                             .Select(x => new EmployeeListItem
                             {
                                 userId = x.userId,
@@ -688,7 +688,7 @@ namespace resourceEdge.webUi.Infrastructure
                         //This returns the Employees for LineManager 3 to Appraise
                         if (EmployeeForL3 && (UserPrincipal.IsInRole("L1") || UserPrincipal.IsInRole("L3") || UserPrincipal.IsInRole("L2")))
                         {
-                            var currentEmployee = unitOfWork.employees.Get(filter: x => x.userId == item.userId, includeProperties: "Departments")
+                            var currentEmployee = unitOfWork.employees.Get(filter: x => x.userId == item.userId, includeProperties: "Department")
                             .Select(x => new EmployeeListItem
                             {
                                 userId = x.userId,

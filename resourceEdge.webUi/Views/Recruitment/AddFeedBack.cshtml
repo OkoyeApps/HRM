@@ -1,0 +1,118 @@
+﻿@model resourceEdge.Domain.Entities.InterviewViewModel
+@using resourceEdge.Domain.ViewModels
+@{
+    ViewBag.Title = "EditInterview";
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+}
+@section css{
+    <style>
+        #modal:hover {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    </style>
+}
+@using (Html.BeginForm("EditInterview", "Recruitment", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+    <div class="col-md-4">
+        <div class="form-group">
+            @Html.LabelFor(model => model.RequisitionId, htmlAttributes: new { @class = "control-label " })
+            @Html.DropDownListFor(model => model.RequisitionId, Model.Requisition, htmlAttributes: new { @class = "form-control",@readonly = "readonly" })
+            @Html.ValidationMessageFor(model => model.RequisitionId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group">
+            @Html.LabelFor(model => model.InterviewName, htmlAttributes: new { @class = "control-label " })
+            @Html.EditorFor(model => model.InterviewName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            @Html.ValidationMessageFor(model => model.InterviewName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group">
+            @Html.LabelFor(model => model.LocationId, htmlAttributes: new { @class = "control-label " })
+            @Html.DropDownListFor(model => model.LocationId, Model.Location, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+            @Html.ValidationMessageFor(model => model.LocationId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label " })
+                @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label " })
+                @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label " })
+                @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.InterviewTypeId, htmlAttributes: new { @class = "control-label " })
+                @Html.DropDownListFor(model => model.InterviewTypeId, Model.InterviewType, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.InterviewTypeId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.InterviewStatusId, htmlAttributes: new { @class = "control-label " })
+                @Html.DropDownListFor(model => model.InterviewStatusId,Model.InterviewStatus, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.InterviewStatusId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.FeedBack, htmlAttributes: new { @class = "control-label " })
+                @Html.TextAreaFor(model => model.FeedBack, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FeedBack, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.FeedBackSummary, htmlAttributes: new { @class = "control-label " })
+                @Html.TextAreaFor(model => model.FeedBackSummary, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FeedBackSummary, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-4">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+}
+<table class="table table-responsive table-bordered table-hover">
+    <tr>
+        <td>
+            <div>
+                @Html.ActionLink("Back to List", "Index", "", null, new { @class = "btn btn-info pull-right" })
+            </div>
+        </td>
+    </tr>
+</table>
+
+
+@section Scripts {
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+}

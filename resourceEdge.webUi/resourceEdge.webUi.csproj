@@ -237,7 +237,7 @@
     <Compile Include="Controllers\HRController.cs" />
     <Compile Include="Controllers\LeaveController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
-    <Compile Include="Controllers\RequisitionController.cs" />
+    <Compile Include="Controllers\RecruitmentController.cs" />
     <Compile Include="Controllers\SelfServiceController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\ConfigurationController.cs" />
@@ -272,6 +272,7 @@
     <Compile Include="Infrastructure\SystemManagers\LeaveManager.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\SystemManagers\NotificationManager.cs" />
+    <Compile Include="Infrastructure\SystemManagers\RecruitmentManager.cs" />
     <Compile Include="Infrastructure\SystemManagers\RoleManager.cs" />
     <Compile Include="Infrastructure\SystemManagers\StatManager.cs" />
     <Compile Include="Infrastructure\SystemManagers\UserManager.cs" />
@@ -1216,9 +1217,13 @@
     <Content Include="Scripts\Pages\JS\DataTableInitialization.js" />
     <Content Include="Scripts\Pages\JS\EdgeValidation.js" />
     <Content Include="Scripts\Pages\JS\HR\SystemAdmin.js" />
+    <Content Include="Scripts\Pages\JS\Requisition\AddCandidate.js" />
+    <Content Include="Scripts\Pages\JS\Requisition\AddInterview.js" />
+    <Content Include="Scripts\Pages\JS\Requisition\AllCandidateForInterview.js" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Appraisal\EditQuestion.cshtml" />
     <Content Include="Views\Appraisal\EmployeeAppraisal.cshtml" />
+    <Content Include="ClassDiagram2.cd" />
     <None Include="Views\Appraisal\ConfigureAppraisal.cshtml" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -1248,8 +1253,8 @@
     <Content Include="Views\Configuration\Configuration.cshtml" />
     <Content Include="Views\HR\Index.cshtml" />
     <Content Include="Views\HR\Template.cshtml" />
-    <Content Include="Views\Requisition\Create.cshtml" />
-    <Content Include="Views\Requisition\Index.cshtml" />
+    <Content Include="Views\Recruitment\Create.cshtml" />
+    <Content Include="Views\Recruitment\Index.cshtml" />
     <Content Include="Views\Leave\AllLeaveRequest.cshtml" />
     <Content Include="Views\Employee\EmployeeDetails.cshtml" />
     <Content Include="Views\Employee\Edit.cshtml" />
@@ -1456,10 +1461,19 @@
     <Content Include="Views\Configuration\Editlocation.cshtml" />
     <Content Include="Views\Configuration\EditPosition.cshtml" />
     <Content Include="Views\Configuration\EditPrefix.cshtml" />
+    <Content Include="Views\Recruitment\AddCandidate.cshtml" />
+    <Content Include="Views\Recruitment\AddInterview.cshtml" />
+    <Content Include="Views\Recruitment\AddCandidateForInterview.cshtml" />
+    <Content Include="Views\Recruitment\AllCandidateForInterview.cshtml" />
+    <Content Include="Views\Recruitment\EditInterview.cshtml" />
+    <Content Include="Views\Recruitment\AllInterview.cshtml" />
+    <Content Include="Views\Recruitment\InterviewDetails.cshtml" />
+    <Content Include="Views\Recruitment\AddFeedBack.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Files\Avatars\" />
+    <Folder Include="Files\Cv\" />
     <Folder Include="Images\Assets\" />
     <Folder Include="Images\Employee\" />
     <Folder Include="Scripts\Pages\CSS\" />

@@ -41,7 +41,7 @@
     });
 
     function getLocationManagers(id) {
-        console.log(id);
+        console.log(id + "From Location");
         $.ajax({
             type: 'GET',
             url: '/api/settings/GetLocationDetails/' + id,
@@ -51,7 +51,7 @@
                 $('#sLine1').html("");
                 $('#sLine1').val("");
                 unitObject.locationDetail = data;
-                console.log(data + "From location Manager");
+                console.log(JSON.stringify(data) + "From location Manager");
                 if (data != null) {
                     if (data.Manager1) {
                         $('#LineManager1').append('<option id="opt" value="' + data.Manager1 + '">' + data.FullName1 + '</option>');
@@ -77,9 +77,9 @@
         unitObject.groupId = $('#group').text();
         console.log(unitObject.groupId);
         var counter = 0;
-        if (locationDetail.Manager1 == null && counter <2) {
-            document.location.reload();
-        }
+        //if (locationDetail.Manager1 == null && counter <2) {
+        //    document.location.reload();
+        //}
         
     }
 

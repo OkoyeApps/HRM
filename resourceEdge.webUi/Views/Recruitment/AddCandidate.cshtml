@@ -1,0 +1,93 @@
+﻿@model resourceEdge.Domain.Entities.CandidateViewModel
+
+@{
+    ViewBag.Title = "AddCandidate";
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+    //Model = new resourceEdge.Domain.Entities.CandidateViewModel().CandidateWork;
+}
+@section css{
+    <style>
+        a:hover {
+            text-decoration: none;
+        }
+    </style>
+}
+
+@using (Html.BeginForm("AddCandidate", "Recruitment", null, FormMethod.Post, new { data_parsley_validate = "", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="col-md-4">
+            <div class="form-group">
+               @* @Html.DropDownListFor(model => model.RequisitionId, (SelectList)ViewBag.jobTitles, "Select Job", htmlAttributes: new { @class = "form-control input-circle-right" })*@
+                @Html.LabelFor(model => model.RequisitionId, htmlAttributes: new { @class = "control-label " })
+                @Html.DropDownListFor(model => model.RequisitionId, (SelectList)ViewBag.RequisitionId, "Select Requisition ID", htmlAttributes: new { @class = "form-control input-circle-right" })
+              
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label " for="Status">Status</label>
+                <input class="form-control text-box single-line" id="Status" name="Status" type="text" value="Not Scheduled" readonly />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.Label("First Name", htmlAttributes: new { @class = "control-label " })
+                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", required = "" } })
+               
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.Label("Last Name", htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", required = "" } })
+               
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label " })
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", required = "" } })
+                
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.Label("Phone Number", htmlAttributes: new { @class = "control-label " })
+                @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", required = "" } })
+                
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Skills, htmlAttributes: new { @class = "control-label " })
+                @Html.EditorFor(model => model.Skills, new { htmlAttributes = new { @class = "form-control", required = "" } })
+                
+            </div>
+        </div>
+        <div style="clear:both;font-weight:100;font-style:normal;" class="centered text-md-center">
+            <a id="upload-resume" href="javascript:void(0);" class="">Upload resume</a> (OR) <a id="candidate-form" href="javascript:void(0);" class="act">Enter Candidate Details</a>
+         </div>
+        <div id="entryPoint" style="clear:both">
+            <br />
+        </div>
+        <div id="workdetail" style="clear:both">
+
+        </div>
+
+        <div class="pull-right" style="clear:both;">
+            <input type="submit" value="Create" id="submit" class="btn btn-default" />
+        </div>
+}
+
+
+@section Scripts {
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+    <script src="~/Scripts/Pages/JS/Requisition/AddCandidate.js"></script>
+}

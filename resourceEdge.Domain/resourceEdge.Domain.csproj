@@ -105,12 +105,15 @@
     <Compile Include="Abstracts\Appraisal\IAppraisalConfiguration.cs" />
     <Compile Include="Abstracts\Appraisal\IAppraisalInitialization.cs" />
     <Compile Include="Abstracts\Appraisal\IAppraisalQuestion.cs" />
+    <Compile Include="Abstracts\Appraisal\IAppraisalResult.cs" />
     <Compile Include="Abstracts\Appraisal\IEmployeeRating.cs" />
     <Compile Include="Abstracts\Appraisal\IAppraisalMode.cs" />
     <Compile Include="Abstracts\Appraisal\IAppraisalRating.cs" />
     <Compile Include="Abstracts\Appraisal\IAppraisalStatus.cs" />
     <Compile Include="Abstracts\Appraisal\IAppriaslPeriods.cs" />
     <Compile Include="Abstracts\Appraisal\IParameter.cs" />
+    <Compile Include="Abstracts\ICandidate.cs" />
+    <Compile Include="Abstracts\ICandidateWorkDetail.cs" />
     <Compile Include="Abstracts\IQuestions.cs" />
     <Compile Include="Abstracts\Appraisal\IRating.cs" />
     <Compile Include="Abstracts\Appraisal\ISkills.cs" />
@@ -147,6 +150,7 @@
     <Compile Include="Concrete\Appraisal\AppraisalPeriodRepository.cs" />
     <Compile Include="Concrete\Appraisal\AppraisalQuestionRepository.cs" />
     <Compile Include="Concrete\Appraisal\AppraisalRatingRepository.cs" />
+    <Compile Include="Concrete\Appraisal\AppraisalResultRepository.cs" />
     <Compile Include="Concrete\Appraisal\AppraisalStatusRepository.cs" />
     <Compile Include="Concrete\Appraisal\EmployeeRatingRepository.cs" />
     <Compile Include="Concrete\Appraisal\ParameterRepository.cs" />
@@ -154,6 +158,8 @@
     <Compile Include="Concrete\Appraisal\RatingRepository.cs" />
     <Compile Include="Concrete\Appraisal\SkillRepository.cs" />
     <Compile Include="Concrete\BusinessRepository.cs" />
+    <Compile Include="Concrete\CandidateRepository.cs" />
+    <Compile Include="Concrete\CandidateWorkRepository.cs" />
     <Compile Include="Concrete\CareerPathRepository.cs" />
     <Compile Include="Concrete\CareerRepository.cs" />
     <Compile Include="Concrete\DepartmentRepository.cs" />
@@ -184,10 +190,18 @@
     <Compile Include="Entities\Appraisal\AppraisalMode.cs" />
     <Compile Include="Entities\Appraisal\AppraisalQuestion.cs" />
     <Compile Include="Entities\Appraisal\AppraisalRating.cs" />
+    <Compile Include="Entities\Appraisal\AppraisalResult.cs" />
     <Compile Include="Entities\Appraisal\AppraisalStatus.cs" />
     <Compile Include="Entities\Appraisal\AppriasalConfiguration.cs" />
     <Compile Include="Entities\Appraisal\EmployeeRating.cs" />
     <Compile Include="Entities\Appraisal\Parameters.cs" />
+    <Compile Include="Entities\Candidate.cs" />
+    <Compile Include="Entities\CandidateInterview.cs" />
+    <Compile Include="Entities\CandidateStatus.cs" />
+    <Compile Include="Entities\CandidateWorkDetail.cs" />
+    <Compile Include="Entities\Interview.cs" />
+    <Compile Include="Entities\InterviewStatus.cs" />
+    <Compile Include="Entities\InterviewType.cs" />
     <Compile Include="Entities\Question.cs" />
     <Compile Include="Entities\Appraisal\Ratings.cs" />
     <Compile Include="Entities\Appraisal\Skills.cs" />
@@ -238,6 +252,34 @@
     <Compile Include="Migrations\EdgeDbContext2\201804210321200_Association update For Level.Designer.cs">
       <DependentUpon>201804210321200_Association update For Level.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201804241139157_Update for Requisition Candidate Details.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201804241139157_Update for Requisition Candidate Details.Designer.cs">
+      <DependentUpon>201804241139157_Update for Requisition Candidate Details.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201804241317361_Update for Requisition Candidate Details2.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201804241317361_Update for Requisition Candidate Details2.Designer.cs">
+      <DependentUpon>201804241317361_Update for Requisition Candidate Details2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201804251543428_Interview detail Update.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201804251543428_Interview detail Update.Designer.cs">
+      <DependentUpon>201804251543428_Interview detail Update.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201804251555561_Interview detail Update2.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201804251555561_Interview detail Update2.Designer.cs">
+      <DependentUpon>201804251555561_Interview detail Update2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201804260747225_interviewUpdate.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201804260747225_interviewUpdate.Designer.cs">
+      <DependentUpon>201804260747225_interviewUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201804261237054_interviewUpdate2.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201804261237054_interviewUpdate2.Designer.cs">
+      <DependentUpon>201804261237054_interviewUpdate2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201804261454058_RequisitionUpdate.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201804261454058_RequisitionUpdate.Designer.cs">
+      <DependentUpon>201804261454058_RequisitionUpdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\EdgeDbContext2\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitofWork\GenericRepository.cs" />
@@ -247,6 +289,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -273,6 +316,27 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\EdgeDbContext2\201804210321200_Association update For Level.resx">
       <DependentUpon>201804210321200_Association update For Level.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201804241139157_Update for Requisition Candidate Details.resx">
+      <DependentUpon>201804241139157_Update for Requisition Candidate Details.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201804241317361_Update for Requisition Candidate Details2.resx">
+      <DependentUpon>201804241317361_Update for Requisition Candidate Details2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201804251543428_Interview detail Update.resx">
+      <DependentUpon>201804251543428_Interview detail Update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201804251555561_Interview detail Update2.resx">
+      <DependentUpon>201804251555561_Interview detail Update2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201804260747225_interviewUpdate.resx">
+      <DependentUpon>201804260747225_interviewUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201804261237054_interviewUpdate2.resx">
+      <DependentUpon>201804261237054_interviewUpdate2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201804261454058_RequisitionUpdate.resx">
+      <DependentUpon>201804261454058_RequisitionUpdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

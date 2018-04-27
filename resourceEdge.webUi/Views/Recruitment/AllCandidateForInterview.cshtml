@@ -1,0 +1,93 @@
+﻿@model IEnumerable<resourceEdge.Domain.Entities.AllCandidateInterviewViewModel>
+@{
+    ViewBag.Title = "AllCandidateForInterview";
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+}
+
+<table class="table table-responsive table-bordered table-striped">
+    <tr>
+        <td>
+            @Html.ActionLink("Add Candidate(s) for Interview", "AddCandidateForInterview", "Recruitment", null, new { @class = "btn btn-info pull-right" })
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @if (Model.Count() > 0)
+            {
+                <table class="table table-responsive table-bordered table-striped">
+                    <tr>
+                        <th>
+                            InterView
+                        </th>
+                        <th>
+                            Candidate
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.InterviewName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CandidateName)
+                            </td>
+                            <td>
+                                <table class="pull-right">
+                                    <tr>
+                                        <td>
+                                           
+                                            @using (Html.BeginForm("ApproveCandidateFromInterview", "Recruitment", new { Id = item.Id }, FormMethod.Post, null))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                <button class="btn btn-success pull-right" id="accept" onclick="return ConfirmAccept()">Accept</button>
+                                            }
+                                        </td>
+                                        <td>
+                                            @using (Html.BeginForm("RemoveCandidateForInterview", "Recruitment", new { Id = item.Id }, FormMethod.Post, null))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                <button class="btn btn-danger pull-right" id="remove" onclick="return ConfirmDelete()">Delete</button>
+                                            }
+                                        </td>
+
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            }
+            else
+            {
+                <div class="alert alert-info">No Candidate for Interview yet</div>
+            }
+        </td>
+    </tr>
+</table>
+@section Scripts{
+    <script>
+        function ConfirmDelete() {
+            var answer = confirm("Do you really want to delete this candidate from this interview?\n Note you candidate will be deleted");
+            console.log("alert");
+            console.log(answer);
+            if (answer == true) {
+                return true;
+            }
+            return false;
+        }
+        function ConfirmAccept() {
+            var answer = confirm("Do you really want to Accept this candidate from this interview?\n Note you candidate will be accepted");
+            console.log("alert");
+            console.log(answer);
+            if (answer == true) {
+                return true;
+            }
+            return false;
+        }
+    </script>
+}
+

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<resourceEdge.Domain.Entities.Questions>
+﻿@model IEnumerable<resourceEdge.Domain.Entities.Question>
 
 @{
     ViewBag.Title = "AllQuestions";
@@ -9,53 +9,62 @@
 <link href="~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Buttons/css/buttons.bootstrap.min.css" rel="stylesheet" />
 <link href="~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css" rel="stylesheet" />
     }
-
-@if (Model.Count() > 0)
-{
-<table class="table table-responsive table-striped table-bordered table-hover table-checkable" id="tblGeneral">
-    <thead>
+<table class="table table-responsive table-striped table-bordered table-hover table-checkable">
     <tr>
 
-        <th>
-            @Html.DisplayName("Name")
-        </th>
-        <th>
-            @Html.DisplayName("Location")
-        </th>
-        <th>
-            @Html.DisplayName("Business Unit")
-        </th>
-        <th></th>
     </tr>
-    </thead>
-
-@foreach (var item in Model)
-{
-    <tbody  class="portlet-body">
     <tr>
+        <td>
+            @if (Model.Count() > 0)
+            {
+                <table class="table table-responsive table-striped table-bordered table-hover table-checkable" id="tblGeneral">
+                    <thead>
+                        <tr>
 
-        <td>
-            @Html.DisplayFor(modelItem => item.UserFullName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem =>item.Location.State)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BusinessUnit.unitname)
-        </td>
-        <td>
-            @Html.ActionLink("View", "ViewQuestion", "HR", new { Id = item.UserIdForQuestion }, new { @class = "btn btn-success"})
+                            <th>
+                                @Html.DisplayName("Name")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Location")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Business Unit")
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    @foreach (var item in Model)
+                    {
+                        <tbody class="portlet-body">
+                            <tr>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UserFullName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Location.State)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.BusinessUnit.unitname)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("View", "ViewQuestion", "HR", new { Id = item.UserIdForQuestion }, new { @class = "btn btn-success" })
+                                </td>
+                            </tr>
+                        </tbody>
+                    }
+                </table>
+            }
+            else
+            {
+                <div class="alert alert-danger text-center">Sorry no Questions added yet</div>
+
+            }
         </td>
     </tr>
-        </tbody>
-}
 </table>
-}
-else
-{
-<div class="alert alert-danger text-center" >Sorry no Questions added yet</div>
 
-}
 @section Scripts{
     <script src="~/assets/AdminTemplate/assets/plugins/DataTables/media/js/jquery.dataTables.js"></script>
 <script src="~/assets/AdminTemplate/assets/plugins/DataTables/media/js/dataTables.bootstrap.min.js"></script>

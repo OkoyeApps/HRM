@@ -58,7 +58,7 @@ namespace resourceEdge.webUi.Infrastructure
             string body = Mail.Body;
             if (Mail.Type == Domain.Infrastructures.MailType.Appraisal)
             {
-                using (StreamReader sr = new StreamReader(HttpContext.Current.Server.MapPath("\\EmailTemplates\\") + "Account.html"))
+                using (StreamReader sr = new StreamReader(HttpContext.Current.Server.MapPath("\\Infrastructure\\EmailTemplates\\") + "AppraisalSubscription.html"))
                 {
                     body = await sr.ReadToEndAsync();
                 }
@@ -66,7 +66,7 @@ namespace resourceEdge.webUi.Infrastructure
             }
             if (Mail.Type == Domain.Infrastructures.MailType.Account)
             {
-                using (StreamReader sr = new StreamReader(HttpContext.Current.Server.MapPath("\\EmailTemplates\\") + "AppraisalSubscription.html"))
+                using (StreamReader sr = new StreamReader(HttpContext.Current.Server.MapPath("\\Infrastructure\\EmailTemplates\\") + "Account.html"))
                 {
                     body = await sr.ReadToEndAsync();
                 }
@@ -84,9 +84,9 @@ namespace resourceEdge.webUi.Infrastructure
             message.To.Add(new MailAddress(Mail.Reciever));
             message.From = new MailAddress(Mail.Sender);
             message.Subject = Mail.Subject;
-            message.Body = body;
+            message.Body = body;            
             message.IsBodyHtml = true;
-            return mailMessage; //Remeber this should return a mailmessage and not a string
+            return message; //Remeber this should return a mailmessage and not a string
         }
     }
 }

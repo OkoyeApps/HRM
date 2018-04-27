@@ -474,6 +474,18 @@ namespace resourceEdge.webUi.Infrastructure
             return null;
         }
 
+        public IEnumerable<dynamic> GetinterviewerByRequisition(int Id)
+        {
+            var requisition = unitOfWork.GetDbContext().Requisition.Where(X => X.id == Id).FirstOrDefault();
+            if (requisition != null)
+            {
+                var interviewers = unitOfWork.GetDbContext().Employee.Where(X => X.businessunitId == requisition.BusinessunitId.Value && X.DepartmentId == requisition.DepartmentId)
+                    .Select(X=>new { name = X.FullName, Id = X.userId });
+                return interviewers;
+            }
+            return null;
+        }
+
         public List<Month> GetAllMonths()
         {
             return unitOfWork.GetDbContext().Month.ToList();

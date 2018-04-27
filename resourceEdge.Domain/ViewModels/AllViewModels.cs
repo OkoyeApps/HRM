@@ -505,5 +505,64 @@ namespace resourceEdge.Domain.Entities
         public int Answers { get; set; }
         public bool EditCount { get; set; }
     }
+    public class CandidateViewModel
+    {
+        public CandidateViewModel()
+        {
+            CandidateWork = new CandidateWorkDetail();
+        }
+        public int Id { get; set; }
+        public int RequisitionId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
+        public string ProfileImage { get; set; }
+        public string Resume { get; set; }
+        public string Qualification { get; set; }
+        public string EducationSummary { get; set; }
+        public int Experience { get; set; }
+        public string Skills { get; set; }
+        public string Status { get; set; }
+        public string Country { get; set; }
+        public string State { get; set; }
+        public string City { get; set; }
+        public CandidateWorkDetail CandidateWork { get; set; }
+    }
+    public class InterviewViewModel
+    {
+        public int Id { get; set; }
+        public string Interviewer { get; set; }
+        public string LocationId { get; set; }
+        public string Country { get; set; }
+        public string State { get; set; }
+        public string City { get; set; }
+        public int InterviewTypeId { get; set; }
+        public int InterviewStatusId { get; set; }
+        public int RequisitionId { get; set; }
+        public DateTime InterviewDate { get; set; }
+        public string InterviewTime { get; set; }
+        public string InterviewName { get; set; }
+        public string FeedBack { get; set; }
+        public string FeedBackSummary { get; set; }
+        public SelectList Location { get; set; }
+        public SelectList Requisition { get; set; }
+        public SelectList InterviewStatus { get; set; }
+        public SelectList InterviewType { get; set; }
+        public SelectList EligibleInterview { get; set; }
 
+    }
+    
+    public class CandidateInterviewViewModel
+    {
+        public int InterviewId { get; set; }
+        public List<int> CandidateId { get; set; }
+    }
+    public class AllCandidateInterviewViewModel
+    {
+        public int Id { get; set; }
+        public string CandidateName { get; set; }
+        public string InterviewName { get; set; }    
+        
+    }
 }

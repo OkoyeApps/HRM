@@ -18,6 +18,7 @@ namespace resourceEdge.Domain.Entities
     public enum FileType
     {
         Avatar = 1,
-        Assets
+        Assets,
+        CV
     }
 }

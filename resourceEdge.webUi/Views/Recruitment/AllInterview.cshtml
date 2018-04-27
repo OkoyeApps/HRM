@@ -1,0 +1,104 @@
+﻿@model IEnumerable<resourceEdge.Domain.Entities.Interview>
+
+@{
+    ViewBag.Title = "AllInterview";
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+}
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <tr>
+            <td>
+                @Html.ActionLink("Add Interview", "AddInterview", "Recruitment", null, new { @class = "btn btn-info pull-right" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table class="table table-responsive table-bordered table-striped">
+                    <tr>
+                        <th>
+                            Requisition Code
+                        </th>
+                        <th>
+                            Interview Name
+                        </th>
+                        <th>
+                            Country
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.State)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.City)
+                        </th>
+                        <th>
+                            Interview Date
+                        </th>
+                        <th>
+                            Interview Time
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Requisition.RequisitionCode)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.InterviewName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Country)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.State)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.City)
+                            </td>
+                            <td>
+                                @item.InterviewDate.ToShortDateString()
+                            </td>
+                            <td>
+                                @item.InterviewTime.ToShortTimeString()
+                            </td>
+
+                            <td>
+                                <table class="table-responsive">
+                                    <tr>
+                                        <td>@Html.ActionLink("Edit", "EditInterview", "Recruitment", new { id = item.Id }, new { @class = "btn btn-warning" })<span></span></td>
+                                        <td>@Html.ActionLink("Details", "InterviewDetails", "Recruitment", new { id = item.Id }, new { @class = "btn btn-info" })<span></span></td>
+                                        <td>
+                                            @using (Html.BeginForm("DeleteInterview", "Recruitment", new { Id = item.Id }, FormMethod.Post, null))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" id="delete" class="btn btn-danger" onclick="return ConfirmDelete()">Delete</button>
+                                        }
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    }
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+@section Scripts{
+    <script>
+        function ConfirmDelete() {
+            var answer = confirm("Do you really want to delete this Interview from interviews?\nNote you Interview will be deleted");
+            console.log("alert");
+            console.log(answer);
+            if (answer == true) {
+                return true;
+            }
+            return false;
+        }
+    </script>
+}
+
+

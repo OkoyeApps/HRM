@@ -77,9 +77,9 @@ namespace resourceEdge.Domain.Concrete
             return result ?? null;
         }
 
-        public List<Employee> GetReportManagers(string userId, int unitId)
+        public List<Employee> GetReportManagers(int unitId)
         {
-            var result = unitOfWork.employees.Get(filter: x =>x.businessunitId == unitId && x.empID == 2).ToList();
+            var result = unitOfWork.employees.Get(filter: x =>x.businessunitId == unitId && x.empRoleId == 2).ToList();
             return result ?? null;
         }
 

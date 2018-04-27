@@ -471,6 +471,22 @@ namespace resourceEdge.webUi.Controllers
             return Ok(result);
         }
 
+        [Route("api/settings/GetInterviewer/{id:int}")]
+        [HttpGet]
+        public IHttpActionResult GetUnitHeadForAppraisal(int? Id)
+        {
+            if (Id == null)
+            {
+                return BadRequest();
+            }
+            var result = Apimanager.GetinterviewerByRequisition(Id.Value);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
+
         // POST: api/Settings
         public void Post([FromBody]string value)
         {

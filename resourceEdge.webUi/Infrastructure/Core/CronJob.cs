@@ -142,5 +142,66 @@ namespace resourceEdge.webUi.Infrastructure.Core
             unitOfWork.Save();
             }
         }
+
+        public void GetAllppraisalForCalculation()
+        {
+            var allUserSubmitted = unitOfWork.AppraisalQuestion.Get().Select(x => x.UserId).ToArray();
+            List<string> SpecifcUserIds = new List<string>();
+            Dictionary<string, List<int>> appraisalQuestionAndUserId = new Dictionary<string, List<int>>();
+            List<int> allQuestionForAppraiseeToAnswer = new List<int>();
+            for (int i = 0; i < allUserSubmitted.Count(); i++)
+            {
+                if (!SpecifcUserIds.Contains(allUserSubmitted[i]))
+                {
+                    SpecifcUserIds.Add(allUserSubmitted[i]);
+                }
+            }
+            if (SpecifcUserIds.Count >0 )
+            {
+               // bool isAppraisalComplete = false;
+                foreach (var item in SpecifcUserIds)
+                {
+                    allQuestionForAppraiseeToAnswer = unitOfWork.Questions.Get(filter: x => x.UserIdForQuestion == item && x.Approved == true).Select(x=>x.Id).ToList();
+                    appraisalQuestionAndUserId.Add(item, allQuestionForAppraiseeToAnswer);
+                }
+                foreach (var item in SpecifcUserIds)
+                {
+                    var questionsinAppraisal = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == item).Select(x=>x.QuestionId);
+                    for (int i = 0; i < SpecifcUserIds.Count; i++)
+                    {
+                        if (appraisalQuestionAndUserId.ContainsKey(item))
+                        {
+                            var allQuestion = appraisalQuestionAndUserId[item];
+                            for (int j = 0; j < questionsinAppraisal.Count(); j++)
+                            {
+                                if (!questionsinAppraisal.Contains(allQuestion[j]))
+                                {
+                                    appraisalQuestionAndUserId.Remove(item);
+                                }
+                            }
+                        }
+                    }
+                }
+                //Dictionary<string, double> TotalAppraisalScore = new Dictionary<string, double>();
+                if (appraisalQuestionAndUserId.Count > 0)
+                {
+                    var allFinishedAppraisalUserId = appraisalQuestionAndUserId.Keys;
+                    foreach (var item in allFinishedAppraisalUserId)
+                    {
+                        var CurrentUserAppraisal = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == item).ToList();
+                        var isAppraisalComplete = CurrentUserAppraisal.All(x=> x.L1Status == true && x.L2Status == true && x.L3Status == true && x.IsAccepted == true);
+                        if (isAppraisalComplete)
+                        {
+                            var totalScore = CurrentUserAppraisal.Average(x => x.Answer);
+                            //TotalAppraisalScore.Add(item, totalScore);
+                            AppraisalResult result = new AppraisalResult();
+                            result.UserId = item;
+                            result.Score = totalScore;
+                            //unitOfWork.AppraisalResult.Insert(result);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

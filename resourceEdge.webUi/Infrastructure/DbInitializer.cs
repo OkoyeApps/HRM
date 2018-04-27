@@ -210,7 +210,7 @@ namespace resourceEdge.webUi.Infrastructure
                       new Domain.Entities.Employee() { businessunitId = 1, DepartmentId = 2, empEmail = "LocationHead@example.com",
                     empRoleId = 7, empStatusId = "Test location", GroupId = 1, LevelId = 1,FullName = "Test Location Head",
                     positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
-                    jobtitleId = 1, IsDepthead = true, isactive = true   }
+                    jobtitleId = 1, isactive = true   }
             };
             for (int i = 0, j = 0; i < TestUser1.Count; i++,j++)
             {
@@ -381,6 +381,27 @@ namespace resourceEdge.webUi.Infrastructure
                 new Domain.Entities.Menu() { Id = 2, Name="EmployeeAppraisal", Role =  "Employee, HR,Manager", Active = false }
             };
             Menus.ForEach(x => context.Menu.Insert(x));
+            context.Save();
+            var candidateStatus = new List<CandidateStatus>()
+            {
+                new CandidateStatus { Name = "Pending" },
+                new CandidateStatus { Name = "Accepted" },
+                new CandidateStatus { Name = "Rejected" }
+            };
+            candidateStatus.ForEach(x=>context.CandidateStatus.Insert(x));
+            var interviewStatus = new List<InterviewStatus>()
+            {
+                new InterviewStatus() { Name = "In-Process" },
+                new InterviewStatus { Name = "Finished" }
+            };
+            interviewStatus.ForEach(x => context.InterviewStatus.Insert(x));
+
+            var interviewType = new List<InterviewType>()
+            {
+                 new InterviewType { Name = "Online" },
+                 new InterviewType { Name = "Written" }
+            };
+            interviewType.ForEach(x => context.InterviewType.Insert(x));
             context.Save();
         }
     }

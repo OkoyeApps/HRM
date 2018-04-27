@@ -19,7 +19,7 @@ namespace resourceEdge.Domain.Abstracts
         List<Employee> GetUnitHead(int unitId);
         List<Employee> GetHrs();
         List<Employee> GetEmployeeUnitMembers(int unitId);
-        List<Employee> GetReportManagers(string userId, int unitId);
+        List<Employee> GetReportManagers(int unitId);
         List<Employee> GetAllHrsBYGroup(int groupId);
         Employee GetEmployeeByGroupId(string userId, int groupId);
         IEnumerable<Employee> GetAllEmployeesByGroup(int groupId);
