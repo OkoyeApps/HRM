@@ -62,7 +62,9 @@ namespace resourceEdge.Domain.UnitofWork
         private GenericRepository<CandidateStatus> candidateStatusRepo;
         private GenericRepository<InterviewStatus> interviewStatusRepo;
         private GenericRepository<InterviewType> interviewTypeRepo;
-
+        private GenericRepository<Asset> assetRepo;
+        private GenericRepository<AssetCategory> assetCategory;
+        private GenericRepository<RequestAsset> requestassetRepo;
         private EdgeDbContext Context
         {
             get
@@ -281,6 +283,18 @@ namespace resourceEdge.Domain.UnitofWork
         {
             get { return this.interviewTypeRepo ?? new GenericRepository<Entities.InterviewType>(Context); }
         }
+        public GenericRepository<Asset> Asset
+        {
+            get { return this.assetRepo ?? new GenericRepository<Entities.Asset>(Context); }
+        }
+        public GenericRepository<AssetCategory> AssetCategory
+        {
+            get { return this.assetCategory ?? new GenericRepository<Entities.AssetCategory>(Context); }
+        }
+        public GenericRepository<RequestAsset> RequestAsset
+        {
+            get { return this.requestassetRepo ?? new GenericRepository<Entities.RequestAsset>(Context); }
+        }
         public void Save()
         {
             try
@@ -316,6 +330,6 @@ namespace resourceEdge.Domain.UnitofWork
             GC.SuppressFinalize(this);
         }
 
-     
+
     }
 }

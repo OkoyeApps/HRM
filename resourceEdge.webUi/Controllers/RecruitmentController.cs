@@ -4,9 +4,11 @@ using resourceEdge.Domain.Entities;
 using resourceEdge.webUi.Infrastructure;
 using resourceEdge.webUi.Infrastructure.Core;
 using resourceEdge.webUi.Infrastructure.Handlers;
+using resourceEdge.webUi.Infrastructure.SystemManagers;
 using resourceEdge.webUi.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -26,6 +28,7 @@ namespace resourceEdge.webUi.Controllers
         IEmployees EmployeeRepo;
         RecruitmentManager RecruitmentManager;
         EmployeeManager EmpManager;
+        DropDownManager dropDownManager;
        public RecruitmentController(IRequisition RParam, IBusinessUnits BParam, IEmploymentStatus SParam, IJobtitles jParam, IReportManager RMParam, IEmployees EParam, IFiles FParam)
         {
             RequisitionRepo = RParam;
@@ -36,13 +39,17 @@ namespace resourceEdge.webUi.Controllers
             EmployeeRepo = EParam;
             RecruitmentManager = new RecruitmentManager();
             EmpManager = new EmployeeManager(EParam, FParam,RMParam);
+            dropDownManager = new DropDownManager();
         }
 
         // GET: Requsition
         public ActionResult Index()
         {
             var result = RequisitionRepo.Get();
-            return View(RequisitionRepo.Get());
+            ViewBag.PageTitle = "Requisition Dashboard";
+            var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+            ViewBag.AllRequisitons = RecruitmentManager.GenerateRequisitionDashboard(UserFromSession.GroupId);
+            return View();
         }
 
         // GET: Requsition/Details/5
@@ -57,9 +64,9 @@ namespace resourceEdge.webUi.Controllers
             var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
             ViewBag.PageTitle = "Recruitment";
             ViewBag.RecruitmentId = RecruitmentManager.GenerateRequisitionCode(UserFromSession.GroupId);
-            ViewBag.EmpStatus = new SelectList(statusRepo.Get().Select(x => new { name = x.employemntStatus, id = x.empstId }), "id", "name", "id");
+            ViewBag.EmpStatus = dropDownManager.GetEmploymentStatus();
             ViewBag.businessUnits = new SelectList(RecruitmentManager.GetBusinessUnit(UserFromSession.GroupId).Select(x=>new {name = x.Name, id = x.Id }).OrderBy(x => x.id), "id", "name", "id");
-            ViewBag.jobTitles = new SelectList(JobRepo.Get().Select(x=> new {name = x.jobtitlename, id = x.Id }).OrderBy(x => x.name), "id", "name", "id");
+            ViewBag.jobTitles = dropDownManager.GetBusinessUnit(); 
             ViewBag.ReportManager = new SelectList(managerRepo.Get().Select(x => new { name = x.FullName, id = x.ManagerUserId }).OrderBy(x => x.name), "id", "name", "id");
             ViewBag.Approval1 = new SelectList(EmpManager.GetLocationHeadsDetails(UserFromSession.LocationId).Select(x => new { name = x.FullName, id = x.userId }).OrderBy(x => x.name), "id", "name", "id");
             ViewBag.Approval2 = new SelectList(EmpManager.GetReportManagerBusinessUnit(UserFromSession.UnitId).Select(x => new { name = x.FullName, Id = x.userId }), "Id", "name", "Id");
@@ -76,7 +83,7 @@ namespace resourceEdge.webUi.Controllers
             {
                 if (true)
                 {
-                        Request.BusinessunitId = model.BusinessunitId;
+                        Request.BusinessUnitId = model.BusinessunitId;
                         Request.DepartmentId = model.DepartmentId;
                         Request.JobTitleId = model.JobTitle;
                         Request.PositionId = model.PositionId;
@@ -113,6 +120,12 @@ namespace resourceEdge.webUi.Controllers
             }
             return View(model);
         }
+        public ActionResult AllCandidate()
+        {
+            var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+            var result = RecruitmentManager.AllCandidate(UserFromSession.GroupId);
+            return View(result);
+        }
 
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult ApproveRequisition(int id)
@@ -147,7 +160,17 @@ namespace resourceEdge.webUi.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult AddCandidate(CandidateViewModel model, HttpPostedFileBase File)
         {
-           var result = RecruitmentManager.AddOrUpdateCandidate(model, File);
+            if (File != null)
+            {
+                var fileDetails = new FileInfo(File.FileName);
+                if (!fileDetails.Extension.Contains(".pdf") || !fileDetails.Extension.Contains(".doc") || !fileDetails.Extension.Contains(".docx"))
+                {
+                    this.AddNotification("Sorry Only files with extensions of .Pdf or Doc are allowed", NotificationType.ERROR);
+                    return RedirectToAction("AddCandidate");
+                }
+            }
+            var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+            var result = RecruitmentManager.AddOrUpdateCandidate(model, File, UserFromSession.GroupId);
             if (result)
             {
                 this.AddNotification("Candidate Added!", NotificationType.SUCCESS);
@@ -175,7 +198,8 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult AllInterview()
         {
             ViewBag.PageTitle = "All Interview";
-            return View(RecruitmentManager.AllInterview());
+            var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+            return View(RecruitmentManager.AllInterview(UserFromSession.GroupId));
         }
 
         public ActionResult AddInterview()
@@ -202,24 +226,11 @@ namespace resourceEdge.webUi.Controllers
             if (generatedResult != null)
             {
                 ViewBag.PageTitle = $"Feedback For {generatedResult.InterviewName}";
-                //ViewBag.DropDowns = generatedResult.Item2;
                 return View(generatedResult);
             }
             return new HttpStatusCodeResult(HttpStatusCode.NotFound);
         }
 
-        //[HttpPost, ValidateAntiForgeryToken]
-        //public ActionResult AddFeedBack(int Id,InterviewViewModel model)
-        //{
-        //    var result = RecruitmentManager.AddorUpdateInterView(model, model.Id);
-        //    if (result)
-        //    {
-        //        this.AddNotification("Yay! Interview Updated", NotificationType.SUCCESS);
-        //        return RedirectToAction("AddInterview");
-        //    }
-        //    this.AddNotification("Oops! something went wrong, Please try again later", NotificationType.ERROR);
-        //    return RedirectToAction("AddInterview");
-        //}
         public ActionResult EditInterview(int id)
         {
             var interview = RecruitmentManager.GenerateInterviewForEdit(id);
@@ -269,13 +280,15 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult AllCandidateForInterview()
         {
             ViewBag.PageTitle = "All Candidate(s) For Interview";
-            var AllCandidates = RecruitmentManager.GetAllCandidateInterview();       
+            var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+            var AllCandidates = RecruitmentManager.GetAllCandidateInterview(UserFromSession.GroupId);       
             return View(AllCandidates);
         }
         public ActionResult AddCandidateForInterview()
         {
             ViewBag.PageTitle = "Add Candidate(s) for Interview";
-            ViewBag.Candidate = RecruitmentManager.GetCandidatesForInterview();
+            var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+            ViewBag.Candidate = RecruitmentManager.CandidatesForInterviewDropDown(UserFromSession.GroupId);
             ViewBag.Interview = RecruitmentManager.GetAllInterviews();
             return View(new CandidateInterviewViewModel());
         }
@@ -291,13 +304,6 @@ namespace resourceEdge.webUi.Controllers
             return RedirectToAction("AddCandidateForInterview");
         }
 
-        //public ActionResult RemoveCandidateForInterview()
-        //{
-        //    ViewBag.PageTitle = "Removed Candidate(s) for Interview";
-        //    ViewBag.Candidate = RecruitmentManager.GetCandidates();
-        //    ViewBag.Interview = RecruitmentManager.GetAllInterviews();
-        //    return View(new CandidateInterviewViewModel());
-        //}
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult RemoveCandidateForInterview(int Id)
         {
@@ -323,48 +329,30 @@ namespace resourceEdge.webUi.Controllers
             return RedirectToAction("AllCandidateForInterview");
         }
 
-        // GET: Requsition/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult SelectedCandidates()
         {
-            return View();
+            ViewBag.PageTitle = "All Selected Candidates";
+            var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+            var result = RecruitmentManager.GetSelectedCandidate(UserFromSession.GroupId);
+            return View(result);
         }
-
-        // POST: Requsition/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult candidateDetails(int id)
         {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            ViewBag.PageTitle = "Candidate Details";
+            var result = RecruitmentManager.GetCandidateDetails(id);
+            return View(result);
         }
-
-        // GET: Requsition/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult DownloadResume(string FileId)
         {
-            return View();
-        }
-
-        // POST: Requsition/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
+            var FileToDownload = RecruitmentManager.GetCandidateResume(FileId);
+            if (FileToDownload != null)
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
+                var fileFullDetails = FileToDownload.FirstOrDefault();
+                var file = fileFullDetails.Value;
+            return File(file.FirstOrDefault().Key, file.FirstOrDefault().Value, fileFullDetails.Key);
             }
-            catch
-            {
-                return View();
-            }
+            this.AddNotification("Oops! seems like the Resume has been deleted or does not exist", NotificationType.WARNING);
+            return RedirectToAction("AllCandidateForInterview");
         }
     }
 }

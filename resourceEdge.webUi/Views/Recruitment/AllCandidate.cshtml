@@ -1,0 +1,66 @@
+﻿@model IEnumerable<resourceEdge.Domain.Entities.CandidateViewModel>
+
+@{
+    ViewBag.Title = "AllCandidate";
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+}
+<table class="table table-bordered table-responsive table-striped">
+    <tr>
+        <td>@Html.ActionLink("Add Candidate", "AddCandidate", "Recruitment", null, new { @class = "btn btn-info pull-right" })</td>
+    </tr>
+    <tr>
+        <td>
+            <table class="table table-bordered table-responsive table-striped">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LastName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PhoneNumber)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Status)
+                    </th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PhoneNumber)
+                        </td>
+                        @if (item.Status != null)
+                        {
+                            <td><span class="label label-success">Accepted</span></td>
+                        }
+                        @if (item.Status == false)
+                        {
+                            <td><span class="label label-danger">Rejected</span></td>
+                        }
+                        @if (item.Status == null)
+                        {
+                            <td><span class="label label-warning">Still Waiting</span></td>
+                        }
+                    </tr>
+                }
+
+            </table>
+
+        </td>
+    </tr>
+</table>

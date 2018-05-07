@@ -339,19 +339,6 @@
                             }
                         </ul>
                     </li>
-                    <li class="has-sub">
-                        <a href="javascript:;">
-                            <b class="caret pull-right"></b>
-                            <i class="fa fa-inbox"></i>
-                            <span>Assets</span>
-                        </a>
-                        <ul class="sub-menu">
-                            <li class="has-sub">
-                                <a href="javascript:;"><b class="caret pull-right"></b>Request Assets</a>
-                                <ul class="sub-menu"></ul>
-                            </li>
-                        </ul>
-                    </li>
                     @if (User.IsInRole("Manager"))
                     {
                         <li class="has-sub">
@@ -422,6 +409,27 @@
                             </li>
                         }
                     }
+
+                    <li class="has-sub">
+                        <a href="javascript:;">
+                            <b class="caret pull-right"></b>
+                            <i class="fa fa-laptop"></i>
+                            <span>Asset Management</span>
+                        </a>
+                        <ul class="sub-menu">
+                            @if(User.IsInRole("HR") || User.IsInRole("System Admin"))
+                            {
+                            <li>@Html.ActionLink("All Asset", "Index", "Asset", null, new { @class = "nav-link  title" })</li>
+                            <li>@Html.ActionLink("All Category", "AllAssetCategory", "Asset", null, new { @class = "nav-link  title" })</li>
+                            }
+                            @if (User.IsInRole("HR"))
+                            {
+                            <li>@Html.ActionLink("All Request", "AllRequest", "Asset", null, new { @class = "nav-link  title" })</li>
+                            }
+                           <li> @Html.ActionLink("Request Asset", "RequestAsset", "Asset", null, new { @class = "nav-link  title" })</li>
+                         </ul>
+                    </li>
+
                     @*<li class="has-sub active">
                             <a href="javascript:;">
                                 <b class="caret pull-right"></b>

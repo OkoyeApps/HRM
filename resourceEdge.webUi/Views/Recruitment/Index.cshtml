@@ -1,167 +1,219 @@
-﻿@model IEnumerable<resourceEdge.Domain.Entities.Requisition>
-
+﻿@using resourceEdge.webUi.Models
+@using resourceEdge.Domain.Entities
+@using resourceEdge.webUi.Models.SystemModel;
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+    Layout = "~/Views/Shared/Layouts/_EmployeeLayout.cshtml";
+    var usersessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+    var crumbs = (BreadCrumb)Session["_Crumbs"];
+    var Menu = (List<Menu>)Session["_Menu"];
+    ViewBag.Title = "Leave";
+    var AllRequisition = (Tuple<IList<RequisitionListItems>, IList<RequisitionListItems>, IList<RequisitionListItems>>) ViewBag.AllRequisitons;
+    var Approved = (List<resourceEdge.Domain.Entities.LeaveRequest>)ViewBag.Approved;
+    var Denied = (List<resourceEdge.Domain.Entities.LeaveRequest>)ViewBag.Denied;
+    var pending = (List<resourceEdge.Domain.Entities.LeaveRequest>)ViewBag.Pending;
+    var All = (List<resourceEdge.Domain.Entities.LeaveRequest>)ViewBag.All;
 }
 
-<h2>Index</h2>
+@section css{
+    <link href="~/assets/AdminTemplate/assets/plugins/jquery-jvectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" />
+    <link href="~/assets/AdminTemplate/assets/plugins/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
+    <link href="~/assets/AdminTemplate/assets/plugins/bootstrap-datepicker/css/datepicker3.css" rel="stylesheet" />
+    <link href="~/assets/AdminTemplate/assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table table-responsive table-bordered">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.RequisitionCode)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OnboardDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PositionId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ReportingId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BusinessunitId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DepartmentId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.JobTitle)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ReqNoPositions)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.JobDescription)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ReqSkills)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ReqQualification)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ReqExpYears)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EmpType)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ReqPriority)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AdditionalInfo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ReqStatus)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Approver1)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Approver2)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Approver3)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AppStatus1)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AppStatus2)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AppStatus3)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ClientId)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model)
-{
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.RequisitionCode)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OnboardDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PositionId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ReportingId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BusinessunitId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DepartmentId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.JobTitle)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ReqNoPositions)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.JobDescription)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ReqSkills)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ReqQualification)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ReqExpYears)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EmpType)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ReqPriority)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AdditionalInfo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ReqStatus)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Approver1)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Approver2)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Approver3)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AppStatus1)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AppStatus2)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AppStatus3)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ClientId)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
-    </tr>
+    <link href="~/assets/AdminTemplate/assets/plugins/DataTables/media/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Buttons/css/buttons.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css" rel="stylesheet" />
 }
 
-</table>
+<h1 class="page-header">
+    Requisitions <small></small>
+</h1><div class="row">
+    <!-- begin col-3 -->
+    <div class="col-md-4 col-sm-6">
+        <div class="widget widget-stats bg-green">
+            <div class="stats-icon"><i class="fa fa-calendar"></i></div>
+            <div class="stats-info">
+                <h4>Approved</h4>
+                <p>@AllRequisition.Item1.Count</p>
+            </div>
+            <div class="stats-link">
+                <a href="#approved" data-toggle="tab">View Detail <i class="fa fa-arrow-circle-o-right"></i></a>
+            </div>
+        </div>
+    </div>
+    <!-- end col-3 -->
+    <!-- begin col-3 -->
+    <div class="col-md-4 col-sm-6">
+        <div class="widget widget-stats bg-red">
+            <div class="stats-icon"><i class="fa fa-calendar"></i></div>
+            <div class="stats-info">
+                <h4>Denied</h4>
+                <p>@AllRequisition.Item2.Count</p>
+            </div>
+            <div class="stats-link">
+                <a href="#denied" data-toggle="tab">View Detail <i class="fa fa-arrow-circle-o-right"></i></a>
+            </div>
+        </div>
+    </div>
+    <!-- end col-3 -->
+    <!-- begin col-3 -->
+    <div class="col-md-4 col-sm-6">
+        <div class="widget widget-stats bg-info">
+            <div class="stats-icon"><i class="fa fa-bell-o"></i></div>
+            <div class="stats-info">
+                <h4>All</h4>
+                <p>@AllRequisition.Item3.Count</p>
+            </div>
+            <div class="stats-link">
+                <a href="#pending" data-toggle="tab">View Detail <i class="fa fa-arrow-circle-o-right"></i></a>
+            </div>
+        </div>
+    </div>
+    <!-- end col-3 -->
+</div>
+
+<!-- end row -->
+<!-- begin row -->
+<div class="row">
+    <!-- begin col-8 -->
+    <div class="col-md-12 ">
+        <ul class="nav nav-tabs nav-tabs-inverse nav-justified nav-justified-mobile" data-sortable-id="index-2">
+            <li class="active"><a href="#approved" data-toggle="tab"><i class="fa fa-calender m-r-5"></i> <span class="hidden-xs">Approved</span></a></li>
+            <li class=""><a href="#denied" data-toggle="tab"><i class="fa fa-calendar m-r-5"></i> <span class="hidden-xs">Denied</span></a></li>
+            <li class=""><a href="#pending" data-toggle="tab"><i class="fa fa-calendar m-r-5"></i> <span class="hidden-xs">Pending</span></a></li>
+        </ul>
+        <div class="tab-content" data-sortable-id="index-3">
+            <div class="tab-pane fade active in" id="approved" name="approved">
+                <div class="height-sm" data-scrollbar="true">
+                    <div class="table-responsive">
+                    <table id="tblapproved" class="table table-striped table-bordered display" width="100%">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Req Code</th>
+                                <th><i class="icon-plane"></i> Unit</th>
+                                <th><i class="icon-calendar font-dark"></i> Dept</th>
+                                <th><i class="icon-calendar font-dark"></i> Job</th>
+                                <th>Position</th>
+                                <th>Recruiter</th>
+                            </tr>
+                        </thead>
+                        <tbody class="green portlet-body">
+                            @{ int i = 1;}
+                            @foreach (var item in AllRequisition.Item1)
+                            {
+                                <tr>
+                                    <td>@{int sn = i++;} @sn</td>
+                                    <td>@item.ReqCode</td>
+                                    <td>@item.BusinessUnitName</td>
+                                    <td>@item.DepartmentName</td>
+                                    <td>@item.Job</td>
+                                    <td>@item.Position</td>
+                                    <td>@item.RaisedBy</td>
+                                </tr>
+                                        }
+                        </tbody>
+                    </table>
+                        </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="denied" name="denied">
+                <div class="height-sm " data-scrollbar="true">
+                    <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover table-checkable" id="tbldenied">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Req Code</th>
+                                <th><i class="icon-plane"></i> Unit</th>
+                                <th><i class="icon-calendar font-dark"></i> Dept</th>
+                                <th><i class="icon-calendar font-dark"></i> Job</th>
+                                <th>Position</th>
+                                <th>Recruiter</th>
+                            </tr>
+                        </thead>
+                        <tbody class="green portlet-body">
+                            @{ int j = 0;}
+                            @foreach (var item in AllRequisition.Item2)
+                            {
+                                <tr>
+                                    <td>@{j++;} @j</td>
+                                    <td>@item.ReqCode</td>
+                                    <td>@item.BusinessUnitName</td>
+                                    <td>@item.DepartmentName</td>
+                                    <td>@item.Job</td>
+                                    <td>@item.Position</td>
+                                    <td>@item.RaisedBy</td>
+                                </tr>
+                                        }
+                        </tbody>
+                    </table>
+                        </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="pending" name="pending">
+                <div class="height-sm" data-scrollbar="true">
+                    <div class="table-responsive">
+                    <table class="table  table-striped table-bordered table-hover table-checkable display" id="tblpending">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Req Code</th>
+                                <th><i class="icon-plane"></i> Unit</th>
+                                <th><i class="icon-calendar font-dark"></i> Dept</th>
+                                <th><i class="icon-calendar font-dark"></i> Job</th>
+                                <th>Position</th>
+                                <th>Recruiter</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="green portlet-body">
+                            @{ int k = 0;}
+                            @foreach (var item in AllRequisition.Item3)
+                            {
+                                <tr>
+                                    <td>@{k++;} @k</td>
+                                    <td>@item.ReqCode</td>
+                                    <td>@item.BusinessUnitName</td>
+                                    <td>@item.DepartmentName</td>
+                                    <td>@item.Job</td>
+                                    <td>@item.Position</td>
+                                    <td>@item.RaisedBy</td>
+                                    @if (item.Status == null)
+                                    {
+                                        <td><span class="label label-sm label-warning">Pending</span></td>
+                                    }
+                                    @if (item.Status == true)
+                                    {
+                                        <td><span class="label label-sm label-success">Approved</span></td>
+                                    }
+                                    @if (item.Status == false)
+                                    {
+                                        <td><span class="label label-sm label-danger">Denied</span></td>
+                                    }
+                                </tr>
+                                        }
+                        </tbody>
+                    </table>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end col-8 -->
+</div>
+
+@section Scripts{
+    <script src="~/assets/AdminTemplate/assets/plugins/DataTables/media/js/jquery.dataTables.js"></script>
+    <script src="~/assets/AdminTemplate/assets/plugins/DataTables/media/js/dataTables.bootstrap.min.js"></script>
+    <script src="~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Buttons/js/buttons.bootstrap.min.js"></script>
+    <script src="~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Buttons/js/buttons.flash.min.js"></script>
+    <script src="~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Buttons/js/jszip.min.js"></script>
+    <script src="~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Buttons/js/pdfmake.min.js"></script>
+    <script src="~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Buttons/js/vfs_fonts.min.js"></script>
+    <script src="~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Buttons/js/buttons.html5.min.js"></script>
+    <script src="~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Buttons/js/buttons.print.min.js"></script>
+    <script src="~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/Scripts/Pages/JS/SelfService/Leave.js"></script>
+}

@@ -1,0 +1,106 @@
+﻿@model IEnumerable<resourceEdge.Domain.Entities.RequestAsset>
+
+@{
+    ViewBag.Title = "AllRequest";
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+}
+<div class="table-responsive">
+    <table class="table table table-responsive table-bordered table-striped">
+        <tr>
+            <td>@Html.ActionLink("Add Request", "RequestAsset", "Asset", null, new { @class = "btn btn-info pull-right" })</td>
+        </tr>
+        <tr>
+            <td>
+                <table class="table table table-responsive table-bordered table-striped">
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Amount)
+                        </th>
+                        <th>
+                            Due Date
+                        </th>
+                        <th>
+                            Requested By
+                        </th>
+                        <th>
+                            Created By
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AssetCategory.Name)
+                            </td>
+                            <td>
+                                @item.Amount
+                            </td>
+                            @if (item.DueTime != null)
+                            {
+                                <td>
+                                    @item.DueTime.Value.ToShortDateString()
+                                </td>
+                            }
+                            else
+                            {
+                                <td>Ask for due time</td>
+                            }
+                            <td>
+                                @Html.DisplayFor(modelItem => item.RequestedBy)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreatedByFullName)
+                            </td>
+                            <td>
+                                <table>
+                                    @if (item.IsResolved == null)
+                                    {
+                                    <tr>
+                                        <td>
+                                        @using (Html.BeginForm("AcceptRequest", "Asset", new { id = item.Id }, FormMethod.Post, new { @class = "" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-success">Accept</button>
+                                        }
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            @using (Html.BeginForm("DenyRequest", "Asset", new { id = item.Id }, FormMethod.Post, new { @class = "" }))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-danger" onclick="return ConfirmDelete()">Deny</button>
+                                            }
+                                        </td>
+                                    </tr>
+                                    }
+                               
+                                </table>
+                            </td>
+                        </tr>
+                                    }
+
+                </table>
+
+            </td>
+        </tr>
+    </table>
+</div>
+
+@section Scripts{
+    <script>
+        function ConfirmDelete() {
+            var answer = confirm("Do you really want to delete this request? \nNote this Request will be deleted");
+            console.log("alert");
+            console.log(answer);
+            if (answer == true) {
+                return true;
+            }
+            return false;
+        }
+    </script>
+    }

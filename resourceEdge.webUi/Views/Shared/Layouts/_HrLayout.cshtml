@@ -266,7 +266,7 @@
                     <li class="dropdown navbar-user">
                         <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="~/assets/AdminTemplate/assets/img/user-13.jpg" alt="" />
-                          
+
                             <span class="hidden-xs">@FullName</span> <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu animated fadeInLeft">
@@ -283,7 +283,6 @@
                                     {
                                         @Html.AntiForgeryToken()
                                         <a href="javascript:document.getElementById('logoutForm').submit()" style="text-decoration:none; font-weight:bold" class="btn btn-block font-dark">Log Out </a>
-
                                     }
                                 }
                             </li>
@@ -332,6 +331,13 @@
                                     <li>@Html.ActionLink(" Assign Report Managers", "AssignReportManager", null, new { @class = "nav-link  title" })</li>
                                 </ul>
                             </li>
+                            @if (User.IsInRole("HR"))
+                            {
+                            <li>
+                                @Html.ActionLink("Employee KPI", "AddedQuestions", "Appraisal", null, new { @class = "nav-link  title" })
+                                
+                            </li>
+                            }
                         </ul>
                     </li>
                     <li class="has-sub">
@@ -377,25 +383,79 @@
                             <span>Appraisals Management</span>
                         </a>
                         <ul class="sub-menu">
-
-                            <li>@Html.ActionLink("Appraisal", "InitilizeAppraisal", "Appraisal", null, new { @class = "nav-link  title" })</li>
+                            
                             <li>
-                                @*@if (User.IsInRole("Head HR"))
-                                {
-                                    @Html.ActionLink("Add Questions", "AddQuestion", "Appraisal", null, new { @class = "nav-link  title" })
-                                }*@
+                                @Html.ActionLink("All Intitialized Appraisal", "AddedQuestions", "Appraisal", null, new { @class = "nav-link  title" })
                             </li>
+                            <li>
+                                @Html.ActionLink("All Intitialized Appraisal", "AllInitializedAppraisal", "Appraisal", null, new { @class = "nav-link  title" })               
+                            </li>
+                            @if (User.IsInRole("HR"))
+                            {
+                            <li>
+                                @Html.ActionLink("All Intitialized Appraisal", "ConfigureAppraisal", "Appraisal", null, new { @class = "nav-link  title" })
+                            </li>
+                            }
+
                         </ul>
                     </li>
-                        <li class="has-sub">
-                            <a href="javascript:;">
-                                <b class="caret pull-right"></b>
-                                <i class="fa fa-laptop"></i>
-                                <span>Configuration Manager</span>
-                            </a>
-                            <ul class="sub-menu">
-                                @if (User.IsInRole("System Admin"))
-	                            {
+                  
+                    <li class="has-sub">
+                        <a href="javascript:;">
+                            <b class="caret pull-right"></b>
+                            <i class="fa fa-laptop"></i>
+                            <span>Requisition Manager</span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li>@Html.ActionLink("Openings/Position", "Index", "Recruitment", null, new { @class = "nav-link  title" })</li>
+                            <li class="has-sub">
+                                <a href="javascript:;"><b class="caret pull-right"></b>Requisition Management</a>
+                                <ul class="sub-menu">
+                                    <li>
+                                        @Html.ActionLink("Add Requisition", "Create", "Recruitment", null, new { @class = "nav-link  title" })
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="has-sub">
+                                <a href="javascript:;"><b class="caret pull-right"></b>Candidates</a>
+                                <ul class="sub-menu">
+                                <li>@Html.ActionLink("All Candidate", "AllCandidate", "Recruitment", null, new { @class = "nav-link  title" })</li>
+                                <li class="has-sub">
+                                        <a href="javascript:;"><b class="caret pull-right"></b>Candidates Management</a>
+                                    <ul class="sub-menu">
+                                        <li>@Html.ActionLink("Candidate for interview", "AllCandidateForInterview", "Recruitment", null, new { @class = "nav-link  title" })</li>
+                                        <li>@Html.ActionLink("Selected Candidates", "SelectedCandidates", "Recruitment", null, new { @class = "nav-link  title" })</li>
+                                    </ul>
+                                </li>
+                                </ul>
+                            </li>
+                            <li>
+                                @Html.ActionLink("Interviews", "AllInterview", "Recruitment", null, new { @class = "nav-link  title" })
+                            </li>
+                        </ul>
+
+                    <li class="has-sub">
+                        <a href="javascript:;">
+                            <b class="caret pull-right"></b>
+                            <i class="fa fa-laptop"></i>
+                            <span>Asset Management</span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li>@Html.ActionLink("All Asset", "Index", "Asset", null, new { @class = "nav-link  title" })</li>
+                            <li>@Html.ActionLink("All Category", "AllAssetCategory", "Asset", null, new { @class = "nav-link  title" })</li>
+                            <li>@Html.ActionLink("All Request", "AllRequest", "Asset", null, new { @class = "nav-link  title" })</li>
+                        </ul>
+                    </li>
+                    <li class="has-sub">
+                        <a href="javascript:;">
+                            <b class="caret pull-right"></b>
+                            <i class="fa fa-laptop"></i>
+                            <span>Configuration Manager</span>
+                        </a>
+                        <ul class="sub-menu">
+                            @if (User.IsInRole("System Admin"))
+                            {
                                 <li>
                                     @Html.ActionLink("All Group", "AllGroup", "Configuration", null, new { @class = "nav-link  title" })
                                 </li>
@@ -405,54 +465,54 @@
                                 <li>
                                     @Html.ActionLink("All Location", "AllLocation", "Configuration", null, new { @class = "nav-link  title" })
                                 </li>
-                                    <li>
-                                        @Html.ActionLink("All Job", "AllJobTitle", "Configuration", null, new { @class = "nav-link  title" })
-                                    </li>
-                                    <li>
-                                        @Html.ActionLink("All Business Unit", "allBusinessUnits", "Configuration", null, new { @class =  "nav-link  title" })
-                                    </li>
-                                }
                                 <li>
-                                    @Html.ActionLink("All Department", "AllDepartment", "Configuration", null, new { @class = "nav-link  title" })
+                                    @Html.ActionLink("All Job", "AllJobTitle", "Configuration", null, new { @class = "nav-link  title" })
                                 </li>
                                 <li>
-                                    @Html.ActionLink("All Level", "AllLevel", "Configuration", null, new { @class = "nav-link  title" })
+                                    @Html.ActionLink("All Business Unit", "allBusinessUnits", "Configuration", null, new { @class = "nav-link  title" })
                                 </li>
-                               
-                                <li>
-                                    @Html.ActionLink("All Position", "Allposition", "Configuration", null, new { @class = "nav-link  title" })
-                                </li>
-                                <li>
-                                    @Html.ActionLink("All Employment Status", "AllEmploymentStatus", "Configuration", null, new { @class = "nav-link  title" })
-                                </li>
-                                <li>
-                                    @Html.ActionLink("All Prefix", "AllPrefix", "Configuration", null, new { @class = "nav-link  title" })
-                                </li>
-                            </ul>
-                        </li>
-                    
-                        @*<li class="has-sub active">
-                <a href="javascript:;">
-                    <b class="caret pull-right"></b>
-                    <i class="fa fa-file-o"></i>
-                    <span>Form Stuff</span>
-                </a>
-                <ul class="sub-menu">
-                    <li><a href="form_elements.html">Form Elements</a></li>
-                    <li><a href="form_plugins.html">Form Plugins</a></li>
-                    <li><a href="form_slider_switcher.html">Form Slider + Switcher</a></li>
-                    <li><a href="form_validation.html">Form Validation</a></li>
-                    <li><a href="form_wizards.html">Wizards</a></li>
-                    <li class="active"><a href="form_wizards_validation.html">Wizards + Validation</a></li>
-                    <li><a href="form_wysiwyg.html">WYSIWYG</a></li>
-                    <li><a href="form_editable.html">X-Editable</a></li>
-                    <li><a href="form_multiple_upload.html">Multiple File Upload</a></li>
+                            }
+                            <li>
+                                @Html.ActionLink("All Department", "AllDepartment", "Configuration", null, new { @class = "nav-link  title" })
+                            </li>
+                            <li>
+                                @Html.ActionLink("All Level", "AllLevel", "Configuration", null, new { @class = "nav-link  title" })
+                            </li>
+
+                            <li>
+                                @Html.ActionLink("All Position", "Allposition", "Configuration", null, new { @class = "nav-link  title" })
+                            </li>
+                            <li>
+                                @Html.ActionLink("All Employment Status", "AllEmploymentStatus", "Configuration", null, new { @class = "nav-link  title" })
+                            </li>
+                            <li>
+                                @Html.ActionLink("All Prefix", "AllPrefix", "Configuration", null, new { @class = "nav-link  title" })
+                            </li>
+                        </ul>
+                    </li>
+
+                    @*<li class="has-sub active">
+                        <a href="javascript:;">
+                        <b class="caret pull-right"></b>
+                        <i class="fa fa-file-o"></i>
+                        <span>Form Stuff</span>
+                        </a>
+                        <ul class="sub-menu">
+                        <li><a href="form_elements.html">Form Elements</a></li>
+                        <li><a href="form_plugins.html">Form Plugins</a></li>
+                        <li><a href="form_slider_switcher.html">Form Slider + Switcher</a></li>
+                        <li><a href="form_validation.html">Form Validation</a></li>
+                        <li><a href="form_wizards.html">Wizards</a></li>
+                        <li class="active"><a href="form_wizards_validation.html">Wizards + Validation</a></li>
+                        <li><a href="form_wysiwyg.html">WYSIWYG</a></li>
+                        <li><a href="form_editable.html">X-Editable</a></li>
+                        <li><a href="form_multiple_upload.html">Multiple File Upload</a></li>
+                        </ul>
+                        </li>*@
+                    <!-- begin sidebar minify button -->
+                    <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
+                    <!-- end sidebar minify button -->
                 </ul>
-            </li>*@
-                        <!-- begin sidebar minify button -->
-                        <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
-                        <!-- end sidebar minify button -->
-                    </ul>
                 <!-- end sidebar nav -->
             </div>
             <!-- end sidebar scrollbar -->
@@ -463,20 +523,20 @@
         <div id="content" class="content">
             <!-- begin breadcrumb -->
             <ol class="breadcrumb pull-right">
-                <li><a href="@crumbs.ActionUrl">@action.ToLower()</a></li>
-                <li><a href="javascript:;">@controller.ToLower()</a></li>
+                <li>@crumbs.ActionUrl">@action.ToLower()</li>
+                <li>@controller.ToLower()</li>
                 @if (UrlName != null)
                 {
                     if (UrlName.Length == 3)
-                {
+                    {
                         <li>@Html.ActionLink(UrlName[1], UrlName[2], UrlName[1])</li>
-                }
+                    }
                     if (UrlName.Length == 4)
-                {
+                    {
                         <li>@Html.ActionLink(UrlName[2], UrlName[3], UrlName[2])</li>
                     }
                 }
-             
+
             </ol>
             <!-- end breadcrumb -->
             <!-- begin page-header -->
@@ -611,8 +671,8 @@
     <script src="~/assets/AdminTemplate/assets/plugins/parsley/dist/parsley.js"></script>
     @RenderSection("Scripts", required: false)
     <script src="~/assets/AdminTemplate/assets/js/apps.min.js"></script>
-    @RenderSection("Scrpit2", required:false)
-        <script>
+    @RenderSection("Scrpit2", required: false)
+    <script>
         $(document).ready(function () {
             App.init();
             $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);

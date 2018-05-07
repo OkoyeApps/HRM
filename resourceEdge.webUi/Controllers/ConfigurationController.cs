@@ -12,6 +12,7 @@ using System.Net;
 using resourceEdge.webUi.Infrastructure;
 using resourceEdge.webUi.Infrastructure.Handlers;
 using resourceEdge.webUi.Infrastructure.Core;
+using resourceEdge.webUi.Infrastructure.SystemManagers;
 
 namespace resourceEdge.webUi.Controllers
 {
@@ -32,7 +33,7 @@ namespace resourceEdge.webUi.Controllers
         ILocation LocationRepo;
         IGroups GroupRepo;
         ConfigurationManager ConfigManager;
-        Apimanager Apimanager;
+        DropDownManager DropDown;
         public ApplicationUserManager UserManager
         {
             get { return userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); }
@@ -55,7 +56,7 @@ namespace resourceEdge.webUi.Controllers
             LocationRepo = locationParam;
             this.GroupRepo = Gparam;
             ConfigManager = new ConfigurationManager(BParam);
-            Apimanager = new Apimanager();
+            DropDown = new DropDownManager();
         }
         public ActionResult Index()
         {
@@ -75,7 +76,7 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.previousUrl = previousUrl;
             ViewBag.PageTitle = "Add Code";
             ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
-            ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(X => X.Id), "Id", "GroupName", "Id");
+            ViewBag.Groups = DropDown.GetGroup();
             return View();
         }
         [HttpPost]
@@ -234,8 +235,8 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult addBusinessUnits()
         {
             ViewBag.PageTitle = "Add Business Unit";
-            ViewBag.Locations = new SelectList(LocationRepo.Get().OrderBy(x => x.State), "Id", "State", "Id");
-            ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(x => x.GroupName), "Id", "GroupName", "Id");
+            ViewBag.Locations = DropDown.GetLocation();
+            ViewBag.Groups = DropDown.GetGroup();
             return View();
         }
 
@@ -258,7 +259,7 @@ namespace resourceEdge.webUi.Controllers
                     {
 
                         this.AddNotification($"Please Unit alreasy existing with same name in this location. Kindly try using another name or a different Location", NotificationType.ERROR);
-                        ViewBag.Locations = new SelectList(LocationRepo.Get().OrderBy(x => x.State), "Id", "State", "Id");
+                        ViewBag.Locations = DropDown.GetLocation();
                         return View(model);
                     }
                     unit.LocationId = location ?? null;
@@ -285,7 +286,7 @@ namespace resourceEdge.webUi.Controllers
             }
 
             this.AddNotification($"Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
-            ViewBag.Locations = new SelectList(LocationRepo.Get().OrderBy(x => x.State), "Id", "State", "Id");
+            ViewBag.Locations = DropDown.GetLocation();
             return View(model);
         }
 
@@ -358,7 +359,7 @@ namespace resourceEdge.webUi.Controllers
 
         public ActionResult addDepartment()
         {
-            ViewBag.businessUnits = new SelectList(BusinessRepo.Get().OrderBy(x => x.unitname), "Id", "unitname");
+            ViewBag.businessUnits = DropDown.GetBusinessUnit();
             ViewBag.PageTitle = "Add Department";
             return View(new DepartmentViewModel());
         }
@@ -387,7 +388,7 @@ namespace resourceEdge.webUi.Controllers
                 return RedirectToAction("addDepartment");
             }
 
-            ViewBag.businessUnits = new SelectList(BusinessRepo.Get().OrderBy(x => x.unitname), "Id", "unitname", "Id");
+            ViewBag.businessUnits = DropDown.GetBusinessUnit();
             this.AddNotification($"Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
             return View(model);
         }
@@ -461,7 +462,7 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.previousUrl = previousUrl;
             ViewBag.PageTitle = "Add Job Title";
             ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
-            ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(X => X.Id), "Id", "GroupName", "Id");
+            ViewBag.Groups = DropDown.GetBusinessUnit();
             return View(new Jobtitle());
         }
 
@@ -557,7 +558,7 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.previousUrl = previousUrl;
             ViewBag.PageTitle = "Add Position";
             ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
-            ViewBag.jobTitles = new SelectList(Apimanager.JobList().OrderBy(x => x.JobName), "JobId", "JobName", "JobId");
+            ViewBag.jobTitles = DropDown.GetJobtitle();
             return View(new Position());
         }
 
@@ -597,7 +598,7 @@ namespace resourceEdge.webUi.Controllers
                     return RedirectToAction("addPosition");
                 }
             }
-            ViewBag.jobTitles = new SelectList(Apimanager.JobList().OrderBy(x => x.JobName), "JobId", "JobName", "JobId");
+            ViewBag.jobTitles = DropDown.GetJobtitle();
             this.AddNotification($"Something went wrong. please make sure you fill all the appropriate details", NotificationType.ERROR);
             return RedirectToAction("addPosition");
         }
@@ -786,7 +787,7 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.previousUrl = previousUrl;
             ViewBag.PageTitle = "Add Level";
             ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
-            ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(X => X.Id), "Id", "GroupName", "Id");
+            ViewBag.Groups = DropDown.GetGroup();
 
             return View();
         }
@@ -833,7 +834,7 @@ namespace resourceEdge.webUi.Controllers
                 }
             }
             this.AddNotification($"Something went wrong, please try again", NotificationType.ERROR);
-            ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(X => X.Id), "Id", "GroupName", "Id");
+            ViewBag.Groups = DropDown.GetGroup();
             return View(model);
         }
         public ActionResult Editlevel(int id)
@@ -876,7 +877,7 @@ namespace resourceEdge.webUi.Controllers
 
             ViewBag.pageTitle = "Add Location";
             ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
-            ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(X => X.Id), "Id", "GroupName", "Id");
+            ViewBag.Groups = DropDown.GetGroup();
             return View();
         }
         [HttpPost]
@@ -924,7 +925,7 @@ namespace resourceEdge.webUi.Controllers
                 }
             }
             this.AddNotification($"Something went wrong, please try again", NotificationType.ERROR);
-            ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(X => X.Id), "Id", "GroupName", "Id");
+            ViewBag.Groups = DropDown.GetGroup();
             return View(model);
         }
         public ActionResult Editlocation(int id)

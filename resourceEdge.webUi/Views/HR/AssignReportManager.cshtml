@@ -23,7 +23,7 @@
         <div class="form-group">
             @Html.Label("Employee", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <select id="ManagerId" name="ManagerId" class="form-control"><option value="">Select Employee</option></select>
+                <select id="ManagerId"  name="ManagerId" class="form-control"><option value="">Select Employee</option></select>
                 @Html.ValidationMessageFor(model => model.ManagerId, "", new { @class = "text-danger" })
             <br />
             </div>

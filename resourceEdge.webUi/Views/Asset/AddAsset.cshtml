@@ -1,0 +1,59 @@
+﻿@model resourceEdge.Domain.Entities.AssetViewModel
+
+@{
+    ViewBag.Title = "AddAsset";
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+}
+
+@using (Html.BeginForm("AddAsset","Asset", null,FormMethod.Post, new { data_parsley_validate = "", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", required = "" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Serial Number", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Editor("SerialNumber", new { htmlAttributes = new { @class = "form-control", data_parsley_min = "1", required = "" } })
+               @* <input class="form-control" type="number" data-parsley-min = "0" name="SerialNumber" />*@
+                @Html.ValidationMessageFor(model => model.SerialNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Category, "Category", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Category", Model.CategotyList , "Select Category", htmlAttributes: new { @class = "form-control",required = "" })
+                @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Image", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" name="File" class="files form-control" accept=".png,.jpg" />
+                @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

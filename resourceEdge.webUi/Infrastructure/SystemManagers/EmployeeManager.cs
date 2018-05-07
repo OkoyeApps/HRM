@@ -124,6 +124,12 @@ namespace resourceEdge.webUi.Infrastructure
             }
             return null;
         }
+        public List<PrefixesListItem> PrefixeList()
+        {
+            List<PrefixesListItem> Result = new List<PrefixesListItem>();
+            unitofWork.prefix.Get().ToList().ForEach(x => Result.Add(new PrefixesListItem { prefixId = x.Id, prefixName = x.prefixName }));
+            return Result;
+        }
         public string GetGroupName(int id)
         {
             var result = unitofWork.Groups.GetByID(id).GroupName;

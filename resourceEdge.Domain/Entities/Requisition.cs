@@ -9,13 +9,14 @@ namespace resourceEdge.Domain.Entities
    public class Requisition
     {
         public int id { get; set; }
+        public int groupId { get; set; }
         public string RequisitionCode { get; set; }
-        public Nullable<System.DateTime> OnboardDate { get; set; }
-        public Nullable<int> PositionId { get; set; }
+        public DateTime? OnboardDate { get; set; }
+        public int? PositionId { get; set; }
         public string ReportingId { get; set; }
-        public Nullable<int> BusinessunitId { get; set; }
-        public Nullable<int> DepartmentId { get; set; }
-        public Nullable<int> JobTitleId { get; set; }
+        public int? BusinessUnitId { get; set; }
+        public int? DepartmentId { get; set; }
+        public int? JobTitleId { get; set; }
         public string ReqNoPositions { get; set; }
         public string SelectedMembers { get; set; }
         public string FilledPositions { get; set; }
@@ -37,8 +38,12 @@ namespace resourceEdge.Domain.Entities
         public string ClientId { get; set; }
         public string Createdby { get; set; }
         public string Modifiedby { get; set; }
-        public Nullable<System.DateTime> CreatedDate { get; set; }
-        public Nullable<System.DateTime> modifiedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public DateTime? modifiedDate { get; set; }
         public string Isactive { get; set; }
+        public BusinessUnit BusinessUnit { get; set; }
+        public Departments Department { get; set; }
+        public Jobtitle JobTitle { get; set; }
+        public Position Position { get; set; }
     }
 }

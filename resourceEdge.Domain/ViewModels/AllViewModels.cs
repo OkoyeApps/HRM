@@ -523,7 +523,7 @@ namespace resourceEdge.Domain.Entities
         public string EducationSummary { get; set; }
         public int Experience { get; set; }
         public string Skills { get; set; }
-        public string Status { get; set; }
+        public bool? Status { get; set; }
         public string Country { get; set; }
         public string State { get; set; }
         public string City { get; set; }
@@ -560,9 +560,41 @@ namespace resourceEdge.Domain.Entities
     }
     public class AllCandidateInterviewViewModel
     {
+        public AllCandidateInterviewViewModel()
+        {
+            candidates = new List<CandidateInterviewForDetails>();
+        }
+       public List<CandidateInterviewForDetails> candidates { get; set; }
+        public Dictionary<int, string> IdsAndResume { get; set; }      
+    }
+    public class CandidateInterviewForDetails
+    {
         public int Id { get; set; }
         public string CandidateName { get; set; }
-        public string InterviewName { get; set; }    
-        
+        public string InterviewName { get; set; }
+    }
+
+    public class AssetViewModel
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public long SerialNumber { get; set; }
+        public int Category { get; set; }
+        public string ImageUrl { get; set; }
+        public SelectList CategotyList { get; set; }
+    }
+    public class RequestAssetViewModel
+    {
+        public int Id { get; set; }
+        public int Category { get; set; }
+        public SelectList CategotyList { get; set; }
+        public int Amount { get; set; }
+        public DateTime? DueTime { get; set; }
+        public string RequestedBy { get; set; }
+        public string createdBy { get; set; }
+        public string CreatedByFullName { get; set; }
+        public string ModifiedBy { get; set; }
+        public DateTime? CreatedOn { get; set; }
+        public DateTime? ModifiedOn { get; set; }
     }
 }

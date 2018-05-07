@@ -28,10 +28,10 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
             
             if (LocationDetail != null)
             {
-                var Subscribtion = unitOfWork.SubscribedAppraisal.Get(filter: x => x.GroupId == LocationDetail.GroupId && x.LocationId == LocationDetail.LocationId).FirstOrDefault();
+                var Subscribtion = unitOfWork.GetDbContext().SubscribedAppraisal.Where(x => x.GroupId == LocationDetail.GroupId && x.LocationId == LocationDetail.LocationId).FirstOrDefault();
                 if (user != null && Subscribtion != null)
                 {
-                    var SubScribedAppraisal = unitOfWork.AppraisalInitialization.Get(filter: x => x.Id == Subscribtion.AppraisalInitializationId && x.InitilizationCode == Subscribtion.Code && x.IsActive == true).FirstOrDefault();
+                    var SubScribedAppraisal = unitOfWork.GetDbContext().AppraisalInitialization.Where(x => x.Id == Subscribtion.AppraisalInitializationId && x.InitilizationCode == Subscribtion.Code && x.IsActive == true).FirstOrDefault();
                     if (SubScribedAppraisal != null)
                     {
                      

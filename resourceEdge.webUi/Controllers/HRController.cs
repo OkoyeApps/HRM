@@ -17,6 +17,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System.Threading.Tasks;
 using resourceEdge.webUi.Infrastructure.Handlers;
 using resourceEdge.webUi.Infrastructure.Core;
+using resourceEdge.webUi.Infrastructure.SystemManagers;
 
 namespace resourceEdge.webUi.Controllers
 {
@@ -39,7 +40,8 @@ namespace resourceEdge.webUi.Controllers
         EmployeeManager.EmployeeDetails empdetail;
         ApplicationDbContext db;
         ApplicationUserManager userManager;
-        Apimanager Apimanager;
+        ConfigurationManager ConfigManager;
+        DropDownManager dropDownManager;
 
         public HRController(IEmployees empParam, IBusinessUnits busParam, IReportManager rParam, Rolemanager RoleParam,
             ApplicationDbContext dbParam, IEmploymentStatus SParam, IFiles FParam, ILocation LRepo, ILevels levelParam, IGroups gParam,
@@ -61,7 +63,8 @@ namespace resourceEdge.webUi.Controllers
             empdetail = new EmployeeManager.EmployeeDetails();
             employeeManager = new EmployeeManager(empParam, rParam, Mailparam);
             UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
-            Apimanager = new Apimanager();
+            ConfigManager = new ConfigurationManager();
+            dropDownManager = new DropDownManager();
         }
         public ApplicationUserManager UserManager
         {
@@ -115,16 +118,15 @@ namespace resourceEdge.webUi.Controllers
         {
             ViewBag.PageTitle = "Create Employee";
             var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
-            ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(X => X.Id), "Id", "GroupName", "Id");
-            ViewBag.Locations = new SelectList(LocationRepo.Get().OrderBy(x => x.State), "Id", "State", "Id");
-            ViewBag.roles = new SelectList(GetRoles().OrderBy(x => x.Name).Where(u => !u.Name.Contains("System Admin") && !u.Name.Contains("Management") &&(!u.Name.Contains("L1") && !u.Name.Contains("L2") && !u.Name.Contains("L3"))).Select(x => new { name = x.Name, id = x.Id }), "Id", "name", "Id");
-            ViewBag.returnUrl = returnUrl;
-            ViewBag.EmpStatus = new SelectList(statusRepo.Get().Select(x => new { name = x.employemntStatus, id = x.empstId }), "id", "name", "id");
-            ViewBag.prefix = new SelectList(Apimanager.PrefixeList(), "Id", "prefixName", "Id");
-            ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.Id), "Id", "unitname", "Id");
-           // ViewBag.jobTitles = new SelectList(Apimanager.JobList().OrderBy(x => x.JobName), "JobId", "JobName", "JobId");
-            ViewBag.jobTitles = new SelectList(employeeManager.GetJobsByGroupForHr(UserFromSession.GroupId).OrderBy(x => x.jobtitlename), "Id", "jobtitlename", "Id");
-            ViewBag.Levels = new SelectList(levelRepo.Get().OrderBy(x => x.levelNo), "Id", "LevelNo", "Id");
+            ViewBag.Groups = GroupRepo.GetById(UserFromSession.GroupId).GroupName;
+            ViewBag.Locations =ConfigManager.GetLocationByGroupId(UserFromSession.GroupId);
+            ViewBag.roles = dropDownManager.GetRole();
+            ViewBag.code = ConfigManager.GetIdentityCode(UserFromSession.GroupId);
+            ViewBag.EmpStatus = dropDownManager.GetEmploymentStatus();
+            ViewBag.prefix = dropDownManager.GetPrefix();
+            ViewBag.businessUnits = dropDownManager.GetBusinessUnit();
+            ViewBag.jobTitles = dropDownManager.GetJobtitle();
+            ViewBag.Levels = dropDownManager.GetLevel();
             return View();
         }
 
@@ -143,6 +145,7 @@ namespace resourceEdge.webUi.Controllers
                 {
                     if (validDate != false)
                     {
+                        var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
                         var unitDetail = BunitsRepo.GetById(employees.businessunitId);
                         realEmployee.businessunitId = employees.businessunitId;
                         realEmployee.createdby = User.Identity.GetUserId();
@@ -162,7 +165,7 @@ namespace resourceEdge.webUi.Controllers
                         realEmployee.yearsExp = employees.yearsExp;
                         realEmployee.LevelId = employees.Level;
                         realEmployee.LocationId = unitDetail.LocationId.Value;
-                        realEmployee.GroupId = employees.GroupId;
+                        realEmployee.GroupId = UserFromSession.GroupId;
                         realEmployee.isactive = true;
                         var CreatedDate = realEmployee.createddate = DateTime.Now;
                         var modifiedDate = realEmployee.modifieddate = DateTime.Now;
@@ -170,7 +173,7 @@ namespace resourceEdge.webUi.Controllers
                         {
                             var newCreatedUser = await Infrastructure.UserManagement.CreateUser(employees.empEmail, employees.empRoleId.ToString(), employees.empStatusId, employees.FirstName, employees.lastName, employees.officeNumber,
                                  RealUserId, employees.jobtitleId.ToString(), null, User.Identity.GetUserId(), User.Identity.GetUserId(), employees.modeofEmployement.ToString(),
-                                  employees.dateOfJoining, null, true, employees.departmentId.ToString(), employees.businessunitId.ToString());
+                                  employees.dateOfJoining, null, true, employees.departmentId.ToString(), employees.businessunitId.ToString(), UserFromSession.GroupId);
                             if (newCreatedUser.Item1.Id != null)
                             {
 
@@ -205,10 +208,10 @@ namespace resourceEdge.webUi.Controllers
                         return RedirectToAction("Create");
                     }
                     this.AddNotification("Sorry, Please the entry date must not be less than or equal to the Exit Date Please try Again", NotificationType.WARNING);
-                    return Redirect(returnUrl);
+                    return RedirectToAction("Create");
                 }
-                this.AddNotification("Sorry Employee with this Id { employees.empID } already exist in the System Please try Again", NotificationType.ERROR);
-                //return Redirect(returnUrl);
+                this.AddNotification($"Sorry Employee with this Id { employees.empUserId } already exist in the System Please try Again", NotificationType.ERROR);
+                return Redirect("Create");
             }
             return RedirectToAction("Create");
 
@@ -216,17 +219,20 @@ namespace resourceEdge.webUi.Controllers
         [NonAction]
         public bool validateDates(DateTime? dateOfJoining, DateTime? dateOfLeaveing)
         {
-            if (dateOfJoining != null && dateOfLeaveing != null)
+            if (dateOfJoining != null)
             {
-                if (dateOfJoining > dateOfLeaveing)
+                if (dateOfLeaveing != null)
                 {
-                    return false;
+                    if (dateOfJoining > dateOfLeaveing || (dateOfJoining > DateTime.Now))
+                    {
+                        return false;
+                    }
+                    else if (dateOfJoining < dateOfLeaveing)
+                    {
+                        return true;
+                    }
                 }
-                else if (dateOfJoining < dateOfLeaveing)
-                {
-                    return true;
-                }
-
+                return true;
             }
             return false;
         }
@@ -244,30 +250,35 @@ namespace resourceEdge.webUi.Controllers
         {
             ReportManager manager = new ReportManager();
             var existingManager = employeeManager.ExistingReportManager(model.ManagerId, int.Parse(model.BunitId));
-            if (ModelState.IsValid && existingManager == null)
+            if (ModelState.IsValid)
             {
                 if (existingManager.Count < 2)
                 {
                     manager.BusinessUnitId = int.Parse(model.BunitId);
                     manager.ManagerUserId = model.ManagerId;
                     var employee = employeeManager.CheckIfEmployeeExistByUserId(model.ManagerId);
-                    if (employee != null && employee.empID != 2 && employee.IsUnithead != true)
+                    if (employee != null)
                     {
-                        var result = empRepo.GetByUserId(model.ManagerId);
-                        manager.employeeId = result.empID;
-                        manager.DepartmentId = result.DepartmentId;
-                        manager.FullName = result.FullName;
-                        result.IsUnithead = true;
-                        result.empRoleId = 2;
-                        empRepo.update(result); //fix this later by making this update the employee table
-                        var resultRole = userManager.RemoveFromRole(result.userId, "Employee"); //Fix this later and make sure the adding and removing is workin well.
-                        if (resultRole.Succeeded)
+                        if (employee.empID != 2 && employee.IsUnithead != true )
                         {
-                            userManager.AddToRole(result.userId, "Manager");
-                            ReportRepo.Insert(manager);
+                            var result = empRepo.GetByUserId(model.ManagerId);
+                            manager.employeeId = result.empID;
+                            manager.DepartmentId = result.DepartmentId;
+                            manager.FullName = result.FullName;
+                            result.IsUnithead = true;
+                            result.empRoleId = 2;
+                            empRepo.update(result); //fix this later by making this update the employee table
+                            var resultRole = userManager.RemoveFromRole(result.userId, "Employee"); //Fix this later and make sure the adding and removing is workin well.
+                            if (resultRole.Succeeded)
+                            {
+                                userManager.AddToRole(result.userId, "Manager");
+                                ReportRepo.Insert(manager);
+                            }
+                            this.AddNotification("Report manager added!", NotificationType.SUCCESS);
+                            return RedirectToAction("AssignReportManager");
                         }
-                        this.AddNotification("", NotificationType.SUCCESS);
-                        return RedirectToAction("allEmployee");
+                        this.AddNotification("Oops! this employee is already a reporting manager, Please you can kindly assign someone else", NotificationType.WARNING);
+                        return RedirectToAction("AssignReportManager");
                     }
                     else
                     {
@@ -329,8 +340,9 @@ namespace resourceEdge.webUi.Controllers
                         this.AddNotification("", NotificationType.SUCCESS);
                         return RedirectToAction("AssignDepartmentHead");
                     }
+                    this.AddNotification("Sorry this employee is already the Departmental Head", NotificationType.WARNING);
+                    return RedirectToAction("AssignDepartmentHead");
                 }
-
             }
             this.AddNotification("Something went wrong, please try again", NotificationType.ERROR);
             return RedirectToAction("AssignDepartmentHead");

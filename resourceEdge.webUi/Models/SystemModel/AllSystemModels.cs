@@ -76,4 +76,16 @@ namespace resourceEdge.webUi.Models.SystemModel
         public string FullName { get; set; }
     }
 
+    public class RequisitionListItems
+    {
+        public int Id { get; set; }
+        public string ReqCode { get; set; }
+        public string Job { get; set; }
+        public string Position { get; set; }
+        public string BusinessUnitName { get; set; }
+        public string DepartmentName { get; set; }
+        public string RaisedBy { get; set; }
+        public bool? Status { get; set; }
+    }
+
 }

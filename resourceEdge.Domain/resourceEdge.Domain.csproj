@@ -112,6 +112,8 @@
     <Compile Include="Abstracts\Appraisal\IAppraisalStatus.cs" />
     <Compile Include="Abstracts\Appraisal\IAppriaslPeriods.cs" />
     <Compile Include="Abstracts\Appraisal\IParameter.cs" />
+    <Compile Include="Abstracts\IAsset.cs" />
+    <Compile Include="Abstracts\IAssetCategory.cs" />
     <Compile Include="Abstracts\ICandidate.cs" />
     <Compile Include="Abstracts\ICandidateWorkDetail.cs" />
     <Compile Include="Abstracts\IQuestions.cs" />
@@ -140,6 +142,7 @@
     <Compile Include="Abstracts\IPrefixes.cs" />
     <Compile Include="Abstracts\Iproduct.cs" />
     <Compile Include="Abstracts\IReportManager.cs" />
+    <Compile Include="Abstracts\IRequestAsset.cs" />
     <Compile Include="Abstracts\IRequisition.cs" />
     <Compile Include="Abstracts\ILocation.cs" />
     <Compile Include="Abstracts\IMenu.cs" />
@@ -157,6 +160,7 @@
     <Compile Include="Concrete\Appraisal\QuestionRepository.cs" />
     <Compile Include="Concrete\Appraisal\RatingRepository.cs" />
     <Compile Include="Concrete\Appraisal\SkillRepository.cs" />
+    <Compile Include="Concrete\AssetCategoryRepository.cs" />
     <Compile Include="Concrete\BusinessRepository.cs" />
     <Compile Include="Concrete\CandidateRepository.cs" />
     <Compile Include="Concrete\CandidateWorkRepository.cs" />
@@ -168,6 +172,7 @@
     <Compile Include="Concrete\EmployementStatusRepository.cs" />
     <Compile Include="Concrete\FileRepository.cs" />
     <Compile Include="Concrete\GroupRepository.cs" />
+    <Compile Include="Concrete\AssetRepository.cs" />
     <Compile Include="Concrete\IdentityRepository.cs" />
     <Compile Include="Concrete\JobTitleRepository.cs" />
     <Compile Include="Concrete\LeaveManagementRepo.cs" />
@@ -181,6 +186,7 @@
     <Compile Include="Concrete\PrefixRepository.cs" />
     <Compile Include="Concrete\ProductRepository.cs" />
     <Compile Include="Concrete\ReprtManagerRepository.cs" />
+    <Compile Include="Concrete\RequestAssetRepository.cs" />
     <Compile Include="Concrete\RequisitionRepo.cs" />
     <Compile Include="DbEntities\products.cs" />
     <Compile Include="Entities\ActivityLog.cs" />
@@ -195,6 +201,8 @@
     <Compile Include="Entities\Appraisal\AppriasalConfiguration.cs" />
     <Compile Include="Entities\Appraisal\EmployeeRating.cs" />
     <Compile Include="Entities\Appraisal\Parameters.cs" />
+    <Compile Include="Entities\Asset.cs" />
+    <Compile Include="Entities\AssetCategory.cs" />
     <Compile Include="Entities\Candidate.cs" />
     <Compile Include="Entities\CandidateInterview.cs" />
     <Compile Include="Entities\CandidateStatus.cs" />
@@ -237,6 +245,7 @@
     <Compile Include="Entities\Position.cs" />
     <Compile Include="Entities\Prefix.cs" />
     <Compile Include="Entities\ReportManager.cs" />
+    <Compile Include="Entities\RequestAsset.cs" />
     <Compile Include="Entities\RequestHistory.cs" />
     <Compile Include="Entities\Requisition.cs" />
     <Compile Include="Entities\RequisitionHistory.cs" />
@@ -279,6 +288,30 @@
     <Compile Include="Migrations\EdgeDbContext2\201804261454058_RequisitionUpdate.cs" />
     <Compile Include="Migrations\EdgeDbContext2\201804261454058_RequisitionUpdate.Designer.cs">
       <DependentUpon>201804261454058_RequisitionUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201804281244242_Update to requisition Association.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201804281244242_Update to requisition Association.Designer.cs">
+      <DependentUpon>201804281244242_Update to requisition Association.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201805011127514_Asset and AssetCategory added.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201805011127514_Asset and AssetCategory added.Designer.cs">
+      <DependentUpon>201805011127514_Asset and AssetCategory added.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201805021801178_AssetRequisition Entity.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201805021801178_AssetRequisition Entity.Designer.cs">
+      <DependentUpon>201805021801178_AssetRequisition Entity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201805030909032_AssetRequisition Update to serialNumber.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201805030909032_AssetRequisition Update to serialNumber.Designer.cs">
+      <DependentUpon>201805030909032_AssetRequisition Update to serialNumber.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201805071204386_Candidate groupId added.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201805071204386_Candidate groupId added.Designer.cs">
+      <DependentUpon>201805071204386_Candidate groupId added.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201805071235183_Requistion groupId added.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201805071235183_Requistion groupId added.Designer.cs">
+      <DependentUpon>201805071235183_Requistion groupId added.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\EdgeDbContext2\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -337,6 +370,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\EdgeDbContext2\201804261454058_RequisitionUpdate.resx">
       <DependentUpon>201804261454058_RequisitionUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201804281244242_Update to requisition Association.resx">
+      <DependentUpon>201804281244242_Update to requisition Association.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805011127514_Asset and AssetCategory added.resx">
+      <DependentUpon>201805011127514_Asset and AssetCategory added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805021801178_AssetRequisition Entity.resx">
+      <DependentUpon>201805021801178_AssetRequisition Entity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805030909032_AssetRequisition Update to serialNumber.resx">
+      <DependentUpon>201805030909032_AssetRequisition Update to serialNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805071204386_Candidate groupId added.resx">
+      <DependentUpon>201805071204386_Candidate groupId added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805071235183_Requistion groupId added.resx">
+      <DependentUpon>201805071235183_Requistion groupId added.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -70,10 +70,8 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                 UserName = userFullName
                 
             });
-            logEvent.InsertActivityLogs(activityLogs);
-            //UnitOfWork unitOfWork = new UnitOfWork();
-            //GenericRepository<ActivityLog> gg = new GenericRepository<ActivityLog>(unitOfWork.GetDbContext());
-            
+           var Ip =  HttpContext.Current.Request.UserHostAddress;
+            logEvent.InsertActivityLogs(activityLogs);          
 
         }
 

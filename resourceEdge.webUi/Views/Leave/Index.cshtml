@@ -22,27 +22,6 @@
         <th>
             @Html.DisplayNameFor(model => model.departmentId)
         </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.HrId)
-        </th>*@
-        <th>
-            @Html.DisplayNameFor(model => model.HoursDay)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsHalfday)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsLeaveTransfer)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsSkipHolidays)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Descriptions)
-        </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.Isactive)
-        </th>*@
         <th></th>
     </tr>
 
@@ -62,24 +41,6 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.departmentId)
-        </td>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.HrId)
-        </td>*@
-        <td>
-            @Html.DisplayFor(modelItem => item.HoursDay)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsHalfday)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsLeaveTransfer)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsSkipHolidays)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Descriptions)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.id }) |

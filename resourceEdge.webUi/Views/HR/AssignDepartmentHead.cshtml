@@ -11,9 +11,6 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Assign Department Head for Unit</h4>
-        <hr />
-
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">
@@ -29,7 +26,7 @@
         <div class="form-group">
             <label class = "control-label col-md-2">Department</label>
             <div class="col-md-10">
-                <select class="form-control" id="departmentId"><option value="">Select Department</option></select>
+                <select class="form-control" id="departmentId" name="DeptId"><option value="">Select Department</option></select>
             </div>
         </div>
         <div class="form-group">

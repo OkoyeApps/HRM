@@ -452,7 +452,7 @@ namespace resourceEdge.webUi.Controllers
             /// </summary>
         }
 
-        public async Task<ActionResult> CustomLogin(LoginViewModel model)
+        public ActionResult CustomLogin(LoginViewModel model)
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             Dictionary<string, object> modelToSend = new Dictionary<string, object>();

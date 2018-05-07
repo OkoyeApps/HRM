@@ -232,6 +232,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AppraisalController.cs" />
+    <Compile Include="Controllers\AssetController.cs" />
     <Compile Include="Controllers\CronController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HRController.cs" />
@@ -255,6 +256,7 @@
     <Compile Include="Infrastructure\SystemManagers\AdminManager.cs" />
     <Compile Include="Infrastructure\SystemManagers\Apimanager.cs" />
     <Compile Include="Infrastructure\SystemManagers\AppraisalManager.cs" />
+    <Compile Include="Infrastructure\SystemManagers\AssetManager.cs" />
     <Compile Include="Infrastructure\SystemManagers\BackendValidationManager.cs" />
     <Compile Include="Infrastructure\SystemManagers\ConfigurationManager.cs" />
     <Compile Include="Infrastructure\Core\CronJob.cs" />
@@ -262,6 +264,7 @@
     <Compile Include="Infrastructure\Core\Generators.cs" />
     <Compile Include="Infrastructure\Core\NotificationExtension.cs" />
     <Compile Include="Infrastructure\DbInitializer.cs" />
+    <Compile Include="Infrastructure\SystemManagers\DropDownManager.cs" />
     <Compile Include="Infrastructure\SystemManagers\EmployeeManager.cs" />
     <Compile Include="Infrastructure\Handlers\EdgeIdentityFilter.cs" />
     <Compile Include="Infrastructure\Handlers\ActionLoggingFilter.cs" />
@@ -1469,9 +1472,21 @@
     <Content Include="Views\Recruitment\AllInterview.cshtml" />
     <Content Include="Views\Recruitment\InterviewDetails.cshtml" />
     <Content Include="Views\Recruitment\AddFeedBack.cshtml" />
+    <Content Include="Views\Recruitment\AllCandidate.cshtml" />
+    <Content Include="Views\Asset\Index.cshtml" />
+    <Content Include="Views\Asset\AddAsset.cshtml" />
+    <Content Include="Views\Asset\AllAssetCategory.cshtml" />
+    <Content Include="Views\Asset\AddAssetCategory.cshtml" />
+    <Content Include="Views\Asset\EditAsset.cshtml" />
+    <Content Include="Views\Asset\EditAssetCategory.cshtml" />
+    <Content Include="Views\Asset\RequestAsset.cshtml" />
+    <Content Include="Views\Asset\AllRequest.cshtml" />
+    <Content Include="Views\Recruitment\SelectedCandidates.cshtml" />
+    <Content Include="Views\Recruitment\candidateDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Files\Asset\" />
     <Folder Include="Files\Avatars\" />
     <Folder Include="Files\Cv\" />
     <Folder Include="Images\Assets\" />

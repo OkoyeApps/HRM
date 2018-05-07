@@ -29,7 +29,7 @@ namespace resourceEdge.webUi.Infrastructure
         public static async Task<Tuple<ApplicationUser, string>> CreateUser(
             string email, string empRole, string userstatus, string fname, string lname, string phoneNo,
             string empId, string jobId, string Comments, string createdBy, string modifiedBy, string modeofEntry, DateTime? selectedDate, string candidateReferredBy, bool? isactive
-            , string DeptId, string BUnitId)
+            , string DeptId, string BUnitId, int groupId)
         {
             try
             {
@@ -56,7 +56,7 @@ namespace resourceEdge.webUi.Infrastructure
                     SelectedDate = selectedDate,
                     Candidatereferredby = candidateReferredBy,
                     JobtitleId = int.Parse(jobId),
-                    Isactive = isactive,
+                    Isactive = isactive, GroupId = groupId
                 };
                 //Enable this later
                 //IdentityResult validEmail = await userManager.UserValidator.ValidateAsync(user);

@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 using resourceEdge.webUi.Infrastructure;
 using resourceEdge.webUi.Infrastructure.Handlers;
 using resourceEdge.webUi.Infrastructure.Core;
+using resourceEdge.webUi.Infrastructure.SystemManagers;
 
 namespace resourceEdge.webUi.Controllers
 {
@@ -22,13 +23,13 @@ namespace resourceEdge.webUi.Controllers
         private ILeaveManagement leaveRepo;
         private IBusinessUnits BunitsRepo;
         private LeaveManager LmanagerRepo;
-        Apimanager Apimanager;
+        DropDownManager dropdownManager;
         public LeaveController(IEmployees eParam, ILeaveManagement lParam, IBusinessUnits bparam)
         {
             leaveRepo = lParam;
             BunitsRepo = bparam;
-            Apimanager = new Apimanager();
             LmanagerRepo = new LeaveManager(eParam, lParam);
+            dropdownManager = new DropDownManager();
         }
 
         [Authorize(Roles = "HR")]
@@ -41,9 +42,9 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult Create()
         {
 
-            ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.Id), "Id", "unitname", "Id");
-            ViewBag.Months = new SelectList(Apimanager.GetAllMonths().OrderBy(x => x.id), "MonthId", "MonthName", "MonthId");
-            ViewBag.weekDays = new SelectList(Apimanager.GetWeekDays().OrderByDescending(x => x.id), "id", "DayLongCode", "id");
+            ViewBag.businessUnits = dropdownManager.GetBusinessUnit();
+            ViewBag.Months = dropdownManager.GetAllMonths();
+            ViewBag.weekDays = dropdownManager.GetWeekDays();
             return View();
         }
 
@@ -78,9 +79,9 @@ namespace resourceEdge.webUi.Controllers
             {
                 throw ex;
             }
-            ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.Id), "Id", "unitname", "Id");
-            ViewBag.Months = new SelectList(Apimanager.GetAllMonths().OrderBy(x => x.id), "MonthId", "MonthName", "MonthId");
-            ViewBag.weekDays = new SelectList(Apimanager.GetWeekDays().OrderByDescending(x => x.id), "id", "DayLongCode", "id");
+            ViewBag.businessUnits = dropdownManager.GetBusinessUnit();
+            ViewBag.Months = dropdownManager.GetAllMonths();
+            ViewBag.weekDays = dropdownManager.GetWeekDays();
             this.AddNotification($"", NotificationType.ERROR);
             return View(model);
         }
@@ -93,7 +94,7 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult AllotLeaves()
         {
             ViewBag.PageTitle = "Allot Leave";
-            ViewBag.businessUnits = new SelectList(BunitsRepo.Get().OrderBy(x => x.Id), "Id", "unitname", "Id");
+            ViewBag.businessUnits = dropdownManager.GetBusinessUnit();
             return View();
         }
 

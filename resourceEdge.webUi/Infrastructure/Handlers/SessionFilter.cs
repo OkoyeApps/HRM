@@ -31,7 +31,7 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                 var userObject = await unitOfWork.GetDbContext().Employee.Where(x => x.userId == userIdentityObject).FirstOrDefaultAsync();
                 if (filterContext.Controller.ControllerContext.HttpContext.Session != null && userObject != null)
                 {
-                    var unitDetails = unitOfWork.BusinessUnit.GetByID(userObject.businessunitId);
+                    var unitDetails = unitOfWork.GetDbContext().Businessunit.Find(userObject.businessunitId);
                     string controller = filterContext.RequestContext.RouteData.Values["controller"].ToString();
                     string action = filterContext.RequestContext.RouteData.Values["action"].ToString();
                     var key = new SessionModel()

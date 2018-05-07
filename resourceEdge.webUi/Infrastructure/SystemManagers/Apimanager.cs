@@ -479,7 +479,7 @@ namespace resourceEdge.webUi.Infrastructure
             var requisition = unitOfWork.GetDbContext().Requisition.Where(X => X.id == Id).FirstOrDefault();
             if (requisition != null)
             {
-                var interviewers = unitOfWork.GetDbContext().Employee.Where(X => X.businessunitId == requisition.BusinessunitId.Value && X.DepartmentId == requisition.DepartmentId)
+                var interviewers = unitOfWork.GetDbContext().Employee.Where(X => X.businessunitId == requisition.BusinessUnitId.Value && X.DepartmentId == requisition.DepartmentId)
                     .Select(X=>new { name = X.FullName, Id = X.userId });
                 return interviewers;
             }

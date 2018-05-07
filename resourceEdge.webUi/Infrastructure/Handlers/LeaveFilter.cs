@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using resourceEdge.Domain.Entities;
 using resourceEdge.Domain.UnitofWork;
 using System;
 using System.Collections.Generic;
@@ -20,9 +21,9 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
             var userId = filterContext.HttpContext.User.Identity.GetUserId();
             if (userId != null)
             {
-               using(UnitOfWork Context = new UnitOfWork())
+               using(EdgeDbContext Context = new EdgeDbContext())
                 {
-                    var result = Context.EmployeeLeave.Get(filter: x => x.UserId == userId).FirstOrDefault();
+                    var result = Context.EmployeeLeave.Where( x => x.UserId == userId).FirstOrDefault();
                     if (result == null || result.EmpLeaveLimit == 0)
                     {
                         filterContext.Controller.TempData["Error"] = "Sorry No Leave for you yet. Kindly ask the Hr For Leave";

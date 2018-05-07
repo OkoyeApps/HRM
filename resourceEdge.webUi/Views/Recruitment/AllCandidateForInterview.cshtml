@@ -1,4 +1,4 @@
-﻿@model IEnumerable<resourceEdge.Domain.Entities.AllCandidateInterviewViewModel>
+﻿@model resourceEdge.Domain.Entities.AllCandidateInterviewViewModel
 @{
     ViewBag.Title = "AllCandidateForInterview";
     Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
@@ -12,7 +12,7 @@
     </tr>
     <tr>
         <td>
-            @if (Model.Count() > 0)
+            @if (Model.candidates.Count() > 0)
             {
                 <table class="table table-responsive table-bordered table-striped">
                     <tr>
@@ -25,7 +25,7 @@
                         <th></th>
                     </tr>
 
-                    @foreach (var item in Model)
+                    @foreach (var item in Model.candidates)
                 {
                         <tr>
                             <td>
@@ -37,6 +37,16 @@
                             <td>
                                 <table class="pull-right">
                                     <tr>
+                                        <td>
+                                            @if (Model.IdsAndResume.ContainsKey(item.Id))
+                                            {
+                                            @Html.ActionLink("View Resume", "DownloadResume","Recruitment", new { FileId = Model.IdsAndResume[item.Id] }, new { @class = "btn btn-success" })
+                                            }
+                                            else
+                                            {
+                                                @Html.ActionLink("View Details", "DownloadResume", new { Id = item.Id }, new { @class = "btn btn-success" })
+                                            }
+                                        </td>
                                         <td>
                                            
                                             @using (Html.BeginForm("ApproveCandidateFromInterview", "Recruitment", new { Id = item.Id }, FormMethod.Post, null))

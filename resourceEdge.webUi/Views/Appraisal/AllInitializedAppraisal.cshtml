@@ -5,81 +5,93 @@
     Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
 }
 
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <tr>
+            <td>
+                @Html.ActionLink("Initialize New Appraisal", "InitilizeAppraisal", "Appraisal", null, new { @class = "btn btn-info pull-right" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table class="table table-bordered table-responsive">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Group)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FromYear)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ToYear)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.AppraisalMode)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.StartDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.EndDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.RatingType)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.AppraisalStatus)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.InitilizationCode)
+                        </th>
+                        <th></th>
+                    </tr>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table table-bordered table-responsive">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Group)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FromYear)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ToYear)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AppraisalMode)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.StartDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EndDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RatingType)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AppraisalStatus)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.InitilizationCode)
-        </th>
-        <th></th>
-    </tr>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Group.GroupName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FromYear)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ToYear)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AppraisalMode)
+                            </td>
+                            <td>
+                                @item.StartDate.ToShortDateString()
+                            </td>
+                            <td>
+                                @item.EndDate.ToShortDateString()
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Group.GroupName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FromYear)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ToYear)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AppraisalMode)
-        </td>
-        <td>
-          @item.StartDate.ToShortDateString()
-        </td>
-        <td>
-            @item.EndDate.ToShortDateString()
-            
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RatingType)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AppraisalStatus)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.InitilizationCode)
-        </td>
-        <td>
-           @using (Html.BeginForm("EnableAppraisal", "Appraisal", new { InitilizationId = item.Id }, FormMethod.Post))
-           {
-            @Html.AntiForgeryToken()
-             @Html.HiddenFor(x=>item.Id)
-                <input type="submit" class="btn btn-success" value="Enable" />
-             }
-        </td>
-    </tr>
-}
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.RatingType)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AppraisalStatus)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.InitilizationCode)
+                            </td>
+                            <td>
+                                @using (Html.BeginForm("EnableAppraisal", "Appraisal", new { InitilizationId = item.Id }, FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.HiddenFor(x => item.Id)
+                                    <input type="submit" class="btn btn-success" value="Enable" />
+                                }
+                            </td>
+                        </tr>
+                    }
 
-</table>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+
+

@@ -1,0 +1,52 @@
+﻿@model resourceEdge.Domain.Entities.RequestAssetViewModel
+
+@{
+    Layout = "~/Views/Shared/Layouts/_EmployeeLayout.cshtml";
+}
+
+
+@using (Html.BeginForm("RequestAsset", "Asset", null, FormMethod.Post, new { data_parsley_validate = ""}))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Category,Model.CategotyList,"Select category",  new { @class = "form-control",required = "" } )
+                @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control", required = "", data_parsley_min = "1" } })
+                @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DueTime, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DueTime, new { htmlAttributes = new { @class = "form-control",  type = "date" } })
+                @Html.ValidationMessageFor(model => model.DueTime, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RequestedBy, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RequestedBy, new { htmlAttributes = new { @class = "form-control", required = "", placeholder = "Requested by (unit/department/team)" } })
+                @Html.ValidationMessageFor(model => model.RequestedBy, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Submit Request" class="btn btn-success pull-right" />
+            </div>
+        </div>
+    </div>
+}

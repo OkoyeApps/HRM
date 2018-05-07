@@ -26,23 +26,24 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="col-md-4">
+    @*<div class="col-md-4">
         <div class="form-group">
             @Html.Label("Group", htmlAttributes: new { @class = "control-label" })
             @Html.DropDownListFor(model => model.GroupId, (SelectList)ViewBag.Groups, "Select Group", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "bs-select form-control", required = "" })
         </div>
-    </div>
+    </div>*@
             <div class="col-md-4">
                 <div class="form-group">
                     @Html.Label("Identity Code", htmlAttributes: new { @class = "control-label" })
-                    @Html.EditorFor(x => x.identityCode, new { htmlAttributes = new { @readonly = "readonly", @class = "form-control", required = "" } })
+                    @Html.EditorFor(x => x.identityCode, new { htmlAttributes = new { @readonly = "readonly", @class = "form-control",Value = ViewBag.code, required = "" } })
                 </div>
             </div>
 
             <div class="col-md-4">
                 <div class="form-group">
                     @Html.Label("Location", htmlAttributes: new { @class = "control-label " })
-                    <select id="Location" name="Location" class="form-control" required=""></select>
+                    @Html.DropDownListFor(x=>x.Location, (SelectList)ViewBag.Locations, "Select Location", htmlAttributes:new {@class = "form-control", required = "" })
+                    @*<select id="Location" name="Location" class="form-control" required=""></select>*@
                     @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -127,7 +128,9 @@
             <div class="col-md-4">
                 <div class="form-group">
                     @Html.Label("Position", htmlAttributes: new { @class = "control-label " })
-                    <select id="positionId" name="positionId" class="form-control" required=""></select>
+                    <select id="positionId" name="positionId" class="form-control" required="">
+                        <option>Please select a Job First</option>
+                    </select>
                     @Html.ValidationMessageFor(model => model.positionId, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -152,6 +155,7 @@
                     <label class="control-label">Date of leaving</label>
                     <input type="date" name="dateOfLeaving" class="form-control" id="dateleave" placeholder="dd-mm-yyyy">
                 @Html.ValidationMessageFor(model => model.dateOfLeaving, "", new { @class = "text-danger" })
+                    <span id="join_date_error_message" class="hidden"></span>
                 </div>
             </div>
 
@@ -162,7 +166,7 @@
                                     @Html.ValidationMessageFor(model => model.prefixId, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-                            <div class="col-md-4" style="clear:both">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     @Html.Label("Office number", htmlAttributes: new { @class = "control-label " })
                                     @Html.EditorFor(model => model.officeNumber, new { htmlAttributes = new { @class = "form-control", @type = "tel", required = "", data_parsley_type = "number", placeholder="Enter Phone Number"  } })
@@ -189,13 +193,13 @@
     <span id="empId">Action("GetEmployeeCodeByGroup", "settings")</span>
     @Html.Partial("AddJobTitle");
     @Html.Partial("addPosition");
-    @Html.Partial("AddCode");
+    @*@Html.Partial("AddCode");*@
     @Html.Partial("addPrefix");
     @Html.Partial("addEmploymentStatus");
     @Html.Partial("AddLevel");
     @Html.Partial("AddCareer");
-    @Html.Partial("AddLocation");
-    @Html.Partial("AddGroup"););
+    @*@Html.Partial("AddLocation");*@
+    @*@Html.Partial("AddGroup"))*@
     @Html.Partial("addPrefix")
 
 </div>

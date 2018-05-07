@@ -3,6 +3,7 @@ using resourceEdge.Domain.Entities;
 using resourceEdge.Domain.UnitofWork;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -11,7 +12,8 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
 {
     public class LoginsFilters : ActionFilterAttribute
     {
-        UnitOfWork unitOfWork = new UnitOfWork();
+
+        //AsyncGenericRepository<Login> LoginRepo = new AsyncGenericRepository<Login>(new EdgeDbContext());
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var CurrentUrl = filterContext.HttpContext.Request.Url.AbsoluteUri;
@@ -25,59 +27,69 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
 
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
-            var sessionId = filterContext.RequestContext.HttpContext.Session.SessionID;
-            var UserID = filterContext.HttpContext.User.Identity.GetUserId();
-            string Email = null;
-            string Password = null;
-            if (UserID != null)
+            using (EdgeDbContext unitOfWork = new EdgeDbContext())
             {
-                var currentLogin = unitOfWork.Logins.Get(filter: x => x.UserID == UserID && x.SessionID == sessionId && x.IsLogOut == false);
-                var previousUserSessions = unitOfWork.Logins.Get(filter: x => x.UserID == UserID && x.IsLogOut == false && x.SessionID != sessionId).FirstOrDefault();
-                var CurrentUrl = filterContext.HttpContext.Request.Url.AbsoluteUri;
-                if (previousUserSessions != null)
+                var sessionId = filterContext.RequestContext.HttpContext.Session.SessionID;
+                var UserID = filterContext.HttpContext.User.Identity.GetUserId();
+                string Email = null;
+                string Password = null;
+                if (UserID != null)
                 {
-                     Email = filterContext.Controller.TempData["Email"] != null ? filterContext.Controller.TempData["Email"].ToString() : null;
-                     Password = filterContext.Controller.TempData["Password"] != null ? filterContext.Controller.TempData["Password"].ToString() : null;
-                    if (Email != null && Password != null)
-                    {
-                        filterContext.HttpContext.Session.Clear();
-                        filterContext.HttpContext.Session.Abandon();
-                        HttpContext.Current.Session.Remove(previousUserSessions.SessionID);
-                        HttpContext.Current.Session.Abandon();
-                        HttpContext.Current.Session.Clear();
-                        previousUserSessions.IsLogOut = true;
-                        previousUserSessions.LogOutTime = DateTime.Now;
-                        unitOfWork.Logins.Update(previousUserSessions);
-                        unitOfWork.Save();
-                    }
-                    else
-                    {
-                       // filterContext.Controller.TempData.Clear();
+                    var currentLogin = unitOfWork.Login.Where(x => x.UserID == UserID && x.SessionID == sessionId && x.IsLogOut == false);
+                    var previousUserSessions = unitOfWork.Login.Where(x => x.UserID == UserID && x.IsLogOut == false && x.SessionID != sessionId).FirstOrDefault();
+                    //var previousUserSessions = LoginRepo.Get(x => x.UserID == UserID && x.IsLogOut == false && x.SessionID != sessionId).GetAwaiter().GetResult().FirstOrDefault();
 
+                    var CurrentUrl = filterContext.HttpContext.Request.Url.AbsoluteUri;
+                    if (previousUserSessions != null)
+                    {
+                        Email = filterContext.Controller.TempData["Email"] != null ? filterContext.Controller.TempData["Email"].ToString() : null;
+                        Password = filterContext.Controller.TempData["Password"] != null ? filterContext.Controller.TempData["Password"].ToString() : null;
                         if (Email != null && Password != null)
                         {
-                            filterContext.Result = new RedirectResult($"~/Account/CustomLogOff?Email={Email}&Password={Password}");
-                            var browser = HttpContext.Current.Request.Browser.Type;
+                            filterContext.HttpContext.Session.Clear();
+                            filterContext.HttpContext.Session.Abandon();
+                            HttpContext.Current.Session.Remove(previousUserSessions.SessionID);
+                            HttpContext.Current.Session.Abandon();
+                            HttpContext.Current.Session.Clear();
+                            previousUserSessions.IsLogOut = true;
+                            previousUserSessions.LogOutTime = DateTime.Now;
+                            //unitOfWork.Logins.Update(previousUserSessions);
+                            unitOfWork.Entry(previousUserSessions).State = EntityState.Modified;
+                            unitOfWork.SaveChanges();
+                            // LoginRepo.Update(previousUserSessions).Wait();
+
                         }
-                        else if(Email == null && Password == null && !CurrentUrl.ToLower().Contains("customlogoff") && !CurrentUrl.ToLower().Contains("login"))
+                        else
                         {
-                            filterContext.Result = new RedirectResult("~/Account/CustomLogOff");
+                            // filterContext.Controller.TempData.Clear();
+
+                            if (Email != null && Password != null)
+                            {
+                                filterContext.Result = new RedirectResult($"~/Account/CustomLogOff?Email={Email}&Password={Password}");
+                                var browser = HttpContext.Current.Request.Browser.Type;
+                            }
+                            else if (Email == null && Password == null && !CurrentUrl.ToLower().Contains("customlogoff") && !CurrentUrl.ToLower().Contains("login"))
+                            {
+                                filterContext.Result = new RedirectResult("~/Account/CustomLogOff");
+                            }
                         }
                     }
-                }
 
-                if (currentLogin.Count() == 0 && previousUserSessions == null)
-                {
-                    Login login = new Login()
+                    if (currentLogin.Count() == 0 && previousUserSessions == null)
                     {
-                        UserID = filterContext.HttpContext.User.Identity.GetUserId(),
-                        IsLogIn = true,
-                        IsLogOut = false,
-                        LoginTime = DateTime.Now,
-                        SessionID = filterContext.HttpContext.Session.SessionID
-                    };
-                    unitOfWork.Logins.Insert(login);
-                    unitOfWork.Save();
+                        Login login = new Login()
+                        {
+                            UserID = filterContext.HttpContext.User.Identity.GetUserId(),
+                            IsLogIn = true,
+                            IsLogOut = false,
+                            LoginTime = DateTime.Now,
+                            SessionID = filterContext.HttpContext.Session.SessionID
+                        };
+                        // LoginRepo.Insert(login).Wait();
+                        unitOfWork.Login.Add(login);
+                        unitOfWork.SaveChanges();
+                    }
+                  
                 }
             }
         }

@@ -113,7 +113,7 @@
                 <div class ="col-md-10">
            <div class ="form-group">
                 <label class ="control-label col-md-2 " for="CandidateWork_CompanyAddress">CompanyAddress</label>
-                    <input class ="form-control text-box single-line col-md-4" id="Resume" name="File" type="file" value="" required = "">
+                    <input class ="form-control text-box single-line col-md-4" id="Resume" name="File" type="file" value="" required = "" accept=".pdf,.doc,.docx">
                 </div>
             </div>
         `

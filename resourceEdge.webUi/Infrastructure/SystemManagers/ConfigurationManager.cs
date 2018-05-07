@@ -3,6 +3,7 @@ using resourceEdge.Domain.Abstracts;
 using resourceEdge.Domain.Entities;
 using resourceEdge.Domain.UnitofWork;
 using resourceEdge.webUi.Models;
+using resourceEdge.webUi.Models.SystemModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,11 @@ namespace resourceEdge.webUi.Infrastructure
             var identityCode = unitOfWork.identityCodes.Get(filter: x => x.GroupId == groupId).FirstOrDefault();
             return identityCode != null ? true : false;
         }
+        public string GetIdentityCode(int groupId)
+        {
+            var code = unitOfWork.identityCodes.Get(filter: x => x.GroupId == groupId).FirstOrDefault();
+            return code.employee_code;
+        }
 
         public bool DoesUnitExstInLocation(int locationId, string LocationName)
         {
@@ -39,6 +45,12 @@ namespace resourceEdge.webUi.Infrastructure
                 return true;
             }
             return false;
+        }
+        public List<JobListItem> JobList()
+        {
+            List<JobListItem> Result = new List<JobListItem>();
+            unitOfWork.jobTitles.Get().ToList().ForEach(X => Result.Add(new JobListItem { JobId = X.Id, JobName = X.jobtitlename }));
+            return Result;
         }
 
         public bool AddOrUpdateDepartment(DepartmentViewModel model = null, int? id = null)
@@ -77,6 +89,11 @@ namespace resourceEdge.webUi.Infrastructure
             return false;
         }
 
+        public SelectList GetLocationByGroupId(int id)
+        {
+            var Location = unitOfWork.Locations.Get(filter: x => x.GroupId == id).Select(x=> new { State = x.State, Id = id });
+            return new SelectList(Location.OrderBy(x => x.State), "Id", "State", "Id");
+        }
         public bool AddOrUpdateLocation(FormCollection collection, int? id = null, LocationViewModel model = null)
         {
             try

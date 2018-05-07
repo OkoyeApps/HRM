@@ -65,7 +65,9 @@ namespace resourceEdge.webUi.Infrastructure
             kernel.Bind<IMailDispatcher>().To<MailDispatcherRepository>();
             kernel.Bind<IMenu>().To<MenuRepository>();
             kernel.Bind<IAppraisalQuestion>().To<AppraisalQuestionRepository>();
-
+            kernel.Bind<IAsset>().To<AssetRepository>();
+            kernel.Bind<IAssetCategory>().To<AssetCategoryRepository>();
+            kernel.Bind<IRequestAsset>().To<RequestAssetRepository>();
         }
     }
 }

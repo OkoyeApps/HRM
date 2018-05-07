@@ -27,6 +27,7 @@
             error.addClass('hide');
             $('#btnSubmit').prop('disabled', true);
             $('#join_date_error_message').html("Entry date must be less than exit date")
+            $('#join_date_error_message').toggleClass('hidden');
         }
         else if (newDate1 < newDate2) {
             error.removeClass('show');

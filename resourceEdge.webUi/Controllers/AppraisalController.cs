@@ -16,6 +16,7 @@ using resourceEdge.Domain.ViewModels;
 using System.Collections;
 using resourceEdge.webUi.Models.SystemModel;
 using Fluentx;
+using resourceEdge.webUi.Infrastructure.SystemManagers;
 
 namespace resourceEdge.webUi.Controllers
 {
@@ -37,6 +38,7 @@ namespace resourceEdge.webUi.Controllers
         IEmploymentStatus StatusRepo;
         EmployeeManager EmployeeManager;
         AppraisalManager AppraisalManager;
+        DropDownManager dropDownmanager; 
         public AppraisalController(IParameter param, IQuestions questParam, ISkills skillParam, IRating RParam, IGroups GParam,
             IAppraisalMode ModeParam, IAppraisalStatus statusParams, IAppraisalRating appratingParam, IAppraisalMode AppMode,
             IAppraisalInitialization InitializtionParam, IEmploymentStatus statusParam, IEmployees EmpParam, IAppraisalConfiguration AppConfigParam
@@ -57,6 +59,7 @@ namespace resourceEdge.webUi.Controllers
             EmpRepo = EmpParam;
             EmployeeManager = new EmployeeManager(EmpParam);
             AppraisalManager = new AppraisalManager(EmpParam, AppConfigParam, questParam);
+            dropDownmanager = new DropDownManager();
         }
         public ActionResult AddParameter()
         {
@@ -99,7 +102,7 @@ namespace resourceEdge.webUi.Controllers
             var userObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
             var users =new SelectList(EmployeeManager.GetEmployeeUnitMembers(userObject.UnitId, userObject.LocationId).Select(X=> new { Text = X.FullName, Value = X.userId}), "Value", "Text","Value");
             ViewBag.Employees = users;
-            ViewBag.parameter = new SelectList(ParameterRepo.Get().OrderBy(x => x.Id), "Id", "ParameterName", "Id");
+            ViewBag.parameter = dropDownmanager.GetParameter();
             return View();
         }
 
@@ -232,6 +235,7 @@ namespace resourceEdge.webUi.Controllers
             return View(AppraisalManager.GetAllInitialization());
         }
 
+        [CustomAuthorizationFilter(Roles = "Head HR")]
         public ActionResult InitilizeAppraisal()
         {
             ViewBag.AllDropDown = AppraisalManager.InitAppraisal();
@@ -303,7 +307,7 @@ namespace resourceEdge.webUi.Controllers
                   return  RedirectToAction("ConfigureAppraisal");
                 }
             }
-            ModelState.AddModelError("", "Could not subscribed for this Appraisal. please see the Head HR");
+            this.AddNotification("Could not subscribed for this Appraisal. please see the Head HR", NotificationType.ERROR);
             return View();
         }
 
@@ -315,8 +319,6 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.groupId = userSessionObject.GroupId;
             ViewBag.dropDowns = AppraisalManager.ConfigureAppraisal(userSessionObject.LocationId);
             ViewBag.PageTitle = "Configure Appraisal";
-          //  locationHeadDetails.Add(EmployeeManager.GetLocationHeadDetails(userSessionObject.GroupId, userSessionObject.LocationId));
-            //ViewBag.LocationHeads = new SelectList(locationHeadDetails, locationHeadDetails.Select(x=>new {Manager = builder, "Name", "Id");
             return View();
         }
 

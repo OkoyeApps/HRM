@@ -9,6 +9,7 @@ namespace resourceEdge.Domain.Entities
     public class Candidate
     {
         public int Id { get; set; }
+        public int GroupId { get; set; }
         public int RequisitionId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -30,6 +31,7 @@ namespace resourceEdge.Domain.Entities
         public DateTime? ModifiedDate { get; set; }
         public bool? IsActive { get; set; }
         public Requisition Requisition { get; set; }
+        //public Group Group { get; set; }
         //public CandidateStatus CandidateStatus { get; set; }
     }
 }

@@ -18,25 +18,25 @@ namespace resourceEdge.webUi.Infrastructure
 
         public static string GetApprovedLeaveCount(string userId)
         {
-            var leave = unitOfWork.GetDbContext().LeaveRequest.Where(x => x.UserId == userId && x.LeaveStatus == true).Count().ToString();      
+            var leave = unitOfWork.LRequest.Get(x => x.UserId == userId && x.LeaveStatus == true).Count().ToString();      
             return leave ??  "0";
         }
 
         public static string GetDeniedLeaveCount(string userId)
         {
-            var leave = unitOfWork.GetDbContext().LeaveRequest.Where(x => x.UserId == userId && x.LeaveStatus == false).Count().ToString();
+            var leave = unitOfWork.LRequest.Get(x => x.UserId == userId && x.LeaveStatus == false).Count().ToString();
             
             return leave ?? "0";
         }
         public static string GetPendingLeaveCount(string userId)
         {
-            var leave = unitOfWork.GetDbContext().LeaveRequest.Where(x => x.UserId == userId && x.LeaveStatus == null).Count().ToString();
+            var leave = unitOfWork.LRequest.Get(x => x.UserId == userId && x.LeaveStatus == null).Count().ToString();
          
             return leave ??  "0";
         }
         public static string GetAllLeave(string userid)
         {
-            var leave = unitOfWork.GetDbContext().LeaveRequest.Where(X => X.UserId == userid).Count().ToString();
+            var leave = unitOfWork.LRequest.Get(X => X.UserId == userid).Count().ToString();
             return leave ?? "0";
         }
     }
