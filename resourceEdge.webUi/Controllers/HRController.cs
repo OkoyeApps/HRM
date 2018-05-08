@@ -373,11 +373,37 @@ namespace resourceEdge.webUi.Controllers
                 UserManager.AddToRole(user.Id, "System Admin");
                 ModelState.Clear();
                 this.AddNotification("Successfully Created!", NotificationType.SUCCESS);
-                return RedirectToAction("CreateSystemAdmin");
+                return RedirectToAction("AddSystemAdmin");
             }
             this.AddNotification("Something went wrong please try Again", NotificationType.ERROR);
             return RedirectToAction("AddSystemAdmin");
         }
+
+        public ActionResult AddHr()
+        {
+            //ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(X => X.Id), "Id", "GroupName", "Id");
+            var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+            var employees = employeeManager.GetEmployeesByLocation(UserFromSession.LocationId);
+            ViewBag.allEmployees = new SelectList(employees.OrderBy(x => x.empEmail), "userId", "empEmail");
+            ViewBag.PageTitle = "Add Admin";
+            return View();
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult AddHr(string userId)
+        {
+
+            if ( userId != null)
+            {
+                userManager.AddToRole(userId, "HR");
+                ModelState.Clear();
+                this.AddNotification("Successfully Created!", NotificationType.SUCCESS);
+                return RedirectToAction("AddHr");
+            }
+            this.AddNotification("Something went wrong please try Again", NotificationType.ERROR);
+            return RedirectToAction("AddHr");
+        }
+
 
         public ActionResult AllQuestions()
         {

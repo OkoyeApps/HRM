@@ -139,7 +139,8 @@
         getUnitByLocation($(this).val());
     })
     function addElement() {
-        $('#Location').append('<option class="centre" value="">' + 'No Location For now' + '</option>')
+        
+        //$('#Location').append('<option class="centre" value="">' + 'No Location For now' + '</option>')
         $('#businessunitId').append('<option class="centre" value="">' + 'Please select a Location' + '</option>');
         $('#departmentId').append('<option class="centre" value="">' + 'Please select a Business Unit' + '</option>');
     }

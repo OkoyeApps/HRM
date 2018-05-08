@@ -3,81 +3,82 @@
     ViewBag.Title = "AllCandidateForInterview";
     Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
 }
-
-<table class="table table-responsive table-bordered table-striped">
-    <tr>
-        <td>
-            @Html.ActionLink("Add Candidate(s) for Interview", "AddCandidateForInterview", "Recruitment", null, new { @class = "btn btn-info pull-right" })
-        </td>
-    </tr>
-    <tr>
-        <td>
-            @if (Model.candidates.Count() > 0)
+<div class="table-responsive">
+    <table class="table table-responsive table-bordered table-striped">
+        <tr>
+            <td>
+                @Html.ActionLink("Add Candidate(s) for Interview", "AddCandidateForInterview", "Recruitment", null, new { @class = "btn btn-info pull-right" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @if (Model.candidates.Count() > 0)
             {
-                <table class="table table-responsive table-bordered table-striped">
-                    <tr>
-                        <th>
-                            InterView
-                        </th>
-                        <th>
-                            Candidate
-                        </th>
-                        <th></th>
-                    </tr>
-
-                    @foreach (var item in Model.candidates)
-                {
+                    <table class="table table-responsive table-bordered table-striped">
                         <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.InterviewName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CandidateName)
-                            </td>
-                            <td>
-                                <table class="pull-right">
-                                    <tr>
-                                        <td>
-                                            @if (Model.IdsAndResume.ContainsKey(item.Id))
-                                            {
-                                            @Html.ActionLink("View Resume", "DownloadResume","Recruitment", new { FileId = Model.IdsAndResume[item.Id] }, new { @class = "btn btn-success" })
-                                            }
-                                            else
-                                            {
-                                                @Html.ActionLink("View Details", "DownloadResume", new { Id = item.Id }, new { @class = "btn btn-success" })
-                                            }
-                                        </td>
-                                        <td>
-                                           
-                                            @using (Html.BeginForm("ApproveCandidateFromInterview", "Recruitment", new { Id = item.Id }, FormMethod.Post, null))
-                                            {
-                                                @Html.AntiForgeryToken()
-                                                <button class="btn btn-success pull-right" id="accept" onclick="return ConfirmAccept()">Accept</button>
-                                            }
-                                        </td>
-                                        <td>
-                                            @using (Html.BeginForm("RemoveCandidateForInterview", "Recruitment", new { Id = item.Id }, FormMethod.Post, null))
-                                            {
-                                                @Html.AntiForgeryToken()
-                                                <button class="btn btn-danger pull-right" id="remove" onclick="return ConfirmDelete()">Delete</button>
-                                            }
-                                        </td>
-
-                                    </tr>
-                                </table>
-                            </td>
+                            <th>
+                                InterView
+                            </th>
+                            <th>
+                                Candidate
+                            </th>
+                            <th></th>
                         </tr>
-                    }
 
-                </table>
-            }
-            else
-            {
-                <div class="alert alert-info">No Candidate for Interview yet</div>
-            }
-        </td>
-    </tr>
-</table>
+                        @foreach (var item in Model.candidates)
+                {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.InterviewName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CandidateName)
+                                </td>
+                                <td>
+                                    <table class="pull-right">
+                                        <tr>
+                                            <td>
+                                                @if (Model.IdsAndResume.ContainsKey(item.Id))
+                                                {
+                                                    @Html.ActionLink("View Resume", "DownloadResume", "Recruitment", new { FileId = Model.IdsAndResume[item.Id] }, new { @class = "btn btn-success" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.ActionLink("View Details", "DownloadResume", new { Id = item.Id }, new { @class = "btn btn-success" })
+                                                }
+                                            </td>
+                                            <td>
+
+                                                @using (Html.BeginForm("ApproveCandidateFromInterview", "Recruitment", new { Id = item.Id }, FormMethod.Post, null))
+                                                {
+                                                    @Html.AntiForgeryToken()
+                                                    <button class="btn btn-success pull-right" id="accept" onclick="return ConfirmAccept()">Accept</button>
+                                                }
+                                            </td>
+                                            <td>
+                                                @using (Html.BeginForm("RemoveCandidateForInterview", "Recruitment", new { Id = item.Id }, FormMethod.Post, null))
+                                                {
+                                                    @Html.AntiForgeryToken()
+                                                    <button class="btn btn-danger pull-right" id="remove" onclick="return ConfirmDelete()">Delete</button>
+                                                }
+                                            </td>
+
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                }
+                else
+                {
+                    <div class="alert alert-info">No Candidate for Interview yet</div>
+                }
+            </td>
+        </tr>
+    </table>
+</div>
 @section Scripts{
     <script>
         function ConfirmDelete() {

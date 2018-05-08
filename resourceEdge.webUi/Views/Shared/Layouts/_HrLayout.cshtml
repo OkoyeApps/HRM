@@ -385,7 +385,7 @@
                         <ul class="sub-menu">
                             
                             <li>
-                                @Html.ActionLink("All Intitialized Appraisal", "AddedQuestions", "Appraisal", null, new { @class = "nav-link  title" })
+                                @Html.ActionLink("Employee Questions", "AddedQuestions", "HR", null, new { @class = "nav-link  title" })
                             </li>
                             <li>
                                 @Html.ActionLink("All Intitialized Appraisal", "AllInitializedAppraisal", "Appraisal", null, new { @class = "nav-link  title" })               
@@ -393,7 +393,7 @@
                             @if (User.IsInRole("HR"))
                             {
                             <li>
-                                @Html.ActionLink("All Intitialized Appraisal", "ConfigureAppraisal", "Appraisal", null, new { @class = "nav-link  title" })
+                                @Html.ActionLink("Configure Appraisal", "ConfigureAppraisal", "Appraisal", null, new { @class = "nav-link  title" })
                             </li>
                             }
 
@@ -523,7 +523,7 @@
         <div id="content" class="content">
             <!-- begin breadcrumb -->
             <ol class="breadcrumb pull-right">
-                <li>@crumbs.ActionUrl">@action.ToLower()</li>
+                <li>@action.ToLower()</li>
                 <li>@controller.ToLower()</li>
                 @if (UrlName != null)
                 {

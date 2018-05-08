@@ -7,77 +7,83 @@
     var userToUpdate = Model.FirstOrDefault(x => x.UserId != null);
 
 }
-
+<div class="table-responsive">
 @if (Model.Count() > 0)
 {
-    <table>
+    <table class="table table-bordered table-striped">
         <tr>
-            <td class="col-lg-offset-10">
+            <td class="pull-right">
                 @using (Html.BeginForm("ApproveQuestion", "HR", new { userId = userToUpdate.UserId }, FormMethod.Post))
                 {
                     @Html.AntiForgeryToken()
-                    <button type="submit" class="btn btn-success pull-right">Approve All</button><span>&nbsp;</span>
+                    <button type="submit" class="btn btn-success">Approve All</button><span>&nbsp;</span>
                 }
            </td>
-            <td>
+            <td class="pull-right">
                 @using (Html.BeginForm("RejectQuestion", "HR", new { userId = userToUpdate.UserId }, FormMethod.Post))
                 {
                     @Html.AntiForgeryToken()
-                    <button type="submit" class="btn btn-danger pull-right">Reject All</button><span>&nbsp;</span>
+                    <button type="submit" class="btn btn-danger ">Reject All</button><span>&nbsp;</span>
                 }
             </td>
         </tr>
-    </table>
-    <br />
-<table class="table table-responsive table-bordered">
-    <thead>
         <tr>
-            <th>S/N</th>
-            <th class="col-md-8">Questions</th>
-            <th>Descriptions</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td> @counter</td>
-                <td>@item.Question</td>
-                <td>@item.Description</td>
-                <td>
-                    <table>
-                        <tr>@if (item.Approved == null || item.Approved == false)
+            <td>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>S/N</th>
+                            <th class="col-md-8">Questions</th>
+                            <th>Descriptions</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
                         {
-                            <td>
-                                @using (Html.BeginForm("ApproveQuestion", "HR",new {userId = item.UserId, QstId = item.Id },FormMethod.Post))
-                                    {
-                                       @Html.AntiForgeryToken()
-                                    <button type="submit" class="btn btn-success">Approve</button><span>&nbsp;</span>
-                                }
-                            </td>
-                        }   
-                            <td>
-                                @using (Html.BeginForm("RejectQuestion", "HR", new { userId = item.UserId, QstId = item.Id }, FormMethod.Post))
+                            <tr>
+                                <td> @counter</td>
+                                <td>@item.Question</td>
+                                <td>@item.Description</td>
+                                <td>
+                                    <table>
+                                        <tr>
+                                            @if (item.Approved == null || item.Approved == false)
                                         {
-                                            @Html.AntiForgeryToken()
-                                    <button type="submit" class="btn btn-danger">Reject</button>
-                                }
+                                            <td>
+                                                @using (Html.BeginForm("ApproveQuestion", "HR", new { userId = item.UserId, QstId = item.Id }, FormMethod.Post))
+                                                {
+                                                    @Html.AntiForgeryToken()
+                                                    <button type="submit" class="btn btn-success">Approve</button><span>&nbsp;</span>
+                                                }
+                                            </td>
+                                        }
+                                        <td>
+                                            @using (Html.BeginForm("RejectQuestion", "HR", new { userId = item.UserId, QstId = item.Id }, FormMethod.Post))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-danger">Reject</button>
+                                            }
+                                        </td>
+                                    </tr>
+                                </table>
                             </td>
                         </tr>
-                    </table>
-                </td>
-            </tr>
-            counter++;
-        }
+                            counter++;
+                        }
 
-    </tbody>
-</table>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+
 }
 else
 {
     <div class="alert alert-danger text-center bold">No Question(s) added yet</div>
 }
+    </div>
 
 @section Scripts{
     
