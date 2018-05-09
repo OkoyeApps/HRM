@@ -4,6 +4,7 @@ using resourceEdge.Domain.Entities;
 using resourceEdge.Domain.UnitofWork;
 using resourceEdge.Domain.ViewModels;
 using resourceEdge.webUi.Infrastructure.Core;
+using resourceEdge.webUi.Models.SystemModel;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -33,11 +34,18 @@ namespace resourceEdge.webUi.Infrastructure
             employeeRepo = EmpParam;
         }
 
-
-        public SystemViewModel InitAppraisal()
+        
+        public SystemViewModel InitAppraisal(int? id = null)
         {
             SystemViewModel model = new SystemViewModel();
-            model.Groups = new System.Web.Mvc.SelectList(unitOfWork.Groups.Get().OrderBy(x => x.GroupName), "Id", "GroupName", "Id");
+            if (id != null)
+            {
+                model.Groups = new System.Web.Mvc.SelectList(unitOfWork.Groups.Get(filter: x=>x.Id ==  id.Value).Select(y=> new { Id = y.Id, GroupName = y.GroupName }), "Id", "GroupName" );
+            }
+            else
+            {
+                model.Groups = new System.Web.Mvc.SelectList(unitOfWork.Groups.Get().OrderBy(x => x.GroupName), "Id", "GroupName", "Id");
+            }
             model.Rating = new System.Web.Mvc.SelectList(unitOfWork.AppraislRating.Get().ToList(), "Id", "Name", "Id");
             model.Status = new System.Web.Mvc.SelectList(unitOfWork.AppraisalStatus.Get(), "Id", "Name", "Id");
             model.AppraisalMode = new System.Web.Mvc.SelectList(unitOfWork.AppraisalMode.Get(), "Id", "Name", "Id");
@@ -52,7 +60,27 @@ namespace resourceEdge.webUi.Infrastructure
             model.Parameter = new System.Web.Mvc.SelectList(unitOfWork.Parameters.Get().Select(X => new { Text = X.ParameterName, Value = X.Id }), "Value", "Text", "Value");
             return model;
         }
-
+        
+        public IList<YearlistItem> GenerateYearDropDown()
+        {
+            var currentYear = DateTime.Now.Year;
+            IList<YearlistItem> yearArray = new List<YearlistItem>();
+            for (int i = 0; i < 5; i++)
+            {
+                yearArray.Add(new YearlistItem { Name =$"{currentYear +1}", value = currentYear+ 1 });
+                currentYear = currentYear+1;
+            }
+            return yearArray;
+        }
+        public bool GetOpenAppraisal(int groupId)
+        {
+            var OpenAppraisal = unitOfWork.AppraisalInitialization.Get(x => x.GroupId == groupId && x.AppraisalStatus != 2 && x.EndDate > DateTime.Now).FirstOrDefault();
+            if (OpenAppraisal != null)
+            {
+                return true;
+            }
+            return false;
+        }
         public string GetInitializationcode(int size, bool lowerCase)
         {
             string code = null;
@@ -119,9 +147,10 @@ namespace resourceEdge.webUi.Infrastructure
             {
                 if (result != null)
                 {
-                    result.StartDate = DateTime.Now;
+                    //result.StartDate = DateTime.Now;
                     result.Enable = true;
                     unitOfWork.AppraisalInitialization.Update(result);
+                    unitOfWork.Save();
                     return true;
                 }
             }

@@ -77,14 +77,22 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.InitilizationCode)
                             </td>
-                            <td>
-                                @using (Html.BeginForm("EnableAppraisal", "Appraisal", new { InitilizationId = item.Id }, FormMethod.Post))
-                                {
-                                    @Html.AntiForgeryToken()
-                                    @Html.HiddenFor(x => item.Id)
-                                    <input type="submit" class="btn btn-success" value="Enable" />
-                                }
-                            </td>
+                            @if (item.Enable == null)
+                            {
+                                <td>
+                                    @using (Html.BeginForm("EnableAppraisal", "Appraisal", new { Id = item.Id }, FormMethod.Post))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.HiddenFor(x => item.Id)
+                                        <input type="submit" class="btn btn-success" value="Enable" />
+                                    }
+                                </td>
+                            }
+                            else
+                            {
+                               <td><span class="label label-success">Already Enabled!</span></td> 
+                            }
+
                         </tr>
                     }
 

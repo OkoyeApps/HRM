@@ -229,16 +229,20 @@ namespace resourceEdge.webUi.Controllers
             return View();
         }
 
-        public ActionResult AllInitializedAppraisal()
+        public ActionResult Index()
         {
-            ViewBag.PageTitle = "All Initialized Aappraisals";
+            ViewBag.PageTitle = "All Initialized Appraisals";
             return View(AppraisalManager.GetAllInitialization());
         }
 
         [CustomAuthorizationFilter(Roles = "Head HR")]
         public ActionResult InitilizeAppraisal()
         {
+            var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
             ViewBag.AllDropDown = AppraisalManager.InitAppraisal();
+            var allYears = AppraisalManager.GenerateYearDropDown();
+            SelectList Allyears = new SelectList(allYears, "value", "Name");
+            ViewBag.Years =Allyears;
             ViewBag.PageTitle = "Appraisal Initialization";
              return View();
         }
@@ -248,31 +252,64 @@ namespace resourceEdge.webUi.Controllers
         {
             var Code =AppraisalManager.GetInitializationcode(15, false);
             var period = AppraisalManager.GetPeriodByName(model.Period);
+            var validDate = validateDates(model.StartDate, model.DueDate);
+            var openAppraisal = AppraisalManager.GetOpenAppraisal(model.Group);
             if (ModelState.IsValid)
             {
-                AppraisalInitialization initilize = new AppraisalInitialization()
+                if (openAppraisal)
                 {
-                    GroupId = model.Group,
-                    AppraisalMode = model.AppraisalMode,
-                    AppraisalStatus = model.AppraisalStatus,
-                    StartDate = model.StartDate,
-                    EndDate = model.DueDate,
-                    FromYear = model.FromYear.Year,
-                    InitilizationCode = Code,
-                    Period = period.Id,
-                    RatingType = model.RatingType,
-                    ToYear = model.ToYear.Year,
-                    CreatedBy = User.Identity.GetUserId(),
-                    ModifiedBy = User.Identity.GetUserId(),
-                    CreatedDate = DateTime.Now
-                };
-                InitializtionRepo.Insert(initilize);
-                ModelState.Clear();
-                //AppraisalManager.AddInitializationToMail(model.Group, model.StartDate);
-                this.AddNotification($"Appraisal Initilzation Successful!|{ Request.Url.AbsolutePath}", NotificationType.SUCCESS);
-                return RedirectToAction("AllInitializedAppraisal");
+                    if (validDate)
+                    {
+                        AppraisalInitialization initilize = new AppraisalInitialization()
+                        {
+                            GroupId = model.Group,
+                            AppraisalMode = model.AppraisalMode,
+                            AppraisalStatus = model.AppraisalStatus,
+                            StartDate = model.StartDate,
+                            EndDate = model.DueDate,
+                            FromYear = model.FromYear,
+                            InitilizationCode = Code,
+                            Period = period.Id,
+                            RatingType = model.RatingType,
+                            ToYear = model.ToYear,
+                            CreatedBy = User.Identity.GetUserId(),
+                            ModifiedBy = User.Identity.GetUserId(),
+                            CreatedDate = DateTime.Now
+                        };
+                        InitializtionRepo.Insert(initilize);
+                        ModelState.Clear();
+                        //AppraisalManager.AddInitializationToMail(model.Group, model.StartDate);
+                        this.AddNotification($"Appraisal Initilzated", NotificationType.SUCCESS);
+                        return RedirectToAction("Index");
+                    }
+                this.AddNotification("Oops, please Due Date has to be greater than start date", NotificationType.ERROR);
+                return RedirectToAction("InitilizeAppraisal");
+                }
+                this.AddNotification("Oops, Sorry but there is an uncompleted initialized appriasal running in the system. please wait till this group has finished the current appriasal", NotificationType.ERROR);
+                return RedirectToAction("InitilizeAppraisal");
             }
+            this.AddNotification("Oops, appraisal could not be added, please make sure all fields are filled or contact your system administrator", NotificationType.ERROR);
             return RedirectToAction("InitilizeAppraisal");
+        }
+
+        public bool validateDates(DateTime? startDate, DateTime? stopDate)
+        {
+            if (startDate != null)
+            {
+                if (stopDate != null)
+                {
+                    if (startDate > stopDate || (startDate < DateTime.Now))
+                    {
+                        return false;
+                    }
+                    else if (startDate < stopDate)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            return false;
         }
         [HttpPost,ValidateAntiForgeryToken]
         public ActionResult EnableAppraisal(int Id)
@@ -280,11 +317,11 @@ namespace resourceEdge.webUi.Controllers
             bool result = AppraisalManager.EnableAppraisal(Id);
             if (result != false)
             { 
-                this.AddNotification($"Enabled the Appraisal, Please remember to Monitor while it is on-going", NotificationType.ERROR);
-                return View("AllInitializedAppraisal");
+                this.AddNotification($"Enabled the Appraisal, Please remember to Monitor while it is on-going", NotificationType.SUCCESS);
+                return RedirectToAction("Index");
             }
-            this.AddNotification($"Something went wrong, please Try enabling again", NotificationType.ERROR);
-            return View("AllInitializedAppraisal");
+            this.AddNotification($"Something went wrong, please Try enabling again and please make sure you are not editing the request", NotificationType.ERROR);
+            return RedirectToAction("Index");
         }
 
         [CustomAuthorizationFilter(Roles ="HR")]

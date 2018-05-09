@@ -203,5 +203,18 @@ namespace resourceEdge.webUi.Infrastructure.Core
                 }
             }
         }
+
+        public void CloseAllFinishedAppraisal()
+        {
+            var OpenAppraisal = unitOfWork.AppraisalInitialization.Get(x => x.EndDate == DateTime.Now || x.EndDate > DateTime.Now);
+            foreach (var item in OpenAppraisal)
+            {
+                item.AppraisalStatus = 2;
+                item.IsActive = false;
+                unitOfWork.AppraisalInitialization.Update(item);
+            }
+            unitOfWork.Save();
+            //Remember to push this to the summary table later
+        }
     }
 }

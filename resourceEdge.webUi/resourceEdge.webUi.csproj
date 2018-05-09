@@ -1328,7 +1328,7 @@
     <Content Include="Views\Appraisal\AddParameter.cshtml" />
     <Content Include="Views\Appraisal\AddRating.cshtml" />
     <Content Include="Views\Appraisal\InitilizeAppraisal.cshtml" />
-    <Content Include="Views\Appraisal\AllInitializedAppraisal.cshtml" />
+    <Content Include="Views\Appraisal\Index.cshtml" />
     <Content Include="Views\Appraisal\ConfigureAppraisal1.cshtml" />
     <Content Include="ClassDiagram1.cd" />
     <Content Include="Views\HR\AssignDepartmentHead.cshtml" />

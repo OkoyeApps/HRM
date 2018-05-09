@@ -17,29 +17,30 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Group, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                   @Html.DropDownListFor(model => model.Group, dropdowns.Groups, "Select Group", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "bs-select form-control" })
+                   @Html.DropDownListFor(model => model.Group, dropdowns.Groups, "Select Group", htmlAttributes: new { @class = "bs-select form-control" })
                    @Html.ValidationMessageFor(model => model.Group, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FromYear, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("From Year", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.FromYear, new { htmlAttributes = new { @class = "form-control", type="date" } })
+                @Html.DropDownListFor(model => model.FromYear, (SelectList)ViewBag.Years, "Select year", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "bs-select form-control" })
                 @Html.ValidationMessageFor(model => model.FromYear, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ToYear, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("To Year", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ToYear, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+    @*            @Html.EditorFor(model => model.ToYear, new { htmlAttributes = new { @class = "form-control", type = "date" } })*@
+                @Html.DropDownListFor(model => model.ToYear, (SelectList)ViewBag.Years, "Select year", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "bs-select form-control" })
                 @Html.ValidationMessageFor(model => model.ToYear, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.AppraisalMode, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Appraisal Mode", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.AppraisalMode, dropdowns.AppraisalMode, "Select Mode", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "bs-select form-control" })
                  @Html.ValidationMessageFor(model => model.AppraisalMode, "", new { @class = "text-danger" })
@@ -55,7 +56,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Start Date", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", type = "date" } })
                 @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
@@ -63,7 +64,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DueDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Due Date", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.DueDate, new { htmlAttributes = new { @class = "form-control", type = "date" } })
                 @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
@@ -71,7 +72,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.RatingType, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Rating Type", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.RatingType, dropdowns.Rating, "Select Rating Type", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "bs-select form-control" })
                    @Html.ValidationMessageFor(model => model.RatingType, "", new { @class = "text-danger" })
@@ -79,7 +80,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.AppraisalStatus, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Appraisal Status", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.AppraisalStatus, dropdowns.Status, "Select Status", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "bs-select form-control" })
                  @Html.ValidationMessageFor(model => model.AppraisalStatus, "", new { @class = "text-danger" })
@@ -88,15 +89,11 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input id="initsubmit" type="submit" value="Create" class="btn btn-default" />
+                <input id="initsubmit" type="submit" value="Create" class="btn btn-success" />
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

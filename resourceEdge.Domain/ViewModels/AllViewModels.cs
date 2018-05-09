@@ -466,9 +466,9 @@ namespace resourceEdge.Domain.Entities
         [Required(ErrorMessage = "Please this field is required")]
         public int Group { get; set; }
         [Required(ErrorMessage = "Please this field is required")]
-        public DateTime FromYear { get; set; }
+        public int FromYear { get; set; }
         [Required(ErrorMessage = "Please this field is required")]
-        public DateTime ToYear { get; set; }
+        public int ToYear { get; set; }
         [Required(ErrorMessage = "Please this field is required")]
         public int AppraisalMode { get; set; }
         [Required(ErrorMessage = "Please this field is required")]

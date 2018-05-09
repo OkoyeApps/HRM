@@ -1,5 +1,4 @@
-﻿
-(function () {
+﻿(function () {
 
         window.onload = function () {
             var id = $('#key')[0].innerHTML;
@@ -49,7 +48,6 @@
                 console.log('in the GetempLeaveAmount method');
                 console.log(data);
                 if (data != '') {
-
                     $('#LeaveNoOfDays').html(data.numberofdays);
                     $('#LeaveNoOfDays').val(data.numberofdays);
                     return data;
@@ -109,7 +107,8 @@
     }
 
     $("#ToDate").change(function () {
-        if ($('#FromDate').val() != '' && $('#LeaveNoOfDays').val() != '') {
+        //if ($('#FromDate').val() != '' && $('#LeaveNoOfDays').val() != '') {
+        if ($('#FromDate').val() != '') {
         var result = dateDifference($('#FromDate').val(), $('#ToDate').val());
         console.log("Result is: " + result)
         checkTimeAgainstDate(result);
@@ -123,52 +122,6 @@
         ValidateTotalRequestDay($('#requestDays').val());
         }
     })
-
-
-
-
-    //function CalculateDateDifference() {
-    //    var FromDate = $('#FromDate').val();
-    //    var ToDate = $('#ToDate').val();
-    //    var date1 = new Date(FromDate);
-    //    var Date2 = new Date(ToDate);
-    //    var diff = 0;
-    //    var days = 8.64e7;
-    //    diff = Date2 - date1;
-
-    //    console.log("Diff Date  " + new Date(diff));
-    //    //var dd = new Date(mdy[0], mdy[1]-1, mdy[2])
-    //    //var dd = new Date(mdy[0], mdy[1]-1, mdy[2])
-    //    var finalResult = null;
-    //    var result = Math.floor(diff / days)
-    //    switch (true) {
-    //        case (result > 7 && result < 14):
-    //            finalResult = result - 2
-    //            console.log("only one week end");
-    //            break;
-    //        case (result >= 14 && result < 21):
-    //            finalResult = result - 4
-    //            console.log("only Two week end");
-    //            break;
-    //        case (result >= 21 && result < 28):
-    //            console.log("only Three week end");
-    //            finalResult = result - 6
-    //            break;
-    //        case (result >= 28 && result <= 31):
-    //            finalResult = result - 8
-    //            console.log("only Four week end");
-    //            break;
-    //        default:
-    //            finalResult = result - 0;
-    //            console.log("hitting default");
-    //    }
-    //    checkTimeAgainstDate(finalResult + "is finalResult");
-    //    console.log("the differnce in days is " + finalResult);
-    //}
-    //$("#ToDate").change(function (event) {
-    //    CalculateDateDifference(event, $("#ToDate"));
-    //});
-
 
     function ValidateTotalRequestDay(days) {
         console.log("in the validateTotalRequest");
@@ -193,21 +146,21 @@
         var realNoofDays = $('#LeaveNoOfDays').val();
         console.log(daysPicked + "is days picked");
         if (realNoofDays != null || realNoofDays != '') {
-        if (daysPicked <= Number(realNoofDays)) {
-            Date_error_message = false;
-            console.log("in the else method");
-            $('#Date_error_message').removeClass("show")
-            $('#btnSubmit').prop('disabled', false);
-            $('#requestDays').val(daysPicked);
+            if (daysPicked <= Number(realNoofDays)) {
+                Date_error_message = false;
+                console.log("in the else method");
+                $('#Date_error_message').removeClass("show")
+                $('#btnSubmit').prop('disabled', false);
+                $('#requestDays').val(daysPicked);
 
-        } else {
-            $('#Date_error_message').html("The Days exceeds the alloted date for the specified leave");
-            $('#Date_error_message').addClass("show");
-            Date_error_message = true;
-            $('#requestDays').val(daysPicked);
-            $('#btnSubmit').prop('disabled', true);
-            console.log('got here');
-        }
+            } else {
+                $('#Date_error_message').html("The Days exceeds the alloted date for the specified leave");
+                $('#Date_error_message').addClass("show");
+                Date_error_message = true;
+                $('#requestDays').val(daysPicked);
+                $('#btnSubmit').prop('disabled', true);
+                console.log('got here');
+            }
         }
         else {
             $('#btnSubmit').prop('disabled', true);
@@ -250,3 +203,46 @@
  });
 
 })()
+
+
+//function CalculateDateDifference() {
+//    var FromDate = $('#FromDate').val();
+//    var ToDate = $('#ToDate').val();
+//    var date1 = new Date(FromDate);
+//    var Date2 = new Date(ToDate);
+//    var diff = 0;
+//    var days = 8.64e7;
+//    diff = Date2 - date1;
+
+//    console.log("Diff Date  " + new Date(diff));
+//    //var dd = new Date(mdy[0], mdy[1]-1, mdy[2])
+//    //var dd = new Date(mdy[0], mdy[1]-1, mdy[2])
+//    var finalResult = null;
+//    var result = Math.floor(diff / days)
+//    switch (true) {
+//        case (result > 7 && result < 14):
+//            finalResult = result - 2
+//            console.log("only one week end");
+//            break;
+//        case (result >= 14 && result < 21):
+//            finalResult = result - 4
+//            console.log("only Two week end");
+//            break;
+//        case (result >= 21 && result < 28):
+//            console.log("only Three week end");
+//            finalResult = result - 6
+//            break;
+//        case (result >= 28 && result <= 31):
+//            finalResult = result - 8
+//            console.log("only Four week end");
+//            break;
+//        default:
+//            finalResult = result - 0;
+//            console.log("hitting default");
+//    }
+//    checkTimeAgainstDate(finalResult + "is finalResult");
+//    console.log("the differnce in days is " + finalResult);
+//}
+//$("#ToDate").change(function (event) {
+//    CalculateDateDifference(event, $("#ToDate"));
+//});

@@ -99,5 +99,10 @@ namespace resourceEdge.webUi.Models.SystemModel
         public string  UserId { get; set; }
         public int Id { get; set; }
     }
+    public class YearlistItem
+    {
+        public string Name { get; set; }
+        public int value { get; set; }
+    }
 
 }
