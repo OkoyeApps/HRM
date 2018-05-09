@@ -41,3 +41,5 @@ C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdg
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.Migrations.EdgeDbContext2.AssetRequisitionUpdatetoserialNumber.resources
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.Migrations.EdgeDbContext2.CandidategroupIdadded.resources
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.Migrations.EdgeDbContext2.RequistiongroupIdadded.resources
+C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.Migrations.EdgeDbContext2.AssetAssetCategoryandRequestAssetgroupandlocationUpdate.resources
+C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.Migrations.EdgeDbContext2.updateforgroupsforentititesleavereportmanagerrequestAsset.resources

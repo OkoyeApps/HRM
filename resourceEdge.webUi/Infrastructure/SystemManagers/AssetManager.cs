@@ -26,16 +26,16 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
             assetCategoryRepo = assetCategoryParam;
             reqAssetRepo = reqAssetParam;
         }
-        public SelectList InstantiateCategoryDropDown()
+        public SelectList InstantiateCategoryDropDown(int groupId)
         {
-            var categoryList = new SelectList(assetCategoryRepo.Get().Select(x => new { name = x.Name, Id = x.ID }), "Id", "Name");
+            var categoryList = new SelectList(unitOfWork.AssetCategory.Get(filter: x=>x.GroupId == groupId).Select(x => new { name = x.Name, Id = x.ID }), "Id", "Name");
             return categoryList;
         }
         public IEnumerable<Asset> GetAllAssetLazily()
         {
             return assetRepo.GetallAssetLazily("AssetCategory");
         }
-        public bool AddAsset(AssetViewModel model, HttpPostedFileBase File)
+        public bool AddAsset(AssetViewModel model, HttpPostedFileBase File, int groupId)
         {
             if (model.Name != null && model.SerialNumber.ToString() != null)
             {
@@ -46,7 +46,8 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
                     CreatedOn = DateTime.Now,
                     CreatedBy = HttpContext.Current.User.Identity.GetUserId(),
                     IsInUse = false,
-                    SerialNumber = model.SerialNumber
+                    SerialNumber = model.SerialNumber,
+                    groupId = groupId
                 };
                 if (File != null)
                 {
@@ -78,11 +79,11 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
             return false;
         }
 
-        public IEnumerable<AssetCategory> GetAllAssetCategory()
+        public IEnumerable<AssetCategory> GetAllAssetCategoryByGroup(int groupId)
         {
-            return assetCategoryRepo.Get();
+            return unitOfWork.AssetCategory.Get(filter: x=>x.GroupId == groupId);
         }
-        public bool AddAssetCategory(AssetViewModel model)
+        public bool AddAssetCategory(AssetViewModel model, int groupId)
         {
             if (model.Name != null && model.SerialNumber.ToString() != null)
             {
@@ -92,6 +93,7 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
                     IsActive = true,
                     CreatedOn = DateTime.Now,
                     CreatedBy = HttpContext.Current.User.Identity.GetUserId(),
+                     GroupId = groupId
                 };
                 assetCategoryRepo.Insert(asset);
                 return true;
@@ -132,11 +134,11 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
             }
             return false;
         }
-        public IEnumerable<RequestAsset> GetAllRequestByUser()
+        public IEnumerable<RequestAsset> GetAllRequestByUser(int groupId, int locationId)
         {
             if (HttpContext.Current.User.IsInRole("HR"))
             {
-                var result = reqAssetRepo.GetRequestLazily("AssetCategory");
+                var result = unitOfWork.RequestAsset.Get(filter: x=>x.GroupId == groupId && x.LocationId == locationId, includeProperties:"AssetCategory");
                 return result;
             }
             var empResult = unitOfWork.RequestAsset.Get(filter: x => x.RequestedBy == HttpContext.Current.User.Identity.GetUserId());

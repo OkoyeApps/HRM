@@ -31,11 +31,25 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
             return result;
         }
 
-        public SelectList GetBusinessUnit()
+        public SelectList GetBusinessUnit(int? groupId = null, int? locationId =null)
         {
-            var result = new SelectList(unitOfWork.BusinessUnit.Get().OrderBy(x => x.unitname), "Id", "unitname");
+            SelectList result = null;
+            if (locationId != null)
+            {
+                 result = new SelectList(unitOfWork.BusinessUnit.Get(filter: x=>x.LocationId ==locationId).OrderBy(x => x.unitname), "Id", "unitname");
+            }
+            if (locationId != null && groupId != null)
+            {
+                 result = new SelectList(unitOfWork.BusinessUnit.Get(filter: x => x.LocationId == locationId && x.GroupId ==groupId).OrderBy(x => x.unitname), "Id", "unitname");
+            }
+            if (groupId != null && locationId == null)
+            {
+                 result = new SelectList(unitOfWork.BusinessUnit.Get(filter: x => x.GroupId == groupId).OrderBy(x => x.unitname), "Id", "unitname");
+            }
+             result = new SelectList(unitOfWork.BusinessUnit.Get().OrderBy(x => x.unitname), "Id", "unitname");
             return result;
         }
+       
 
         public SelectList GetJobtitle()
         {

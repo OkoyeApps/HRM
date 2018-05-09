@@ -3,6 +3,7 @@ using resourceEdge.Domain.Entities;
 using resourceEdge.webUi.Infrastructure.Core;
 using resourceEdge.webUi.Infrastructure.Handlers;
 using resourceEdge.webUi.Infrastructure.SystemManagers;
+using resourceEdge.webUi.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -38,9 +39,10 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult AddAsset()
         {
             ViewBag.PageTitle = "New Asset";
+            var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
             AssetViewModel model = new AssetViewModel()
             {
-                CategotyList = assetmanager.InstantiateCategoryDropDown()
+                CategotyList = assetmanager.InstantiateCategoryDropDown(UserFromSession.GroupId)
             };
             return View(model);
         }
@@ -49,6 +51,7 @@ namespace resourceEdge.webUi.Controllers
         {
             if (ModelState.IsValid)
             {
+                var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
                 if (File != null)
                 {
                     var extension = Path.GetExtension(File.FileName);
@@ -58,7 +61,7 @@ namespace resourceEdge.webUi.Controllers
                         return RedirectToAction("AddAsset");
                     }
                 }
-                    var result = assetmanager.AddAsset(model, File);
+                    var result = assetmanager.AddAsset(model, File,UserFromSession.GroupId);
                     if (result)
                     {
                         this.AddNotification("Asset added!", NotificationType.SUCCESS);
@@ -98,7 +101,8 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult AllAssetCategory()
         {
             ViewBag.PageTitle = "All Category";
-            return View(assetCategoryRepo.Get());
+            var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+            return View(assetmanager.GetAllAssetCategoryByGroup(UserFromSession.GroupId));
         }
         [CustomAuthorizationFilter(Roles = "System Admin,HR")]
         public ActionResult AddAssetCategory()
@@ -112,7 +116,8 @@ namespace resourceEdge.webUi.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = assetmanager.AddAssetCategory(model);
+                var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+                var result = assetmanager.AddAssetCategory(model, UserFromSession.GroupId);
                 if (result)
                 {
                     this.AddNotification("Category added!", NotificationType.SUCCESS);
@@ -151,14 +156,16 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult AllRequest()
         {
             ViewBag.PageTitle = "All Request";
-            var result = assetmanager.GetAllRequestByUser();
+            var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+            var result = assetmanager.GetAllRequestByUser(UserFromSession.GroupId, UserFromSession.LocationId);
             return View(result);
         }
         public ActionResult RequestAsset()
         {
+            var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
             RequestAssetViewModel request = new RequestAssetViewModel()
             {
-                CategotyList = assetmanager.InstantiateCategoryDropDown()
+                CategotyList = assetmanager.InstantiateCategoryDropDown(UserFromSession.GroupId)
             };
             ViewBag.PageTitle = "Add Request";
             return View(request);

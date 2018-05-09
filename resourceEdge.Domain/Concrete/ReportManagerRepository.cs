@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Concrete
 {
-    public class ReprtManagerRepository : IReportManager
+    public class ReportManagerRepository : IReportManager
     {
         UnitofWork.UnitOfWork unitOfWork = new UnitofWork.UnitOfWork();
         public void Insert(ReportManager manager)
@@ -58,7 +58,7 @@ namespace resourceEdge.Domain.Concrete
             return null;
         }
 
-        public List<ReportManager> GetManagersByBusinessunit(int id)
+        public IList<ReportManager> GetManagersByBusinessunit(int id)
         {
             var result = unitOfWork.ReportManager.Get(filter: x => x.BusinessUnitId == id).ToList();
             if (result != null)
@@ -68,7 +68,7 @@ namespace resourceEdge.Domain.Concrete
             return null;
         }
 
-        public List<ReportManager> GetReportmanagerCount(string userId)
+        public IList<ReportManager> GetReportmanagerCount(string userId)
         {
             var result = unitOfWork.ReportManager.Get(filter: x => x.ManagerUserId == userId).ToList();
             if (result != null)
@@ -76,6 +76,13 @@ namespace resourceEdge.Domain.Concrete
                 return result;
             }
             return null;
+        }
+
+
+        public IEnumerable<ReportManager> GetManagersByLocationAndGroup(int groupId, int locationId)
+        {
+            var result = unitOfWork.ReportManager.Get(filter: x => x.GroupId == groupId && x.LocationId == locationId);
+            return result;
         }
     }
 }

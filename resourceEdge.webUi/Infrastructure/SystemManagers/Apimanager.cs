@@ -258,10 +258,8 @@ namespace resourceEdge.webUi.Infrastructure
                         businessunitId = x.BusinessUnitId,
                         departmentId = x.DepartmentId,
                         userId = x.ManagerUserId,
-                        FullName = x.FullName,
-
+                        FullName = x.FullName
                     }).ToList();
-
                     return Reportmanager;
                 }
             return null;

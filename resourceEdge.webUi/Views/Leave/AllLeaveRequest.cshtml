@@ -1,4 +1,4 @@
-﻿@model IEnumerable<resourceEdge.Domain.Entities.LeaveRequest>
+﻿@model IEnumerable< resourceEdge.webUi.Models.SystemModel.LeaveRequestListItem>
 
 @{
     ViewBag.Title = "AllLeaveRequest";
@@ -24,6 +24,8 @@
                             <thead>
                                 <tr>
                                     <th>S/N</th>
+                                    <th>Name</th>
+                                    <th>Unit</th>
                                     <th>
                                         Reason
                                     </th>
@@ -47,6 +49,8 @@
                                 {
                                     <tr>
                                         <td>@{int sn = no++;} @sn</td>
+                                        <td>@item.FullName</td>
+                                        <td>@item.UnitName</td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Reason)
                                         </td>
@@ -54,13 +58,13 @@
                                             @Html.DisplayFor(modelItem => item.LeaveName)
                                         </td>
                                         <td>
-                                            @item.FromDate.Value.ToShortDateString()
+                                            @item.From.ToShortDateString()
                                         </td>
                                         <td>
-                                            @item.ToDate.Value.ToShortDateString()
+                                            @item.To.ToShortDateString()
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.requestDaysNo)
+                                            @Html.DisplayFor(modelItem => item.RequestDays)
                                         </td>
                                         @*<td>
                                             @if (item.Approval1 == true)
@@ -73,14 +77,14 @@
                                                <table>
                                                    <tr>
                                                        <td>
-                                                           @using (Html.BeginForm("ApproveLeave", "Leave", new { returnUrl = Request.Url.PathAndQuery, userId = item.UserId, id = item.id }, FormMethod.Post))
+                                                           @using (Html.BeginForm("ApproveLeave", "Leave", new { returnUrl = Request.Url.PathAndQuery, userId = item.UserId, id = item.Id }, FormMethod.Post))
                                                            {
                                                                @Html.AntiForgeryToken()
                                                                <input type="submit" value="Approve" class="btn btn-sm btn-success" />
                                                            }
                                                        </td>
                                                        <td>
-                                                           @using (Html.BeginForm("DenyLeave", "Leave", new { returnUrl = Request.Url.PathAndQuery, userId = item.UserId, id = item.id }, FormMethod.Post))
+                                                           @using (Html.BeginForm("DenyLeave", "Leave", new { returnUrl = Request.Url.PathAndQuery, userId = item.UserId, id = item.Id }, FormMethod.Post))
                                                            {
                                                                @Html.AntiForgeryToken()
                                                                <input type="submit" value="Deny" class="btn btn-sm btn-danger" />

@@ -10,6 +10,8 @@ namespace resourceEdge.Domain.Entities
     {
         public int id { get; set; }
         public string UserId { get; set; }
+        public int GroupId { get; set; }
+        public int LocationId { get; set; }
         public string Reason { get; set; }
         public string ApprovalComment { get; set; }
         public Nullable<int> LeavetypeId { get; set; }

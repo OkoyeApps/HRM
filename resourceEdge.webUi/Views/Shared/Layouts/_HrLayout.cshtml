@@ -1,5 +1,6 @@
 ﻿@using resourceEdge.webUi.Models
-@{ var usersessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+@{ 
+    var usersessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
     var crumbs = (BreadCrumb)Session["_Crumbs"];
     string[] UrlName = null;
     string action = "";

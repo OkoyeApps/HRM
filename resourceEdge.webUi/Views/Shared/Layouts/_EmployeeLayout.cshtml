@@ -1,26 +1,27 @@
 ﻿@using resourceEdge.webUi.Models
 @using resourceEdge.Domain.Entities
-@{ var usersessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
-    var crumbs = (BreadCrumb)Session["_Crumbs"];
+@{ 
     var Menu = (List<Menu>)Session["_Menu"];
+    var usersessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+    var crumbs = (BreadCrumb)Session["_Crumbs"];
     string[] UrlName = null;
-    string FullName = "";
-    string BusinessUnit = "";
     string action = "";
     string controller = "";
+    string FullName = "";
+    string BusinessUnit = "";
     if (Request.UrlReferrer != null)
     {
         UrlName = Request.UrlReferrer.AbsolutePath.Split('/');
-    }
-    if (usersessionObject != null)
-    {
-        FullName = usersessionObject.FullName;
-        BusinessUnit = usersessionObject.UnitName;
     }
     if (crumbs != null)
     {
         action = crumbs.Action;
         controller = crumbs.Controller;
+    }
+    if (usersessionObject != null)
+    {
+        FullName = usersessionObject.FullName;
+        BusinessUnit = usersessionObject.UnitName;
     }
 
 }
@@ -462,8 +463,8 @@
         <div id="content" class="content">
             <!-- begin breadcrumb -->
             <ol class="breadcrumb pull-right">
-                <li><a href="javascript:;">@crumbs.Action</a></li>
-                <li><a href="javascript:;">@crumbs.Controller</a></li>
+                <li><a href="javascript:;">@action.ToLower()</a></li>
+                <li><a href="javascript:;">@controller.ToLower()</a></li>
                 @if (UrlName != null)
                 {
                     if (UrlName.Length == 3)

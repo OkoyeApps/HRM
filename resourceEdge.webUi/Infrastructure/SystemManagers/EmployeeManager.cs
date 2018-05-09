@@ -290,7 +290,7 @@ namespace resourceEdge.webUi.Infrastructure
                 var manager = ReportManagerRepo.GetManagersByBusinessunit(UnitId);
                 if (manager != null)
                 {
-                    return manager;
+                    return manager.ToList();
                 }
             }
             return null;

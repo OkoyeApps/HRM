@@ -41,7 +41,7 @@ namespace resourceEdge.webUi.Infrastructure
             kernel.Bind<IPrefixes>().To<PrefixRepository>();
             kernel.Bind<IEmploymentStatus>().To<EmployementStatusRepository>();
             kernel.Bind<IEmployees>().To<EmployeeRepository>();
-            kernel.Bind<IReportManager>().To<ReprtManagerRepository>();
+            kernel.Bind<IReportManager>().To<ReportManagerRepository>();
             kernel.Bind<ILeaveManagement>().To<LeaveManagementRepo>();
             kernel.Bind<IRequisition>().To<RequisitionRepo>();
             kernel.Bind<IPayroll>().To<PayrollRepository>();

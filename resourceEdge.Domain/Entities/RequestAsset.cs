@@ -10,6 +10,8 @@ namespace resourceEdge.Domain.Entities
     {
         public int Id { get; set; }
         public int AssetCategoryId { get; set; }
+        public int GroupId { get; set; }
+        public int LocationId { get; set; }
         public int Amount { get; set; }
         public DateTime? DueTime { get; set; }
         public string RequestedBy { get; set; }

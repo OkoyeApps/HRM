@@ -87,5 +87,17 @@ namespace resourceEdge.webUi.Models.SystemModel
         public string RaisedBy { get; set; }
         public bool? Status { get; set; }
     }
+    public class LeaveRequestListItem
+    {
+        public string Reason { get; set; }
+        public string LeaveName { get; set; }
+        public DateTime From { get; set; }
+        public DateTime To { get; set; }
+        public double RequestDays { get; set; }
+        public string FullName { get; set; }
+        public string UnitName { get; set; }
+        public string  UserId { get; set; }
+        public int Id { get; set; }
+    }
 
 }

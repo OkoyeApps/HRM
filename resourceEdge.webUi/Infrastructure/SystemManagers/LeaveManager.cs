@@ -2,6 +2,7 @@
 using resourceEdge.Domain.Abstracts;
 using resourceEdge.Domain.Entities;
 using resourceEdge.Domain.UnitofWork;
+using resourceEdge.webUi.Models.SystemModel;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -42,8 +43,10 @@ namespace resourceEdge.webUi.Infrastructure
         public double? GetEmployeeUsedLeave(string userId)
         {
             var result = unitofWork.EmployeeLeave.Get(filter: x => x.UserId == userId).FirstOrDefault();
-            return result != null ? result.UsedLeaves : 0;
+            return result.UsedLeaves != null ? result.UsedLeaves : 0;
         }
+
+     
 
         public List<LeaveRequest> GetPendingLeaveForManager(string userid)
         {
@@ -170,9 +173,49 @@ namespace resourceEdge.webUi.Infrastructure
             var result = LeaveRepo.GetEmployeeAllLeaveRequest(userId).ToList();
             return result ?? null;
         }
-        public List<LeaveRequest> AllLeaveRequestForConfirmation()
+        public IList<LeaveRequestListItem> AllLeaveRequestForConfirmation(int groupId, int locationId)
         {
-           return LeaveRepo.AllLeaveRequestForConfirmation().ToList();
+            var result = unitofWork.LRequest.Get(filter: x => x.LeaveStatus == null && x.Approval1 == true && x.LocationId == locationId && x.GroupId == groupId)
+                .Select(x=> new LeaveRequestListItem
+                {
+                     From = x.FromDate.Value,
+                      To = x.ToDate.Value,
+                       LeaveName = x.LeaveName,
+                        Reason =x.Reason,
+                         RequestDays = x.NoOfDays.Value,
+                          FullName = x.UserId,
+                           UnitName = unitofWork.employees.Get(filter: y=>y.userId == x.UserId).FirstOrDefault().businessunitId.ToString(),
+                            UserId = x.UserId,
+                             Id =x.id
+                }).ToList();
+            result.ForEach(x => x.FullName = unitofWork.employees.Get(y => y.userId == y.userId).FirstOrDefault().FullName);
+            result.ForEach(x => x.UnitName = unitofWork.BusinessUnit.GetByID(int.Parse(x.UnitName)).unitname);
+            return result;
+        }
+
+        public IList<LeaveRequestListItem> GetAllLeaveRequestForManager(string userId)
+        {
+            var result = unitofWork.LRequest.Get(filter: x => x.RepmangId == userId && x.Approval1 == null)
+                   .Select(x => new LeaveRequestListItem
+                   {
+                       From = x.FromDate.Value,
+                       To = x.ToDate.Value,
+                       LeaveName = x.LeaveName,
+                       Reason = x.Reason,
+                       RequestDays = x.NoOfDays.Value,
+                       FullName = x.UserId,
+                       UnitName = unitofWork.employees.Get(filter: y => y.userId == x.UserId).FirstOrDefault().businessunitId.ToString(),
+                       UserId = x.UserId,
+                       Id = x.id
+                   }).ToList();
+
+            if (result != null)
+            {
+                result.ForEach(x => x.FullName = unitofWork.employees.Get(y => y.userId == y.userId).FirstOrDefault().FullName);
+                result.ForEach(x => x.UnitName = unitofWork.BusinessUnit.GetByID(int.Parse(x.UnitName)).unitname);
+                return result;
+            }
+            return null;
         }
         public bool AllotCollectiveLeave(FormCollection collection) //Change this allot year to a dateTime and also change this to a dictionary
         {

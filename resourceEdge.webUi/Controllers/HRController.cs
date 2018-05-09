@@ -193,6 +193,8 @@ namespace resourceEdge.webUi.Controllers
                                     manager.employeeId = realEmployee.empID;
                                     manager.FullName = realEmployee.FullName;
                                     manager.ManagerUserId = realEmployee.userId;
+                                    manager.GroupId = realEmployee.GroupId;
+                                    manager.LocationId = realEmployee.LocationId.Value;
                                     employeeManager.AssignReportManager(manager);
                                 }
                                 var groupName = employeeManager.GetGroupName(employees.GroupId);

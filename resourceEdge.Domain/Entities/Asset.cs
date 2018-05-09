@@ -9,6 +9,7 @@ namespace resourceEdge.Domain.Entities
     public class Asset
     {
         public int ID { get; set; }
+        public int groupId { get; set; }
         public string Name { get; set; }
         public long SerialNumber { get; set; }
         public bool IsInUse { get; set; }

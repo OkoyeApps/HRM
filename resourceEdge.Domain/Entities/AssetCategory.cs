@@ -9,6 +9,7 @@ namespace resourceEdge.Domain.Entities
     public class AssetCategory
     {
         public int ID { get; set; }
+        public int GroupId { get; set; }
         public string Name { get; set; }
         public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }

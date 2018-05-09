@@ -5,6 +5,7 @@
             var id = $('#key')[0].innerHTML;
             GetRmByUserId(id);
             GetempLeaveAmount(id);
+            ValidateTotalRequestDay(0);
         };
 
     function GetempLeaveAmount(userId) {
@@ -167,10 +168,7 @@
     //$("#ToDate").change(function (event) {
     //    CalculateDateDifference(event, $("#ToDate"));
     //});
-    $('#requestDays').on('change', function () {
-        console.log($(this).val());
-        ValidateTotalRequestDay(this)
-    })
+
 
     function ValidateTotalRequestDay(days) {
         console.log("in the validateTotalRequest");
@@ -184,6 +182,11 @@
             $('#btnSubmit').prop('disabled', false);
         }
     }
+
+    $('#requestDays').on('change', function () {
+        console.log($(this).val());
+        ValidateTotalRequestDay(this)
+    })
 
     function checkTimeAgainstDate(daysPicked) {
         var Date_error_message = false;
@@ -205,6 +208,9 @@
             $('#btnSubmit').prop('disabled', true);
             console.log('got here');
         }
+        }
+        else {
+            $('#btnSubmit').prop('disabled', true);
         }
     }
 
@@ -238,5 +244,9 @@
             }
         })
     };
+
+    $('#requestDays').on('keypress', function (event) {
+     return $.ValidateNumber(event, this);
+ });
 
 })()

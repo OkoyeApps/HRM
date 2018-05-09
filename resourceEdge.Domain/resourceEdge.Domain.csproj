@@ -185,7 +185,7 @@
     <Compile Include="Concrete\PositionRepository.cs" />
     <Compile Include="Concrete\PrefixRepository.cs" />
     <Compile Include="Concrete\ProductRepository.cs" />
-    <Compile Include="Concrete\ReprtManagerRepository.cs" />
+    <Compile Include="Concrete\ReportManagerRepository.cs" />
     <Compile Include="Concrete\RequestAssetRepository.cs" />
     <Compile Include="Concrete\RequisitionRepo.cs" />
     <Compile Include="DbEntities\products.cs" />
@@ -313,6 +313,14 @@
     <Compile Include="Migrations\EdgeDbContext2\201805071235183_Requistion groupId added.Designer.cs">
       <DependentUpon>201805071235183_Requistion groupId added.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201805081200268_Asset,AssetCategory and RequestAsset group and location Update.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201805081200268_Asset,AssetCategory and RequestAsset group and location Update.Designer.cs">
+      <DependentUpon>201805081200268_Asset,AssetCategory and RequestAsset group and location Update.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201805081340343_update for groups for entitites leave,reportmanager,requestAsset.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201805081340343_update for groups for entitites leave,reportmanager,requestAsset.Designer.cs">
+      <DependentUpon>201805081340343_update for groups for entitites leave,reportmanager,requestAsset.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\EdgeDbContext2\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitofWork\GenericRepository.cs" />
@@ -388,6 +396,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\EdgeDbContext2\201805071235183_Requistion groupId added.resx">
       <DependentUpon>201805071235183_Requistion groupId added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805081200268_Asset,AssetCategory and RequestAsset group and location Update.resx">
+      <DependentUpon>201805081200268_Asset,AssetCategory and RequestAsset group and location Update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805081340343_update for groups for entitites leave,reportmanager,requestAsset.resx">
+      <DependentUpon>201805081340343_update for groups for entitites leave,reportmanager,requestAsset.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

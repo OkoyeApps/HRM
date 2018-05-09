@@ -44,7 +44,7 @@ namespace resourceEdge.webUi.Infrastructure
 
             return reqCode + "/" + count;
         }
-        public IEnumerable<dynamic> GetBusinessUnit(int groupId)
+        public IEnumerable<dynamic> GetBusinessUnit(int groupId, int Location)
         {
             var BusinessUnit = unitOfWork.BusinessUnit.Get(filter: x => x.GroupId == groupId).Select(x => new { Id = x.Id, Name = x.unitname });
             return BusinessUnit;
