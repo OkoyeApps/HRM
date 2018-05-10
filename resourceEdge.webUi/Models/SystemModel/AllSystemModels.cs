@@ -104,5 +104,19 @@ namespace resourceEdge.webUi.Models.SystemModel
         public string Name { get; set; }
         public int value { get; set; }
     }
-
+    public class AppriasalinitializationListItem
+    {
+        public int Id { get; set; }
+        public string Group { get; set; }
+        public int FromYear { get; set; }
+        public int ToYear { get; set; }
+        public string AppraisalMode { get; set; }
+        public string Period { get; set; }
+        public string RatingType { get; set; }
+        public string AppraisalStatus { get; set; }
+        public string InitilizationCode { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public bool? Enabled { get; set; }
+    }
 }

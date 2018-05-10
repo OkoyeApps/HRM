@@ -209,7 +209,7 @@ namespace resourceEdge.webUi.Infrastructure.Core
             var OpenAppraisal = unitOfWork.AppraisalInitialization.Get(x => x.EndDate == DateTime.Now || x.EndDate > DateTime.Now);
             foreach (var item in OpenAppraisal)
             {
-                item.AppraisalStatus = 2;
+                item.AppraisalStatusId = 2;
                 item.IsActive = false;
                 unitOfWork.AppraisalInitialization.Update(item);
             }

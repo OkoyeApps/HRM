@@ -249,43 +249,40 @@ namespace resourceEdge.webUi.Controllers
 
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult InitilizeAppraisal(AppraisalInitilizationViewModel model)
-        {
-            var Code =AppraisalManager.GetInitializationcode(15, false);
-            var period = AppraisalManager.GetPeriodByName(model.Period);
+        {           
             var validDate = validateDates(model.StartDate, model.DueDate);
-            var openAppraisal = AppraisalManager.GetOpenAppraisal(model.Group);
+            var UnopenAppraisal = AppraisalManager.GetOpenAppraisal(model.Group);
+            var validYear = ValidateAppraisalYear(model.FromYear, model.ToYear);
             if (ModelState.IsValid)
             {
-                if (openAppraisal)
+                if (validYear)
                 {
-                    if (validDate)
+                    if (UnopenAppraisal)
                     {
-                        AppraisalInitialization initilize = new AppraisalInitialization()
+                        if (validDate)
                         {
-                            GroupId = model.Group,
-                            AppraisalMode = model.AppraisalMode,
-                            AppraisalStatus = model.AppraisalStatus,
-                            StartDate = model.StartDate,
-                            EndDate = model.DueDate,
-                            FromYear = model.FromYear,
-                            InitilizationCode = Code,
-                            Period = period.Id,
-                            RatingType = model.RatingType,
-                            ToYear = model.ToYear,
-                            CreatedBy = User.Identity.GetUserId(),
-                            ModifiedBy = User.Identity.GetUserId(),
-                            CreatedDate = DateTime.Now
-                        };
-                        InitializtionRepo.Insert(initilize);
-                        ModelState.Clear();
-                        //AppraisalManager.AddInitializationToMail(model.Group, model.StartDate);
-                        this.AddNotification($"Appraisal Initilzated", NotificationType.SUCCESS);
-                        return RedirectToAction("Index");
+                            var Code = AppraisalManager.GetInitializationcode(15, false);
+                            var period = AppraisalManager.GetPeriodByName(model.Period);
+                            var result = AppraisalManager.AddAppraisalInitialization(model, Code, period.Id);
+                            if (result)
+                            {
+                                ModelState.Clear();
+                                //AppraisalManager.AddInitializationToMail(model.Group, model.StartDate);
+                                this.AddNotification($"Appraisal Initilzated", NotificationType.SUCCESS);
+                                return RedirectToAction("Index");
+                            }
+                            this.AddNotification("Oops, Something went wrong, please make sure all required fields are filled and try again", NotificationType.ERROR);
+                            return RedirectToAction("InitilizeAppraisal");
+                           // InitializtionRepo.Insert(initilize);
+
+                        }
+                        this.AddNotification("Oops, please Due Date has to be greater than start date and start date can't be less than or equal to  Today", NotificationType.ERROR);
+                        return RedirectToAction("InitilizeAppraisal");
                     }
-                this.AddNotification("Oops, please Due Date has to be greater than start date", NotificationType.ERROR);
-                return RedirectToAction("InitilizeAppraisal");
+                    this.AddNotification("Oops, Sorry but there is an uncompleted initialized appriasal running in the system. please wait till this group has finished the current appriasal", NotificationType.ERROR);
+                    return RedirectToAction("InitilizeAppraisal");
                 }
-                this.AddNotification("Oops, Sorry but there is an uncompleted initialized appriasal running in the system. please wait till this group has finished the current appriasal", NotificationType.ERROR);
+                this.AddNotification("Oops, please you can only initialize to a current year or one year ahead", NotificationType.ERROR);
                 return RedirectToAction("InitilizeAppraisal");
             }
             this.AddNotification("Oops, appraisal could not be added, please make sure all fields are filled or contact your system administrator", NotificationType.ERROR);
@@ -310,6 +307,13 @@ namespace resourceEdge.webUi.Controllers
                 return false;
             }
             return false;
+        }
+        public bool ValidateAppraisalYear(int year1, int year2)
+        {
+            if (year1 > year2) return false;
+            else if (year1 > DateTime.Now.Year) return false;
+            else if (year2 > (DateTime.Now.Year + 1)) return false;
+            return true;
         }
         [HttpPost,ValidateAntiForgeryToken]
         public ActionResult EnableAppraisal(int Id)

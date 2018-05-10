@@ -12,10 +12,10 @@ namespace resourceEdge.Domain.Entities
         public int GroupId { get; set; }
         public int FromYear { get; set; }
         public int ToYear { get; set; }
-        public int AppraisalMode { get; set; }
-        public int Period { get; set; }
-        public string RatingType { get; set; }
-        public int AppraisalStatus { get; set; }
+        public int AppraisalModeId { get; set; }
+        public int AppraisalPeriodId { get; set; }
+        public int AppraisalRatingId { get; set; }
+        public int AppraisalStatusId { get; set; }
         public string InitilizationCode { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
@@ -26,5 +26,9 @@ namespace resourceEdge.Domain.Entities
         public DateTime? ModifiedDate { get; set; }
         public bool? IsActive { get; set; }
         public Group Group { get; set; }
+        public AppraisalPeriod AppraisalPeriod { get; set; }
+        public AppraisalMode AppraisalMode { get; set; }
+        public AppraisalRating AppraisalRating { get; set; }
+        public AppraisalStatus AppraisalStatus { get; set; }
     }
 }

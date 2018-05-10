@@ -67,19 +67,19 @@ namespace resourceEdge.webUi.Infrastructure
             IList<YearlistItem> yearArray = new List<YearlistItem>();
             for (int i = 0; i < 5; i++)
             {
-                yearArray.Add(new YearlistItem { Name =$"{currentYear +1}", value = currentYear+ 1 });
+                yearArray.Add(new YearlistItem { Name =$"{currentYear}", value = currentYear});
                 currentYear = currentYear+1;
             }
             return yearArray;
         }
         public bool GetOpenAppraisal(int groupId)
         {
-            var OpenAppraisal = unitOfWork.AppraisalInitialization.Get(x => x.GroupId == groupId && x.AppraisalStatus != 2 && x.EndDate > DateTime.Now).FirstOrDefault();
+            var OpenAppraisal = unitOfWork.AppraisalInitialization.Get(x => x.GroupId == groupId && x.AppraisalStatusId != 2 && x.EndDate > DateTime.Now).FirstOrDefault();
             if (OpenAppraisal != null)
             {
-                return true;
+                return false;
             }
-            return false;
+            return true;
         }
         public string GetInitializationcode(int size, bool lowerCase)
         {
@@ -97,7 +97,28 @@ namespace resourceEdge.webUi.Infrastructure
             return code;
 
         }
-
+        public bool AddAppraisalInitialization(AppraisalInitilizationViewModel model,string Code,int period)
+        {
+            AppraisalInitialization initilize = new AppraisalInitialization()
+            {
+                GroupId = model.Group,
+                AppraisalModeId = model.AppraisalMode,
+                AppraisalStatusId = model.AppraisalStatus,
+                StartDate = model.StartDate,
+                EndDate = model.DueDate,
+                FromYear = model.FromYear,
+                InitilizationCode = Code,
+                AppraisalPeriodId = period,
+                AppraisalRatingId = int.Parse(model.RatingType),
+                ToYear = model.ToYear,
+                CreatedBy = HttpContext.Current.User.Identity.GetUserId(),
+                ModifiedBy = HttpContext.Current.User.Identity.GetUserId(),
+                CreatedDate = DateTime.Now
+            };
+            unitOfWork.AppraisalInitialization.Insert(initilize);
+            unitOfWork.Save();
+            return true;
+        }
 
         public AppraisalInitialization GetInitializationCode(string code)
         {
@@ -135,9 +156,25 @@ namespace resourceEdge.webUi.Infrastructure
             var period = unitOfWork.AppraisalPeriod.Get(filter: x => x.Name == name).FirstOrDefault();
             return period ?? null;
         }
-        public List<AppraisalInitialization> GetAllInitialization()
+        public List<AppriasalinitializationListItem> GetAllInitialization()
         {
-            var result = unitOfWork.AppraisalInitialization.Get(includeProperties: "Group").ToList();
+            var result = unitOfWork.AppraisalInitialization.Get(includeProperties: "Group,AppraisalPeriod,AppraisalMode,AppraisalRating,AppraisalStatus")
+                .Select(y => new
+                AppriasalinitializationListItem
+                {
+                    AppraisalMode = y.AppraisalMode.Name,
+                    AppraisalStatus = y.AppraisalStatus.Name,
+                    EndDate = y.EndDate,
+                    FromYear = y.FromYear,
+                    Group = y.Group.GroupName,
+                    Id = y.Id,
+                    InitilizationCode = y.InitilizationCode,
+                    Period = y.AppraisalPeriod.Name,
+                    RatingType = y.AppraisalRating.Name,
+                    StartDate = y.StartDate,
+                    ToYear = y.ToYear,
+                     Enabled = y.Enable
+                }).ToList();
             return result ?? null;
         }
         public bool EnableAppraisal(int id)
@@ -149,6 +186,7 @@ namespace resourceEdge.webUi.Infrastructure
                 {
                     //result.StartDate = DateTime.Now;
                     result.Enable = true;
+                    result.IsActive = true;
                     unitOfWork.AppraisalInitialization.Update(result);
                     unitOfWork.Save();
                     return true;

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<resourceEdge.Domain.Entities.AppraisalInitialization>
+﻿@model IEnumerable<resourceEdge.webUi.Models.SystemModel.AppriasalinitializationListItem>
 
 @{
     ViewBag.Title = "AllInitializedAppraisal";
@@ -20,28 +20,28 @@
                             @Html.DisplayNameFor(model => model.Group)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.FromYear)
+                            From
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.ToYear)
+                            To
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.AppraisalMode)
+                            Mode
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.StartDate)
+                            Start
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.EndDate)
+                            Stop
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.RatingType)
+                            Rating Type
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.AppraisalStatus)
+                            Status
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.InitilizationCode)
+                            Code
                         </th>
                         <th></th>
                     </tr>
@@ -50,7 +50,7 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Group.GroupName)
+                                @Html.DisplayFor(modelItem => item.Group)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.FromYear)
@@ -77,7 +77,7 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.InitilizationCode)
                             </td>
-                            @if (item.Enable == null)
+                            @if (item.Enabled == null)
                             {
                                 <td>
                                     @using (Html.BeginForm("EnableAppraisal", "Appraisal", new { Id = item.Id }, FormMethod.Post))
@@ -90,7 +90,7 @@
                             }
                             else
                             {
-                               <td><span class="label label-success">Already Enabled!</span></td> 
+                                <td><span class="label label-success">On-going!</span></td>
                             }
 
                         </tr>
