@@ -29,7 +29,7 @@
         </tr>
         <tr>
             <td>
-                <table class="table table-bordered">
+                <table class="table table-bordered table-responsive">
                     <thead>
                         <tr>
                             <th>S/N</th>
@@ -50,21 +50,31 @@
                                         <tr>
                                             @if (item.Approved == null || item.Approved == false)
                                         {
-                                            <td>
+                                            <td class="pull-right">
                                                 @using (Html.BeginForm("ApproveQuestion", "HR", new { userId = item.UserId, QstId = item.Id }, FormMethod.Post))
                                                 {
                                                     @Html.AntiForgeryToken()
-                                                    <button type="submit" class="btn btn-success">Approve</button><span>&nbsp;</span>
+                                                    <button type="submit" class="btn btn-success">Approve</button>
                                                 }
                                             </td>
                                         }
-                                        <td>
-                                            @using (Html.BeginForm("RejectQuestion", "HR", new { userId = item.UserId, QstId = item.Id }, FormMethod.Post))
-                                            {
-                                                @Html.AntiForgeryToken()
-                                                <button type="submit" class="btn btn-danger">Reject</button>
-                                            }
-                                        </td>
+                                           @if (item.Approved == null || item.Approved == true)
+                                           {
+                                            <td >
+                                                <table class="pull-right">
+                                                    <tr>
+                                                        <td>
+                                                            @using (Html.BeginForm("RejectQuestion", "HR", new { userId = item.UserId, QstId = item.Id }, FormMethod.Post))
+                                                            {
+                                                                @Html.AntiForgeryToken()
+                                                                <button type="submit" class="btn btn-danger">Reject</button>
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                             
+                                            </td>
+                                           }             
                                     </tr>
                                 </table>
                             </td>

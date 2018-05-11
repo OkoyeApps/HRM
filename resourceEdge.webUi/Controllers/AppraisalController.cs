@@ -404,14 +404,14 @@ namespace resourceEdge.webUi.Controllers
             return RedirectToAction("EmployeeAppraisal");
         }
 
-        [CustomAuthorizationFilter(Roles = "L1,L2,L3")]
-        public ActionResult EmployeesToAppraise()
-        {
-            var result = AppraisalManager.GetAllEmployeeForLineManagerToAppraise();
-            ViewBag.PageTitle = "All Employee To Appraise";
-            ViewBag.AllEmployees = result;
-            return View(result);
-        }
+        //[CustomAuthorizationFilter(Roles = "L1,L2,L3")]
+        //public ActionResult EmployeesToAppraise()
+        //{
+        //    var result = AppraisalManager.GetAllEmployeeForLineManagerToAppraise();
+        //    ViewBag.PageTitle = "All Employee To Appraise";
+        //    ViewBag.AllEmployees = result;
+        //    return View(result);
+        //}
 
         [HttpPost, CustomAuthorizationFilter(Roles = "L1,L2,L3")]
         public ActionResult SubmittedAppraisal(string userId)

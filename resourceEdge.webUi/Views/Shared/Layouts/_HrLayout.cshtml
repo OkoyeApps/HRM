@@ -1,12 +1,14 @@
 ﻿@using resourceEdge.webUi.Models
 @{ 
     var usersessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+
     var crumbs = (BreadCrumb)Session["_Crumbs"];
     string[] UrlName = null;
     string action = "";
     string controller = "";
     string FullName = "";
     string BusinessUnit = "";
+   var sessionCheck =  (SessionModel)HttpContext.Current.Session["_ResourceEdgeTeneceIdentity"];
     if (Request.UrlReferrer != null)
     {
         UrlName = Request.UrlReferrer.AbsolutePath.Split('/');

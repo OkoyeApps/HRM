@@ -34,7 +34,7 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                     userIdentityObject = filterContext.Controller.TempData["UserId"].ToString();
                 }
                 var sessionObject = filterContext.Controller.ControllerContext.HttpContext.Session["_ResourceEdgeTeneceIdentity"];
-                if (sessionObject == null)
+                if (sessionObject == null && filterContext.HttpContext.User.Identity.IsAuthenticated)
                 {
                     if (userIdentityObject == null)
                     {
@@ -43,22 +43,8 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                     if (userIdentityObject != null)
                     {
                         var userObject = unitOfWork.Employee.Where(x => x.userId == userIdentityObject).FirstOrDefault();
-                        //var AsycObject = EmployeeRepo.Get(filter: x => x.userId == userIdentityObject).GetAwaiter().GetResult();
-                        //var userObject = AsycObject.FirstOrDefault();
                         if (filterContext.Controller.ControllerContext.HttpContext.Session != null && userObject != null)
                         {
-                            //var unitDetails = unitOfWork.GetDbContext().Businessunit.Find(userObject.FirstOrDefault().businessunitId);
-                            // key = new SessionModel()
-                            //{
-                            //    Email = userObject.Result.empEmail,
-                            //    FullName = userObject.Result.FullName,
-                            //    LocationId = userObject.Result.LocationId.Value,
-                            //    GroupId = userObject.Result.GroupId,
-                            //    IssuedDate = DateTime.Now,
-                            //    UnitId = userObject.Result.businessunitId,
-                            //    UnitName = unitDetails.unitname,
-                            //};
-
                             var unitDetails = unitOfWork.Businessunit.Find(userObject.businessunitId);
                             key = new SessionModel()
                             {
@@ -72,7 +58,7 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                             };
                             filterContext.Controller.ControllerContext.HttpContext.Session["_ResourceEdgeTeneceIdentity"] = key;
                         }
-                        //this heck is done only for the Admin because he is not a user...
+                        //this check is done only for the Admin because he is not a user...
                         else
                         {
                             using (ApplicationDbContext db = new ApplicationDbContext()) // this was done like this because i wanted to keep the applicationdbContext only to this scope
@@ -107,8 +93,6 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
         {
             using (EdgeDbContext unitOfWork = new  EdgeDbContext())
             {
-
-
                 var sessionObject = filterContext.Controller.ControllerContext.HttpContext.Session["_ResourceEdgeTeneceIdentity"];
                 if (sessionObject == null)
                 {

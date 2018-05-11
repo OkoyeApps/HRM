@@ -1,4 +1,4 @@
-﻿                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         using System;
+﻿using System;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -15,6 +15,7 @@ using Fluentx.Mvc;
 using System.Collections.Generic;
 using resourceEdge.Domain.Concrete;
 using resourceEdge.webUi.Infrastructure.Handlers;
+using resourceEdge.webUi.Infrastructure.Core;
 
 namespace resourceEdge.webUi.Controllers
 {
@@ -65,7 +66,7 @@ namespace resourceEdge.webUi.Controllers
         [AllowAnonymous]
         public ActionResult Login()
         {
-
+       
             return View();
         }
 
@@ -97,8 +98,7 @@ namespace resourceEdge.webUi.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    // return UpdateLogin(model.Email, model.Password);
-                    Session.Clear();
+                    HttpContext.Session.Clear();
                     var userId = SignInManager.AuthenticationManager.AuthenticationResponseGrant.Identity.GetUserId();
                     TempData["UserId"] = userId;
                     TempData["Email"] = model.Email;
@@ -114,6 +114,7 @@ namespace resourceEdge.webUi.Controllers
                     return RedirectToAction("SendCode", new { RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
+                    this.AddNotification("Oops! username or password incorrect", NotificationType.ERROR);
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
             }
@@ -421,14 +422,17 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            HttpContext.Session.Abandon();
+            HttpContext.Session.Clear();
             return RedirectToAction("Login");
         }
 
         public ActionResult CustomLogOff(string email, string password)
         {
-
+            
             HttpContext.Session.Abandon();
             HttpContext.Session.Clear();
+            
             if (email == null && password == null)
             {
                 return RedirectToAction("Login");
@@ -452,26 +456,28 @@ namespace resourceEdge.webUi.Controllers
             /// </summary>
         }
 
-        public ActionResult CustomLogin(LoginViewModel model)
+        public async Task<ActionResult> CustomLogin(LoginViewModel model)
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            Dictionary<string, object> modelToSend = new Dictionary<string, object>();
-            modelToSend.Add("LoginDetails", new LoginViewModel() { Email = model.Email, Password = model.Password, RememberMe = model.RememberMe });
+            //Dictionary<string, object> modelToSend = new Dictionary<string, object>();
+            //modelToSend.Add("LoginDetails", new LoginViewModel() { Email = model.Email, Password = model.Password, RememberMe = model.RememberMe });
 
-            return this.RedirectAndPost("/account/Login", modelToSend);
-            //var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            //switch (result)
-            //{
-            //    case SignInStatus.Success:
-            //        var userId = SignInManager.AuthenticationManager.AuthenticationResponseGrant.Identity.GetUserId();
-            //        TempData["UserId"] = userId;
-            //        TempData["Email"] = model.Email;
-            //        TempData["Password"] = model.Password;
-            //        return RedirectionUrls(model.Email);
-            //    default:
-            //        ModelState.AddModelError("", "Invalid login attempt.");
-            //        return View();
-            //}
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            switch (result)
+            {
+                case SignInStatus.Success:
+                    if (HttpContext.Request.UrlReferrer.AbsolutePath != null)
+                    {
+                        return RedirectToLocal(HttpContext.Request.UrlReferrer.AbsolutePath);
+                    }
+                    return RedirectionUrls(model.Email);
+                case SignInStatus.Failure:
+                default:
+                    this.AddNotification("Oops! username or password incorrect", NotificationType.ERROR);
+                    return RedirectToAction("Login");
+
+            }
+                    //return this.RedirectAndPost("/account/Login", modelToSend);
         }
 
         //

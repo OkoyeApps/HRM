@@ -51,8 +51,9 @@
                 $('#sLine1').html("");
                 $('#sLine1').val("");
                 unitObject.locationDetail = data;
-                console.log(JSON.stringify(data) + "From location Manager");
+                $('#LineManager1').empty();
                 if (data != null) {
+                    $('#LineManager1').append(`<option> Select Linemanager 1</option>`);
                     if (data.Manager1) {
                         $('#LineManager1').append('<option id="opt" value="' + data.Manager1 + '">' + data.FullName1 + '</option>');
                     } if (data.Manager2) {

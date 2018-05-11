@@ -119,4 +119,15 @@ namespace resourceEdge.webUi.Models.SystemModel
         public DateTime EndDate { get; set; }
         public bool? Enabled { get; set; }
     }
+
+    //public class DepartmentToAppraiseListItem
+    //{
+    //    public DepartmentToAppraiseListItem()
+    //    {
+    //        Unit = new List<int>();
+    //        Department = new List<int>();
+    //    }
+    //    public List<int> Unit { get; set; }
+    //    public List<int> Department { get; set; }
+    //}
 }

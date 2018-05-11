@@ -306,7 +306,6 @@ namespace resourceEdge.webUi.Infrastructure
                                 GroupId = EmployeeDetail.GroupId,
                                 LocationId = EmployeeDetail.LocationId.Value,
                                 UserFullName = EmployeeDetail.FullName,
-
                             };
                             QuestionRepo.Insert(Question);
                         }
@@ -709,7 +708,8 @@ namespace resourceEdge.webUi.Infrastructure
                         var employee = unitOfWork.employees.Get(filter: x => x.businessunitId == item.businessunitId && x.DepartmentId == item.departmentId).Select(x =>new EmployeeListItem() { userId = x.userId });
                         if (employee != null)
                         {
-                            AllEmployeesToAppraise = employee.ToList();
+                            //AllEmployeesToAppraise = employee.ToList();
+                        employee.ToList().ForEach(x => AllEmployeesToAppraise.Add(x));
                         }
                     }
                     //This checks if those current users appraisals is completed

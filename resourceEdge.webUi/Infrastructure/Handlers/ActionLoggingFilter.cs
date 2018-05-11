@@ -82,18 +82,25 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
 
         public void OnActionExecuted(ActionExecutedContext filterContext)
         {
-            if (filterContext.Controller.ControllerContext.HttpContext.User.Identity.IsAuthenticated)
+            try
             {
-                controller = filterContext.RouteData.Values["controller"].ToString();
-                action = filterContext.RouteData.Values["action"].ToString();
-
-                if (filterContext.RouteData.Values.ContainsKey("id")) parameter = filterContext.RouteData.Values["id"].ToString();
-                var Request = filterContext.RequestContext;
-                var Session = filterContext.HttpContext.Session;
-                if (!string.IsNullOrEmpty(controller) && !string.IsNullOrEmpty(action))
+                if (filterContext.Controller.ControllerContext.HttpContext.User.Identity.IsAuthenticated)
                 {
-                Logging(Session, Request);
+                    controller = filterContext.RouteData.Values["controller"].ToString();
+                    action = filterContext.RouteData.Values["action"].ToString();
+
+                    if (filterContext.RouteData.Values.ContainsKey("id")) parameter = filterContext.RouteData.Values["id"].ToString();
+                    var Request = filterContext.RequestContext;
+                    var Session = filterContext.HttpContext.Session;
+                    if (!string.IsNullOrEmpty(controller) && !string.IsNullOrEmpty(action))
+                    {
+                        Logging(Session, Request);
+                    }
                 }
+            }
+            catch(Exception ex)
+            {
+                //throw ex;
             }
         }
     }
