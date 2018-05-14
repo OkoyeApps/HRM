@@ -51,8 +51,8 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                requesturl = Request.HttpContext.Request.Url.AbsoluteUri;
                 if (sessionObject != null)
                 {
-               userId = Request.HttpContext.User.Identity.GetUserId();
-               userFullName = sessionObject.FullName;
+                   userId = Request.HttpContext.User.Identity.GetUserId();
+                   userFullName = sessionObject.FullName;
                 }
             }
             //using (StreamReader inputStream = new StreamReader(HttpContext.Current.Request.InputStream))
@@ -67,9 +67,10 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                 parameters = parameter,
                 requesturl = requesturl,
                 UserId = userId,
-                UserName = userFullName
-                
-            });
+                UserName = userFullName,
+                HttpMethod =Request.HttpContext.Request.HttpMethod
+
+        });
            var Ip =  HttpContext.Current.Request.UserHostAddress;
             logEvent.InsertActivityLogs(activityLogs);          
 
@@ -88,7 +89,7 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                 {
                     controller = filterContext.RouteData.Values["controller"].ToString();
                     action = filterContext.RouteData.Values["action"].ToString();
-
+                   
                     if (filterContext.RouteData.Values.ContainsKey("id")) parameter = filterContext.RouteData.Values["id"].ToString();
                     var Request = filterContext.RequestContext;
                     var Session = filterContext.HttpContext.Session;

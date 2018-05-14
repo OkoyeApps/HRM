@@ -254,28 +254,30 @@ namespace resourceEdge.webUi.Controllers
             var existingManager = employeeManager.ExistingReportManager(model.ManagerId, int.Parse(model.BunitId));
             if (ModelState.IsValid)
             {
-                if (existingManager.Count < 2)
+                if (existingManager.Count <= 2)
                 {
                     manager.BusinessUnitId = int.Parse(model.BunitId);
                     manager.ManagerUserId = model.ManagerId;
                     var employee = employeeManager.CheckIfEmployeeExistByUserId(model.ManagerId);
                     if (employee != null)
                     {
-                        if (employee.empRoleId != 2 && employee.IsUnithead != true )
+                        if (!UserManager.IsInRole(employee.userId, "Manager") &&  employee.IsUnithead != true )
                         {
+                           
                             var result = empRepo.GetByUserId(model.ManagerId);
                             manager.employeeId = result.empID;
                             manager.DepartmentId = result.DepartmentId;
                             manager.FullName = result.FullName;
                             result.IsUnithead = true;
                             result.empRoleId = 2;
-                            empRepo.update(result); //fix this later by making this update the employee table
+                         
                             var resultRole = userManager.RemoveFromRole(result.userId, "Employee"); //Fix this later and make sure the adding and removing is workin well.
-                            if (resultRole.Succeeded)
-                            {
+                            //if (resultRole.Succeeded)
+                            //{
                                 userManager.AddToRole(result.userId, "Manager");
                                 ReportRepo.Insert(manager);
-                            }
+                                empRepo.update(result); //fix this later by making this update the employee table
+                            //}
                             this.AddNotification("Report manager added!", NotificationType.SUCCESS);
                             return RedirectToAction("AssignReportManager");
                         }

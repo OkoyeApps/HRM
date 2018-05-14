@@ -39,6 +39,7 @@ namespace resourceEdge.webUi.Infrastructure.ActitivityLogs
                     activityLogs.CreatedDate = DateTime.Now;
                     activityLogs.UserId = item.UserId;
                     activityLogs.UserName = item.UserName;
+                    activityLogs.HttpMethod = item.HttpMethod;
                 }
                 unitofWork.ActivityLog.Add(activityLogs);
                 //unitofWork.Save();

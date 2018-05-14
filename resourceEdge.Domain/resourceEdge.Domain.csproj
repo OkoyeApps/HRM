@@ -338,6 +338,10 @@
     <Compile Include="Migrations\EdgeDbContext2\201805121422546_DepartmentQuestion association update.Designer.cs">
       <DependentUpon>201805121422546_DepartmentQuestion association update.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201805141522323_httpmethod for activity log.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201805141522323_httpmethod for activity log.Designer.cs">
+      <DependentUpon>201805141522323_httpmethod for activity log.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\EdgeDbContext2\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitofWork\GenericRepository.cs" />
@@ -431,6 +435,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\EdgeDbContext2\201805121422546_DepartmentQuestion association update.resx">
       <DependentUpon>201805121422546_DepartmentQuestion association update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805141522323_httpmethod for activity log.resx">
+      <DependentUpon>201805141522323_httpmethod for activity log.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

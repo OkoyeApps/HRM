@@ -47,3 +47,4 @@ C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdg
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.Migrations.EdgeDbContext2.GeneralQuestionEntityadded.resources
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.Migrations.EdgeDbContext2.AppraisalQuestionGroupIdandDepartmentidUpdateandunitId.resources
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.Migrations.EdgeDbContext2.DepartmentQuestionassociationupdate.resources
+C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.Migrations.EdgeDbContext2.httpmethodforactivitylog.resources
