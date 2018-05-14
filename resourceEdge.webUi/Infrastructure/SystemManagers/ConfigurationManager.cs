@@ -46,6 +46,15 @@ namespace resourceEdge.webUi.Infrastructure
             }
             return false;
         }
+        public bool DoesDeptartmentExstInLocation(int unitId, string deptName)
+        {
+            var location = unitOfWork.Department.Get(filter: x => x.deptname.ToLower().Contains(deptName) && x.BusinessUnitsId == unitId); //This code checks if the Busines sunit already exist in the db and then if it doesnt
+            if (location != null) //If it does it check if it has the same location
+            {
+                return true;
+            }
+            return false;
+        }
         public List<JobListItem> JobList()
         {
             List<JobListItem> Result = new List<JobListItem>();
@@ -61,7 +70,7 @@ namespace resourceEdge.webUi.Infrastructure
             {
                 Departments Dept = new Departments()
                 {
-                    BusinessUnitsId = model.BunitId.Value,
+                    BusinessUnitsId = model.BunitId,
                     CreatedBy = UserId,
                     CreatedDate = DateTime.Now,
                     deptcode = model.deptcode,

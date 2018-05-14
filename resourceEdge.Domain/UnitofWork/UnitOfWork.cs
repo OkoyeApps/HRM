@@ -65,6 +65,7 @@ namespace resourceEdge.Domain.UnitofWork
         private GenericRepository<Asset> assetRepo;
         private GenericRepository<AssetCategory> assetCategory;
         private GenericRepository<RequestAsset> requestassetRepo;
+        private GenericRepository<GeneralQuestion> generalQuestionRepo;
         private EdgeDbContext Context
         {
             get
@@ -294,6 +295,11 @@ namespace resourceEdge.Domain.UnitofWork
         public GenericRepository<RequestAsset> RequestAsset
         {
             get { return this.requestassetRepo ?? new GenericRepository<Entities.RequestAsset>(Context); }
+        }
+
+        public GenericRepository<GeneralQuestion> GeneralQuestion
+        {
+           get { return this.generalQuestionRepo ?? new GenericRepository<Entities.GeneralQuestion>(Context); }
         }
         public void Save()
         {

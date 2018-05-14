@@ -114,8 +114,8 @@ namespace resourceEdge.webUi.Controllers
                     return RedirectToAction("SendCode", new { RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    this.AddNotification("Oops! username or password incorrect", NotificationType.ERROR);
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    //this.AddNotification("Oops! username or password incorrect", NotificationType.ERROR);
+                    ModelState.AddModelError("", "Oops! username or password incorrect");
                     return View(model);
             }
         }
@@ -554,7 +554,7 @@ namespace resourceEdge.webUi.Controllers
             }
             else if (UserManager.IsInRole(user.Id, "System Admin"))
             {
-                return RedirectToAction("create", "HR");
+                return RedirectToAction("Configuration", "AllCodes");
             }
             else if(user != null)
             {

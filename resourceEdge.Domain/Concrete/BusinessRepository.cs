@@ -37,7 +37,7 @@ namespace resourceEdge.Domain.Concrete
 
         public BusinessUnit DoesUnitExitByName(string Name)
         {
-            var unit = unitOfWork.BusinessUnit.Get(filter: x=> x.unitname.Contains(Name)).FirstOrDefault();
+            var unit = unitOfWork.BusinessUnit.Get(filter: x=> x.unitname.ToString().Contains(Name)).FirstOrDefault();
             if (unit != null)
             {
                 return unit;

@@ -207,6 +207,7 @@
     <Compile Include="Entities\CandidateInterview.cs" />
     <Compile Include="Entities\CandidateStatus.cs" />
     <Compile Include="Entities\CandidateWorkDetail.cs" />
+    <Compile Include="Entities\GeneralQuestion.cs" />
     <Compile Include="Entities\Interview.cs" />
     <Compile Include="Entities\InterviewStatus.cs" />
     <Compile Include="Entities\InterviewType.cs" />
@@ -325,6 +326,18 @@
     <Compile Include="Migrations\EdgeDbContext2\201805100818463_Update to AppraisalInitialization.Designer.cs">
       <DependentUpon>201805100818463_Update to AppraisalInitialization.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201805111156237_General Question Entity added.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201805111156237_General Question Entity added.Designer.cs">
+      <DependentUpon>201805111156237_General Question Entity added.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201805111358031_Appraisal Question GroupId and Departmentid Update and unitId.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201805111358031_Appraisal Question GroupId and Departmentid Update and unitId.Designer.cs">
+      <DependentUpon>201805111358031_Appraisal Question GroupId and Departmentid Update and unitId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201805121422546_DepartmentQuestion association update.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201805121422546_DepartmentQuestion association update.Designer.cs">
+      <DependentUpon>201805121422546_DepartmentQuestion association update.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\EdgeDbContext2\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitofWork\GenericRepository.cs" />
@@ -409,6 +422,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\EdgeDbContext2\201805100818463_Update to AppraisalInitialization.resx">
       <DependentUpon>201805100818463_Update to AppraisalInitialization.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805111156237_General Question Entity added.resx">
+      <DependentUpon>201805111156237_General Question Entity added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805111358031_Appraisal Question GroupId and Departmentid Update and unitId.resx">
+      <DependentUpon>201805111358031_Appraisal Question GroupId and Departmentid Update and unitId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805121422546_DepartmentQuestion association update.resx">
+      <DependentUpon>201805121422546_DepartmentQuestion association update.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

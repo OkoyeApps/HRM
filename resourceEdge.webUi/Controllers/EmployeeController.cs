@@ -189,6 +189,14 @@ namespace resourceEdge.webUi.Controllers
             return Redirect(returnUrl);
         }
 
+        //public ActionResult AddUnitQuestion()
+        //{
+            
+        //}
+        //public ActionResult AddUnitQuestion(GeneralQuestionViewModel model)
+        //{
+
+        //}
 
     }
 }

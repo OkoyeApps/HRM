@@ -465,5 +465,30 @@ namespace resourceEdge.webUi.Controllers
             userIdToSend.Add("userId", useridObject);
             return new  Fluentx.Mvc.RedirectAndPostActionResult("/appraisal/SubmittedAppraisal", userIdToSend);
         }
+
+        [Route("AddGeneralQuestion"), CustomAuthorizationFilter(Roles = "Manager,Head HR")]
+        public ActionResult AddGeneralQuestion()
+        {
+            
+            ViewBag.group = dropDownmanager.GetGroup();
+            if (User.IsInRole("Manager"))
+            {
+                var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+                ViewBag.department = dropDownmanager.GetDepartmentByUnit(UserFromSession.UnitId);
+            }
+            return View("AddGeneralQuestion");
+        }
+        [HttpPost, ValidateAntiForgeryToken, CustomAuthorizationFilter(Roles = "Manager,Head HR")]
+        public ActionResult AddGeneralGroupQuestion(FormCollection Collection)
+        {
+            var result = AppraisalManager.AddOrUpdateGeneralQuestion(Collection);
+            if (result)
+            {
+                this.AddNotification("Question(s) Added!", NotificationType.SUCCESS);
+                return RedirectToAction("AddGeneralQuestion");
+            }
+            this.AddNotification("Oops! Something went wrong, please try again", NotificationType.ERROR);
+            return RedirectToAction("AddGeneralQuestion");
+        }
     }
 }

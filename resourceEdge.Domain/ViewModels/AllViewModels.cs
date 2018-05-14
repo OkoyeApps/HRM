@@ -133,7 +133,7 @@ namespace resourceEdge.Domain.Entities
         //public string address2 { get; set; }
         //[Display(Name = "Address 1")]
         //public string address3 { get; set; }
-        public Nullable<int> BunitId { get; set; }
+        public int BunitId { get; set; }
         [DataType(DataType.Date)]
         public Nullable<System.DateTime> CreatedDate { get; set; }
         [DataType(DataType.Date)]
@@ -504,6 +504,7 @@ namespace resourceEdge.Domain.Entities
         public string Question { get; set; }
         public int Answers { get; set; }
         public bool EditCount { get; set; }
+        public bool?  Status { get; set; }
     }
     public class CandidateViewModel
     {
@@ -596,5 +597,12 @@ namespace resourceEdge.Domain.Entities
         public string ModifiedBy { get; set; }
         public DateTime? CreatedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }
+    }
+    public class GeneralQuestionViewModel
+    {
+        public int Id { get; set; }
+        public int GroupId { get; set; }
+        public string Question { get; set; }
+        public string Description { get; set; }
     }
 }

@@ -42,7 +42,7 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                     }
                     if (userIdentityObject != null)
                     {
-                        var userObject = unitOfWork.Employee.Where(x => x.userId == userIdentityObject).FirstOrDefault();
+                        var userObject = unitOfWork.Employee.Where(x => x.userId == userIdentityObject).Include("Department").FirstOrDefault();
                         if (filterContext.Controller.ControllerContext.HttpContext.Session != null && userObject != null)
                         {
                             var unitDetails = unitOfWork.Businessunit.Find(userObject.businessunitId);
@@ -55,6 +55,8 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                                 IssuedDate = DateTime.Now,
                                 UnitId = userObject.businessunitId,
                                 UnitName = unitDetails.unitname,
+                                 DepartmentId = userObject.DepartmentId,
+                                 DepartmentName = userObject.Department.deptname
                             };
                             filterContext.Controller.ControllerContext.HttpContext.Session["_ResourceEdgeTeneceIdentity"] = key;
                         }
@@ -99,7 +101,7 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                     if (filterContext.Controller.ControllerContext.HttpContext.User.Identity.IsAuthenticated)
                     {
                         var userIdentityObject = filterContext.Controller.ControllerContext.HttpContext.User.Identity.GetUserId();
-                        var userObject = unitOfWork.Employee.Where(x => x.userId == userIdentityObject).FirstOrDefaultAsync();
+                        var userObject = unitOfWork.Employee.Where(x => x.userId == userIdentityObject).Include("Department").FirstOrDefaultAsync();
                         if (filterContext.Controller.ControllerContext.HttpContext.Session != null && userObject.Result != null)
                         {
                             var unitDetails = unitOfWork.Businessunit.Find(userObject.Result.businessunitId);
@@ -113,6 +115,8 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                                 Key.IssuedDate = DateTime.Now;
                                 Key.UnitId = userObject.Result.businessunitId;
                                 Key.UnitName = unitDetails.unitname;
+                                Key.DepartmentId = userObject.Result.DepartmentId;
+                                Key.DepartmentName = userObject.Result.Department.deptname;                          
 
                                 filterContext.Controller.ControllerContext.HttpContext.Session["_ResourceEdgeTeneceIdentity"] = Key;
                             }

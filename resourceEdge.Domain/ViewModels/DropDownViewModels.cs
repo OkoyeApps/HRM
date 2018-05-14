@@ -44,7 +44,11 @@ namespace resourceEdge.Domain.ViewModels
         public IEnumerable<Question> Questions { get; set; }
         public string RatingType { get; set; }
         public Dictionary<int,int> PreviousAnswer { get; set; }
-         
+        public  IEnumerable<GeneralQuestion> GeneralQuestion { get; set; }
+         public IEnumerable<GeneralQuestion> DepartmentQuestion { get; set; }
+        public Dictionary<int, int> GeneralPreviousAnswer { get; set; }
+        public Dictionary<int, int> DepartmentPreviousAnswer { get; set; }
+
     }
 
     public class InterviewDropDown

@@ -12,7 +12,10 @@ namespace resourceEdge.Domain.Entities
     {
         public int Id { get; set; }
         public string UserId { get; set; }
-        public int QuestionId { get; set; }
+        public int? QuestionId { get; set; }
+        public int? GeneralQuestionId { get; set; }
+        public int? BusinessUnitId { get; set; }
+        public int? DepartmentQuestionId { get; set; }
         public int Answer { get; set; }
         public string LineManager1 { get; set; }
         public string LinrManager2 { get; set; }
@@ -26,6 +29,8 @@ namespace resourceEdge.Domain.Entities
         public bool? IsSubmitted { get; set; }
         public bool? IsAccepted { get; set; }
         public Question Question { get; set; }
+        public GeneralQuestion GeneralQuestion { get; set; }
+        public GeneralQuestion DepartmentQuestion { get; set; }
         public AppraisalConfiguration Configuration { get; set; }
     }
 }

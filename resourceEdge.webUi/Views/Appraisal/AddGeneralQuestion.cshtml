@@ -1,0 +1,63 @@
+﻿@section css{
+    <style>
+        textarea {
+            resize: none;
+        }
+    </style>
+}
+
+@{
+    ViewBag.Title = "Contact";
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+}
+<div class="alert alert-danger hidden" id="overload">
+    <span>Sorry you can't add more than Ten(5) questions at a time. kindly submit and then add again</span>
+</div>
+
+@using (Html.BeginForm("AddGeneralGroupQuestion", "Appraisal",null, FormMethod.Post, new { data_parsley_validate = "true" }))
+{
+    @Html.AntiForgeryToken()
+    <hr />
+    <div class="form-horizontal" id="questionId">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @if (User.IsInRole("Head HR"))
+        {
+            <div class="col-md-6">
+                @Html.Label("Group", htmlAttributes: new { @class = "control-label " })
+                <div>
+                    @Html.DropDownList("Group", (SelectList)ViewBag.group, "Select Group", htmlAttributes: new { required = "", @class = "form-control bs-select" })
+                    @Html.ValidationMessage("Group", "", new { @class = "text-danger" })
+                </div>
+            </div>
+        }
+        @if (User.IsInRole("Manager"))
+       {
+            <div class="col-md-6">
+                @Html.Label("Department", htmlAttributes: new { @class = "control-label " })
+                <div>
+                    @Html.DropDownList("Department", (SelectList)ViewBag.department, "Select Department", htmlAttributes: new { required = "", @class = "form-control bs-select" })
+                </div>
+            </div>
+        }
+
+
+        <div class="col-md-6">
+            <label for="questions" class="control-label">Question</label>
+            <textarea cols="2" name="question[0]" id="questionid" class="form-control" required></textarea>
+        </div>
+        <div class="col-md-6">
+            <label for="description" class="control-label">Description</label>
+            <textarea cols="2" name="description[0]" id="questionid" class="form-control" required></textarea>
+        </div>
+        <br />
+    </div>
+    <div class="col-md-12" style="clear:both">
+        <hr />
+        <button type="submit" class="btn btn-success" style="clear: both"> Create</button>
+        <button class="btn btn-primary blue pull-right" id="addquestion" style="clear:both">Add New Question</button>
+    </div>
+}
+
+@section Scripts{
+    <script src="~/Scripts/Pages/JS/Appraisal/Questions.js"></script>
+}

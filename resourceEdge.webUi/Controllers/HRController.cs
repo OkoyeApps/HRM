@@ -22,7 +22,7 @@ using resourceEdge.webUi.Infrastructure.SystemManagers;
 namespace resourceEdge.webUi.Controllers
 {
    // [Authorize(Roles = "System Admin,HR")]
-    [CustomAuthorizationFilter(Roles ="System Admin, HR")]
+    [CustomAuthorizationFilter(Roles ="HR")]
     public class HRController : Controller
     {
         IEmployees empRepo;
@@ -261,7 +261,7 @@ namespace resourceEdge.webUi.Controllers
                     var employee = employeeManager.CheckIfEmployeeExistByUserId(model.ManagerId);
                     if (employee != null)
                     {
-                        if (employee.empID != 2 && employee.IsUnithead != true )
+                        if (employee.empRoleId != 2 && employee.IsUnithead != true )
                         {
                             var result = empRepo.GetByUserId(model.ManagerId);
                             manager.employeeId = result.empID;

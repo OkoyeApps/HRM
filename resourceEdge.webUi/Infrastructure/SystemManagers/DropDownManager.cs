@@ -86,7 +86,11 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
             return result;
         }
 
-
+        public SelectList GetDepartmentByUnit(int id)
+        {
+            var result = new SelectList(unitOfWork.Department.Get(filter: x => x.BusinessUnitsId == id).Select(x => new { Id = x.Id, name = x.deptname }), "Id", "name");
+            return result;
+        }
 
 
         public SelectList GetAllMonths()
