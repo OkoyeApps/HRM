@@ -483,12 +483,12 @@
             @Html.Partial("_Notifications")
             <!-- end page-header -->
             <!-- begin row -->
-            @if (Request.Url.AbsolutePath.ToLower() == "/" || Request.Url.AbsolutePath.ToLower() == "/selfservice/leave")
+            @*@if (Request.Url.AbsolutePath.ToLower() == "/" || Request.Url.AbsolutePath.ToLower() == "/selfservice/leave")
             {
                 @RenderBody()
             }
             else
-            {
+            {*@
 
             <div class="row">
                 <!-- begin col-12 -->
@@ -514,7 +514,7 @@
                 </div>
                 <!-- end col-12 -->
             </div>
-            }
+            @* } *@
             <!-- end row -->
         </div>
         <!-- end #content -->

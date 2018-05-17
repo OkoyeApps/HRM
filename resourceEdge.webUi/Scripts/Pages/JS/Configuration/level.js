@@ -8,17 +8,17 @@
             $('#levelForm').append(`
         <div class ="col-md-6">
             <label for="LevelName" class ="control-label">Name</label>
-            <input name="LevelName[0]" id="City" class ="form-control" placeholder="Name for level" required />
+            <input name="LevelName[${count}]" id="City" class ="form-control" placeholder="Name for level" required />
         </div>
 
         <div class ="col-md-6">
             <label for="EligibleYears" class ="control-label">Eligible Year(s) </label>
-            <input name="EligibleYears[0]" id="City" class ="form-control" placeholder="Eligible years for level" type="number" required />
+            <input name="EligibleYears[${count}]" id="eNo" class ="form-control" placeholder="Eligible years for level (Only Numbers)"  data-parsley-min="0" required="" />
         </div>
 
         <div class ="col-md-6">
             <label for="levelNo" class ="control-label">Level Number</label>
-            <input name="levelNo[0]" id="lNo" class ="form-control" type="number" placeholder="level number in ranking" required />
+            <input name="levelNo[${count}] id="lNo" class ="form-control" placeholder="level number in ranking (Only Numbers)" data-parsley-min="0" required="" />
         </div>
           <div class ="col-md-12">
             <hr />

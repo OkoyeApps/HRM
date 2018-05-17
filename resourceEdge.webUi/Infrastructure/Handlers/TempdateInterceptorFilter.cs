@@ -30,7 +30,9 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                         StringBuilder builder = new StringBuilder();
                         builder.Append(item);
                         builder.Append($"|{filterContext.HttpContext.Request.Url.AbsolutePath}");
+                       
                         newCollectionErrorData.Add(builder.ToString());
+                        
                     }
                     filterContext.Controller.TempData.Remove("App.Notifications.Error");
                     filterContext.Controller.TempData["App.Notifications.Error"] = newCollectionErrorData;

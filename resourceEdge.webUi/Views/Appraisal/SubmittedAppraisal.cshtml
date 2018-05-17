@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<resourceEdge.Domain.Entities.AppraisalQuestionViewModel>
 @{
 
-    Layout = "~/Views/Shared/Layouts/_EmployeeLayout.cshtml";
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
     int counter = 1;
     var isEditCountExceeded = Model.Any(x => x.EditCount == true);
 }
@@ -21,24 +21,26 @@
                 <tr>
                     <td>
                         <table class="pull-right">
-                            <tr>
-                                <td>
-                                    @using (Html.BeginForm("ApproveSubmittedAppraisalQuestion", "Appraisal", new { userId = ViewBag.userId }, FormMethod.Post, null))
-                                    {
-                                        @Html.AntiForgeryToken()
-                                        <button class="btn btn-success" type="submit">Accept All</button>
-                                    }
-                                </td>
+                            @if (User.IsInRole("L3"))
+                            {
+                                <tr>
+                                    <td>
+                                        @using (Html.BeginForm("ApproveSubmittedAppraisalQuestion", "Appraisal", new { userId = ViewBag.userId }, FormMethod.Post, null))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <button class="btn btn-success" type="submit">Accept All</button>
+                                        }
+                                    </td>
 
-                                <td>
-                                    @using (Html.BeginForm("DenySubmittedAppraisalQuestion", "Appraisal", new { userId = ViewBag.userId, all = true }, FormMethod.Post, null))
-                                    {
-                                        @Html.AntiForgeryToken()
-                                        <button class="btn btn-danger" type="submit">Reject All</button>
-                                    }
-                                </td>
-                            </tr>
-
+                                    <td>
+                                        @using (Html.BeginForm("DenySubmittedAppraisalQuestion", "Appraisal", new { userId = ViewBag.userId, all = true }, FormMethod.Post, null))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <button class="btn btn-danger" type="submit">Reject All</button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
                         </table>
                     </td>
                 </tr>
@@ -48,8 +50,8 @@
                             <thead>
                                 <tr>
                                     <th>S/N</th>
-                                    <th>Question</th>
-                                    <th>Answer</th>
+                                    <th>Performance Indicator</th>
+                                    <th>Rating</th>
                                     @if (User.IsInRole("L3"))
                                     {
                                         <th></th>

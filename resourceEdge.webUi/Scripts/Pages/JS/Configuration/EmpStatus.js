@@ -7,8 +7,8 @@
         if (current < 2) {
             $('#empForm').append(`
         <div class ="col-md-6">
-            <label for="employemntStatus" class ="control-label">Position Name</label>
-            <input name="employemntStatus[0]" id="employemntStatus" class ="form-control" required />
+            <label for="employementStatus" class ="control-label">Employment status</label>
+            <input name="employementStatus[${count}]" id="employementStatus" class ="form-control" required="" />
         </div>
 
         <div class ="col-md-12">

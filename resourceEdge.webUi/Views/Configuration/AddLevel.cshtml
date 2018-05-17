@@ -14,7 +14,7 @@
 
 </div>
 
-@using (Html.BeginForm("AddLevel", "Configuration", FormMethod.Post, new { returnurl = ViewBag.returnUrl }))
+@using (Html.BeginForm("AddLevel", "Configuration", FormMethod.Post, new { returnurl = ViewBag.returnUrl, data_parsley_validate = ""  }))
 {
     @Html.AntiForgeryToken()
     <hr />
@@ -24,7 +24,7 @@
         <div class="col-md-6">
             @Html.Label("Groups", htmlAttributes: new { @class = "control-label " })
             <div>
-                @Html.DropDownList("GroupId", (SelectList)ViewBag.Groups, "Select Group", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "form-control bs-select" })
+                @Html.DropDownList("GroupId", (SelectList)ViewBag.Groups, "Select Group", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "form-control bs-select", required = "" })
                 @Html.ValidationMessage("GroupId", "", new { @class = "text-danger" })
             </div>
         </div>
@@ -36,12 +36,12 @@
 
         <div class="col-md-6">
             <label for="EligibleYears" class="control-label">Eligible Year(s)</label>
-            <input name="EligibleYears[0]" id="eNo" class="form-control" placeholder="Eligible years for level (Only Numbers)"  required />
+            <input name="EligibleYears[0]" id="eNo" class="form-control" placeholder="Eligible years for level (Only Numbers)"  data-parsley-min="0" required="" />
         </div>
 
         <div class="col-md-6">
             <label for="levelNo" class="control-label">Level Number</label>
-            <input name="levelNo[0]" id="lNo" class="form-control" type="text"  placeholder="level number in ranking (Only Numbers)" required />
+            <input name="levelNo[0]" id="lNo" class="form-control" type="text"  placeholder="level number in ranking (Only Numbers)" data-parsley-min="0" required="" />
         </div>
 
 

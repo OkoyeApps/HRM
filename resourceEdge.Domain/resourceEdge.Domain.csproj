@@ -207,6 +207,7 @@
     <Compile Include="Entities\CandidateInterview.cs" />
     <Compile Include="Entities\CandidateStatus.cs" />
     <Compile Include="Entities\CandidateWorkDetail.cs" />
+    <Compile Include="Entities\DisciplinaryIncident.cs" />
     <Compile Include="Entities\GeneralQuestion.cs" />
     <Compile Include="Entities\Interview.cs" />
     <Compile Include="Entities\InterviewStatus.cs" />
@@ -251,6 +252,7 @@
     <Compile Include="Entities\Requisition.cs" />
     <Compile Include="Entities\RequisitionHistory.cs" />
     <Compile Include="Entities\RequisitionSummary.cs" />
+    <Compile Include="Entities\Violation.cs" />
     <Compile Include="Entities\WeekDay.cs" />
     <Compile Include="Entities\Week.cs" />
     <Compile Include="Infrastructures\Enumerations.cs" />

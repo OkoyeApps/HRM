@@ -490,5 +490,13 @@ namespace resourceEdge.webUi.Controllers
             this.AddNotification("Oops! Something went wrong, please try again", NotificationType.ERROR);
             return RedirectToAction("AddGeneralQuestion");
         }
+
+        public ActionResult MyAppraisal()
+        {
+            ViewBag.PageTitle = "Submitted Performanace indicator";
+            var result = AppraisalManager.ViewSubmittedEmployeeAppraisal(User.Identity.GetUserId());
+            return View("SubmittedAppraisal", result);
+        }
+
     }
 }

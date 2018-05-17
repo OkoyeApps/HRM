@@ -554,7 +554,7 @@ namespace resourceEdge.webUi.Controllers
             }
             else if (UserManager.IsInRole(user.Id, "System Admin"))
             {
-                return RedirectToAction("Configuration", "AllCodes");
+                return RedirectToAction("AllCodes", "Configuration");
             }
             else if(user != null)
             {

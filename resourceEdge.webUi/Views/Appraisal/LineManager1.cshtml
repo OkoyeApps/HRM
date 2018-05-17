@@ -2,7 +2,7 @@
 @using System.Collections.Generic
 
 @{
-    Layout = "~/Views/Shared/Layouts/_EmployeeLayout.cshtml";
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
     var modelForview = (Tuple<IList<EmployeeListItem>, IList<EmployeeListItem>, IList<EmployeeListItem>>)ViewBag.Result;
 }
 @if (User.IsInRole("L1"))

@@ -1210,6 +1210,7 @@
     <Content Include="Infrastructure\EmailTemplates\images\logo.jpg" />
     <Content Include="Infrastructure\EmailTemplates\images\logo2.jpg" />
     <Content Include="Infrastructure\EmailTemplates\images\tw.jpg" />
+    <Content Include="Scripts\Pages\AlertInterceptors.js" />
     <Content Include="Scripts\Pages\JS\colReorder.js" />
     <Content Include="Scripts\Pages\JS\Configuration\addPosition.js" />
     <Content Include="Scripts\Pages\JS\Configuration\EmpStatus.js" />

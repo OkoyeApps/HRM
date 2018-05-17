@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using resourceEdge.Domain.Abstracts;
 using resourceEdge.Domain.Entities;
+using resourceEdge.Domain.Infrastructures;
 using resourceEdge.Domain.UnitofWork;
 using resourceEdge.webUi.Models;
 using resourceEdge.webUi.Models.SystemModel;
@@ -48,7 +49,7 @@ namespace resourceEdge.webUi.Infrastructure
         }
         public bool DoesDeptartmentExstInLocation(int unitId, string deptName)
         {
-            var location = unitOfWork.Department.Get(filter: x => x.deptname.ToLower().Contains(deptName) && x.BusinessUnitsId == unitId); //This code checks if the Busines sunit already exist in the db and then if it doesnt
+            var location = unitOfWork.Department.Get(filter: x => x.deptname.ToLower() == deptName && x.BusinessUnitsId == unitId).FirstOrDefault(); //This code checks if the Busines sunit already exist in the db and then if it doesnt
             if (location != null) //If it does it check if it has the same location
             {
                 return true;
@@ -100,7 +101,7 @@ namespace resourceEdge.webUi.Infrastructure
 
         public SelectList GetLocationByGroupId(int id)
         {
-            var Location = unitOfWork.Locations.Get(filter: x => x.GroupId == id).Select(x=> new { State = x.State, Id = id });
+            var Location = unitOfWork.Locations.Get(filter: x => x.GroupId == id).Select(x=> new { State = x.State, Id =x.Id });
             return new SelectList(Location.OrderBy(x => x.State), "Id", "State", "Id");
         }
         public bool AddOrUpdateLocation(FormCollection collection, int? id = null, LocationViewModel model = null)
@@ -229,10 +230,10 @@ namespace resourceEdge.webUi.Infrastructure
                     var allKeys = collection.AllKeys;
                     var allStatus = allKeys.Where(x => x.ToLower().StartsWith("employementstatus")).ToList();
 
-                    allKeys.ToList().RemoveRange(0, 2);
                     var Length = (allKeys.Length - 1);
                     for (int i = 0; i < Length; i++)
                     {
+
                         EmploymentStatus status = new EmploymentStatus()
                         {
                             createdby = UserId,
@@ -281,6 +282,7 @@ namespace resourceEdge.webUi.Infrastructure
                     allKeys.ToList().RemoveRange(0, 2);
                     int groupId = 0;
                     double experience = 0;
+                   
                     //int.TryParse(Group, out groupId);
                     for (int i = 0; i < allKeys.Length; i++)
                     {
@@ -288,8 +290,10 @@ namespace resourceEdge.webUi.Infrastructure
                         int.TryParse(collection[Group], out groupId);
                         if (experience != 0 && groupId != 0)
                         {
+                            var aa = Enum.GetName(typeof(JobFrequency), allPayFreq[i]);
                             Jobtitle job = new Jobtitle()
                             {
+
                                 createdby = UserId,
                                 createddate = DateTime.Now,
                                 GroupId = groupId,
@@ -341,10 +345,10 @@ namespace resourceEdge.webUi.Infrastructure
                     var allDescription = allKeys.Where(x => x.ToLower().StartsWith("description")).ToList();
                     allKeys.ToList().RemoveRange(0, 2);
                     int jobId = 0;
-                    var Length = (allKeys.Length - 1) / 3;
+                    var Length = (allKeys.Length - 1) / 2;
                     for (int i = 0; i < Length; i++)
                     {
-                        int.TryParse(collection[allJobId], out jobId);
+                        int.TryParse(collection[allJobId].ToString(), out jobId);
                         if (jobId != 0)
                         {
                             Position position = new Position()
@@ -400,7 +404,7 @@ namespace resourceEdge.webUi.Infrastructure
                     int.TryParse(collection[Group], out GroupId);
                     int year = 0;
                     int levelNo = 0;
-                    var Length = (allKeys.Length - 1) / 4;
+                    var Length = (allKeys.Length - 1) / 3;
 
                     for (int i = 0; i < Length; i++)
                     {

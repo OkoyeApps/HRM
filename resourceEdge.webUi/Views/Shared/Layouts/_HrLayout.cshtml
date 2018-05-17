@@ -44,15 +44,17 @@
     <link href="~/assets/AdminTemplate/assets/css/style.min.css" rel="stylesheet" />
     <link href="~/assets/AdminTemplate/assets/css/style-responsive.min.css" rel="stylesheet" />
     <link href="~/assets/AdminTemplate/assets/css/theme/default.css" rel="stylesheet" id="theme" />
+    @*@Styles.Render("~/asset/DefaultCss")*@
     <!-- ================== END BASE CSS STYLE ================== -->
     <!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
     @RenderSection("css", required: false)
     <!-- ================== END PAGE LEVEL STYLE ================== -->
     <!-- ================== BEGIN BASE JS ================== -->
-    <script src="~/assets/AdminTemplate/assets/plugins/pace/pace.min.js"></script>
-    <script src="~/Scripts/jquery-3.2.1.js"></script>
     <link href="~/Content/jBox.css" rel="stylesheet" />
     <link href="~/assets/AdminTemplate/assets/plugins/parsley/src/parsley.css" rel="stylesheet" />
+    @*@Styles.Render("~/asset/BaseCss")
+    @Scripts.Render("~/asset/HeadJs")*@
+    <script src="~/assets/AdminTemplate/assets/plugins/pace/pace.min.js"></script>
     <script src="~/Scripts/jquery-3.2.1.js"></script>
     <script src="~/Scripts/jBox.min.js"></script>
     <!-- ================== END BASE JS ================== -->
@@ -317,6 +319,8 @@
                 <!-- begin sidebar nav -->
                 <ul class="nav">
                     <li class="nav-header">Navigation</li>
+@if (User.IsInRole("HR"))
+{
                     <li class="has-sub">
                         <a href="javascript:;">
                             <b class="caret pull-right"></b>
@@ -334,15 +338,16 @@
                                     <li>@Html.ActionLink(" Assign Report Managers", "AssignReportManager", null, new { @class = "nav-link  title" })</li>
                                 </ul>
                             </li>
-                            @if (User.IsInRole("HR"))
-                            {
+                       
                             <li>
                                 @Html.ActionLink("Employee KPI", "AddedQuestions", "Appraisal", null, new { @class = "nav-link  title" })
                                 
                             </li>
-                            }
                         </ul>
                     </li>
+                            }
+@if (User.IsInRole("HR"))
+{
                     <li class="has-sub">
                         <a href="javascript:;">
                             <b class="caret pull-right"></b>
@@ -364,6 +369,7 @@
                         </ul>
 
                     </li>
+}
                     <li class="has-sub">
                         <a href="javascript:;">
                             <span class="caret pull-right"></span>
@@ -379,6 +385,8 @@
                             </li>
                         </ul>
                     </li>
+@if (User.IsInRole("HR"))
+{
                     <li class="has-sub">
                         <a href="javascript:;">
                             <b class="caret pull-right"></b>
@@ -393,16 +401,14 @@
                             <li>
                                 @Html.ActionLink("All Intitialized Appraisal", "Index", "Appraisal", null, new { @class = "nav-link  title" })               
                             </li>
-                            @if (User.IsInRole("HR"))
-                            {
                             <li>
                                 @Html.ActionLink("Configure Appraisal", "ConfigureAppraisal", "Appraisal", null, new { @class = "nav-link  title" })
                             </li>
-                            }
-
                         </ul>
                     </li>
-                  
+}
+                  @if (User.IsInRole("HR"))
+                  {
                     <li class="has-sub">
                         <a href="javascript:;">
                             <b class="caret pull-right"></b>
@@ -423,20 +429,22 @@
                             <li class="has-sub">
                                 <a href="javascript:;"><b class="caret pull-right"></b>Candidates</a>
                                 <ul class="sub-menu">
-                                <li>@Html.ActionLink("All Candidate", "AllCandidate", "Recruitment", null, new { @class = "nav-link  title" })</li>
-                                <li class="has-sub">
+                                    <li>@Html.ActionLink("All Candidate", "AllCandidate", "Recruitment", null, new { @class = "nav-link  title" })</li>
+                                    <li class="has-sub">
                                         <a href="javascript:;"><b class="caret pull-right"></b>Candidates Management</a>
-                                    <ul class="sub-menu">
-                                        <li>@Html.ActionLink("Candidate for interview", "AllCandidateForInterview", "Recruitment", null, new { @class = "nav-link  title" })</li>
-                                        <li>@Html.ActionLink("Selected Candidates", "SelectedCandidates", "Recruitment", null, new { @class = "nav-link  title" })</li>
-                                    </ul>
-                                </li>
+                                        <ul class="sub-menu">
+                                            <li>@Html.ActionLink("Candidate for interview", "AllCandidateForInterview", "Recruitment", null, new { @class = "nav-link  title" })</li>
+                                            <li>@Html.ActionLink("Selected Candidates", "SelectedCandidates", "Recruitment", null, new { @class = "nav-link  title" })</li>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </li>
                             <li>
                                 @Html.ActionLink("Interviews", "AllInterview", "Recruitment", null, new { @class = "nav-link  title" })
                             </li>
                         </ul>
+                        </li>
+                        }
 
                     <li class="has-sub">
                         <a href="javascript:;">
@@ -445,11 +453,20 @@
                             <span>Asset Management</span>
                         </a>
                         <ul class="sub-menu">
-                            <li>@Html.ActionLink("All Asset", "Index", "Asset", null, new { @class = "nav-link  title" })</li>
-                            <li>@Html.ActionLink("All Category", "AllAssetCategory", "Asset", null, new { @class = "nav-link  title" })</li>
-                            <li>@Html.ActionLink("All Request", "AllRequest", "Asset", null, new { @class = "nav-link  title" })</li>
+                            @if (User.IsInRole("HR") || User.IsInRole("System Admin"))
+                            {
+                                <li>@Html.ActionLink("All Asset", "Index", "Asset", null, new { @class = "nav-link  title" })</li>
+                                <li>@Html.ActionLink("All Category", "AllAssetCategory", "Asset", null, new { @class = "nav-link  title" })</li>
+                            }
+                            @if (User.IsInRole("HR"))
+                            {
+                                <li>@Html.ActionLink("All Request", "AllRequest", "Asset", null, new { @class = "nav-link  title" })</li>
+                            }
+                            <li> @Html.ActionLink("Request Asset", "RequestAsset", "Asset", null, new { @class = "nav-link  title" })</li>
                         </ul>
                     </li>
+@if (User.IsInRole("System Admin") || User.IsInRole("HR"))
+{
                     <li class="has-sub">
                         <a href="javascript:;">
                             <b class="caret pull-right"></b>
@@ -475,6 +492,7 @@
                                     @Html.ActionLink("All Business Unit", "allBusinessUnits", "Configuration", null, new { @class = "nav-link  title" })
                                 </li>
                             }
+                     
                             <li>
                                 @Html.ActionLink("All Department", "AllDepartment", "Configuration", null, new { @class = "nav-link  title" })
                             </li>
@@ -493,6 +511,7 @@
                             </li>
                         </ul>
                     </li>
+                        }
 
                     @*<li class="has-sub active">
                         <a href="javascript:;">
@@ -658,23 +677,25 @@
 
     <script src="~/assets/AdminTemplate/assets/plugins/jquery/jquery-1.9.1.min.js"></script>
     @*<script src="~/Scripts/jquery-1.10.2.min.js"></script>*@
-    <script src="~/Scripts/jquery.blockUI.js"></script>
+    @*<script src="~/Scripts/jquery.blockUI.js"></script>
     <script src="~/assets/AdminTemplate/assets/plugins/jquery/jquery-migrate-1.1.0.min.js"></script>
     <script src="~/assets/AdminTemplate/assets/plugins/jquery-ui/ui/minified/jquery-ui.min.js"></script>
-    <script src="~/assets/AdminTemplate/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/assets/AdminTemplate/assets/plugins/bootstrap/js/bootstrap.min.js"></script>*@
     <!--[if lt IE 9]>
         <script src="~/assets/AdminTemplate/assets/crossbrowserjs/html5shiv.js"></script>
         <script src="~/assets/AdminTemplate/assets/crossbrowserjs/respond.min.js"></script>
         <script src="~/assets/AdminTemplate/assets/crossbrowserjs/excanvas.min.js"></script>
     <![endif]-->
-    <script src="~/assets/AdminTemplate/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="~/assets/AdminTemplate/assets/plugins/jquery-cookie/jquery.cookie.js"></script>
+    @*<script src="~/assets/AdminTemplate/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="~/assets/AdminTemplate/assets/plugins/jquery-cookie/jquery.cookie.js"></script>*@
+    @Scripts.Render("~/assets/BaseJs")
     <!-- ================== END BASE JS ================== -->
-    <script src="~/Scripts/Pages/JS/EdgeValidation.js"></script>
-    <script src="~/assets/AdminTemplate/assets/plugins/parsley/dist/parsley.js"></script>
+    @*<script src="~/Scripts/Pages/JS/EdgeValidation.js"></script>
+    <script src="~/assets/AdminTemplate/assets/plugins/parsley/dist/parsley.js"></script>*@
     @RenderSection("Scripts", required: false)
     <script src="~/assets/AdminTemplate/assets/js/apps.min.js"></script>
-    @RenderSection("Scrpit2", required: false)
+        @RenderSection("Scrpit2", required: false)
+        <script src="~/Scripts/Pages/AlertInterceptors.js"></script>
     <script>
         $(document).ready(function () {
             App.init();

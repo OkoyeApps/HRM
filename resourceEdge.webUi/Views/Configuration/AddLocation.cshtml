@@ -14,7 +14,7 @@
 
 </div>
 
-@using (Html.BeginForm("AddLocation", "Configuration", FormMethod.Post, new { returnurl = ViewBag.returnUrl }))
+@using (Html.BeginForm("AddLocation", "Configuration", FormMethod.Post, new { returnurl = ViewBag.returnUrl, data_parsley_validate = "" }))
 {
     @Html.AntiForgeryToken()
     <hr />
@@ -24,7 +24,7 @@
         <div class="col-md-6">
             @Html.Label("Groups", htmlAttributes: new { @class = "control-label " })
             <div>
-                @Html.DropDownList("GroupId", (SelectList)ViewBag.Groups, "Select Group", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "form-control bs-select" })
+                @Html.DropDownList("GroupId", (SelectList)ViewBag.Groups, "Select Group", htmlAttributes: new { required = "", @class = "form-control bs-select" })
                 @Html.ValidationMessage("GroupId", "", new { @class = "text-danger" })
             </div>
         </div>
@@ -62,7 +62,7 @@
     <div class="col-md-12" style="clear:both">
         @*<hr />*@
         <button type="submit" class="btn btn-success" style="clear: both"> Create</button>
-        <button class="btn btn-primary blue pull-right" id="add" style="clear:both">Add New Location</button>
+        <button type="button" class="btn btn-primary blue pull-right" id="add" style="clear:both">Add New Location</button>
     </div>
 }
 

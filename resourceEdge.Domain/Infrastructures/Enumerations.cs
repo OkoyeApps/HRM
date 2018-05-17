@@ -55,4 +55,12 @@ namespace resourceEdge.Domain.Infrastructures
     {
         Open = 1, Closed, In_Progress
     }
+    public enum JobFrequency
+    {
+        Monthly = 1, Yearly, Daily, Custom
+    }
+    public enum Verdict
+    {
+        Guilty = 1, Not_Guilty
+    }
 }

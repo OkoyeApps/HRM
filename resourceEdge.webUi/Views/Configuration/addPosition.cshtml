@@ -14,7 +14,7 @@
   
 </div>
 
-@using (Html.BeginForm("addPosition", "Configuration", FormMethod.Post, new { returnurl = ViewBag.returnUrl }))
+@using (Html.BeginForm("addPosition", "Configuration", FormMethod.Post, new { returnurl = ViewBag.returnUrl, data_parsley_validate = "" }))
 {
     @Html.AntiForgeryToken()
     <hr />
@@ -24,14 +24,14 @@
         <div class="col-md-6">
             @Html.Label("Job Title", htmlAttributes: new { @class = "control-label " })
             <div>
-                @Html.DropDownList("jobtitleid", (SelectList)ViewBag.jobTitles, "Select Job", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "form-control bs-select" })
+                @Html.DropDownList("jobtitleid", (SelectList)ViewBag.jobTitles, "Select Job", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "form-control bs-select",reuired = "" })
                 @Html.ValidationMessage("jobtitleid", "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="col-md-6">
             <label for="positionname" class="control-label">Name</label>
-            <input name="positionname[0]" id="" class="form-control" required />
+            <input name="positionname[0]" id="" class="form-control" required="" />
         </div>
         <div class="col-md-6">
             <label for="description" class="control-label">Description</label>
@@ -43,13 +43,13 @@
             <hr />
         </div>
     </div>
+
     <div class="col-md-12" style="clear:both">
-
-        <button type="submit" class="btn btn-success" style="clear: both"> Create</button>
-        <button class="btn btn-primary blue pull-right" id="add" style="clear:both">Add New Position</button>
+        <button type="submit" class="btn btn-success" style="clear:both"> Create</button>
+        <button type="button" class="btn btn-primary blue pull-right" id="add" style="clear:both">Add New Position</button>        
     </div>
-}
+        }
 
-@section Scripts{
-<script src="~/Scripts/Pages/JS/Configuration/addPosition.js"></script>
-}
+        @section Scripts{
+            <script src="~/Scripts/Pages/JS/Configuration/addPosition.js"></script>
+        }

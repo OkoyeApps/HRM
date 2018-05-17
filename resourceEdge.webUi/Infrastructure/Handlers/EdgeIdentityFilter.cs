@@ -121,6 +121,28 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                                 filterContext.Controller.ControllerContext.HttpContext.Session["_ResourceEdgeTeneceIdentity"] = Key;
                             }
                         }
+                        else
+                        {
+                            using (ApplicationDbContext db = new ApplicationDbContext()) // this was done like this because i wanted to keep the applicationdbContext only to this scope
+                            {
+
+                                var user = db.Users.Where(X => X.Id == userIdentityObject).Select(x => new { Email = x.Email, locationId = x.LocationId, groupId = x.GroupId, fullName = x.UserfullName }).FirstOrDefault();
+
+                                if (filterContext.Controller.ControllerContext.HttpContext.User.IsInRole("System Admin"))
+                                {
+                                    SessionModel key = new SessionModel()
+                                    {
+                                        Email = user.Email,
+                                        FullName = user.fullName,
+                                        GroupId = user.groupId,
+                                        LocationId = user.locationId,
+                                        IssuedDate = DateTime.Now
+                                    };
+                                    filterContext.Controller.ControllerContext.HttpContext.Session["_ResourceEdgeTeneceIdentity"] = key;
+                                }
+                            }
+
+                        }
 
                     }
 

@@ -264,11 +264,13 @@
                 console.log(data)
                 console.log($('#businessunitId'))
                 $('#departmentId').empty();
-                $('#departmentId').attr({ 'data-live-search': "true", 'data-size' : "4"})
-                $('#departmentId').append('<option value="">' + 'Select department' + '</option>');
+                if (data.length > 0) {
                 $.each(data, function (index, val) {
                     $('#departmentId').append('<option value="' + val.deptId + '">' + val.deptName + '</option>');
                 })
+                } else {
+                    $('#departmentId').append('<option value="">' + 'No Department For this Unit' + '</option>')
+                }
             },
         })
     }

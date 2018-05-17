@@ -355,14 +355,21 @@ namespace resourceEdge.webUi.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult addDepartment(DepartmentViewModel model)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid )
             {
                 var existingDept = ConfigManager.DoesDeptartmentExstInLocation(model.BunitId, model.deptname);
                 if (existingDept)
                 {
-                    this.AddNotification($"Please Department already exist with same name for this Unit. Kindly try using another name or a different Location", NotificationType.ERROR);
-                    ViewBag.Locations = DropDown.GetLocation();
+                    this.AddNotification("Please Department already exist with same name for this Unit. Kindly try using another name or a different Location", NotificationType.ERROR);
+                    //ViewBag.businessUnits = DropDown.GetBusinessUnit();
+                    //ViewBag.Locations = DropDown.GetLocation();
+                    //return RedirectToAction("addDepartment");
                     return View(model);
+                }
+                if (model.StartDate.HasValue && model.StartDate.Value.Date > DateTime.Now.Date)
+                {
+                    this.AddNotification("Sorry, please system does not allow departments to be created in the Future", NotificationType.ERROR);
+                    return RedirectToAction("addDepartment");
                 }
                 Departments depts = new Departments()
                 {

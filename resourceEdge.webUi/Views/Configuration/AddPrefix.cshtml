@@ -14,7 +14,7 @@
 
 </div>
 
-@using (Html.BeginForm("addPrefix", "Configuration", FormMethod.Post, new { returnurl = ViewBag.returnUrl }))
+@using (Html.BeginForm("addPrefix", "Configuration", FormMethod.Post, new { returnurl = ViewBag.returnUrl, data_parsley_validate = "" }))
 {
     @Html.AntiForgeryToken()
     <hr />

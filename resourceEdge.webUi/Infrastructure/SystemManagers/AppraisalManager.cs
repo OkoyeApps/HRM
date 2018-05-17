@@ -698,9 +698,14 @@ namespace resourceEdge.webUi.Infrastructure
             {
                 EmployeeAppraisalQuestion = EmployeeQuestions.Where(X => X.L2Status == null).Select(x => new AppraisalQuestionViewModel() { Question = x.Question.EmpQuestion, Answers = x.Answer, id = x.QuestionId.Value }).ToList();
             }
-            if (HttpContext.Current.User.IsInRole("L3"))
+            if (EmployeeQuestions != null)
             {
-                if (EditCount)
+                //if (!HttpContext.Current.User.IsInRole("L3") && !HttpContext.Current.User.IsInRole("L2") && !HttpContext.Current.User.IsInRole("L1"))
+                //{
+                //    EmployeeAppraisalQuestion = EmployeeQuestions.Where(X => X.L3Status == null || X.L3Status == false).Select(x => new AppraisalQuestionViewModel() { Question = x.Question.EmpQuestion, Answers = x.Answer, id = x.QuestionId.Value }).ToList();
+                //}
+
+                if (EditCount && HttpContext.Current.User.IsInRole("L3"))
                 {
                     EmployeeAppraisalQuestion = EmployeeQuestions.Where(X => X.L3Status == null || X.L3Status == false).Select(x => new AppraisalQuestionViewModel() { Question = x.Question.EmpQuestion, Answers = x.Answer, id = x.QuestionId.Value }).ToList();
                     var result = EmployeeAppraisalQuestion.Where(x => x.Question != null).FirstOrDefault();
@@ -1044,7 +1049,8 @@ namespace resourceEdge.webUi.Infrastructure
                 throw ex;
                 //return false
             }
-
         }
+
+     
     }
 }

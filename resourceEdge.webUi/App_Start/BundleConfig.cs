@@ -32,6 +32,38 @@ namespace resourceEdge.webUi
                 "~/Scripts/angular/angular.js"
                 ));
 
+            bundles.Add(new StyleBundle("~/asset/DefaultCss").Include(
+                "~/assets/AdminTemplate/assets/plugins/jquery-ui/themes/base/minified/jquery-ui.min.css",
+                "~/assets/AdminTemplate/assets/plugins/bootstrap/css/bootstrap.min.css",
+                "~/assets/AdminTemplate/assets/plugins/font-awesome/css/font-awesome.min.css",
+                "~/assets/AdminTemplate/assets/css/animate.min.css",
+                "~/assets/AdminTemplate/assets/css/style.min.css",
+                "~/assets/AdminTemplate/assets/css/style-responsive.min.css",
+                "~/assets/AdminTemplate/assets/css/theme/default.css"
+                ));
+
+            bundles.Add(new StyleBundle("~/asset/BaseCss").Include(
+                "~/Content/jBox.css",
+                "~/assets/AdminTemplate/assets/plugins/parsley/src/parsley.css"
+                ));
+            bundles.Add(new ScriptBundle("~/asset/HeadJs").Include(
+                "~/assets/AdminTemplate/assets/plugins/pace/pace.min.js",
+                "~/Scripts/jquery-3.2.1.js",
+                "~/Scripts/jBox.min.js"
+                ));
+            bundles.Add(new ScriptBundle("~/assets/BaseJs").Include(
+                "~/Scripts/jquery.blockUI.js",
+                "~/assets/AdminTemplate/assets/plugins/jquery/jquery-migrate-1.1.0.min.js",
+                "~/assets/AdminTemplate/assets/plugins/jquery-ui/ui/minified/jquery-ui.min.js",
+                "~/assets/AdminTemplate/assets/plugins/bootstrap/js/bootstrap.min.js",
+                "~/assets/AdminTemplate/assets/plugins/slimscroll/jquery.slimscroll.min.js",
+                "~/assets/AdminTemplate/assets/plugins/jquery-cookie/jquery.cookie.js",
+                "~/assets/AdminTemplate/assets/plugins/parsley/dist/parsley.js",
+                "~/Scripts/Pages/JS/EdgeValidation.js",
+                "~/assets/AdminTemplate/assets/plugins/parsley/dist/parsley.js"
+
+                ));
+            BundleTable.EnableOptimizations = true;
         }
     }
 }

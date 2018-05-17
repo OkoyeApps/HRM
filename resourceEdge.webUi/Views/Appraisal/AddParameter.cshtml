@@ -1,7 +1,8 @@
 ﻿@model resourceEdge.Domain.Entities.ParameterViewModel
 @{
     ViewBag.Title = "AddParameter";
-    Layout = "~/Views/Shared/mainLayout2.cshtml";
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+}
 }
 
 @using (Html.BeginForm("addEmploymentStatus", "Configuration",FormMethod.Post, new { returnurl = ViewBag.returnUrl }))
