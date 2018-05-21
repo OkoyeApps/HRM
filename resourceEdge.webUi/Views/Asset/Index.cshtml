@@ -67,10 +67,10 @@
                                 <tr>
                                     <td class="pull-left">@Html.ActionLink("Edit", "EditAsset", "Asset", new { id = item.ID }, new { @class = "btn btn-warning pull-right" })</td>
                                     @*<td>@Html.ActionLink("", "", new { id = item.ID }, new { @class = "btn btn-info", id = "detail" })</td>*@
-                                    <td class="pull-right">
-                                    <table>
+                                    <td>
+                                    <table class="">
                                         <tr>
-                                            <td>
+                                            <td class="table-records-info pull-right">
                                                 <button type="button" id="" onclick="GetAssetDetail(@item.ID)" data-id="@item.ID " class="btn btn-info detail">Detail</button> @*<div id="item" class="hidden">@item.ID</div>*@
                                             </td>
                                         </tr>

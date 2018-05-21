@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using resourceEdge.Domain.Abstracts;
 using resourceEdge.Domain.Entities;
+using resourceEdge.webUi.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -87,7 +88,7 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
         }
         public bool AddAssetCategory(AssetViewModel model, int groupId)
         {
-            if (model.Name != null && model.SerialNumber.ToString() != null)
+            if (model.Name != null)
             {
                 AssetCategory asset = new AssetCategory()
                 {
@@ -120,6 +121,7 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
         {
             if (model.Amount > 0 && !string.IsNullOrEmpty(model.Category.ToString()))
             {
+                var userFromSession =(SessionModel) HttpContext.Current.Session["_ResourceEdgeTeneceIdentity"];
                 RequestAsset reqAssest = new RequestAsset()
                 {
                     Amount = model.Amount,
@@ -127,7 +129,9 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
                     createdBy = HttpContext.Current.User.Identity.GetUserId(),
                     CreatedOn = DateTime.Now,
                     DueTime = model.DueTime,
-                    RequestedBy = model.RequestedBy
+                    RequestedBy = model.RequestedBy,
+                    LocationId = userFromSession.LocationId,
+                    GroupId = userFromSession.GroupId
                 };
                 var fullName = unitOfWork.employees.Get(filter: x => x.userId == reqAssest.createdBy).FirstOrDefault().FullName;
                 reqAssest.CreatedByFullName = fullName;
@@ -140,7 +144,7 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
         {
             if (HttpContext.Current.User.IsInRole("HR"))
             {
-                var result = unitOfWork.RequestAsset.Get(filter: x=>x.GroupId == groupId && x.LocationId == locationId, includeProperties:"AssetCategory");
+                var result = unitOfWork.RequestAsset.Get(filter: x=>x.GroupId == groupId && x.LocationId == locationId && x.IsResolved == null, includeProperties:"AssetCategory");
                 return result;
             }
             var empResult = unitOfWork.RequestAsset.Get(filter: x => x.RequestedBy == HttpContext.Current.User.Identity.GetUserId());
