@@ -579,7 +579,7 @@ namespace resourceEdge.Domain.Entities
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public long SerialNumber { get; set; }
+        public string SerialNumber { get; set; }
         public int Category { get; set; }
         public string ImageUrl { get; set; }
         public SelectList CategotyList { get; set; }

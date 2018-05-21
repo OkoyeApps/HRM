@@ -369,6 +369,10 @@
     <Compile Include="Migrations\EdgeDbContext2\201805191349454_Update to Asset Group and Location 1.Designer.cs">
       <DependentUpon>201805191349454_Update to Asset Group and Location 1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201805210818001_-Asset serialnumber update to string.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201805210818001_-Asset serialnumber update to string.Designer.cs">
+      <DependentUpon>201805210818001_-Asset serialnumber update to string.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\EdgeDbContext2\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitofWork\GenericRepository.cs" />
@@ -483,6 +487,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\EdgeDbContext2\201805191349454_Update to Asset Group and Location 1.resx">
       <DependentUpon>201805191349454_Update to Asset Group and Location 1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805210818001_-Asset serialnumber update to string.resx">
+      <DependentUpon>201805210818001_-Asset serialnumber update to string.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

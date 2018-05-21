@@ -29,7 +29,8 @@ namespace resourceEdge.webUi.Controllers
         RecruitmentManager RecruitmentManager;
         EmployeeManager EmpManager;
         DropDownManager dropDownManager;
-       public RecruitmentController(IRequisition RParam, IBusinessUnits BParam, IEmploymentStatus SParam, IJobtitles jParam, IReportManager RMParam, IEmployees EParam, IFiles FParam)
+        FileManager FManager;
+       public RecruitmentController(IRequisition RParam, IBusinessUnits BParam, IEmploymentStatus SParam, IJobtitles jParam, IReportManager RMParam, IEmployees EParam, IFiles FParam, FileManager fmParam)
         {
             RequisitionRepo = RParam;
             BunitsRepo = BParam;
@@ -40,6 +41,7 @@ namespace resourceEdge.webUi.Controllers
             RecruitmentManager = new RecruitmentManager();
             EmpManager = new EmployeeManager(EParam, FParam,RMParam);
             dropDownManager = new DropDownManager();
+            FManager = fmParam;
         }
 
         // GET: Requsition
@@ -167,6 +169,12 @@ namespace resourceEdge.webUi.Controllers
                 if (!fileDetails.Extension.Contains(".pdf") || !fileDetails.Extension.Contains(".doc") || !fileDetails.Extension.Contains(".docx"))
                 {
                     this.AddNotification("Sorry Only files with extensions of .Pdf or Doc are allowed", NotificationType.ERROR);
+                    return RedirectToAction("AddCandidate");
+                }
+                var Size = FManager.ValidateResume(File);
+                if (!Size)
+                {
+                    this.AddNotification("Sorry, maximum file size is 100(kb)", NotificationType.ERROR);
                     return RedirectToAction("AddCandidate");
                 }
             }

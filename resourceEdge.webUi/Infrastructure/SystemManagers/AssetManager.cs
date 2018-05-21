@@ -36,7 +36,7 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
             var result = unitOfWork.Asset.Get(filter: x => x.GroupId == groupId && x.LocationId == locationId, includeProperties: "AssetCategory");
             return result;
         }
-        public bool AddAsset(AssetViewModel model, HttpPostedFileBase File, int groupId)
+        public bool AddAsset(AssetViewModel model, HttpPostedFileBase File, int groupId, int locationId)
         {
             if (model.Name != null && model.SerialNumber.ToString() != null)
             {
@@ -48,7 +48,8 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
                     CreatedBy = HttpContext.Current.User.Identity.GetUserId(),
                     IsInUse = false,
                     SerialNumber = model.SerialNumber,
-                    GroupId = groupId
+                    GroupId = groupId,
+                    LocationId = locationId
                 };
                 if (File != null)
                 {
@@ -71,7 +72,7 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
             if (oldAsset != null)
             {
                 oldAsset.Name = model.Name;
-                oldAsset.SerialNumber =  model.SerialNumber;
+                oldAsset.SerialNumber = model.SerialNumber;
                 oldAsset.ModifiedBy = HttpContext.Current.User.Identity.GetUserId();
                 oldAsset.ModifiedOn = DateTime.Now;
                 assetRepo.update(oldAsset);

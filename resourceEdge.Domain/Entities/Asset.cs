@@ -12,7 +12,7 @@ namespace resourceEdge.Domain.Entities
         public int GroupId { get; set; }
         public int LocationId { get; set; }
         public string Name { get; set; }
-        public long SerialNumber { get; set; }
+        public string SerialNumber { get; set; }
         public bool IsInUse { get; set; }
         public string ImageUrl { get; set; }
         public int AssetCategoryId { get; set; }

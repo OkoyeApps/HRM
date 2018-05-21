@@ -1,5 +1,6 @@
 ﻿/// <reference path="Modal.js" />
 var Code = new jBox('Modal', {
+    id : "codeModal",
     content:$('#codeContent'),
     title: '<h4>Add Identity Code</h4>',
     width:900,
@@ -15,6 +16,7 @@ var Code = new jBox('Modal', {
 
 var career = new jBox('Modal', {
     //attach: "#career",
+    id: "jModal",
     content: $('#careerContent'),
     title: '<h4>Add Career </h4>',
     width: 700,
@@ -30,6 +32,7 @@ var career = new jBox('Modal', {
 
 var stat = new jBox('Modal', {
     //attach: "#status",
+    id: "statusModal",
     content: $('#statusContent'),
     title:'<h4>Add employment status </h4>',
     width: 500,
@@ -45,6 +48,7 @@ var stat = new jBox('Modal', {
 
 var group1 = new jBox('Modal', {
     attach: "#group",
+    id: "jModal",
     content: $('#groupContent'),
     title: ' <h4>Add Group </h4>',
     width: 900,
@@ -60,6 +64,7 @@ var group1 = new jBox('Modal', {
 
 var job = new jBox('Modal', {
     attach: "#job",
+    id: "jModal",
     content: $('#jobContent'),
     title: '<h4>Add Job</h4>',
     width: 900,
@@ -75,6 +80,7 @@ var job = new jBox('Modal', {
 
 var level = new jBox('Modal', {
     attach: "#level",
+    id: "jModal",
     content: $('#levelContent'),
     title: '<h4>Add Level </h4>',
     width: 900,
@@ -90,6 +96,7 @@ var level = new jBox('Modal', {
 
 var locmodal = new jBox('Modal', {
     attach: "#location",
+    id: "jModal",
     content: $('#locationContent'),
     title: '<h4>Add Location </h4>',
     width: 900,
@@ -105,6 +112,7 @@ var locmodal = new jBox('Modal', {
 
 var position = new jBox('Modal', {
     attach: "#position",
+    id: "jModal",
     content: $('#positionContent'),
     title:'<h4>Add Position</h4>',
     width: 900,
@@ -121,6 +129,7 @@ var position = new jBox('Modal', {
 
 var prefixes = new jBox('Modal', {
     content: $('#prefixContent'),
+    id: "jModal",
     title: '<h4>Add Prefix</h4>',
     width: 600,
     height: 300,

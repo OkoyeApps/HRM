@@ -21,12 +21,14 @@ namespace resourceEdge.webUi.Controllers
         IAssetCategory assetCategoryRepo;
         IRequestAsset reqAssetRepo;
         AssetManager assetmanager;
-        public AssetController(IAsset assetParam, IAssetCategory assetCparam, IRequestAsset reqAssetParam)
+        FileManager FManager;
+        public AssetController(IAsset assetParam, IAssetCategory assetCparam, IRequestAsset reqAssetParam, FileManager fMParam)
         {
             assetRepo = assetParam;
             assetmanager = new AssetManager(assetParam,assetCparam,reqAssetParam);
             assetCategoryRepo = assetCparam;
             reqAssetRepo = reqAssetParam;
+            FManager = fMParam;
         }
         // GET: Asset
         public ActionResult Index()
@@ -56,20 +58,28 @@ namespace resourceEdge.webUi.Controllers
                 if (File != null)
                 {
                     var extension = Path.GetExtension(File.FileName);
-                    if (extension.ToLower().Contains(".jpg") || extension.ToLower().Contains(".png"))
+                    var equal = !extension.ToLower().Equals(".jpg");
+                    if (!extension.ToLower().Equals(".jpg") && !extension.ToLower().Equals(".png"))
                     {
                         this.AddNotification("Please only Images with .jpg or .png are allowed", NotificationType.ERROR);
                         return RedirectToAction("AddAsset");
                     }
+                    bool FileSize = FManager.ValidateFileSize(File);
+                    if (!FileSize)
+                    {
+                        this.AddNotification("Please The image must be less than 500(kb) in size", NotificationType.ERROR);
+                        return RedirectToAction("AddAsset");
+                    }
                 }
-                    var result = assetmanager.AddAsset(model, File,UserFromSession.GroupId);
+                    var result = assetmanager.AddAsset(model, File,UserFromSession.GroupId, UserFromSession.LocationId);
                     if (result)
                     {
                         this.AddNotification("Asset added!", NotificationType.SUCCESS);
                         return RedirectToAction("Index");
                     }       
             }
-            return View(model);
+
+            return RedirectToAction("AddAsset");
         }
         [CustomAuthorizationFilter(Roles ="System Admin,HR")]
         public ActionResult EditAsset(int id)

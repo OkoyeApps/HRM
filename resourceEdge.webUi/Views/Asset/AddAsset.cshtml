@@ -23,7 +23,7 @@
         <div class="form-group">
             @Html.Label("Serial Number", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.Editor("SerialNumber", new { htmlAttributes = new { @class = "form-control", data_parsley_min = "1", required = "" } })
+                @Html.Editor("SerialNumber", new { htmlAttributes = new { @class = "form-control", data_parsley_min = "0", required = "" } })
                @* <input class="form-control" type="number" data-parsley-min = "0" name="SerialNumber" />*@
                 @Html.ValidationMessageFor(model => model.SerialNumber, "", new { @class = "text-danger" })
             </div>
@@ -48,7 +48,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-success" />
             </div>
         </div>
     </div>

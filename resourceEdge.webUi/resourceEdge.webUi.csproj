@@ -274,6 +274,7 @@
     <Compile Include="Infrastructure\Handlers\SessionFilter.cs" />
     <Compile Include="Infrastructure\Handlers\SubscriptionFilter.cs" />
     <Compile Include="Infrastructure\Handlers\CustomAuthorizationFilter.cs" />
+    <Compile Include="Infrastructure\SystemManagers\FileManager.cs" />
     <Compile Include="Infrastructure\SystemManagers\LeaveManager.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\SystemManagers\NotificationManager.cs" />

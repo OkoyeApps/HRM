@@ -4,6 +4,16 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
 }
+@section Css{
+    <style>
+    #modaldia{
+    /*width: ;*/
+    margin: auto;
+    vertical-align: middle;
+    margin-top:50px;
+    }
+    </style>
+}
 <div class="table-responsive">
 
 <table class="table table-responsive table-striped table-bordered">
@@ -53,11 +63,19 @@
                             <td>No</td>
                         }
                         <td>
-                            <table class="pull-right">
+                            <table class="">
                                 <tr>
-                                    <td>@Html.ActionLink("Edit", "EditAsset", "Asset", new { id = item.ID }, new { @class = "btn btn-warning pull-right" })</td>
+                                    <td class="pull-left">@Html.ActionLink("Edit", "EditAsset", "Asset", new { id = item.ID }, new { @class = "btn btn-warning pull-right" })</td>
                                     @*<td>@Html.ActionLink("", "", new { id = item.ID }, new { @class = "btn btn-info", id = "detail" })</td>*@
-                                    <td><button type="button" id="detail">Detail</button> <div id="item" class="hidden">@item.ID</div></td>
+                                    <td class="pull-right">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <button type="button" id="" onclick="GetAssetDetail(@item.ID)" data-id="@item.ID " class="btn btn-info detail">Detail</button> @*<div id="item" class="hidden">@item.ID</div>*@
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    </td>
                                 </tr>
                             </table>
                         </td>
@@ -65,29 +83,32 @@
                 }
 
             </table>
-
+            <input class="hidden" type="hidden" id="mLength" value="@Model.Count()" data-id="@Model.Count()">
         </td>
     </tr>
 </table>
     </div>
 
-<div class="modal" id="modal-without-animation">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Asset Detail</h4>
-            </div>
-            <div class="modal-body" id="mBody">
-               
-            </div>
-            <div class="modal-footer">
-                <a href="javascript:;" class="btn btn-sm btn-white" data-dismiss="modal">Close</a>
+<div class="table-responsive">
+
+    <div class="modal" id="modal-without-animation" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg" id="modaldia" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Asset Detail</h4>
+                </div>
+                <div class="modal-body" id="mBody">
+
+                </div>
+                <div class="modal-footer">
+                    <a href="javascript:;" class="btn btn-sm btn-white" data-dismiss="modal">Close</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
+</div>
 
 @section Scripts{
     <script>
@@ -123,10 +144,28 @@
             })
         };
 
+        //var modelLength = document.getElementById("mLength").value;
+
+        //console.log("current value is " + modelLength);
+        //for (var i = 0; i < modelLength; i++) {
+        //    console.log("inside the for loop i is " + i);
+        //    document.getElementById
+        //    $('#detail ' + i).on('click', function () {
+        //        console.log("adding event listener for " + i);
+        //        var id = $('#detail ' + i).attr('data-Id');
+        //        console.log(id);
+        //        //GetAssetDetail($('#item')[0].innerText);
+        //        GetAssetDetail(id);
+        //    });
+        //}
+
         $('#detail').on('click', function () {
-           
-            GetAssetDetail($('#item')[0].innerText);
+            var id = $('.detail').attr('data-Id');
+            console.log(id);
+            //GetAssetDetail($('#item')[0].innerText);
+            GetAssetDetail(id);
         });
+
     </script>
 
     }

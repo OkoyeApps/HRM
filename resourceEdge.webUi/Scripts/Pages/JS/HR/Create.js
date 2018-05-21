@@ -138,14 +138,7 @@
     $('#Location').on('change', function () {
         getUnitByLocation($(this).val());
     })
-    function addElement() {
-        
-        //$('#Location').append('<option class="centre" value="">' + 'No Location For now' + '</option>')
-        $('#businessunitId').append('<option class="centre" value="">' + 'Please select a Location' + '</option>');
-        $('#departmentId').append('<option class="centre" value="">' + 'Please select a Business Unit' + '</option>');
-    }
-    window.onload = addElement();
-
+ 
     function getidentityCode(id) {
     $.ajax({
         type: 'GET',
@@ -295,7 +288,10 @@
  //    if (charCode > 31 && (charCode < 48 || charCode > 57))
  //        return false;
  //    return true;
- //}
+    //}
+
+
+
  $('#officeNumber').on('keypress', function (event) {
      return $.ValidateNumber(event, this);
  });
@@ -314,4 +310,24 @@
  $('#yearsExp').on('keypress', function (event) {
      return $.ValidateNumber(event, this);
  })
+ function addAttributeToModal() {
+   console.log($('#jModal'))
+   $('#statusModal').attr("data-backdrop", "static");
+  
+ };
+
+ $('#smodal').on('click', function () {
+     $('#statusModal').attr("data-backdrop", "static");
+     $('#statusModal').attr("data-keyboard", "false");
+ })
+
+ function addElement() {
+
+     //$('#Location').append('<option class="centre" value="">' + 'No Location For now' + '</option>')
+     $('#businessunitId').append('<option class="centre" value="">' + 'Please select a Location' + '</option>');
+     $('#departmentId').append('<option class="centre" value="">' + 'Please select a Business Unit' + '</option>');
+     addAttributeToModal();
+ }
+ window.onload = addElement();
+
 })()
