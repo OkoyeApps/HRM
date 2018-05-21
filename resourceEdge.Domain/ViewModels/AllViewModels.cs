@@ -605,4 +605,26 @@ namespace resourceEdge.Domain.Entities
         public string Question { get; set; }
         public string Description { get; set; }
     }
+    public class DisciplinaryIncidentViewModel
+    {
+        public int Id { get; set; }
+        public int RaisedBy { get; set; }
+        public int BusinessUnit { get; set; }
+        public int Department { get; set; }
+        public string EmployeeName { get; set; }
+        public int? JobTitle { get; set; }
+        public string ReportingManager { get; set; }
+        public DateTime DateOfOccurence { get; set; }
+        public DateTime ExpiryDate { get; set; }
+        public int ViolationId { get; set; }
+        public string ViolationDescription { get; set; }
+        public Verdict Verdict { get; set; }
+        public int CorrectiveAction { get; set; }
+        public Answers EmployeeAppeal { get; set; }
+        public string EmployeeStatement { get; set; }
+        public int ConsequenceId { get; set; }
+        public SelectList Units { get; set; }
+        public SelectList Consequences { get; set; }
+        public SelectList Violation { get; set; }
+    }
 }

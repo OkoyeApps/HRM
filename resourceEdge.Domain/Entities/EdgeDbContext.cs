@@ -93,8 +93,11 @@ namespace resourceEdge.Domain.Entities
         public DbSet<AssetCategory> AssetCategory { get; set; }
         public DbSet<RequestAsset> RequestAsset { get; set; }
         public DbSet<GeneralQuestion> GeneralQuestion { get; set; }
+        public DbSet<Violation> Violation { get; set; }
+        public DbSet<Consequence> Consequence { get; set; }
+        public DbSet<DisciplinaryIncident> Discipline { get; set; }
 
-    }
+   }
     
 }
 

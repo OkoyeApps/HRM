@@ -207,6 +207,7 @@
     <Compile Include="Entities\CandidateInterview.cs" />
     <Compile Include="Entities\CandidateStatus.cs" />
     <Compile Include="Entities\CandidateWorkDetail.cs" />
+    <Compile Include="Entities\Consequence.cs" />
     <Compile Include="Entities\DisciplinaryIncident.cs" />
     <Compile Include="Entities\GeneralQuestion.cs" />
     <Compile Include="Entities\Interview.cs" />
@@ -344,6 +345,30 @@
     <Compile Include="Migrations\EdgeDbContext2\201805141522323_httpmethod for activity log.Designer.cs">
       <DependentUpon>201805141522323_httpmethod for activity log.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201805171052340_All Discipline and related model added.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201805171052340_All Discipline and related model added.Designer.cs">
+      <DependentUpon>201805171052340_All Discipline and related model added.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201805171314011_Update to Discipline model.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201805171314011_Update to Discipline model.Designer.cs">
+      <DependentUpon>201805171314011_Update to Discipline model.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201805180809436_Update to Discipline model2.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201805180809436_Update to Discipline model2.Designer.cs">
+      <DependentUpon>201805180809436_Update to Discipline model2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201805180830217_Update to Discipline model3.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201805180830217_Update to Discipline model3.Designer.cs">
+      <DependentUpon>201805180830217_Update to Discipline model3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201805180844585_Update to Discipline model 4.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201805180844585_Update to Discipline model 4.Designer.cs">
+      <DependentUpon>201805180844585_Update to Discipline model 4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201805191349454_Update to Asset Group and Location 1.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201805191349454_Update to Asset Group and Location 1.Designer.cs">
+      <DependentUpon>201805191349454_Update to Asset Group and Location 1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\EdgeDbContext2\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitofWork\GenericRepository.cs" />
@@ -440,6 +465,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\EdgeDbContext2\201805141522323_httpmethod for activity log.resx">
       <DependentUpon>201805141522323_httpmethod for activity log.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805171052340_All Discipline and related model added.resx">
+      <DependentUpon>201805171052340_All Discipline and related model added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805171314011_Update to Discipline model.resx">
+      <DependentUpon>201805171314011_Update to Discipline model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805180809436_Update to Discipline model2.resx">
+      <DependentUpon>201805180809436_Update to Discipline model2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805180830217_Update to Discipline model3.resx">
+      <DependentUpon>201805180830217_Update to Discipline model3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805180844585_Update to Discipline model 4.resx">
+      <DependentUpon>201805180844585_Update to Discipline model 4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805191349454_Update to Asset Group and Location 1.resx">
+      <DependentUpon>201805191349454_Update to Asset Group and Location 1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

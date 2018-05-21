@@ -55,8 +55,9 @@
                         <td>
                             <table class="pull-right">
                                 <tr>
-                                    <td>@Html.ActionLink("Edit", "EditAsset","Asset", new { id = item.ID }, new { @class = "btn btn-warning pull-right" })</td>
-                                    @*<td>@Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-info" })</td>*@
+                                    <td>@Html.ActionLink("Edit", "EditAsset", "Asset", new { id = item.ID }, new { @class = "btn btn-warning pull-right" })</td>
+                                    @*<td>@Html.ActionLink("", "", new { id = item.ID }, new { @class = "btn btn-info", id = "detail" })</td>*@
+                                    <td><button type="button" id="detail">Detail</button> <div id="item" class="hidden">@item.ID</div></td>
                                 </tr>
                             </table>
                         </td>
@@ -69,3 +70,63 @@
     </tr>
 </table>
     </div>
+
+<div class="modal" id="modal-without-animation">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Asset Detail</h4>
+            </div>
+            <div class="modal-body" id="mBody">
+               
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:;" class="btn btn-sm btn-white" data-dismiss="modal">Close</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        function GetAssetDetail(id) {
+            console.log("Method entered");
+            $.ajax({
+                type: 'GET',
+                url: '/asset/AssetDetail/' + id,
+                contentType: "application/html; charset=utf-8",
+                //dataType: "json",
+                success: function (data) {
+                    console.log('in the GetempLeaveAmount method');
+                    console.log(data);
+                    if (data != null) {
+                        //console.log(data.asset.ImageUrl)
+                        $('#img').empty();
+                        $('#mBody').html(data
+                            )
+                        $('#modal-without-animation').modal('show');
+                    } else {
+                        $('#AvailableLeave').html("No leave for you yet.")
+                        $('#AvailableLeave').val("No leave for you yet");
+                        $('#btnSubmit').prop('disabled', true);
+                        //write the jquery to check agaist JQHxr
+                    }
+                },
+                failure: function () {
+                    var message = {
+                        message: "Failed to load data... Try again later"
+                    };
+                    $('#AvailableLeave').val('No Leave found');
+                }
+            })
+        };
+
+        $('#detail').on('click', function () {
+           
+            GetAssetDetail($('#item')[0].innerText);
+        });
+    </script>
+
+    }

@@ -66,11 +66,11 @@
                             </td>
 
                             <td>
-                                <table class="table-responsive">
+                                <table class="table-responsive pull-right">
                                     <tr>
-                                        <td>@Html.ActionLink("Edit", "EditInterview", "Recruitment", new { id = item.Id }, new { @class = "btn btn-warning" })<span></span></td>
+                                        <td class="pull-left">@Html.ActionLink("Edit", "EditInterview", "Recruitment", new { id = item.Id }, new { @class = "btn btn-warning" })<span></span></td>
                                         <td>@Html.ActionLink("Details", "InterviewDetails", "Recruitment", new { id = item.Id }, new { @class = "btn btn-info" })<span></span></td>
-                                        <td>
+                                        <td class="pull-right">
                                             @using (Html.BeginForm("DeleteInterview", "Recruitment", new { Id = item.Id }, FormMethod.Post, null))
                                         {
                                             @Html.AntiForgeryToken()

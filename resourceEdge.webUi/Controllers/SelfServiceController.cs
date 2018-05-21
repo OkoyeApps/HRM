@@ -4,10 +4,12 @@ using resourceEdge.Domain.Entities;
 using resourceEdge.webUi.Infrastructure;
 using resourceEdge.webUi.Infrastructure.Core;
 using resourceEdge.webUi.Infrastructure.Handlers;
+using resourceEdge.webUi.Infrastructure.SystemManagers;
 using resourceEdge.webUi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -93,6 +95,15 @@ namespace resourceEdge.webUi.Controllers
             return RedirectToAction("RequestLeave");
         }
 
+   
+
+        public ActionResult MyIncident()
+        {
+            var disciplineManager =new DisciplinaryManager();
+            var result = disciplineManager.MyIncident();
+            ViewBag.PageTitle = "My Incident(s)";
+            return View(result);
+        }
         public bool ValidateDates(DateTime from, DateTime to)
         {
             if (from > to)

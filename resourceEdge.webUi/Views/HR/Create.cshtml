@@ -26,20 +26,20 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @*<div class="col-md-4">
+    @*<div class="col-md-3">
         <div class="form-group">
             @Html.Label("Group", htmlAttributes: new { @class = "control-label" })
-            @Html.DropDownListFor(model => model.GroupId, (SelectList)ViewBag.Groups, "Select Group", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "bs-select form-control", required = "" })
+            @Html.DropDownListFor(model => model.GroupId, (SelectList)ViewBag.Groups, "Select Group", htmlAttributes: new { data_live_search = "true", data_size = "3", @class = "bs-select form-control", required = "" })
         </div>
     </div>*@
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group">
                     @Html.Label("Identity Code", htmlAttributes: new { @class = "control-label" })
                     @Html.EditorFor(x => x.identityCode, new { htmlAttributes = new { @readonly = "readonly", @class = "form-control",Value = ViewBag.code, required = "" } })
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group">
                     @Html.Label("Location", htmlAttributes: new { @class = "control-label " })
                     @Html.DropDownListFor(x=>x.Location, (SelectList)ViewBag.Locations, "Select Location", htmlAttributes:new {@class = "form-control", required = "" })
@@ -48,7 +48,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group">
                     @Html.Label("Employee Id", htmlAttributes: new { @class = "control-label " })
                     @Html.EditorFor(model => model.empUserId, new { htmlAttributes = new { id = "empId", placeholder = "Employee Id (only Numbers)", @class = "form-control", required = "", data_parsley_type = "number", data_parsley_min = "1" } })
@@ -56,7 +56,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group">
                     @Html.Label("First name", htmlAttributes: new { @class = "control-label " })
                     @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", required = "", placeholder = "Enter First name" } })
@@ -64,21 +64,21 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group">
                     @Html.Label("Last name", htmlAttributes: new { @class = "control-label " })
                     @Html.EditorFor(model => model.lastName, new { htmlAttributes = new { @class = "form-control", required = "", placeholder = "Enter last name" } })
                     @Html.ValidationMessageFor(model => model.lastName, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group">
                     @Html.Label("Level", htmlAttributes: new { @class = "control-label " })
                     @Html.DropDownListFor(model => model.Level, (SelectList)ViewBag.Levels, "Select Level", htmlAttributes: new { @class = "form-control", required = "" })
                     @Html.ValidationMessageFor(model => model.empRoleId, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group">
                     @Html.Label("Email", htmlAttributes: new { @class = "control-label " })
                     @Html.EditorFor(model => model.empEmail, new { htmlAttributes = new { @class = "form-control ", required = "",data_parsley_type = "email", placeholder = "Enter Email address" } })
@@ -86,7 +86,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group">
                     @Html.Label("Role", htmlAttributes: new { @class = "control-label " })
                     @Html.DropDownListFor(model => model.empRoleId, (SelectList)ViewBag.roles, "Select Role", htmlAttributes: new { @class = "form-control", required = "" })
@@ -94,7 +94,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group">
                     @Html.Label("Business Unit", htmlAttributes: new { @class = "control-label " })
                     <select id="businessunitId" style="align-items:center" name="businessunitId" class="form-control" required=""></select>
@@ -102,7 +102,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group">
                     @Html.Label("Department", htmlAttributes: new { @class = "control-label " })
                     <select id="departmentId" name="departmentId" class="form-control" required=""></select>
@@ -110,14 +110,14 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group">
                     @Html.Label("Employement status", htmlAttributes: new { @class = "control-label " })
                     @Html.DropDownListFor(model => model.empStatusId, (SelectList)ViewBag.EmpStatus, "Select Status", htmlAttributes: new { id = "EmpStat", @class = "form-control", required = "" })
                     @Html.ValidationMessageFor(model => model.empStatusId, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group">
                     @Html.Label("Job title", htmlAttributes: new { @class = "control-label " })
                     @Html.DropDownListFor(model => model.jobtitleId, (SelectList)ViewBag.jobTitles, "Select Job", htmlAttributes: new { @class = "form-control", required = "" })
@@ -125,7 +125,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group">
                     @Html.Label("Position", htmlAttributes: new { @class = "control-label " })
                     <select id="positionId" name="positionId" class="form-control" required="">
@@ -134,7 +134,7 @@
                     @Html.ValidationMessageFor(model => model.positionId, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group">
                     @Html.Label("Years of experience", htmlAttributes: new { @class = "control-label " })
                     @Html.EditorFor(model => model.yearsExp, new { htmlAttributes = new { @class = "form-control", required = "", placeholder = "Enter years of experience (Numbers only)", data_parsley_type = "number", data_parsley_min = "0" } })
@@ -142,7 +142,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group">
                     <label class="control-label">Date of joining</label>
                     <input type="date" name="dateOfJoining" class="form-control" id="dateJoin" required="" placeholder="dd-mm-yyyy">
@@ -150,7 +150,7 @@
                 </div>
                 @Html.ValidationMessageFor(model => model.dateOfJoining, "", new { @class = "text-danger" })
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group">
                     <label class="control-label">Date of leaving</label>
                     <input type="date" name="dateOfLeaving" class="form-control" id="dateleave" placeholder="dd-mm-yyyy">
@@ -159,14 +159,14 @@
                 </div>
             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-3" style="clear:both">
                                 <div class="form-group">
                                     @Html.Label("Prefix", htmlAttributes: new { @class = "control-label " })
                                     @Html.EnumDropDownListFor(model => model.prefixId, "Select Prefix", htmlAttributes: new { @class = "form-control", required = "" })
                                     @Html.ValidationMessageFor(model => model.prefixId, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     @Html.Label("Office number", htmlAttributes: new { @class = "control-label " })
                                     @Html.EditorFor(model => model.officeNumber, new { htmlAttributes = new { @class = "form-control", @type = "tel", required = "", data_parsley_type = "number", placeholder="Enter Phone Number"  } })

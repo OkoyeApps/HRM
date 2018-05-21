@@ -216,5 +216,11 @@ namespace resourceEdge.webUi.Infrastructure.Core
             unitOfWork.Save();
             //Remember to push this to the summary table later
         }
+        public void CloseAllExpiredIncidents()
+        {
+            var ExpiredIncidents = unitOfWork.Discipline.Get(filter: x => x.ExpiryDate.Date == DateTime.Now.Date).ToList();
+            ExpiredIncidents.ForEach(x => x.IsActive = false);
+            ExpiredIncidents.ForEach(X => unitOfWork.Discipline.Update(X));
+        }
     }
 }

@@ -9,7 +9,8 @@ namespace resourceEdge.Domain.Entities
     public class Asset
     {
         public int ID { get; set; }
-        public int groupId { get; set; }
+        public int GroupId { get; set; }
+        public int LocationId { get; set; }
         public string Name { get; set; }
         public long SerialNumber { get; set; }
         public bool IsInUse { get; set; }
@@ -20,5 +21,7 @@ namespace resourceEdge.Domain.Entities
         public DateTime? CreatedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }
         public AssetCategory AssetCategory { get; set; }
+        public Group Group { get; set; }
+        public Location Location { get; set; }
     }
 }

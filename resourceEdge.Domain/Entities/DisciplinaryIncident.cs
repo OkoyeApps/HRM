@@ -9,9 +9,11 @@ namespace resourceEdge.Domain.Entities
    public  class DisciplinaryIncident
     {
         public int Id { get; set; }
-        public int RaisedBy { get; set; }
-        public int BusinessUnit { get; set; }
-        public int Department { get; set; }
+        public int GroupId { get; set; }
+        public int LocationId { get; set; }
+        public string RaisedBy { get; set; }
+        public int BusinessUnitId { get; set; }
+        public int DepartmentId { get; set; }
         public string EmployeeName { get; set; }
         public int? JobTitle { get; set; }
         public string ReportingManager { get; set; }
@@ -20,13 +22,19 @@ namespace resourceEdge.Domain.Entities
         public int ViolationId { get; set; }
         public string ViolationDescription { get; set; }
         public int Verdict { get; set; }
-        public int CorrectiveAction { get; set; }
         public int EmployeeAppeal { get; set; }
+        public string EmployeeStatement { get; set; }
+        public int CorrectiveActionId { get; set; }
         public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }
         public DateTime? CreatedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }
         public bool? IsActive { get; set; }
         public Violation Violation { get; set; }
+        public Consequence CorrectiveAction { get; set; }
+        public Group Group { get; set; }
+        public Location Location { get; set; }
+        public Departments Department { get; set; }
+        public BusinessUnit BusinessUnit { get; set; }
     }
 }

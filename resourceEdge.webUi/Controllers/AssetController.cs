@@ -32,7 +32,8 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult Index()
         {
             ViewBag.PageTitle = "All Assets";
-            var result = assetmanager.GetAllAssetLazily();
+            var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+            var result = assetmanager.GetAllAssetLazily(UserFromSession.GroupId, UserFromSession.LocationId);
             return View(result);
         }
         [CustomAuthorizationFilter(Roles = "System Admin, HR")]
@@ -207,6 +208,13 @@ namespace resourceEdge.webUi.Controllers
             this.AddNotification("Oops! something went wrong, please make sure you are not manually editing your request", NotificationType.ERROR);
             return RedirectToAction("AllRequest");
         }
+
+        public PartialViewResult AssetDetail(int id)
+        {
+            var result = assetmanager.GetAssetDetail(id);
+            return PartialView(result);
+        }
+
         //public ActionResult EditRequest()
         //{
 

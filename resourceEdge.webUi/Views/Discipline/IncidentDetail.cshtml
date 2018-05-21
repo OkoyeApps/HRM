@@ -1,0 +1,97 @@
+﻿@model resourceEdge.webUi.Models.SystemModel.DisciplineListItem
+
+@{
+    ViewBag.Title = "IncidentDetail";
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+}
+
+
+<div>
+    <style>
+        dl dd {
+            position:relative;top:11px;
+        }
+        h5 {
+            font-weight: bold;
+        }
+
+    </style>
+
+    <dl class="dl-horizontal">
+        <dt>
+            <h5>@Html.DisplayNameFor(model => model.CorrectiveAction)</h5>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CorrectiveAction)
+        </dd>
+        <hr />
+        <dt>
+            <h5>@Html.DisplayNameFor(model => model.violation)</h5>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.violation)
+        </dd>
+        <hr />
+        <dt>
+            <h5>@Html.DisplayNameFor(model => model.Unit)</h5>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Unit)
+        </dd>
+        <hr />
+        <dt>
+            <h5>@Html.DisplayNameFor(model => model.Department)</h5>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Department)
+        </dd>
+        <hr />
+        <dt>
+            <h5>@Html.DisplayNameFor(model => model.FullName)</h5>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+        <hr />
+        <dt>
+            <h5>@Html.DisplayNameFor(model => model.ReportManager)</h5>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReportManager)
+        </dd>
+        <hr />
+        <dt>
+            <h5>@Html.DisplayNameFor(model => model.Date)</h5>
+        </dt>
+
+        <dd>
+          @Model.Date
+        </dd>
+        <hr />
+        <dt>
+            <h5>@Html.DisplayNameFor(model => model.Response)</h5>
+        </dt>
+        @if (string.IsNullOrEmpty(Model.Response)){
+            <dd>
+                No Reponse yet
+            </dd>
+        }
+        else
+        {
+            <dd>
+                @Model.Response
+            </dd>
+        }
+      
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "AllIncident", "discipline",null, new {@class = "btn btn-info pull-right" })
+</p>

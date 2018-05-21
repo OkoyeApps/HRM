@@ -1,0 +1,47 @@
+﻿@section css{
+    <style>
+        textarea {
+            resize: none;
+        }
+    </style>
+}
+
+@{
+    ViewBag.Title = "Contact";
+    Layout = "~/Views/Shared/Layouts/_EmployeeLayout.cshtml";
+}
+<div id="overload">
+
+</div>
+
+@using (Html.BeginForm("AddViolation", "discipline", FormMethod.Post, new { returnurl = ViewBag.returnUrl, data_parsley_validate = "" }))
+{
+    @Html.AntiForgeryToken()
+    <hr />
+    <div class="form-horizontal" id="prefixForm">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="col-md-6">
+            <label for="violation" class="control-label">Name</label>
+            <input name="name[0]" id="name" class="form-control" required="" />
+        </div>
+        <div class="col-md-6">
+            <label for="description" class="control-label">Description</label>
+            <textarea cols="2" name="description[0]" id="des" class="form-control"></textarea>
+        </div>
+
+        <div class="col-md-12">
+            <hr />
+        </div>
+    </div>
+    <div class="col-md-12" style="clear:both">
+
+        <button type="submit" class="btn btn-success" style="clear: both"> Create</button>
+        <button class="btn btn-primary blue pull-right" id="add" style="clear:both">Add New </button>
+    </div>
+}
+
+@section Scripts{
+    @*<script src="~/Scripts/Pages/JS/Configuration/Prefix.js"></script>*@
+<script src="~/Scripts/Pages/JS/Discipline/addViolationandConsequence.js"></script>
+}

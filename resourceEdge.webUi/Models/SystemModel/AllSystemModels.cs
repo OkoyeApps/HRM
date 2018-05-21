@@ -118,16 +118,21 @@ namespace resourceEdge.webUi.Models.SystemModel
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public bool? Enabled { get; set; }
+    }   
+    
+    public class DisciplineListItem
+    {
+        public int ID { get; set; }
+        public string CorrectiveAction { get; set; }
+        public string violation { get; set; }
+        public string Unit { get; set; }
+        public string Department { get; set; }
+        public string FullName { get; set; }
+        public string ReportManager { get; set; }
+        public string Date { get; set; }
+        public bool? Status { get; set; }
+        public string Response { get; set; }
+        public int Appeal { get; set; }
+        public DateTime ExpiryDate { get; set; }    
     }
-
-    //public class DepartmentToAppraiseListItem
-    //{
-    //    public DepartmentToAppraiseListItem()
-    //    {
-    //        Unit = new List<int>();
-    //        Department = new List<int>();
-    //    }
-    //    public List<int> Unit { get; set; }
-    //    public List<int> Department { get; set; }
-    //}
 }

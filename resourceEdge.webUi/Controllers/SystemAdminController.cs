@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace resourceEdge.webUi.Controllers
 {
-    [CustomAuthorizationFilter(Roles ="System Admin")]
+    [CustomAuthorizationFilter(Roles ="Super Admin")]
     [RoutePrefix("Admin")]
     public class SystemAdminController : Controller
     {
@@ -47,6 +47,18 @@ namespace resourceEdge.webUi.Controllers
                 }
             }
             return RedirectToAction("AssignGroupHeadHr");
+        }
+
+        // GET: SuperAdmin/Admin
+        //list of all admins and there locations
+        public ActionResult Index()
+        {
+            return View();
+        }
+        //Add admin for group and is irrespective of employee
+        public ActionResult AddAdmin()
+        {
+            return View();
         }
     }
 }

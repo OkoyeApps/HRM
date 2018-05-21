@@ -234,6 +234,7 @@
     <Compile Include="Controllers\AppraisalController.cs" />
     <Compile Include="Controllers\AssetController.cs" />
     <Compile Include="Controllers\CronController.cs" />
+    <Compile Include="Controllers\DisciplineController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HRController.cs" />
     <Compile Include="Controllers\LeaveController.cs" />
@@ -264,6 +265,7 @@
     <Compile Include="Infrastructure\Core\Generators.cs" />
     <Compile Include="Infrastructure\Core\NotificationExtension.cs" />
     <Compile Include="Infrastructure\DbInitializer.cs" />
+    <Compile Include="Infrastructure\SystemManagers\DisciplinaryManager.cs" />
     <Compile Include="Infrastructure\SystemManagers\DropDownManager.cs" />
     <Compile Include="Infrastructure\SystemManagers\EmployeeManager.cs" />
     <Compile Include="Infrastructure\Handlers\EdgeIdentityFilter.cs" />
@@ -1219,6 +1221,8 @@
     <Content Include="Scripts\Pages\JS\Configuration\Location.js" />
     <Content Include="Scripts\Pages\JS\Configuration\Prefix.js" />
     <Content Include="Scripts\Pages\JS\DataTableInitialization.js" />
+    <Content Include="Scripts\Pages\JS\Discipline\addViolationandConsequence.js" />
+    <Content Include="Scripts\Pages\JS\Discipline\discipline.js" />
     <Content Include="Scripts\Pages\JS\EdgeValidation.js" />
     <Content Include="Scripts\Pages\JS\HR\SystemAdmin.js" />
     <Content Include="Scripts\Pages\JS\Requisition\AddCandidate.js" />
@@ -1399,7 +1403,7 @@
     <Content Include="Views\Manage\SetPassword.cshtml" />
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Discipline\About.cshtml" />
     <Content Include="Views\Configuration\AllCodes.cshtml" />
     <Content Include="Views\Shared\addPrefix.cshtml" />
     <Content Include="Views\Configuration\AllBusinessUnits.cshtml" />
@@ -1485,6 +1489,18 @@
     <Content Include="Views\Asset\AllRequest.cshtml" />
     <Content Include="Views\Recruitment\SelectedCandidates.cshtml" />
     <Content Include="Views\Recruitment\candidateDetails.cshtml" />
+    <Content Include="Views\Discipline\allViolation.cshtml" />
+    <Content Include="Views\Discipline\allConsequence.cshtml" />
+    <Content Include="Views\Discipline\addViolation.cshtml" />
+    <Content Include="Views\Discipline\AddConsequence.cshtml" />
+    <Content Include="Views\Discipline\EditViolation.cshtml" />
+    <Content Include="Views\Discipline\EditConsequence.cshtml" />
+    <Content Include="Views\Discipline\RaiseIncident.cshtml" />
+    <Content Include="Views\Discipline\AllIncident.cshtml" />
+    <Content Include="Views\Discipline\IncidentDetail.cshtml" />
+    <Content Include="Views\SelfService\MyIncident.cshtml" />
+    <Content Include="Views\Discipline\EditIncident.cshtml" />
+    <Content Include="Views\Asset\AssetDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,100 @@
+﻿@model IEnumerable<resourceEdge.webUi.Models.SystemModel.DisciplineListItem>
+@{
+    ViewBag.Title = "allViolation";
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+}
+
+
+
+<div class="table-responsive">
+
+    <table class="table table-responsive table-striped table-bordered">
+        <tr>
+            <td>
+                @Html.ActionLink("Add new", "RaiseIncident", "discipline", null, new { @class = "btn btn-info pull-right" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+
+                <table class="table table-responsive table-striped table-bordered">
+                    <tr>
+                        <th>
+                            Unit
+                        </th>
+                        <th>
+                            Department
+                        </th>
+                        <th>Name</th>
+                        <th>Incident</th>
+                        <th>Corrective Action</th>
+                        <th>Report manager</th>
+                        <th>Expiry Date</th>
+                        <th>Response</th>
+                        <td></td>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @item.Unit
+                            </td>
+                            <td>
+                                @item.Department
+                            </td>
+                            <td>@item.FullName</td>
+                            <td>@item.violation</td>
+                            <td>@item.CorrectiveAction</td>
+                            <td>@item.ReportManager</td>
+                            <td>@item.Date</td>
+                            <td>
+                                @if(!string.IsNullOrEmpty(item.Response))
+                                {
+                                    <span>item.Response</span>
+                                }
+                                else
+                                {
+                                   <span class="label label-info">Waiting for response</span>
+                                }
+                            </td>
+                            <td>
+                                <table class="pull-right">
+                                    <tr>
+                                        <td class="pull-left">
+                                            @Html.ActionLink("View", "incidentDetail", "Discipline", new { id = item.ID }, new { @class = "btn btn-warning pull-left" })
+                                        </td>
+                                        
+                                        <td class="pull-right">
+                                            @using (Html.BeginForm("DeleteIncident", "Discipline", new { Id = item.ID }, FormMethod.Post))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-danger pull-right" onclick="return ConfirmDelete()">Delete</button>
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr></tr>
+                                </table>
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+
+            </td>
+        </tr>
+    </table>
+</div>
+@section Scripts{
+<script>
+        function ConfirmDelete() {
+            var answer = confirm("Do you really want to delete this Incident?\nNote you Incident will be deleted and cannot be recovered");
+            console.log("alert");
+            console.log(answer);
+            if (answer == true) {
+                return true;
+            }
+            return false;
+        }
+</script>
+    }

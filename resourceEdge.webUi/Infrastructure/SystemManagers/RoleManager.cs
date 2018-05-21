@@ -66,6 +66,14 @@ namespace resourceEdge.webUi.Infrastructure
                 role.Id = "4";
                 roleManager.Create(role);
             }
+            if (!roleManager.RoleExists("Super Admin"))
+            {
+                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
+                role.Name = "Super Admin";
+                role.Id = "11";
+                roleManager.Create(role);
+
+            }
             if (!roleManager.RoleExists("System Admin"))
             {
                 var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();

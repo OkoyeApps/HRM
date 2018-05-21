@@ -12,7 +12,7 @@
 
         <div class ="col-md-6">
             <label for="minexperiencerequired" class ="control-label">Minimum Experienced</label>
-            <input name="minexperiencerequired[0]" id="State" class ="form-control" required />
+            <input name="minexperiencerequired[0]" id="minexp" class ="form-control" required data-parsley-min="0" />
         </div>
 
         <div class ="col-md-6">
@@ -53,5 +53,9 @@
         }
     })
 
+
+    $('#minexp').on('keypress', function (event) {
+        return $.ValidateNumber(event, this);
+    });
 
 })();

@@ -92,6 +92,16 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
             return result;
         }
 
+        public SelectList GetConsequence()
+        {
+            var result = new SelectList(unitOfWork.Consequence.Get().Select(x => new { name = x.Name, Id = x.ID }), "Id", "name");
+            return result;
+        }
+        public SelectList GetViolation()
+        {
+            var result = new SelectList(unitOfWork.Violation.Get().Select(x => new { name = x.Name, Id = x.ID }), "Id", "name");
+            return result;
+        }
 
         public SelectList GetAllMonths()
         {

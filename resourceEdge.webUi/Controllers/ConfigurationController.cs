@@ -263,7 +263,7 @@ namespace resourceEdge.webUi.Controllers
                     unit.isactive = true;
                     BusinessRepo.Insert(unit);
 
-                    this.AddNotification($"", NotificationType.SUCCESS);
+                    this.AddNotification($"Unit added, Now you can add departments to this unit", NotificationType.SUCCESS);
                     return RedirectToAction("addBusinessUnits");
                 }
             }
@@ -464,7 +464,7 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.previousUrl = previousUrl;
             ViewBag.PageTitle = "Add Job Title";
             ViewBag.Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
-            ViewBag.Groups = DropDown.GetBusinessUnit();
+            ViewBag.Groups = DropDown.GetGroup();
             return View(new Jobtitle());
         }
 
@@ -993,8 +993,8 @@ namespace resourceEdge.webUi.Controllers
                     Group.ModifiedDate = DateTime.Now;
                     GroupRepo.Insert(Group);
                     ModelState.Clear();
-                    this.AddNotification($"", NotificationType.SUCCESS);
-                        return Redirect(Request.UrlReferrer.AbsolutePath);
+                    this.AddNotification($"Group Added", NotificationType.SUCCESS);
+                        return RedirectToAction("AllGroup");
                 }
             }
             catch (Exception ex)

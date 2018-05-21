@@ -290,7 +290,7 @@ namespace resourceEdge.webUi.Infrastructure
                         int.TryParse(collection[Group], out groupId);
                         if (experience != 0 && groupId != 0)
                         {
-                            var aa = Enum.GetName(typeof(JobFrequency), allPayFreq[i]);
+                          //  var aa = Enum.GetName(typeof(JobFrequency), allPayFreq[i]);
                             Jobtitle job = new Jobtitle()
                             {
 

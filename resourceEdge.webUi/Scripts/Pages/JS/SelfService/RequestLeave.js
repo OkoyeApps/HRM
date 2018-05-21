@@ -180,6 +180,7 @@
                 console.log('in the GetRmByUserId method');
                 console.log(data);
                 if (data.length > 0) {
+                $('#RepmangId').empty();
                     $('#RepmangId').append('<option value="">' + 'Select Report Manager' + '</option>');
                     $.each(data, function (index, data) {
                         $('#RepmangId').append('<option value="' + data.userId + '">' + data.FullName + '</option>');

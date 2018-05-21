@@ -169,6 +169,12 @@ namespace resourceEdge.webUi.Infrastructure
             
             return employeeByUnit ?? null;
         }
+        public IEnumerable<dynamic> GetEmployeeByDepartment(int groupId,int locationId, int deptId)
+        {
+            var Employees = unitOfWork.GetDbContext().Employee.Where(X=>X.LocationId == locationId && X.GroupId == groupId && X.DepartmentId ==deptId)
+                .Select(x=> new { Id = x.userId, name = x.FullName });
+            return Employees;
+        }
         public List<Employee> GetEligibleManagerBybBusinessUnit(int id)
         {
             var unit = unitOfWork.BusinessUnit.GetByID(id); //This gets the business unit by ID 

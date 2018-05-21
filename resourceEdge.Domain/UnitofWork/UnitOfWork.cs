@@ -66,6 +66,9 @@ namespace resourceEdge.Domain.UnitofWork
         private GenericRepository<AssetCategory> assetCategory;
         private GenericRepository<RequestAsset> requestassetRepo;
         private GenericRepository<GeneralQuestion> generalQuestionRepo;
+        private GenericRepository<Violation> violationRepo;
+        private GenericRepository<DisciplinaryIncident> disciplineRepo;
+        private GenericRepository<Consequence> consequenceRepo;
         private EdgeDbContext Context
         {
             get
@@ -106,7 +109,7 @@ namespace resourceEdge.Domain.UnitofWork
         public GenericRepository<IdentityCode> identityCodes
         {
             get { return this.identitycodesRepo ?? new GenericRepository<IdentityCode>(Context); }
-        }      
+        }
         public GenericRepository<Jobtitle> jobTitles
         {
             get { return this.jobTitleRepo ?? new GenericRepository<Jobtitle>(Context); }
@@ -258,7 +261,7 @@ namespace resourceEdge.Domain.UnitofWork
         }
         public GenericRepository<Candidate> Candidate
         {
-            get { return this.CandidateRepo?? new GenericRepository<Entities.Candidate>(Context); }
+            get { return this.CandidateRepo ?? new GenericRepository<Entities.Candidate>(Context); }
         }
         public GenericRepository<CandidateWorkDetail> CandidateWorkDetail
         {
@@ -299,14 +302,27 @@ namespace resourceEdge.Domain.UnitofWork
 
         public GenericRepository<GeneralQuestion> GeneralQuestion
         {
-           get { return this.generalQuestionRepo ?? new GenericRepository<Entities.GeneralQuestion>(Context); }
+            get { return this.generalQuestionRepo ?? new GenericRepository<Entities.GeneralQuestion>(Context); }
+        }
+        public GenericRepository<DisciplinaryIncident> Discipline
+        {
+            get { return this.disciplineRepo ?? new GenericRepository<DisciplinaryIncident>(Context); }
+        }
+        public GenericRepository<Violation> Violation
+        {
+            get { return this.violationRepo ?? new GenericRepository<Entities.Violation>(Context);}
+        }
+        public GenericRepository<Consequence> Consequence
+        {
+            get { return this.consequenceRepo ?? new GenericRepository<Entities.Consequence>(Context); }
         }
         public void Save()
         {
             try
             {
                 myContext.SaveChanges();
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }

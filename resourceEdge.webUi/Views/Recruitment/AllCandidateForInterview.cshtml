@@ -35,19 +35,19 @@
                                     @Html.DisplayFor(modelItem => item.CandidateName)
                                 </td>
                                 <td>
-                                    <table class="pull-right">
+                                    <table class="pull-right" >
                                         <tr>
-                                            <td>
+                                            <td class="pull-left">
                                                 @if (Model.IdsAndResume.ContainsKey(item.Id))
                                                 {
-                                                    @Html.ActionLink("View Resume", "DownloadResume", "Recruitment", new { FileId = Model.IdsAndResume[item.Id] }, new { @class = "btn btn-success" })
+                                                    @Html.ActionLink("View Resume", "DownloadResume", "Recruitment", new { FileId = Model.IdsAndResume[item.Id] }, new { @class = "btn btn-info" })
                                                 }
                                                 else
                                                 {
                                                     @Html.ActionLink("View Details", "DownloadResume", new { Id = item.Id }, new { @class = "btn btn-success" })
                                                 }
                                             </td>
-                                            <td>
+                                            <td class="">
 
                                                 @using (Html.BeginForm("ApproveCandidateFromInterview", "Recruitment", new { Id = item.Id }, FormMethod.Post, null))
                                                 {
@@ -55,7 +55,7 @@
                                                     <button class="btn btn-success pull-right" id="accept" onclick="return ConfirmAccept()">Accept</button>
                                                 }
                                             </td>
-                                            <td>
+                                            <td class="pull-right">
                                                 @using (Html.BeginForm("RemoveCandidateForInterview", "Recruitment", new { Id = item.Id }, FormMethod.Post, null))
                                                 {
                                                     @Html.AntiForgeryToken()

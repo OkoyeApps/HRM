@@ -4,63 +4,78 @@
     ViewBag.Title = "AllBusinessUnits";
     Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
 }
-
 <table class="table table-responsive table-bordered table-striped">
     <tr>
-        <th>
-            Location
-        </th>
-        <th>
-           Unit Name
-        </th>
-        <th>
-           Unit Code
-        </th>
-        <th>
-            Descriptions
-        </th>
-        <th></th>
+        <td>
+            <p>
+                @Html.ActionLink("Add Unit", "addBusinessUnits", null, new { @class = "btn btn-success pull-right" })
+            </p>
+        </td>
+
     </tr>
-    <tbody>
-    @foreach (var item in Model)
-    {
-        <tr>
-           <td>
-             @Html.DisplayFor(x=>item.Location.State)
-               </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.unitname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.unitcode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.descriptions)
-            </td>
-            <td>
-                <table>
-                    <tr>
-                        <td>
-                           @* @Html.ActionLink("Details", "unitDetail", "Configuration", new { id = item.Id }, new { @class = "btn btn-info" })*@ 
-                        </td>
-                        @if (User.IsInRole("System Admin"))
+    <tr>
+        <td>
+            <table class="table table-responsive table-bordered table-striped">
+                <tr>
+                    <th>
+                        Location
+                    </th>
+                    <th>
+                        Unit Name
+                    </th>
+                    <th>
+                        Unit Code
+                    </th>
+                    <th>
+                        Descriptions
+                    </th>
+                    <th></th>
+                </tr>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(x => item.Location.State)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.unitname)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.unitcode)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.descriptions)
+                            </td>
+                            <td>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            @* @Html.ActionLink("Details", "unitDetail", "Configuration", new { id = item.Id }, new { @class = "btn btn-info" })*@
+                                        </td>
+                                        @if (User.IsInRole("System Admin"))
                                         {
-                        <td>
-                            @Html.ActionLink("Edit", "EditUnit", "Configuration", new { id = item.Id }, new { @class = "btn btn-warning" })
-                        </td>
-                        @*<td>
-                            @using (Html.BeginForm("deleteUnit", "Configuration", new { id = item.Id },FormMethod.Post, null))
-                            {
-                            @Html.AntiForgeryToken()
-                                <button class="btn btn-danger" type="submit">Delete</button>
-                            }
-                            @Html.ActionLink("Delete", "deleteUnit", "Configuration", new { id = item.Id }, new { @class = "btn btn-danger" })
-                        </td>*@
-                        }
-                    </tr>
-                </table>                  
-            </td>
-        </tr>
-    }
-        </tbody>
+                                            <td>
+                                                @Html.ActionLink("Edit", "EditUnit", "Configuration", new { id = item.Id }, new { @class = "btn btn-warning" })
+                                            </td>
+                                            @*<td>
+                                                    @using (Html.BeginForm("deleteUnit", "Configuration", new { id = item.Id },FormMethod.Post, null))
+                                                    {
+                                                    @Html.AntiForgeryToken()
+                                                        <button class="btn btn-danger" type="submit">Delete</button>
+                                                    }
+                                                    @Html.ActionLink("Delete", "deleteUnit", "Configuration", new { id = item.Id }, new { @class = "btn btn-danger" })
+                                                </td>*@
+                                        }
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </td>
+
+    </tr>
+
 </table>

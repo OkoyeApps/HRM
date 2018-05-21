@@ -486,6 +486,22 @@ namespace resourceEdge.webUi.Controllers
             }
             return Ok(result);
         }
+        [Route("api/settings/GetEmployeeByDepartment/{id:int}/{location=location:int}/{group=group:int}")]
+        [HttpGet]
+        public IHttpActionResult GetEmployeeByDepartment(int? Id, int? location, int? group)
+        {
+            if (Id == null || location == null || group == null)
+            {
+                return BadRequest();
+            }
+            var result = Apimanager.GetEmployeeByDepartment(group.Value,location.Value, Id.Value);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
+        
 
         // POST: api/Settings
         public void Post([FromBody]string value)
