@@ -383,6 +383,9 @@
                             <li>
                                 @Html.ActionLink("Request Leave", "RequestLeave", "SelfService", null, new { @class = "nav-link  title" })
                             </li>
+                         
+                           
+                          
                         </ul>
                     </li>
 @if (User.IsInRole("HR"))
@@ -463,7 +466,8 @@
                                 <li>@Html.ActionLink("All Request", "AllRequest", "Asset", null, new { @class = "nav-link  title" })</li>
                             }
                             <li> @Html.ActionLink("Request Asset", "RequestAsset", "Asset", null, new { @class = "nav-link  title" })</li>
-                        </ul>
+                            <li>@Html.ActionLink("All Request", "AllRequest", "Asset", null, new { @class = "nav-link  title" })</li>
+                         </ul>
                     </li>
 @if (User.IsInRole("System Admin") || User.IsInRole("HR"))
 {

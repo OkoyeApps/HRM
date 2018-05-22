@@ -8,10 +8,7 @@
     var Menu = (List<Menu>)Session["_Menu"];
     ViewBag.Title = "Leave";
     var AllRequisition = (Tuple<IList<RequisitionListItems>, IList<RequisitionListItems>, IList<RequisitionListItems>>) ViewBag.AllRequisitons;
-    var Approved = (List<resourceEdge.Domain.Entities.LeaveRequest>)ViewBag.Approved;
-    var Denied = (List<resourceEdge.Domain.Entities.LeaveRequest>)ViewBag.Denied;
-    var pending = (List<resourceEdge.Domain.Entities.LeaveRequest>)ViewBag.Pending;
-    var All = (List<resourceEdge.Domain.Entities.LeaveRequest>)ViewBag.All;
+
 }
 
 @section css{

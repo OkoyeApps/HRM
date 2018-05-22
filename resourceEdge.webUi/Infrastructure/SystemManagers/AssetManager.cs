@@ -144,15 +144,17 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
         {
             if (HttpContext.Current.User.IsInRole("HR"))
             {
-                var result = unitOfWork.RequestAsset.Get(filter: x=>x.GroupId == groupId && x.LocationId == locationId && x.IsResolved == null, includeProperties:"AssetCategory");
+               
+                var result = unitOfWork.RequestAsset.Get(filter: x=>x.GroupId == groupId && x.LocationId == locationId, includeProperties:"AssetCategory");
                 return result;
             }
-            var empResult = unitOfWork.RequestAsset.Get(filter: x => x.RequestedBy == HttpContext.Current.User.Identity.GetUserId());
+            var userId = HttpContext.Current.User.Identity.GetUserId();
+            var empResult = unitOfWork.RequestAsset.Get(filter: x => x.createdBy ==userId, includeProperties: "AssetCategory");
             return empResult;
         }
         public bool AcceptRequest(int id)
         {
-            var asset = unitOfWork.RequestAsset.Get(filter: x => x.AssetCategoryId == id).FirstOrDefault();
+            var asset = unitOfWork.RequestAsset.Get(filter: x => x.Id == id).FirstOrDefault();
             if (asset != null)
             {
                 asset.IsResolved = true;
@@ -166,13 +168,26 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
         }
         public bool RejectRequest(int id)
         {
-            var asset = unitOfWork.RequestAsset.Get(filter: x => x.AssetCategoryId == id).FirstOrDefault();
+            var asset = unitOfWork.RequestAsset.Get(filter: x => x.Id == id).FirstOrDefault();
             if (asset != null)
             {
                 asset.IsResolved = false;
                 asset.ModifiedBy = HttpContext.Current.User.Identity.GetUserId();
                 asset.ModifiedOn = DateTime.Now;
                 unitOfWork.RequestAsset.Update(asset);
+                unitOfWork.Save();
+                return true;
+            }
+            return false;
+        }
+
+        public bool DeleteRequest(int id)
+        {
+            var user = HttpContext.Current.User.Identity.GetUserId();
+            var userRequest = unitOfWork.RequestAsset.Get(filter: x => x.Id == id && x.createdBy == user).FirstOrDefault();
+            if (userRequest != null)
+            {
+                unitOfWork.RequestAsset.Delete(userRequest);
                 unitOfWork.Save();
                 return true;
             }

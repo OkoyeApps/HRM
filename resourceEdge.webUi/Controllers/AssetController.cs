@@ -163,7 +163,7 @@ namespace resourceEdge.webUi.Controllers
             this.AddNotification("Sorry the Category could not be modified because the Category was not found. please make sure your request is not been Edited or contact your System Adminstrator", NotificationType.SUCCESS);
             return RedirectToAction("AllAssetCategory");
         }
-        [CustomAuthorizationFilter(Roles = "HR")]
+        //[CustomAuthorizationFilter(Roles = "HR")]
         public ActionResult AllRequest()
         {
             ViewBag.PageTitle = "All Request";
@@ -212,7 +212,7 @@ namespace resourceEdge.webUi.Controllers
             var result = assetmanager.RejectRequest(id);
             if (result)
             {
-                this.AddNotification("Request accepted!", NotificationType.SUCCESS);
+                this.AddNotification("Request Denied!", NotificationType.SUCCESS);
                 return RedirectToAction("AllRequest");
             }
             this.AddNotification("Oops! something went wrong, please make sure you are not manually editing your request", NotificationType.ERROR);
@@ -223,6 +223,18 @@ namespace resourceEdge.webUi.Controllers
         {
             var result = assetmanager.GetAssetDetail(id);
             return PartialView(result);
+        }
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult DeleteRequest(int id)
+        {
+            var result = assetmanager.DeleteRequest(id);
+            if (result)
+            {
+                this.AddNotification("Request Deleted", NotificationType.SUCCESS);
+                return RedirectToAction("AllRequest");
+            }
+            this.AddNotification("Oops!something went wrong, please make sure you are not manually editing your request and if the problem persist please contact your system administrator", NotificationType.ERROR);
+            return RedirectToAction("AllRequest");
         }
 
         //public ActionResult EditRequest()

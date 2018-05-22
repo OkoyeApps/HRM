@@ -32,7 +32,7 @@
                                 if (splitMessage[1].ToLower() == RequestReferrer.ToLower())
                                 {
                                     <li>@Html.Raw(splitMessage[0])</li>
-                                    
+
                                 }
                             }
                         }
@@ -47,13 +47,13 @@
             {
                 if (errorList.Count() == 1)
                 {
-                @*<strong><span class="glyphicon glyphicon-remove" id="erroralert" ></span> Error: </strong>*@
-                    if (errorList.FirstOrDefault().Contains("|"))
-                    {
-                        var splitMessage = errorList.First().Split('|');
-                        if (splitMessage[1].ToLower() == RequestReferrer.ToLower())
-                        {
-                            @Html.Raw(splitMessage[0])
+                    @*<strong><span class="glyphicon glyphicon-remove" id="erroralert" ></span> Error: </strong>*@
+            if (errorList.FirstOrDefault().Contains("|"))
+            {
+                var splitMessage = errorList.First().Split('|');
+                if (splitMessage[1].ToLower() == RequestReferrer.ToLower())
+                {
+                    @Html.Raw(splitMessage[0])
                         }
                     }
                 }
@@ -66,52 +66,52 @@
 <!-- display warnings -->
 @if (warningList != null)
 {
-    if (warningList.Count() > 0)
+    if (warningList.Count() > 1)
     {
-    <div class="alert alert-warning alert-dismissable" id="warnigalert">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        @if (warningList.Count() > 1)
-        {
-            @*<strong><span class="glyphicon glyphicon-warning-sign"></span> There are @warningList.Count() warnings: </strong>*@
-            <ul>
-                @foreach (String message in warningList)
-                {
-                    //<li>@Html.Raw(message)</li>
-                    if (message.Contains('|'))
+        <div class="alert alert-warning alert-dismissable" id="warnigalert">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            @if (warningList.Count() > 1)
+            {
+                @*<strong><span class="glyphicon glyphicon-warning-sign"></span> There are @warningList.Count() warnings: </strong>*@
+                <ul>
+                    @foreach (String message in warningList)
                     {
-                        var splitMessage = message.Split('|');
-                        if (RequestReferrer != null)
+                        //<li>@Html.Raw(message)</li>
+                        if (message.Contains('|'))
                         {
-                            if (splitMessage[1].ToLower() == RequestReferrer.ToLower())
+                            var splitMessage = message.Split('|');
+                            if (RequestReferrer != null)
                             {
-                                <li>@Html.Raw(splitMessage[0])</li>
+                                if (splitMessage[1].ToLower() == RequestReferrer.ToLower())
+                                {
+                                    <li>@Html.Raw(splitMessage[0])</li>
+                                }
                             }
                         }
+                        else
+                        {
+                            <li>@Html.Raw(message)</li>
+                        }
                     }
-                    else
-                    {
-                        <li>@Html.Raw(message)</li>
-                    }
-                }
-            </ul>
-        }
-        else
-        {
-            if (warningList.Count() > 0)
-            {
-                @*<strong><span class="glyphicon glyphicon-warning-sign" id="warnigalert"></span> Warning: </strong>*@
-                if (warningList.FirstOrDefault().Contains('|'))
-                {
-                    var splitMessage = warningList.First().Split('|');
-                    if (splitMessage[1].ToLower() == RequestReferrer.ToLower())
-                    {
-                        @Html.Raw(splitMessage[0])
-                    }
-                }
+                </ul>
             }
-            //@Html.Raw(warningList.First())
-        }
-    </div>
+            else
+            {
+                if (warningList.Count() > 0)
+                {
+                    @*<strong><span class="glyphicon glyphicon-warning-sign" id="warnigalert"></span> Warning: </strong>*@
+            if (warningList.FirstOrDefault().Contains('|'))
+            {
+                var splitMessage = warningList.First().Split('|');
+                if (splitMessage[1].ToLower() == RequestReferrer.ToLower())
+                {
+                    @Html.Raw(splitMessage[0])
+                        }
+                    }
+                }
+                //@Html.Raw(warningList.First())
+            }
+        </div>
     }
 }
 <!-- display success -->
@@ -119,87 +119,87 @@
 {
     if (successList.Count() > 0)
     {
-    <div class="alert alert-success alert-dismissable" id="successalert">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        @if (successList.Count() > 1)
-        {
-            @*<strong><span class="glyphicon glyphicon-ok"></span> There are @successList.Count() successful notifications: </strong>*@
-            <ul>
-                @foreach (String message in successList)
-                {
-                    //<li>@Html.Raw(message)</li>
-                    if (message.Contains('|'))
+        <div class="alert alert-success alert-dismissable" id="successalert">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            @if (successList.Count() > 1)
+            {
+                @*<strong><span class="glyphicon glyphicon-ok"></span> There are @successList.Count() successful notifications: </strong>*@
+                <ul>
+                    @foreach (String message in successList)
                     {
-                        var splitMessage = message.Split('|');
-                        if (RequestReferrer != null)
+                        //<li>@Html.Raw(message)</li>
+                        if (message.Contains('|'))
                         {
-                            if (splitMessage[1].ToLower() == RequestReferrer.ToLower())
+                            var splitMessage = message.Split('|');
+                            if (RequestReferrer != null)
                             {
-                                <li>@Html.Raw(splitMessage[0])</li>
+                                if (splitMessage[1].ToLower() == RequestReferrer.ToLower())
+                                {
+                                    <li>@Html.Raw(splitMessage[0])</li>
+                                }
                             }
                         }
-                    }
-                    else
-                    {
-                        <li>@Html.Raw(message)</li>
-                    }
-                }
-            </ul>
-        }
-        else
-        {
-            if (successList.Count() > 0)
-            {
-                @*<strong><span class="glyphicon glyphicon-ok" id="successalert"></span> Success! </strong>*@
-                if (successList.FirstOrDefault().Contains('|'))
-                {
-                    var splitMessage = successList.First().Split('|');
-                    if (RequestReferrer != null)
-                    {
-                        if (splitMessage[1].ToLower() == RequestReferrer.ToLower())
+                        else
                         {
-                            @Html.Raw(splitMessage[0])
+                            <li>@Html.Raw(message)</li>
                         }
                     }
-                    else
+                </ul>
+            }
+            else if (successList.Count() > 0)
+            {
+
+                @*<strong><span class="glyphicon glyphicon-ok" id="successalert"></span> Success! </strong>*@
+            if (successList.FirstOrDefault().Contains('|'))
+            {
+                var splitMessage = successList.First().Split('|');
+                if (RequestReferrer != null)
+                {
+                    if (splitMessage[1].ToLower() == RequestReferrer.ToLower())
                     {
                         @Html.Raw(splitMessage[0])
                     }
-
                 }
-            }
-            //@Html.Raw(successList.First())
-        }
-    </div>
-    }
-}
-
-<!-- display success -->
-@if (infoList != null)
-{
-    if (infoList.Count() > 0)
-    {
-    <div class="alert alert-info alert-dismissable" id="infoalert">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        @if (infoList.Count() > 1)
-        {
-            @*<strong><span class="glyphicon glyphicon-info-sign"></span> There are @infoList.Count() notifications: </strong>*@
-            <ul>
-                @foreach (String message in infoList)
+                else
                 {
-                    <li>@Html.Raw(message)</li>
+                    @Html.Raw(splitMessage[0])
+                    }
+
                 }
-            </ul>
-        }
-        else
-        {
-            if (infoList.Count() > 0)
-            {
-                @*<strong><span class="glyphicon glyphicon-info-sign" id="infoalert"></span> </strong>*@
-                @Html.Raw(infoList.First())
+
             }
-        }
-    </div>
+        </div>
     }
+
 }
+
+
+    <!-- display success -->
+    @if (infoList != null)
+    {
+        if (infoList.Count() > 0)
+        {
+            <div class="alert alert-info alert-dismissable" id="infoalert">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                @if (infoList.Count() > 1)
+                {
+                    @*<strong><span class="glyphicon glyphicon-info-sign"></span> There are @infoList.Count() notifications: </strong>*@
+                    <ul>
+                        @foreach (String message in infoList)
+                        {
+                            <li>@Html.Raw(message)</li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    if (infoList.Count() > 0)
+                    {
+                        @*<strong><span class="glyphicon glyphicon-info-sign" id="infoalert"></span> </strong>*@
+                        @Html.Raw(infoList.First())
+                    }
+                }
+            </div>
+        }
+    }
 

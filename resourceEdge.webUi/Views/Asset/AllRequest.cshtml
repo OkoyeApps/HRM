@@ -57,32 +57,67 @@
                                 @Html.DisplayFor(modelItem => item.CreatedByFullName)
                             </td>
                             <td>
-                                <table>
-                                    @if (item.IsResolved == null)
+                                <table class="pull-right">
+                                    @if (User.IsInRole("HR"))
                                     {
-                                    <tr>
-                                        <td>
-                                        @using (Html.BeginForm("AcceptRequest", "Asset", new { id = item.Id }, FormMethod.Post, new { @class = "" }))
+                                        if (item.IsResolved == null)
                                         {
-                                            @Html.AntiForgeryToken()
-                                            <button type="submit" class="btn btn-success">Accept</button>
+                                            <tr>
+                                                <td>
+                                                    @using (Html.BeginForm("AcceptRequest", "Asset", new { id = item.Id }, FormMethod.Post, new { @class = "" }))
+                                                    {
+                                                        @Html.AntiForgeryToken()
+                                                        <button type="submit" class="btn btn-success">Accept</button>
+                                                    }
+                                                </td>
+                                                <td></td>
+                                                <td>
+                                                    @using (Html.BeginForm("DenyRequest", "Asset", new { id = item.Id }, FormMethod.Post, new { @class = "" }))
+                                                    {
+                                                        @Html.AntiForgeryToken()
+                                                        <button type="submit" class="btn btn-danger" onclick="return ConfirmDelete()">Deny</button>
+                                                    }
+                                                </td>
+                                            </tr>
                                         }
-                                        </td>
-                                        <td></td>
-                                        <td>
-                                            @using (Html.BeginForm("DenyRequest", "Asset", new { id = item.Id }, FormMethod.Post, new { @class = "" }))
-                                            {
-                                                @Html.AntiForgeryToken()
-                                                <button type="submit" class="btn btn-danger" onclick="return ConfirmDelete()">Deny</button>
-                                            }
-                                        </td>
-                                    </tr>
                                     }
-                               
+                                    else
+                                    {
+                                        <tr>
+                                            <td>
+                                                @if (item.IsResolved == true)
+                                                {
+                                                    <span class="label label-success centered">Accepted</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (item.IsResolved == false)
+                                                {
+                                                    <span class="label label-danger centered">Denied</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (!User.IsInRole("HR"))
+                                                {
+                                                    if (item.IsResolved == null)
+                                                    {
+                                                        using (Html.BeginForm("DeleteRequest", "Asset", new { id = item.Id }, FormMethod.Post, new { @class = "" }))
+                                                        {
+                                                        @Html.AntiForgeryToken()
+                                                        <button type="submit" class="btn btn-danger" onclick="return ConfirmDelete()">Delete Request</button>
+
+                                                        }
+                                                    }
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+
+
                                 </table>
                             </td>
                         </tr>
-                                    }
+                    }
 
                 </table>
 
@@ -103,4 +138,4 @@
             return false;
         }
     </script>
-    }
+}

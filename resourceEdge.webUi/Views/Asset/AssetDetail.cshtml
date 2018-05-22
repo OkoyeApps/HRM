@@ -1,9 +1,19 @@
 ﻿@model resourceEdge.Domain.Entities.Asset
-
+@{ 
+    var imageUrl = Model.ImageUrl != null? Model.ImageUrl : "";
+}
 <div>
     <dl class="dl-horizontal">
         <dd>
-            <img src="@Url.Content(Model.ImageUrl)" class="img-responsive pull-right" height="50" width="200" alt="No image for this asset">
+            @if (Model.ImageUrl != null)
+            {
+                <img src="@Url.Content(imageUrl)" class="img-responsive pull-right" height="50" width="200" alt="@Model.Name">
+            }
+            else
+            {
+                <img src="" class="img-responsive pull-right" height="50" width="200" alt="No image for this asset">
+            }
+
         </dd>
             <dt>
                 Category
