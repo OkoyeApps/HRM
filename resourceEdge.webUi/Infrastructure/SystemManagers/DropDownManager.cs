@@ -51,9 +51,18 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
         }
        
 
-        public SelectList GetJobtitle()
+        public SelectList GetJobtitle(int? groupid=null, int? locationnid = null)
         {
-            var result = new SelectList(unitOfWork.jobTitles.Get().OrderBy(x => x.jobtitlename), "Id", "jobtitlename", "Id");
+            SelectList result = null;
+            if (groupid != null)
+            {
+                 result = new SelectList(unitOfWork.jobTitles.Get(filter: x=> x.GroupId == groupid && x.LocationId == locationnid).OrderBy(x => x.jobtitlename), "Id", "jobtitlename", "Id");
+            }
+            else
+            {
+             result = new SelectList(unitOfWork.jobTitles.Get().OrderBy(x => x.jobtitlename), "Id", "jobtitlename", "Id");
+            }
+
             return result;
         }
 

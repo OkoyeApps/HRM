@@ -13,6 +13,7 @@ namespace resourceEdge.Domain.Entities
         [Key]
         public int Id { get; set; }
         public int GroupId { get; set; }
+        public int LocationId { get; set; }
         public string jobtitlecode { get; set; }
         public string jobtitlename { get; set; }
         public string jobdescription { get; set; }
@@ -26,5 +27,6 @@ namespace resourceEdge.Domain.Entities
         public Nullable<System.DateTime> modifieddate { get; set; }
         public Nullable<bool> isactive { get; set; }
         public Group Group { get; set; }
+        public Location Location { get; set; }
     }
 }

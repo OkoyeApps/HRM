@@ -9,7 +9,8 @@ namespace resourceEdge.Domain.Entities
    public class Requisition
     {
         public int id { get; set; }
-        public int groupId { get; set; }
+        public int GroupId { get; set; }
+        public int LocationId { get; set; }
         public string RequisitionCode { get; set; }
         public DateTime? OnboardDate { get; set; }
         public int? PositionId { get; set; }
@@ -45,5 +46,7 @@ namespace resourceEdge.Domain.Entities
         public Departments Department { get; set; }
         public Jobtitle JobTitle { get; set; }
         public Position Position { get; set; }
+        public Group Group { get; set; }
+        public Location Location { get; set; }
     }
 }

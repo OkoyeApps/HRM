@@ -322,7 +322,7 @@ namespace resourceEdge.webUi.Infrastructure
         }
         public IEnumerable<Interview> AllInterview(int groupId)
         {
-            return unitOfWork.Interview.Get(filter: x=>x.Requisition.groupId == groupId, includeProperties: "Requisition", orderBy: x => x.OrderBy(y => y.InterviewDate));
+            return unitOfWork.Interview.Get(filter: x=>x.Requisition.GroupId == groupId, includeProperties: "Requisition", orderBy: x => x.OrderBy(y => y.InterviewDate));
         }
         public InterviewDropDown GenerateinterviewDropDown()
         {
@@ -509,7 +509,7 @@ namespace resourceEdge.webUi.Infrastructure
             IList<RequisitionListItems> AllApprovedResqusition = new List<RequisitionListItems>();
             IList<RequisitionListItems> AllDeniedResqusition = new List<RequisitionListItems>();
             IList<RequisitionListItems> AllResqusition = new List<RequisitionListItems>();
-            unitOfWork.Requisition.Get(filter:  x =>x.groupId == groupId && x.AppStatus1 == true && x.AppStatus2 == true, includeProperties: "BusinessUnit,Department,JobTitle,Position").ToList()
+            unitOfWork.Requisition.Get(filter:  x =>x.GroupId == groupId && x.AppStatus1 == true && x.AppStatus2 == true, includeProperties: "BusinessUnit,Department,JobTitle,Position").ToList()
                 .ForEach(x => AllApprovedResqusition.Add(new RequisitionListItems
                 {
                     BusinessUnitName = x.BusinessUnit.unitname,
@@ -520,7 +520,7 @@ namespace resourceEdge.webUi.Infrastructure
                     Id = x.id,
                     RaisedBy = unitOfWork.employees.Get(y => y.userId == x.Approver2).FirstOrDefault().FullName
                 }));
-            unitOfWork.Requisition.Get(filter: x => x.groupId == groupId && x.AppStatus1 == false, includeProperties: "BusinessUnit,Department,JobTitle,Position").ToList()
+            unitOfWork.Requisition.Get(filter: x => x.GroupId == groupId && x.AppStatus1 == false, includeProperties: "BusinessUnit,Department,JobTitle,Position").ToList()
                     .ForEach(x => AllDeniedResqusition.Add(new RequisitionListItems
                     {
                         BusinessUnitName = x.BusinessUnit.unitname,
@@ -531,7 +531,7 @@ namespace resourceEdge.webUi.Infrastructure
                         Id = x.id,
                         RaisedBy = unitOfWork.employees.Get(y => y.userId == x.Approver2).FirstOrDefault().FullName
                     }));
-            unitOfWork.Requisition.Get(filter:x=> x.groupId == groupId, includeProperties: "BusinessUnit,Department,JobTitle,Position").ToList()
+            unitOfWork.Requisition.Get(filter:x=> x.GroupId == groupId, includeProperties: "BusinessUnit,Department,JobTitle,Position").ToList()
                  .ForEach(x => AllResqusition.Add(new RequisitionListItems
                  {
                      BusinessUnitName = x.BusinessUnit.unitname,
