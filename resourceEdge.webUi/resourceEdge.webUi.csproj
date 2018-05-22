@@ -1502,6 +1502,7 @@
     <Content Include="Views\SelfService\MyIncident.cshtml" />
     <Content Include="Views\Discipline\EditIncident.cshtml" />
     <Content Include="Views\Asset\AssetDetail.cshtml" />
+    <Content Include="Views\Recruitment\AllRequisition.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

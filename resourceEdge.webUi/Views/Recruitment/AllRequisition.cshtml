@@ -1,0 +1,73 @@
+﻿@model IEnumerable<resourceEdge.webUi.Models.SystemModel.RequisitionListItems>
+@{
+    ViewBag.Title = "AllRequisition";
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+}
+
+<div class="table-responsive">
+    <table class="table  table-striped table-bordered table-hover table-checkable display" id="tblpending">
+        <thead>
+            <tr>
+                <th>S/N</th>
+                <th>Req Code</th>
+                <th><i class="icon-plane"></i> Unit</th>
+                <th><i class="icon-calendar font-dark"></i> Dept</th>
+                <th><i class="icon-calendar font-dark"></i> Job</th>
+                <th>Position</th>
+                <th>Recruiter</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody class="green portlet-body">
+            @{ int k = 0;}
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@{k++;} @k</td>
+                    <td>@item.ReqCode</td>
+                    <td>@item.BusinessUnitName</td>
+                    <td>@item.DepartmentName</td>
+                    <td>@item.Job</td>
+                    <td>@item.Position</td>
+                    <td>@item.RaisedBy</td>
+                    @if (item.Status == null)
+                    {
+                        <td >       
+                            <table class="pull-right">
+                                <tr>
+                                    <td class="pull-left">
+                                        @using (Html.BeginForm("ApproveRequisition", "Recruitment", new { id = item.Id }, FormMethod.Post))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <button class="btn btn-success">Accept</button>
+                                        }
+                                    </td>
+                                    <td class="pull-right">
+                                        @using (Html.BeginForm("DenyRequisition", "Recruitment", new { id = item.Id }, FormMethod.Post))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <button class="btn btn-danger ">Reject</button>
+                                        }
+                                    </td>
+                                </tr>
+                            </table>
+                          
+                        </td>
+
+                    }
+                    @if (item.Status == true)
+                    {
+                        <td><span class="label label-sm label-success pull-right">Approved</span></td>
+                    }
+                    @if (item.Status == false)
+                    {
+                        <td><span class="label label-sm label-danger pull-right">Denied</span></td>
+                    }
+                </tr>
+                        }
+        </tbody>
+    </table>
+</div>
+
+
+

@@ -410,8 +410,7 @@
                         </ul>
                     </li>
 }
-                  @if (User.IsInRole("HR"))
-                  {
+               
                     <li class="has-sub">
                         <a href="javascript:;">
                             <b class="caret pull-right"></b>
@@ -419,6 +418,8 @@
                             <span>Requisition Manager</span>
                         </a>
                         <ul class="sub-menu">
+@if (User.IsInRole("HR"))
+{
                             <li>@Html.ActionLink("Openings/Position", "Index", "Recruitment", null, new { @class = "nav-link  title" })</li>
                             <li class="has-sub">
                                 <a href="javascript:;"><b class="caret pull-right"></b>Requisition Management</a>
@@ -445,9 +446,13 @@
                             <li>
                                 @Html.ActionLink("Interviews", "AllInterview", "Recruitment", null, new { @class = "nav-link  title" })
                             </li>
+                        }
+                            @if(User.IsInRole("Location Head") || User.IsInRole("Manager"))
+                            {
+                                    <li>@Html.ActionLink("All Requisition(s)", "AllRequisition", "Recruitment", null, new { @class = "nav-link  title" })</li>
+                            }
                         </ul>
                         </li>
-                        }
 
                     <li class="has-sub">
                         <a href="javascript:;">

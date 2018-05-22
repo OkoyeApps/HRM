@@ -6,12 +6,11 @@
 }
 
 @section css{
-    <style>
-        #modal:hover {
-            text-decoration: underline;
-            cursor: pointer;
-        }
-    </style>
+   <style>
+    textarea {
+        resize: none;
+    }
+</style>
 <link href="~/assets/AdminTemplate/assets/plugins/bootstrap-wysihtml5/src/bootstrap-wysihtml5.css" rel="stylesheet" />
 }
 
@@ -25,50 +24,41 @@
                     <div class="col-md-3">
                         @Html.Label("Requisition Code", htmlAttributes: new { @class = "control-label" })
                         @Html.EditorFor(model => model.RequisitionCode, new { htmlAttributes = new { @readonly = "readonly", @class = "form-control has-success input-circle-right", Value = $"{ViewBag.RecruitmentId}", required = ""} })
-                        @*@Html.ValidationMessageFor(model => model.RequisitionCode, "", new { @class = "text-danger" })*@
                     </div>
 
                     <div class="col-md-3">
                         @Html.LabelFor(model => model.BusinessunitId, htmlAttributes: new { @class = "control-label " })
 
                         @Html.DropDownListFor(model => model.BusinessunitId, (SelectList)ViewBag.businessUnits,"Select Unit", htmlAttributes: new { @class = "form-control input-circle-right", required = "" })
-                        @Html.ValidationMessageFor(model => model.BusinessunitId, "", new { @class = "text-danger" })
 
                     </div>
 
                     <div class="col-md-3">
                         @Html.LabelFor(model => model.DepartmentId, htmlAttributes: new { @class = "control-label " })
                         <select id="department" name="DepartmentId" data-live-search="true" class="form-control input-circle-right t" required = ""></select>
-                        @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
                     
                     </div>
 
                     <div class="col-md-3">
                         @Html.LabelFor(model => model.ReportingId, htmlAttributes: new { @class = "control-label " })
-                        @Html.DropDownListFor(model => model.ReportingId, (SelectList)ViewBag.ReportManager,"Select Report Manager", htmlAttributes: new { @class = "form-control input-circle-right", required = "" })
-                        @Html.ValidationMessageFor(model => model.ReportingId, "", new { @class = "text-danger" })
-
+                        @Html.DropDownListFor(model => model.ReportingId, (SelectList)ViewBag.ReportManager, "Select Report Manager", htmlAttributes: new { @class = "form-control input-circle-right", required = "" })
                     </div>
 
                     <div class="col-md-3">
                         @Html.LabelFor(model => model.Approver1, htmlAttributes: new { @class = "control-label " })        
                         @Html.DropDownListFor(model => model.Approver1, (SelectList)ViewBag.Approval1,"Select Approval-1", htmlAttributes: new { @class = "form-control input-circle-right", required = "" })
-                        @Html.ValidationMessageFor(model => model.Approver1, "", new { @class = "text-danger" })
 
                     </div>
 
                     <div class="col-md-3">
                         @Html.LabelFor(model => model.Approver2, htmlAttributes: new { @class = "control-label " })    
                         @Html.DropDownListFor(model => model.Approver2, (SelectList)ViewBag.Approval2, "Select Approval-2", htmlAttributes: new { @class = "form-control input-circle-right " })
-                        @Html.ValidationMessageFor(model => model.Approver2, "", new { @class = "text-danger" })
                
                     </div>
 
                     <div class="col-md-3">
                         @Html.LabelFor(model => model.Approver3, htmlAttributes: new { @class = "control-label " })
                         @Html.EditorFor(model => model.Approver3, new { htmlAttributes = new { @class = "form-control input-circle-right" } })
-                        @Html.ValidationMessageFor(model => model.Approver3, "", new { @class = "text-danger" })
-
                     </div>
 
                     <div class="col-md-3">
@@ -105,7 +95,7 @@
                     <div class="col-md-3">
                         @Html.Label("Required no of Positions", htmlAttributes: new { @class = "control-label " })
 
-                        @Html.EditorFor(model => model.ReqNoPositions, new { htmlAttributes = new { @class = "form-control input-circle-right", required = "" } })
+                        @Html.EditorFor(model => model.ReqNoPositions, new { htmlAttributes = new { @class = "form-control input-circle-right", required = "" , data_parsley_min = "1" } })
                         @Html.ValidationMessageFor(model => model.ReqNoPositions, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-md-3">
@@ -146,7 +136,7 @@
 
                     <div class="col-md-3">
                         @Html.LabelFor(model => model.ReqExpYears, htmlAttributes: new { @class = "control-label " })
-                        @Html.EditorFor(model => model.ReqExpYears, new { htmlAttributes = new { @class = "form-control input-circle-right", required = "" } })
+                        @Html.EditorFor(model => model.ReqExpYears, new { htmlAttributes = new { @class = "form-control input-circle-right", required = "", data_parsley_min = "0" } })
                         @Html.ValidationMessageFor(model => model.ReqExpYears, "", new { @class = "text-danger" })
                         <br /><br />
                     </div>
@@ -155,7 +145,7 @@
 
                     <div class="col-md-3">
                         @Html.LabelFor(model => model.ReqPriority, htmlAttributes: new { @class = "control-label " })
-                        @Html.EnumDropDownListFor(model => model.ReqPriority, htmlAttributes: new { @class = "form-control input-circle-right" })
+                        @Html.EnumDropDownListFor(model => model.ReqPriority,"select priority", htmlAttributes: new { @class = "form-control input-circle-right" })
                         @Html.ValidationMessageFor(model => model.ReqPriority, "", new { @class = "text-danger" })
                         <br /><br />
                     </div>

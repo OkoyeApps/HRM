@@ -82,10 +82,19 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult Create(RequisitionViewModel model)
         {
             Requisition Request = new Requisition();
+            var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
             try
             {
-                if (true)
+                DateTime realDate = DateTime.Now.AddDays(-1);
+                DateTime.TryParse(model.OnboardDate.ToString(), out realDate);
+                if (realDate > DateTime.Now)
                 {
+                    int reqYears = 0;
+                    int noOfposition = 0;
+                    int.TryParse(model.ReqExpYears, out reqYears);
+                    int.TryParse(model.ReqNoPositions, out noOfposition);
+                    if (noOfposition > 0)
+                    {
                         Request.BusinessUnitId = model.BusinessunitId;
                         Request.DepartmentId = model.DepartmentId;
                         Request.JobTitleId = model.JobTitle;
@@ -111,9 +120,14 @@ namespace resourceEdge.webUi.Controllers
                         Request.Modifiedby = User.Identity.GetUserId();
                         Request.CreatedDate = DateTime.Now;
                         Request.modifiedDate = DateTime.Now;
+                        Request.GroupId = UserFromSession.GroupId;
+                        Request.LocationId = UserFromSession.LocationId;
                         RequisitionRepo.Insert(Request);
-                        this.AddNotification("Requisition created",NotificationType.SUCCESS);
-                    return View("Index");
+                        this.AddNotification("Requisition created", NotificationType.SUCCESS);
+                        return RedirectToAction("Index");
+                    }
+                    this.AddNotification("Please the date is not in the right format. Please kindly Edit and try again", NotificationType.ERROR);
+                    return RedirectToAction("Create");
                 }
             }
             catch (Exception ex)
@@ -121,7 +135,8 @@ namespace resourceEdge.webUi.Controllers
                this.AddNotification("Something went wrong. Please kindly make sure all Required fields are filled", NotificationType.ERROR);
                 throw ex;
             }
-            return View(model);
+            this.AddNotification("Something went wrong. Please kindly make sure all Required fields are filled and if problem persist contact your system administrator", NotificationType.ERROR);
+            return RedirectToAction("Create");
         }
         public ActionResult AllCandidate()
         {
@@ -362,6 +377,14 @@ namespace resourceEdge.webUi.Controllers
             }
             this.AddNotification("Oops! seems like the Resume has been deleted or does not exist", NotificationType.WARNING);
             return RedirectToAction("AllCandidateForInterview");
+        }
+
+        [CustomAuthorizationFilter(Roles = "Manager, Location Head")]
+        public ActionResult AllRequisition()
+        {
+            var result = RecruitmentManager.GetAllRequisition();
+            ViewBag.PageTitle = "All Requisition";
+            return View(result);
         }
     }
 }

@@ -41,13 +41,51 @@ namespace resourceEdge.webUi.Infrastructure
                 builder.Append(RecruitmentCount);
                 count = builder.ToString();
             }
-
             return reqCode + "/" + count;
         }
         public IEnumerable<dynamic> GetBusinessUnit(int groupId, int Location)
         {
             var BusinessUnit = unitOfWork.BusinessUnit.Get(filter: x => x.GroupId == groupId).Select(x => new { Id = x.Id, Name = x.unitname });
             return BusinessUnit;
+        }
+
+        public IEnumerable<RequisitionListItems> GetAllRequisition()
+        {
+            var userId = HttpContext.Current.User.Identity.GetUserId();
+
+            if (HttpContext.Current.User.IsInRole("Location Head"))
+            {
+                var allRequisition = unitOfWork.Requisition.Get(filter: x => x.Approver1 == userId, includeProperties: "BusinessUnit,Department,JobTitle,Position")
+                       .Select(x => new RequisitionListItems
+                       {
+                           BusinessUnitName = x.BusinessUnit.unitname,
+                           DepartmentName = x.Department.deptname,
+                           Job = x.JobTitle.jobtitlename,
+                           Position = x.Position.positionname,
+                           ReqCode = x.RequisitionCode,
+                           Id = x.id,
+                           RaisedBy = unitOfWork.employees.Get(y => y.userId == x.Approver2).FirstOrDefault().FullName,
+                           Status = x.AppStatus1
+                       });
+                return allRequisition;
+            }
+            if (HttpContext.Current.User.IsInRole("Manager"))
+            {
+                var allRequisition = unitOfWork.Requisition.Get(filter: x => x.Approver2 == userId && x.AppStatus1 == true , includeProperties: "BusinessUnit,Department,JobTitle,Position")
+                 .Select(x => new RequisitionListItems
+                 {
+                     BusinessUnitName = x.BusinessUnit.unitname,
+                     DepartmentName = x.Department.deptname,
+                     Job = x.JobTitle.jobtitlename,
+                     Position = x.Position.positionname,
+                     ReqCode = x.RequisitionCode,
+                     Id = x.id,
+                     RaisedBy = unitOfWork.employees.Get(y => y.userId == x.Approver2).FirstOrDefault().FullName,
+                     Status = x.AppStatus2
+                 });
+                return allRequisition;
+            }
+            return null;
         }
         public bool ApproveRecruitment(int id)
         {
@@ -322,7 +360,7 @@ namespace resourceEdge.webUi.Infrastructure
         }
         public IEnumerable<Interview> AllInterview(int groupId)
         {
-            return unitOfWork.Interview.Get(filter: x=>x.Requisition.GroupId == groupId, includeProperties: "Requisition", orderBy: x => x.OrderBy(y => y.InterviewDate));
+            return unitOfWork.Interview.Get(filter: x => x.Requisition.GroupId == groupId, includeProperties: "Requisition", orderBy: x => x.OrderBy(y => y.InterviewDate));
         }
         public InterviewDropDown GenerateinterviewDropDown()
         {
@@ -368,7 +406,7 @@ namespace resourceEdge.webUi.Infrastructure
         public SelectList CandidatesForInterviewDropDown(int groupId)
         {
             var PendingStatus = unitOfWork.CandidateStatus.Get(filter: x => x.Name == "Pending").FirstOrDefault();
-            var candidate = new SelectList(unitOfWork.Candidate.Get(filter: x =>x.GroupId == groupId && x.Status == null).Select(x => new { name = x.FirstName + "" + x.LastName, Id = x.Id }), "Id", "name", "Id");
+            var candidate = new SelectList(unitOfWork.Candidate.Get(filter: x => x.GroupId == groupId && x.Status == null).Select(x => new { name = x.FirstName + "" + x.LastName, Id = x.Id }), "Id", "name", "Id");
             return candidate;
         }
         public SelectList GetAllInterviews()
@@ -420,7 +458,7 @@ namespace resourceEdge.webUi.Infrastructure
         public AllCandidateInterviewViewModel GetAllCandidateInterview(int groupId)
         {
             AllCandidateInterviewViewModel Candidates = new AllCandidateInterviewViewModel();
-            unitOfWork.CandidateInterview.Get(filter: x => x.Candidate.Status == null, includeProperties: "InterView,Candidate").Where(x=>x.Candidate.GroupId == groupId).ToList().ForEach(x => Candidates.candidates.Add(new CandidateInterviewForDetails { InterviewName = x.InterView.InterviewName, CandidateName = x.Candidate.FirstName + x.Candidate.LastName, Id = x.Candidate.Id }));
+            unitOfWork.CandidateInterview.Get(filter: x => x.Candidate.Status == null, includeProperties: "InterView,Candidate").Where(x => x.Candidate.GroupId == groupId).ToList().ForEach(x => Candidates.candidates.Add(new CandidateInterviewForDetails { InterviewName = x.InterView.InterviewName, CandidateName = x.Candidate.FirstName + x.Candidate.LastName, Id = x.Candidate.Id }));
             var IdsAndResume = CandidateResume();
             Candidates.IdsAndResume = IdsAndResume;
             return Candidates;
@@ -456,7 +494,7 @@ namespace resourceEdge.webUi.Infrastructure
 
         public IEnumerable<CandidateViewModel> GetAllShortlistedCandidates(int groupId)
         {
-            var candidate = unitOfWork.Candidate.Get(filter: x=>x.GroupId == groupId)
+            var candidate = unitOfWork.Candidate.Get(filter: x => x.GroupId == groupId)
                 .Select(x => new CandidateViewModel
                 { FirstName = x.FirstName, LastName = x.LastName, Email = x.Email, PhoneNumber = x.PhoneNumber });
             return candidate;
@@ -509,7 +547,7 @@ namespace resourceEdge.webUi.Infrastructure
             IList<RequisitionListItems> AllApprovedResqusition = new List<RequisitionListItems>();
             IList<RequisitionListItems> AllDeniedResqusition = new List<RequisitionListItems>();
             IList<RequisitionListItems> AllResqusition = new List<RequisitionListItems>();
-            unitOfWork.Requisition.Get(filter:  x =>x.GroupId == groupId && x.AppStatus1 == true && x.AppStatus2 == true, includeProperties: "BusinessUnit,Department,JobTitle,Position").ToList()
+            unitOfWork.Requisition.Get(filter: x => x.GroupId == groupId && x.AppStatus1 == true && x.AppStatus2 == true, includeProperties: "BusinessUnit,Department,JobTitle,Position").ToList()
                 .ForEach(x => AllApprovedResqusition.Add(new RequisitionListItems
                 {
                     BusinessUnitName = x.BusinessUnit.unitname,
@@ -531,7 +569,7 @@ namespace resourceEdge.webUi.Infrastructure
                         Id = x.id,
                         RaisedBy = unitOfWork.employees.Get(y => y.userId == x.Approver2).FirstOrDefault().FullName
                     }));
-            unitOfWork.Requisition.Get(filter:x=> x.GroupId == groupId, includeProperties: "BusinessUnit,Department,JobTitle,Position").ToList()
+            unitOfWork.Requisition.Get(filter: x => x.GroupId == groupId, includeProperties: "BusinessUnit,Department,JobTitle,Position").ToList()
                  .ForEach(x => AllResqusition.Add(new RequisitionListItems
                  {
                      BusinessUnitName = x.BusinessUnit.unitname,
@@ -542,29 +580,29 @@ namespace resourceEdge.webUi.Infrastructure
                      Id = x.id,
                      Status = x.AppStatus1,
                      RaisedBy = unitOfWork.employees.Get(y => y.userId == x.Approver2).FirstOrDefault().FullName
-                     
+
                  }));
             return Tuple.Create(AllApprovedResqusition, AllDeniedResqusition, AllResqusition);
         }
 
         public IEnumerable<CandidateViewModel> AllCandidate(int groupId)
         {
-            var candidate = unitOfWork.Candidate.Get(filter: x=>x.GroupId == groupId)
+            var candidate = unitOfWork.Candidate.Get(filter: x => x.GroupId == groupId)
                 .Select(x => new CandidateViewModel
                 {
                     FirstName = x.FirstName,
                     LastName = x.LastName,
                     Email = x.Email,
                     Status = x.Status,
-                     PhoneNumber = x.PhoneNumber
+                    PhoneNumber = x.PhoneNumber
                 });
             return candidate;
         }
         public IEnumerable<CandidateViewModel> GetSelectedCandidate(int groupId)
         {
-            var candidate = unitOfWork.Candidate.Get(filter: x=>x.GroupId == groupId && x.Status ==true)
+            var candidate = unitOfWork.Candidate.Get(filter: x => x.GroupId == groupId && x.Status == true)
                     .Select(x => new CandidateViewModel
-                    {      
+                    {
                         FirstName = x.FirstName,
                         LastName = x.LastName,
                         Email = x.Email,
