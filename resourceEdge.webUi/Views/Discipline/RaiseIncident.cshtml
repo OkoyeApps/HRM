@@ -105,7 +105,7 @@
         <div class="col-md-3">
             <div class="form-group">
                 @Html.LabelFor(model => model.ConsequenceId, htmlAttributes: new { @class = "control-label " })
-                @Html.DropDownListFor(model => model.ConsequenceId, Model.Consequences, "Select Corrective Measure", htmlAttributes: new { @class = "form-control", required = "" })
+                @Html.DropDownListFor(model => model.CorrectiveAction, Model.Consequences, "Select Corrective Measure", htmlAttributes: new { @class = "form-control", required = "" })
                 @Html.ValidationMessageFor(model => model.ConsequenceId, "", new { @class = "text-danger" })
             </div>
         </div>

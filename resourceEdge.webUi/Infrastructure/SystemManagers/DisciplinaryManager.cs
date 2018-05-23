@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using resourceEdge.Domain.Entities;
 using resourceEdge.Domain.Infrastructures;
 using resourceEdge.Domain.UnitofWork;
+using resourceEdge.webUi.Models;
 using resourceEdge.webUi.Models.SystemModel;
 using System;
 using System.Collections.Generic;
@@ -159,8 +160,9 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
         {
             if (Id == null)
             {
-                if (model.BusinessUnit > 0 && model.ConsequenceId > 0 && model.ViolationId > 0)
+                if (model.BusinessUnit > 0 && model.CorrectiveAction > 0 && model.ViolationId > 0)
                 {
+                    var userDetails = (SessionModel)HttpContext.Current.Session["_ResourceEdgeTeneceIdentity"];
                     var incident = new DisciplinaryIncident
                     {
                         BusinessUnitId = model.BusinessUnit,
@@ -178,7 +180,9 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
                         EmployeeName = model.EmployeeName,
                         DepartmentId = model.Department,
                         EmployeeAppeal = (int)model.EmployeeAppeal,
-                        IsActive = true
+                        IsActive = true, 
+                         GroupId = userDetails.GroupId,
+                          LocationId = userDetails.LocationId
                     };
                     unitofWork.Discipline.Insert(incident);
                     unitofWork.Save();
