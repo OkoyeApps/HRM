@@ -6,10 +6,9 @@
 }
 @section css{
     <style>
-        #modal:hover {
-            text-decoration: underline;
-            cursor: pointer;
-        }
+       textarea {
+        resize: none;
+    }
     </style>
 }
 @using (Html.BeginForm("EditInterview", "Recruitment", FormMethod.Post))
@@ -97,20 +96,16 @@
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-4">
-                <input type="submit" value="Save" class="btn btn-default" />
+            <div class="col-md-12" style="clear:both;">
+                <input type="submit" value="Save" class="btn btn-success pull-left"  />
+                @Html.ActionLink("Back to List", "Index", "", null, new { @class = "btn btn-info pull-right" })
             </div>
         </div>
 }
-<table class="table table-responsive table-bordered table-hover">
-    <tr>
-        <td>
-            <div>
-                @Html.ActionLink("Back to List", "Index", "", null, new { @class = "btn btn-info pull-right" })
+
+            <div style="clear:both;">
+             
             </div>
-        </td>
-    </tr>
-</table>
 
 
 @section Scripts {

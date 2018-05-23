@@ -181,7 +181,7 @@ namespace resourceEdge.webUi.Controllers
             if (File != null)
             {
                 var fileDetails = new FileInfo(File.FileName);
-                if (!fileDetails.Extension.Contains(".pdf") || !fileDetails.Extension.Contains(".doc") || !fileDetails.Extension.Contains(".docx"))
+                if (!fileDetails.Extension.Contains(".pdf") && !fileDetails.Extension.Contains(".doc") && !fileDetails.Extension.Contains(".docx"))
                 {
                     this.AddNotification("Sorry Only files with extensions of .Pdf or Doc are allowed", NotificationType.ERROR);
                     return RedirectToAction("AddCandidate");
@@ -235,6 +235,11 @@ namespace resourceEdge.webUi.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult AddInterview(InterviewViewModel model)
         {
+            if (model.InterviewDate <= DateTime.Now)
+            {
+                this.AddNotification("Please interview date must be greater than Today", NotificationType.ERROR);
+                return RedirectToAction("AddInterview");
+            }
             var result = RecruitmentManager.AddorUpdateInterView(model);
             if (result)
             {
@@ -268,11 +273,25 @@ namespace resourceEdge.webUi.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult EditInterview(InterviewViewModel model )
         {
+            if (true)
+            {
+
+            }
+            if (model.InterviewDate <= DateTime.Now && !Request.UrlReferrer.AbsolutePath.ToLower().Contains("addfeedback"))
+            {
+                this.AddNotification("Please interview date must be greater than Today", NotificationType.ERROR);
+                return RedirectToAction("EditInterview", new { id = model.Id });
+            }
             var result = RecruitmentManager.AddorUpdateInterView(model, model.Id);
             if (result)
             {
                 this.AddNotification("Yay! Interview Updated", NotificationType.SUCCESS);
                 return RedirectToAction("AllInterview");
+            }
+            if (Request.UrlReferrer.AbsolutePath.ToLower().Contains("addfeedback"))
+            {
+                this.AddNotification("Oops! something went wrong and feedback could not be added, Please try again later and if it persist please contact your system administrator", NotificationType.ERROR);
+                return RedirectToAction("AddFeedBack", new { id = model.Id });
             }
             this.AddNotification("Oops! something went wrong, Please try again later", NotificationType.ERROR);
             return RedirectToAction("EditInterview", new { id = model.Id });

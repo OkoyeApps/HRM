@@ -16,13 +16,13 @@
     <div class ="col-md-4">
         <div class ="form-group">
             <label class ="control-label " for="Qualification">Qualification</label>
-            <input class ="form-control text-box single-line" id="Qualification" name="Qualification" type="text" value="" required="">
+            <text class ="form-control text-box single-line" id="Qualification" name="Qualification" type="text" value="" required="">
         </div>
     </div>
     <div class ="col-md-4">
         <div class ="form-group">
             <label class ="control-label " for="Experience">Experience</label>
-            <input class ="form-control text-box single-line" id="Experience" name="Experience" type="number" value="" required="">
+            <input class ="form-control text-box single-line" id="Experience" name="Experience" type="number" value="" required="" data-parsley-min="0">
         </div>
     </div>
   
@@ -89,20 +89,20 @@
     </div>
     <div class ="col-md-4">
         <div class ="form-group">
-            <label class ="control-label " for="CandidateWork_CompanyPhoneNumber"> PhoneNumber</label>
+            <label class ="control-label " for="CandidateWork_CompanyPhoneNumber"> Phone Number</label>
             <input class ="form-control text-box single-line" id="CandidateWork_CompanyPhoneNumber" name="CandidateWork.CompanyPhoneNumber"
-                type="text" value="">
+                type="text" value="" data-parsley-pattern = "^\+?[1-9]\d{1,14}$" data-required-message = "Please phone number seems to be invalid">
         </div>
     </div>
     <div class ="col-md-4">
         <div class ="form-group">
-            <label class ="control-label " for="CandidateWork_CompanyWebsite">CompanyWebsite</label>
+            <label class ="control-label " for="CandidateWork_CompanyWebsite">Company Website</label>
             <input class ="form-control text-box single-line" id="CandidateWork_CompanyWebsite" name="CandidateWork.CompanyWebsite" type="text" value="">
         </div>
     </div>
     <div class ="col-md-4">
         <div class ="form-group">
-            <label class ="control-label " for="CandidateWork_CompanyAddress">CompanyAddress</label>
+            <label class ="control-label " for="CandidateWork_CompanyAddress">Company Address</label>
             <input class ="form-control text-box single-line" id="CandidateWork_CompanyAddress" name="CandidateWork.CompanyAddress" type="text" value="">
         </div>
     </div>
@@ -112,9 +112,10 @@
          <div style="clear:both">
                 <div class ="col-md-10">
            <div class ="form-group">
-                <label class ="control-label col-md-2 " for="CandidateWork_CompanyAddress">CompanyAddress</label>
+                <label class ="control-label " for="CandidateWork_CompanyAddress">Resume</label>
                     <input class ="form-control text-box single-line col-md-4" id="Resume" name="File" type="file" value="" required = "" accept=".pdf,.doc,.docx">
                 </div>
+            </div>
             </div>
         `
 
@@ -122,7 +123,7 @@
         $("#entryPoint").empty();
         $('#workdetail').empty();
             $('#detail').remove();
-            $('#entryPoint').append(resume);
+            $('#workdetail').append(resume);
            
     })
 

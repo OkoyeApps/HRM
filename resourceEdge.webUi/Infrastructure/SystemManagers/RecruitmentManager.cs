@@ -269,11 +269,16 @@ namespace resourceEdge.webUi.Infrastructure
                     {
                         interview.City = model.City;
                         interview.Country = model.Country;
-                        interview.InterviewDate = model.InterviewDate != null ? model.InterviewDate : interview.InterviewDate;
-                        interview.Interviewer = model.Interviewer;
-                        interview.InterviewTime = model.InterviewTime != null ? newDate.Value : interview.InterviewTime;
+                        interview.InterviewName = model.InterviewName;
+                        interview.LocationId = model.LocationId;             
+                        //interview.Interviewer = model.Interviewer;               
                         interview.InterviewTypeId = model.InterviewTypeId;
                         interview.State = model.State;
+                        if (newDate != null)
+                        {
+                            interview.InterviewDate = model.InterviewDate != null ? model.InterviewDate : interview.InterviewDate;
+                            interview.InterviewTime = model.InterviewTime != null ? newDate.Value : interview.InterviewTime;
+                        }
                     }
                     else
                     {
@@ -546,7 +551,7 @@ namespace resourceEdge.webUi.Infrastructure
         {
             IList<RequisitionListItems> AllApprovedResqusition = new List<RequisitionListItems>();
             IList<RequisitionListItems> AllDeniedResqusition = new List<RequisitionListItems>();
-            IList<RequisitionListItems> AllResqusition = new List<RequisitionListItems>();
+            IList<RequisitionListItems> AllRequisition = new List<RequisitionListItems>();
             unitOfWork.Requisition.Get(filter: x => x.GroupId == groupId && x.AppStatus1 == true && x.AppStatus2 == true, includeProperties: "BusinessUnit,Department,JobTitle,Position").ToList()
                 .ForEach(x => AllApprovedResqusition.Add(new RequisitionListItems
                 {
@@ -558,7 +563,7 @@ namespace resourceEdge.webUi.Infrastructure
                     Id = x.id,
                     RaisedBy = unitOfWork.employees.Get(y => y.userId == x.Approver2).FirstOrDefault().FullName
                 }));
-            unitOfWork.Requisition.Get(filter: x => x.GroupId == groupId && x.AppStatus1 == false, includeProperties: "BusinessUnit,Department,JobTitle,Position").ToList()
+            unitOfWork.Requisition.Get(filter: x => x.GroupId == groupId && (x.AppStatus1 == false || x.AppStatus2 ==false), includeProperties: "BusinessUnit,Department,JobTitle,Position").ToList()
                     .ForEach(x => AllDeniedResqusition.Add(new RequisitionListItems
                     {
                         BusinessUnitName = x.BusinessUnit.unitname,
@@ -570,7 +575,7 @@ namespace resourceEdge.webUi.Infrastructure
                         RaisedBy = unitOfWork.employees.Get(y => y.userId == x.Approver2).FirstOrDefault().FullName
                     }));
             unitOfWork.Requisition.Get(filter: x => x.GroupId == groupId, includeProperties: "BusinessUnit,Department,JobTitle,Position").ToList()
-                 .ForEach(x => AllResqusition.Add(new RequisitionListItems
+                 .ForEach(x => AllRequisition.Add(new RequisitionListItems
                  {
                      BusinessUnitName = x.BusinessUnit.unitname,
                      DepartmentName = x.Department.deptname,
@@ -582,7 +587,7 @@ namespace resourceEdge.webUi.Infrastructure
                      RaisedBy = unitOfWork.employees.Get(y => y.userId == x.Approver2).FirstOrDefault().FullName
 
                  }));
-            return Tuple.Create(AllApprovedResqusition, AllDeniedResqusition, AllResqusition);
+            return Tuple.Create(AllApprovedResqusition, AllDeniedResqusition, AllRequisition);
         }
 
         public IEnumerable<CandidateViewModel> AllCandidate(int groupId)

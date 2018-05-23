@@ -3,17 +3,16 @@
 @{
     ViewBag.Title = "EditInterview";
     Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
-
+    var aa = Model.InterviewTime;
 }
 @section css{
     <style>
-        #modal:hover {
-            text-decoration: underline;
-            cursor: pointer;
-        }
+    textarea {
+        resize: none;
+    }
     </style>
 }
-@using (Html.BeginForm())
+@using (Html.BeginForm("EditInterview", "Recruitment", null, FormMethod.Post, new { data_parsley_validate = "", id="frmedit" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -21,105 +20,129 @@
 
     <div class="col-md-4">
         <div class="form-group">
-            @Html.LabelFor(model => model.InterviewName, htmlAttributes: new { @class = "control-label " })
-            @Html.EditorFor(model => model.InterviewName, new { htmlAttributes = new { @class = "form-control" } })
+
+            <label class="control-label">Interview Name <b style="color:red;">*</b></label>
+            @Html.EditorFor(model => model.InterviewName, new { htmlAttributes = new { @class = "form-control",required = "" } })
             @Html.ValidationMessageFor(model => model.InterviewName, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="col-md-4">
         <div class="form-group">
-            @Html.LabelFor(model => model.LocationId, htmlAttributes: new { @class = "control-label " })
-            @Html.DropDownListFor(model => model.LocationId, Model.Location, htmlAttributes: new { @class = "form-control" })
+
+            <label class="control-label">Location <b style="color:red;">*</b></label>
+            @Html.DropDownListFor(model => model.LocationId, Model.Location, htmlAttributes: new { @class = "form-control", required = "" })
             @Html.ValidationMessageFor(model => model.LocationId, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="col-md-4">
         <div class="form-group">
-            @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label " })
-            @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control" } })
+            <label class="control-label">Country <b style="color:red;">*</b></label>
+            @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control", required = "" } })
             @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group">
+            <label class="control-label">State <b style="color:red;">*</b></label>
+            @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control", required = "" } })
+            @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
         </div>
     </div>
 
         <div class="col-md-4">
             <div class="form-group">
-                @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label " })
-                @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="col-md-4">
-            <div class="form-group">
-                @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label " })
-                @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+                <label class="control-label">City <b style="color:red;">*</b></label>
+                @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control", required = "" } })
                 @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="col-md-4">
             <div class="form-group">
-                @Html.LabelFor(model => model.InterviewTypeId, htmlAttributes: new { @class = "control-label " })
-                @Html.DropDownListFor(model => model.InterviewTypeId, Model.InterviewType, htmlAttributes: new { @class = "form-control" })
+
+                <label class="control-label">Interview Type <b style="color:red;">*</b></label>
+                @Html.DropDownListFor(model => model.InterviewTypeId, Model.InterviewType, htmlAttributes: new { @class = "form-control", required = "" })
                 @Html.ValidationMessageFor(model => model.InterviewTypeId, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="col-md-4">
             <div class="form-group">
-                @Html.LabelFor(model => model.InterviewStatusId, htmlAttributes: new { @class = "control-label " })
-                @Html.DropDownListFor(model => model.InterviewStatusId, Model.InterviewStatus, htmlAttributes: new { @class = "form-control" })
+
+                <label class="control-label">Status <b style="color:red;">*</b></label>
+                @Html.DropDownListFor(model => model.InterviewStatusId, Model.InterviewStatus, htmlAttributes: new { @class = "form-control", @readonly = "readonly",required = "" })
                 @Html.ValidationMessageFor(model => model.InterviewStatusId, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="col-md-4">
             <div class="form-group">
-                @Html.LabelFor(model => model.InterviewDate, htmlAttributes: new { @class = "control-label " })
-                @Html.EditorFor(model => model.InterviewDate, new { htmlAttributes = new { @class = "form-control", type = "date" } })
-                @*<input name="InterviewDate" value="@Model.InterviewTime" class="form-control" type="date" />*@
-                @Html.ValidationMessageFor(model => model.InterviewDate, "", new { @class = "text-danger" })
+
+                <label class="control-label">Interview Date <b style="color:red;">*</b></label>
+                @Html.EditorFor(model => model.InterviewDate, new { htmlAttributes = new { @class = "form-control", id = "interviewdate" } })
+                <div id="prevDate" style="color:blue;text-align:center;"></div>
             </div>
         </div>
 
         <div class="col-md-4">
             <div class="form-group">
-                @Html.LabelFor(model => model.InterviewTime, htmlAttributes: new { @class = "control-label " })
-                @Html.EditorFor(model => model.InterviewTime, new { htmlAttributes = new { @class = "form-control", type="time" } })
-              @*  <input name="InterviewTime" value="@Model.InterviewTime" class="form-control" type="time" />*@
-                @Html.ValidationMessageFor(model => model.InterviewTime, "", new { @class = "text-danger" })
+                @*@Html.Label("Interview Time (optional)", htmlAttributes: new { @class = "control-label " })*@
+                <label class="control-label">Interview Time <b style="color:red;">(optional)</b></label>
+                @Html.EditorFor(model => model.InterviewTime, new { htmlAttributes = new { @class = "form-control", type = "time" } })
+                <div id="prevTime" style="color:blue;text-align:center;"></div>
             </div>
         </div>
 
-        <div class="pull-right">
-                <button type="submit" class="btn btn-success">Update!</button>
+        <div class="pull-right" style="clear:both;">
+            <button type="submit" class="btn btn-success" id="submit">Update!</button>
             <br />
         </div>
 }
-<table class="table table-responsive table-hover" style="clear:both;">
-    <tr>
-        <td>
-            <div>
-                @Html.ActionLink("Back to List", "Index", "", null, new { @class = "btn btn-info pull-right" })
-            </div>
-        </td>
-    </tr>
-</table>
+
+                <div style="clear:both;">
+                    @Html.ActionLink("Back to List", "AllInterview", "Recruitment", null, new { @class = "btn btn-info pull-left" })
+                    <div id="time" style="color:blue;text-align:center;" class="hidden">@aa.ToString()</div>
+                </div>
 
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-<script>
+    <script>
+    window.onload =
+    function() {
+        var interviewDate = $('#interviewdate').val();
+        $('#interviewdate').removeAttr("data-val-required");
+        $('#interviewdate').removeAttr("data-val-date");
+        $('#interviewdate').removeAttr("data-val");
+        $('#interviewdate').removeClass("input-validation-error");
+        console.log(interviewDate);
+        var realDate = interviewDate.substr(0, 10);
+        //var splitedDate = realDate.split('/');
+        //console.log(splitedDate);
+        //console.log(splitedDate[1]);
+        //var date = new Date(realDate)
+        //console.log(date);
 
-       // var yes = window.location.href.substring(0,(window.location.href.length -1));
-        //var url = window.location.href;
-        //if (url.indexOf('/Recruitment/AddFeedBack/') === -1) {
-        //    $('.form-control input[type ="text"]').prop('readonly', true);
-        //    //$('input[type="text"]').prop('readonly', true);
-        //    console.log(true);
-        //}
-        //console.log(yes);
+        $('#interviewdate').val(realDate);
+        $('#interviewdate').attr("type", "date");
+
+        $('#prevDate')[0].innerHTML ="Previous Date: " + "<b style='color:red'>"+ realDate + "</b>"  + " If unchanged please select same date";
+        //window.onLoad = EditInterviewDate();
+        var time = $('#time')[0].innerText;
+        $('#prevTime')[0].innerHTML = `Previous Time:<b style='color:red'> ${time} </b> If unchanged please leave empty`;
+        console.log($('#maindate'));
+    }
+    $('#frmedit').on('submit', function () {
+        $('#interviewdate').removeAttr("data-val-required");
+        $('#interviewdate').removeAttr("data-val-date");
+        $('#interviewdate').removeAttr("data-val");
+        $('#interviewdate').removeClass("input-validation-error");
+
+    })
+    //Remember to make the Time and date bold and red
     </script>
 }
