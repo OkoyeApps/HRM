@@ -4,7 +4,7 @@
     ViewBag.Title = "AddInterview";
     Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
     var dropDown = (InterviewDropDown)ViewBag.dropDown;
-    var date = Model.InterviewDate;
+   
 }
 
 @using (Html.BeginForm("AddInterview", "Recruitment",null,FormMethod.Post, new { data_parsley_validate = "" }))

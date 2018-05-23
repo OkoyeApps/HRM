@@ -1503,6 +1503,7 @@
     <Content Include="Views\Discipline\EditIncident.cshtml" />
     <Content Include="Views\Asset\AssetDetail.cshtml" />
     <Content Include="Views\Recruitment\AllRequisition.cshtml" />
+    <Content Include="Views\Discipline\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

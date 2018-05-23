@@ -185,6 +185,10 @@ namespace resourceEdge.webUi.Controllers
         {
            
             var result = disciplineManager.GetIncidentById(id);
+            if (result.ExpiryDate > DateTime.Now)
+            {
+                return View("Error");
+            }
             if (result != null)
             {
                 ViewBag.pageTitle = "Disciplinary Response";

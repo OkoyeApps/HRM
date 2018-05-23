@@ -410,7 +410,7 @@ namespace resourceEdge.webUi.Infrastructure
 
         public SelectList CandidatesForInterviewDropDown(int groupId)
         {
-            var PendingStatus = unitOfWork.CandidateStatus.Get(filter: x => x.Name == "Pending").FirstOrDefault();
+            //var PendingStatus = unitOfWork.CandidateStatus.Get(filter: x => x.Name == "Pending").FirstOrDefault();
             var candidate = new SelectList(unitOfWork.Candidate.Get(filter: x => x.GroupId == groupId && x.Status == null).Select(x => new { name = x.FirstName + "" + x.LastName, Id = x.Id }), "Id", "name", "Id");
             return candidate;
         }

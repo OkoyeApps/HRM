@@ -263,7 +263,7 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
                     ReportManager = x.ReportingManager,
                     Date = x.ExpiryDate.Date.ToShortDateString(),
                     Status = x.IsActive,
-                    Response = x.EmployeeName,
+                    Response = x.EmployeeStatement,
                     Appeal = x.EmployeeAppeal,
                     ExpiryDate = x.ExpiryDate
                 }).ToList();

@@ -273,10 +273,7 @@ namespace resourceEdge.webUi.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult EditInterview(InterviewViewModel model )
         {
-            if (true)
-            {
 
-            }
             if (model.InterviewDate <= DateTime.Now && !Request.UrlReferrer.AbsolutePath.ToLower().Contains("addfeedback"))
             {
                 this.AddNotification("Please interview date must be greater than Today", NotificationType.ERROR);

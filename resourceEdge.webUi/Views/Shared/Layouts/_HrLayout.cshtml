@@ -383,7 +383,9 @@
                             <li>
                                 @Html.ActionLink("Request Leave", "RequestLeave", "SelfService", null, new { @class = "nav-link  title" })
                             </li>
-                         
+                            <li>
+                                @Html.ActionLink("My Incident(s)", "MyIncident", "SelfService", null, new { @class = "nav-link  title" })
+                            </li>
                            
                           
                         </ul>
@@ -521,7 +523,28 @@
                         </ul>
                     </li>
                         }
-
+@if (User.IsInRole("HR") || User.IsInRole("System Admin"))
+{
+                    <li class="has-sub">
+                        <a href="javascript:;">
+                            <b class="caret pull-right"></b>
+                            <i class="fa fa-laptop"></i>
+                            <span>Disciplinary manager</span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li class="has-sub">
+                                <a href="javascript:;"><b class="caret pull-right"></b>Configuration</a>
+                                <ul class="sub-menu">
+                                    <li>@Html.ActionLink("All Violation(s)", "allViolation", "Discipline", null, new { @class = "nav-link  title" })</li>
+                                    <li>@Html.ActionLink("All Consequence(s)", "allConsequence", "Discipline", null, new { @class = "nav-link  title" })</li>
+                                </ul>
+                            </li>
+                         
+                                <li>@Html.ActionLink("All Incident", "AllIncident", "Discipline", null, new { @class = "nav-link  title" })</li>
+                                @*<li>@Html.ActionLink("All Category", "AllAssetCategory", "Asset", null, new { @class = "nav-link  title" })</li>*@
+                        </ul>
+                    </li>
+                            }
                     @*<li class="has-sub active">
                         <a href="javascript:;">
                         <b class="caret pull-right"></b>

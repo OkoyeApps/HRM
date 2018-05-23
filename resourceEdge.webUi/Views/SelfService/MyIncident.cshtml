@@ -42,11 +42,15 @@
                             <td>
                                 <table class="pull-right">
                                     <tr>
-                                        @if ((item.Appeal == 1 && string.IsNullOrEmpty(item.Response)) || item.ExpiryDate.Date <= DateTime.Now.Date)
+                                        @if (item.Appeal == 1 && item.ExpiryDate.Date <= DateTime.Now.Date)
                                         {
                                             <td>@Html.ActionLink("Appeal", "EditIncident", "Discipline", new { id = item.ID }, new { @class = "btn btn-warning pull-right" })</td>
                                         }
-                                        @if (!string.IsNullOrEmpty(item.Response))
+                                        @if (item.Appeal == 1 && item.ExpiryDate.Date > DateTime.Now.Date)
+                                        {
+                                            <td><span class="label label-danger">Appeal Time Exceeded</span></td>
+                                        }
+                                        @if (item.Appeal == 2)
                                         {
                                             <td><span class="label label-danger">No Appeal</span></td>
                                         }
