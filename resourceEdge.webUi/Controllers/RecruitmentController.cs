@@ -402,5 +402,15 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.PageTitle = "All Requisition";
             return View(result);
         }
+
+        public JsonResult ActivateCandidate(int id)
+        {
+            var result = RecruitmentManager.ActivateCandidate(id);
+            if (result)
+            {
+                return Json(new {message = "success" }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { message = "failure" }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

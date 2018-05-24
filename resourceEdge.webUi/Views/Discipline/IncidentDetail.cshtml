@@ -1,81 +1,84 @@
 ﻿@model resourceEdge.webUi.Models.SystemModel.DisciplineListItem
 
-@{
+@*@{
     ViewBag.Title = "IncidentDetail";
     Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
-}
+}*@
 
 
 <div>
-    <style>
+   <style>
         dl dd {
-            position:relative;top:11px;
+            position:relative;
         }
-        h5 {
+        b {
             font-weight: bold;
+        }
+        .dt-format{
+            text-align:left;
         }
 
     </style>
 
     <dl class="dl-horizontal">
-        <dt>
-            <h5>@Html.DisplayNameFor(model => model.CorrectiveAction)</h5>
+        <dt class="dt-format" style="text-align:left">
+            <b>Corrective Action</b>
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.CorrectiveAction)
         </dd>
         <hr />
-        <dt>
-            <h5>@Html.DisplayNameFor(model => model.violation)</h5>
+        <dt class="dt-format" style="text-align:left">
+            <b>Violation</b>
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.violation)
         </dd>
         <hr />
-        <dt>
-            <h5>@Html.DisplayNameFor(model => model.Unit)</h5>
+        <dt class="dt-format" style="text-align:left">
+            <b>@Html.DisplayNameFor(model => model.Unit)</b>
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Unit)
         </dd>
         <hr />
-        <dt>
-            <h5>@Html.DisplayNameFor(model => model.Department)</h5>
+        <dt class="dt-format" style="text-align:left">
+            <b>@Html.DisplayNameFor(model => model.Department)</b>
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Department)
         </dd>
         <hr />
-        <dt>
-            <h5>@Html.DisplayNameFor(model => model.FullName)</h5>
+        <dt class="dt-format" style="text-align:left">
+            <b>Full name</b>
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.FullName)
         </dd>
         <hr />
-        <dt>
-            <h5>@Html.DisplayNameFor(model => model.ReportManager)</h5>
+        <dt class="dt-format" style="text-align:left">
+            <b>Report manager</b>
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.ReportManager)
         </dd>
         <hr />
-        <dt>
-            <h5>@Html.DisplayNameFor(model => model.Date)</h5>
+        <dt class="dt-format" style="text-align:left">
+            <b>@Html.DisplayNameFor(model => model.Date)</b>
         </dt>
 
         <dd>
           @Model.Date
         </dd>
         <hr />
-        <dt>
-            <h5>@Html.DisplayNameFor(model => model.Response)</h5>
+        <dt class="dt-format" style="text-align:left">
+            <b>@Html.DisplayNameFor(model => model.Response)</b>
         </dt>
         @if (string.IsNullOrEmpty(Model.Response)){
             <dd>
@@ -88,10 +91,6 @@
                 @Model.Response
             </dd>
         }
-      
-
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Back to List", "AllIncident", "discipline",null, new {@class = "btn btn-info pull-right" })
-</p>
+

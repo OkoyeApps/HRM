@@ -599,7 +599,8 @@ namespace resourceEdge.webUi.Infrastructure
                     LastName = x.LastName,
                     Email = x.Email,
                     Status = x.Status,
-                    PhoneNumber = x.PhoneNumber
+                    PhoneNumber = x.PhoneNumber,
+                     Id = x.Id
                 });
             return candidate;
         }
@@ -620,6 +621,18 @@ namespace resourceEdge.webUi.Infrastructure
         {
             var candidate = unitOfWork.CandidateWorkDetail.Get(filter: x => x.CandidateId == id, includeProperties: "Candidate").FirstOrDefault();
             return candidate;
+        }
+        public bool ActivateCandidate(int id)
+        {
+            var candidate = unitOfWork.Candidate.GetByID(id);
+            if (candidate != null && candidate.Status == false)
+            {
+                candidate.Status = null;
+                unitOfWork.Candidate.Update(candidate);
+                unitOfWork.Save();
+                return true;
+            }
+            return false;
         }
     }
 }

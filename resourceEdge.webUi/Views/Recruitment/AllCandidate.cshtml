@@ -44,18 +44,33 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.PhoneNumber)
                         </td>
-                        @if (item.Status != null)
+                        @if (item.Status == true)
                         {
                             <td><span class="label label-success">Accepted</span></td>
                         }
                         @if (item.Status == false)
                         {
                             <td><span class="label label-danger">Rejected</span></td>
+                            AjaxOptions option = new AjaxOptions()
+                            {
+                                HttpMethod = "Post",
+                                InsertionMode = InsertionMode.ReplaceWith,
+                                Url = Url.Action("ActivateCandidate", "recruitment", new { id = item.Id }),
+                                OnSuccess = "OnSuccess",
+                                OnFailure = "OnFailure"
+                            };
+                            <td>
+                                @using (Ajax.BeginForm("ActivateCandidate", new { id = item.Id }, option))
+                                {
+                                    <button class="btn btn-success">Activate</button>
+                                }
+                            </td>
                         }
                         @if (item.Status == null)
                         {
                             <td><span class="label label-warning">Still Waiting</span></td>
                         }
+               
                     </tr>
                 }
 
@@ -64,3 +79,16 @@
         </td>
     </tr>
 </table>
+<script>
+    function OnSuccess(data) {
+        if (data == "success") {
+            alert("Candidate re-activated successfully");
+        }
+        else {
+            alert("Failed to re-activate candidate, please try again later");
+        }
+    }
+    function OnFailure(request, error) {
+        alert("Failed to re-activate candidate, this could be as a result of poor network, please try again later");
+    }
+</script>

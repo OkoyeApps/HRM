@@ -177,7 +177,7 @@ namespace resourceEdge.webUi.Controllers
             var result = disciplineManager.IncidentDetail(userDetails.GroupId, userDetails.LocationId, id);
             if (result != null)
             {
-                return View(result);
+                return PartialView(result);
             }
             return new HttpStatusCodeResult(HttpStatusCode.NotFound);
         }

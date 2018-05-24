@@ -3,7 +3,17 @@
     ViewBag.Title = "allViolation";
     Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
 }
-
+@section Css{
+    <style>
+        #modaldia {
+            width:500px;
+            margin: auto;
+            /*vertical-align: middle;*/
+            margin-top: 50px;
+            /*height: 40%;*/
+        }
+    </style>
+}
 
 
 <div class="table-responsive">
@@ -58,19 +68,33 @@
                                    <span class="label label-info">Waiting for response</span>
                                 }
                             </td>
-                            <td>
-                                <table class="pull-right">
+                            <td class="">
+                                <table class="">
                                     <tr>
                                         <td class="pull-left">
-                                            @Html.ActionLink("View", "incidentDetail", "Discipline", new { id = item.ID }, new { @class = "btn btn-warning pull-left" })
-                                        </td>
-                                        
-                                        <td class="pull-right">
-                                            @using (Html.BeginForm("DeleteIncident", "Discipline", new { Id = item.ID }, FormMethod.Post))
+                                          @*  @Html.ActionLink("View", "incidentDetail", "Discipline", new { id = item.ID }, new { @class = "btn btn-warning pull-left" })*@
+                                            @*<button class="btn btn-"*@
+                                            @*@using (Html.BeginForm("incidentDetail", "Discipline", new { Id = item.ID }, FormMethod.Post))
                                             {
                                                 @Html.AntiForgeryToken()
-                                                <button type="submit" class="btn btn-danger pull-right" onclick="return ConfirmDelete()">Delete</button>
-                                            }
+                                                <button type="submit" class="btn btn-info" onclick="return GetIncidentDetail()">View</button>
+                                            }*@
+                                            <button type="submit" class="btn btn-info" onclick="return GetIncidentDetail(@item.ID)">View</button>
+                                        </td>
+                                        
+                                        <td class="">
+                                            <table>
+                                                <tr>
+                                                    <td class="pull-right">
+                                                        @using (Html.BeginForm("DeleteIncident", "Discipline", new { Id = item.ID }, FormMethod.Post))
+                                                        {
+                                                            @Html.AntiForgeryToken()
+                                                            <button type="submit" class="btn btn-danger " onclick="return ConfirmDelete()">Delete</button>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                          
                                         </td>
                                     </tr>
                                     <tr></tr>
@@ -85,6 +109,26 @@
         </tr>
     </table>
 </div>
+<div class="table-responsive">
+
+    <div class="modal" id="modal-without-animation" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg" id="modaldia">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Incident Detail</h4>
+                </div>
+                <div class="modal-body" id="mBody">
+
+                </div>
+                <div class="modal-footer">
+                    <a href="javascript:;" class="btn btn-sm btn-white" data-dismiss="modal">Close</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
 @section Scripts{
 <script>
         function ConfirmDelete() {
@@ -96,5 +140,44 @@
             }
             return false;
         }
+
+        function GetIncidentDetail(id) {
+            console.log("Method entered");
+            $.ajax({
+                type: 'GET',
+                url: '/Discipline/incidentDetail/' + id,
+                contentType: "application/html; charset=utf-8",
+                //dataType: "json",
+                success: function (data) {
+                    console.log('in the GetempLeaveAmount method');
+                    console.log(data);
+                    if (data != null) {
+                        //console.log(data.asset.ImageUrl)
+                        $('#img').empty();
+                        $('#mBody').html(data
+                            )
+                        $('#modal-without-animation').modal('show');
+                    } else {
+                        //$('#AvailableLeave').html("No leave for you yet.")
+                        //$('#AvailableLeave').val("No leave for you yet");
+                        $('#btnSubmit').prop('disabled', true);
+                        //write the jquery to check agaist JQHxr
+                    }
+                },
+                failure: function () {
+                    var message = {
+                        message: "Failed to load data... Try again later"
+                    };
+                    $('#AvailableLeave').val('No Leave found');
+                }
+            })
+        };
+
+        $('#detail').on('click', function () {
+            var id = $('.detail').attr('data-Id');
+            console.log(id);
+            //GetAssetDetail($('#item')[0].innerText);
+            GetAssetDetail(id);
+        });
 </script>
     }
