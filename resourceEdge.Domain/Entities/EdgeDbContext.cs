@@ -96,8 +96,8 @@ namespace resourceEdge.Domain.Entities
         public DbSet<Violation> Violation { get; set; }
         public DbSet<Consequence> Consequence { get; set; }
         public DbSet<DisciplinaryIncident> Discipline { get; set; }
-
-   }
+        public DbSet<SystemAdmin> SystemAdmin { get; set; }
+    }
     
 }
 

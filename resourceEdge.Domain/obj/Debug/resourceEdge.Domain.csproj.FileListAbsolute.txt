@@ -50,10 +50,11 @@ C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdg
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.Migrations.EdgeDbContext2.UpdatetoDisciplinemodel2.resources
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.Migrations.EdgeDbContext2.UpdatetoDisciplinemodel3.resources
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.Migrations.EdgeDbContext2.UpdatetoDisciplinemodel4.resources
-C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.csproj.GenerateResource.Cache
-C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.dll
-C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.pdb
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.Migrations.EdgeDbContext2.UpdatetoAssetGroupandLocation1.resources
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.Migrations.EdgeDbContext2.Assetserialnumberupdatetostring.resources
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.Migrations.EdgeDbContext2.RequisitionlocationIdadded.resources
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.Migrations.EdgeDbContext2.LocationlocationIdadded.resources
+C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.Migrations.EdgeDbContext2.Systemadminmodeladded.resources
+C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.csproj.GenerateResource.Cache
+C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.dll
+C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.Domain\obj\Debug\resourceEdge.Domain.pdb

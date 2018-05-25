@@ -1,0 +1,51 @@
+﻿@model resourceEdge.Domain.Entities.SystemAdmin
+
+<div>
+    <style>
+        dl dd {
+            position: relative;
+        }
+
+        b {
+            font-weight: bold;
+        }
+
+        .dt-format {
+            text-align: left;
+        }
+    </style>
+    <dl class="dl-horizontal">
+        <dt>
+            Group
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Group.GroupName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Location.State)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Location.State)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+    </dl>
+</div>

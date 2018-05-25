@@ -253,6 +253,7 @@
     <Compile Include="Entities\Requisition.cs" />
     <Compile Include="Entities\RequisitionHistory.cs" />
     <Compile Include="Entities\RequisitionSummary.cs" />
+    <Compile Include="Entities\SystemAdmin.cs" />
     <Compile Include="Entities\Violation.cs" />
     <Compile Include="Entities\WeekDay.cs" />
     <Compile Include="Entities\Week.cs" />
@@ -381,6 +382,10 @@
     <Compile Include="Migrations\EdgeDbContext2\201805220804366_Location locationId added.Designer.cs">
       <DependentUpon>201805220804366_Location locationId added.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201805241902164_System admin model added.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201805241902164_System admin model added.Designer.cs">
+      <DependentUpon>201805241902164_System admin model added.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\EdgeDbContext2\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitofWork\GenericRepository.cs" />
@@ -504,6 +509,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\EdgeDbContext2\201805220804366_Location locationId added.resx">
       <DependentUpon>201805220804366_Location locationId added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805241902164_System admin model added.resx">
+      <DependentUpon>201805241902164_System admin model added.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

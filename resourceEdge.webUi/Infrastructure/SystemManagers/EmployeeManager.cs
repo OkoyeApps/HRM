@@ -320,7 +320,8 @@ namespace resourceEdge.webUi.Infrastructure
                     GroupName = GroupName,
                     FullName = Fullname
                 };
-            mailDispatchRepo.Insert(mail);
+            unitofWork.MailDispatch.Insert(mail);
+                unitofWork.Save();
             return true;
             }catch(Exception ex)
             {

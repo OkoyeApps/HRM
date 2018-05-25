@@ -61,34 +61,45 @@ namespace resourceEdge.webUi.Controllers
             var validDate = ValidateDates(model.FromDate.Value, model.ToDate.Value);
             if (model.LeaveNoOfDays > 0)
             {
-                if (ModelState.IsValid && leaveName != null && validLeave != true && validDate)
+                if (ModelState.IsValid && leaveName != null)
                 {
-                    LeaveRequest leave = new LeaveRequest();
-                    leave.UserId = model.userKey;
-                    leave.RepmangId = model.RepmangId;
-                    leave.NoOfDays = model.LeaveNoOfDays;
-                    leave.ToDate = model.ToDate;
-                    leave.FromDate = model.FromDate;
-                    leave.Reason = model.Reason;
-                    leave.LeavetypeId = model.LeavetypeId;
-                    leave.createdby = User.Identity.GetUserId();
-                    leave.modifiedby = User.Identity.GetUserId();
-                    leave.createddate = DateTime.Now;
-                    leave.modifieddate = DateTime.Now;
-                    leave.isactive = true;
-                    leave.LeaveStatus = null;
-                    leave.GroupId = UserFromSession.GroupId;
-                    leave.LocationId = UserFromSession.LocationId;
-                    leave.LeaveName = leaveName.leavetype;
-                    leave.Availableleave = int.Parse(model.AvailableLeave);
-                    leave.AppliedleavesCount = +model.requestDays + getPreviousAppliedDateNo; //Remember to do this with the modelState to check if leave is finished
-                    leave.requestDaysNo = model.requestDays;
-                    leaveRepo.AddLeaveRequest(leave);
-                    this.AddNotification("", NotificationType.SUCCESS);
-                    return RedirectToAction("Leave", "selfService"); //redirect to employee selservice page for him to see his requests
+                    if (validLeave)
+                    {
+                        if (validDate)
+                        {
+
+                            LeaveRequest leave = new LeaveRequest();
+                            leave.UserId = model.userKey;
+                            leave.RepmangId = model.RepmangId;
+                            leave.NoOfDays = model.LeaveNoOfDays;
+                            leave.ToDate = model.ToDate;
+                            leave.FromDate = model.FromDate;
+                            leave.Reason = model.Reason;
+                            leave.LeavetypeId = model.LeavetypeId;
+                            leave.createdby = User.Identity.GetUserId();
+                            leave.modifiedby = User.Identity.GetUserId();
+                            leave.createddate = DateTime.Now;
+                            leave.modifieddate = DateTime.Now;
+                            leave.isactive = true;
+                            leave.LeaveStatus = null;
+                            leave.GroupId = UserFromSession.GroupId;
+                            leave.LocationId = UserFromSession.LocationId;
+                            leave.LeaveName = leaveName.leavetype;
+                            leave.Availableleave = int.Parse(model.AvailableLeave);
+                            leave.AppliedleavesCount = +model.requestDays + getPreviousAppliedDateNo; //Remember to do this with the modelState to check if leave is finished
+                            leave.requestDaysNo = model.requestDays;
+                            leaveRepo.AddLeaveRequest(leave);
+                            this.AddNotification("Request Submited", NotificationType.SUCCESS);
+                            return RedirectToAction("Leave", "selfService"); //redirect to employee selservice page for him to see his requests
+
+                        }
+                        this.AddNotification("Please your request days is incorrect, please make you are not starting your leave from previous days", NotificationType.WARNING);
+                        return RedirectToAction("RequestLeave");
+                    }
+                    this.AddNotification("Please make sure your leave your leave hasn't been exhausted or you can ask The HR to assign more leave for you", NotificationType.WARNING);
+                    return RedirectToAction("RequestLeave");
                 }
-                this.AddNotification("Something went wrong, Please try again", NotificationType.ERROR);
-                this.AddNotification("Please make sure your leave your leave hasn't been exhausted or you can ask The HR to assign more leave for you.", NotificationType.WARNING);
+                this.AddNotification("Please the system could not recognise the leave you requested, please contact your system admin if it persists", NotificationType.WARNING);
                 return RedirectToAction("RequestLeave");
             }
             this.AddNotification("Oops! please your leave days must be greater than 0", NotificationType.ERROR);

@@ -105,17 +105,17 @@ namespace resourceEdge.webUi.Infrastructure
                 new Jobtitle()
                 {
                     jobtitlename = "TestJob", jobtitlecode = "JobT", jobpayfrequency ="Monthly", jobpaygradecode ="A",jobdescription = "Test Job description",
-                    minexperiencerequired = 2, isactive = true, comments = "Testing Job", GroupId = 1
+                    minexperiencerequired = 2, isactive = true, comments = "Testing Job", GroupId = 1, LocationId = 1
                 },
                    new Jobtitle()
                 {
                     jobtitlename = "TestJob2", jobtitlecode = "JobT", jobpayfrequency ="Monthly", jobpaygradecode ="A",jobdescription = "Test Job description",
-                    minexperiencerequired = 2, isactive = true, comments = "Testing Job",GroupId = 1
+                    minexperiencerequired = 2, isactive = true, comments = "Testing Job",GroupId = 1, LocationId = 1
                 },
                       new Jobtitle()
                 {
                     jobtitlename = "TestJob3", jobtitlecode = "JobT", jobpayfrequency ="Monthly", jobpaygradecode ="A", jobdescription = "Test Job description",
-                    minexperiencerequired = 2, isactive = true, comments = "Testing Job",GroupId = 1
+                    minexperiencerequired = 2, isactive = true, comments = "Testing Job",GroupId = 1, LocationId = 1
                 }
             };
             //foreach (var item in jobs)
@@ -150,7 +150,7 @@ namespace resourceEdge.webUi.Infrastructure
             var levels = new List<Level>()
             {
                 new Level() { LevelName ="Beginner", EligibleYears = 3, GroupId = 1, levelNo = 1, CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
-                new Level() { LevelName ="Professional", EligibleYears = 7, GroupId = 1, levelNo = 8, CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
+                new Level() { LevelName ="Professional", EligibleYears = 7, GroupId = 1, levelNo = 8, CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now}
             };
             foreach (var level in levels)
             {
@@ -177,78 +177,78 @@ namespace resourceEdge.webUi.Infrastructure
             //add the user to role later
             if (result.Succeeded)
             {
-                userManager.AddToRole(appUser.Id, "System Admin");
-                userManager.AddToRole(appUser.Id, "Head HR");
+                userManager.AddToRole(appUser.Id, "Super Admin");
+                //userManager.AddToRole(appUser.Id, "Head HR");
             }
 
-            var TestUser1 = new List<ApplicationUser>()
-            {
-                new ApplicationUser() { Email = "Test1@example.com", UserName = "Test1@example.com" },
-                new ApplicationUser() {Email = "Hr@example.com", UserName = "Hr@example.com" },
-                new ApplicationUser() {Email = "Manager@example.com", UserName = "Manager@example.com" },
-                new ApplicationUser() {Email = "DeptHead@example.com", UserName = "DeptHead@example.com" },
-                new ApplicationUser() {Email = "LocationHead@example.com", UserName = "LocationHead@example.com" }
-            };
-            var Employee = new Employee[]
-            {
-                new Domain.Entities.Employee() { businessunitId = 1, DepartmentId = 2, empEmail = "Test1@example.com",
-                    empRoleId = 4, empStatusId = "Test User", GroupId = 1, LevelId = 1, FullName = "Test User",
-                    positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
-                    jobtitleId = 1, isactive = true   },
-                new Domain.Entities.Employee() { businessunitId = 1, DepartmentId = 2, empEmail = "Hr@example.com",
-                    empRoleId = 3, empStatusId = "Test Hr", GroupId = 1, LevelId = 1,FullName = "Test HR",
-                    positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
-                    jobtitleId = 1, isactive = true   },
-                new Domain.Entities.Employee() { businessunitId = 1, DepartmentId = 2, empEmail = "Manager@example.com",
-                    empRoleId = 2, empStatusId = "Test User", GroupId = 1, LevelId = 1,FullName = "Test Manager",
-                    positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
-                    jobtitleId = 1, isactive = true   },
-                  new Domain.Entities.Employee() { businessunitId = 1, DepartmentId = 2, empEmail = "DeptHead@example.com",
-                    empRoleId = 2, empStatusId = "Test User", GroupId = 1, LevelId = 1,FullName = "Test Dept",
-                    positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
-                    jobtitleId = 1, IsDepthead = true, isactive = true   },
-                      new Domain.Entities.Employee() { businessunitId = 1, DepartmentId = 2, empEmail = "LocationHead@example.com",
-                    empRoleId = 7, empStatusId = "Test location", GroupId = 1, LevelId = 1,FullName = "Test Location Head",
-                    positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
-                    jobtitleId = 1, isactive = true   }
-            };
-            for (int i = 0, j = 0; i < TestUser1.Count; i++,j++)
-            {
-                TestUser1[i].EmployeeId = "Tenece" + i;
-                var result2 = userManager.Create(TestUser1[i], "1234567");
-                if (result.Succeeded)
-                {
-                    if (TestUser1[i].Email.StartsWith("Test"))
-                    {
-                        userManager.AddToRole(TestUser1[i].Id, "Employee");
-                    }
-                    else if (TestUser1[i].Email.StartsWith("Hr"))
-                    {
-                        userManager.AddToRole(TestUser1[i].Id, "HR");
-                        userManager.AddToRole(TestUser1[i].Id, "Head HR");
-                    }
-                    else if (TestUser1[i].Email.StartsWith("Manager"))
-                    {
-                        userManager.AddToRole(TestUser1[i].Id, "Manager");
-                        var manager = new ReportManager() { BusinessUnitId = Employee[i].businessunitId,
-                            DepartmentId = Employee[i].DepartmentId,
-                            employeeId = 3,
-                            FullName = "Test Manager", ManagerUserId = TestUser1[i].Id
-                        };
-                        context.ReportManager.Insert(manager);
-                    }
-                    else if (TestUser1[i].Email.StartsWith("LocationHead"))
-                    {
-                        userManager.AddToRole(TestUser1[i].Id, "Location Head");
-                        var location = context.Locations.GetByID(Employee[i].LocationId);
-                        location.LocationHead1 = TestUser1[i].Id;
-                        context.Locations.Update(location);
-                    }
-                }
-                Employee[i].userId = TestUser1[i].Id;
-                context.GetDbContext().Employee.AddOrUpdate(Employee[j]);
-                context.Save();
-             }
+            //var TestUser1 = new List<ApplicationUser>()
+            //{
+            //    new ApplicationUser() { Email = "Test1@example.com", UserName = "Test1@example.com" },
+            //    new ApplicationUser() {Email = "Hr@example.com", UserName = "Hr@example.com" },
+            //    new ApplicationUser() {Email = "Manager@example.com", UserName = "Manager@example.com" },
+            //    new ApplicationUser() {Email = "DeptHead@example.com", UserName = "DeptHead@example.com" },
+            //    new ApplicationUser() {Email = "LocationHead@example.com", UserName = "LocationHead@example.com" }
+            //};
+            //var Employee = new Employee[]
+            //{
+            //    new Domain.Entities.Employee() { businessunitId = 1, DepartmentId = 2, empEmail = "Test1@example.com",
+            //        empRoleId = 4, empStatusId = "Test User", GroupId = 1, LevelId = 1, FullName = "Test User",
+            //        positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
+            //        jobtitleId = 1, isactive = true   },
+            //    new Domain.Entities.Employee() { businessunitId = 1, DepartmentId = 2, empEmail = "Hr@example.com",
+            //        empRoleId = 3, empStatusId = "Test Hr", GroupId = 1, LevelId = 1,FullName = "Test HR",
+            //        positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
+            //        jobtitleId = 1, isactive = true   },
+            //    new Domain.Entities.Employee() { businessunitId = 1, DepartmentId = 2, empEmail = "Manager@example.com",
+            //        empRoleId = 2, empStatusId = "Test User", GroupId = 1, LevelId = 1,FullName = "Test Manager",
+            //        positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
+            //        jobtitleId = 1, isactive = true   },
+            //      new Domain.Entities.Employee() { businessunitId = 1, DepartmentId = 2, empEmail = "DeptHead@example.com",
+            //        empRoleId = 2, empStatusId = "Test User", GroupId = 1, LevelId = 1,FullName = "Test Dept",
+            //        positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
+            //        jobtitleId = 1, IsDepthead = true, isactive = true   },
+            //          new Domain.Entities.Employee() { businessunitId = 1, DepartmentId = 2, empEmail = "LocationHead@example.com",
+            //        empRoleId = 7, empStatusId = "Test location", GroupId = 1, LevelId = 1,FullName = "Test Location Head",
+            //        positionId = 1,  LocationId = 1, modeofEmployement = Domain.Infrastructures.ModeOfEmployement.Direct,
+            //        jobtitleId = 1, isactive = true   }
+            //};
+            //for (int i = 0, j = 0; i < TestUser1.Count; i++,j++)
+            //{
+            //    TestUser1[i].EmployeeId = "Tenece" + i;
+            //    var result2 = userManager.Create(TestUser1[i], "1234567");
+            //    if (result.Succeeded)
+            //    {
+            //        if (TestUser1[i].Email.StartsWith("Test"))
+            //        {
+            //            userManager.AddToRole(TestUser1[i].Id, "Employee");
+            //        }
+            //        else if (TestUser1[i].Email.StartsWith("Hr"))
+            //        {
+            //            userManager.AddToRole(TestUser1[i].Id, "HR");
+            //            userManager.AddToRole(TestUser1[i].Id, "Head HR");
+            //        }
+            //        else if (TestUser1[i].Email.StartsWith("Manager"))
+            //        {
+            //            userManager.AddToRole(TestUser1[i].Id, "Manager");
+            //            var manager = new ReportManager() { BusinessUnitId = Employee[i].businessunitId,
+            //                DepartmentId = Employee[i].DepartmentId,
+            //                employeeId = 3,
+            //                FullName = "Test Manager", ManagerUserId = TestUser1[i].Id
+            //            };
+            //            context.ReportManager.Insert(manager);
+            //        }
+            //        else if (TestUser1[i].Email.StartsWith("LocationHead"))
+            //        {
+            //            userManager.AddToRole(TestUser1[i].Id, "Location Head");
+            //            var location = context.Locations.GetByID(Employee[i].LocationId);
+            //            location.LocationHead1 = TestUser1[i].Id;
+            //            context.Locations.Update(location);
+            //        }
+            //    }
+            //    Employee[i].userId = TestUser1[i].Id;
+            //    context.GetDbContext().Employee.AddOrUpdate(Employee[j]);
+            //    context.Save();
+            // }
             
             var MonthsList = new List<MonthList>()
             {
@@ -329,7 +329,7 @@ namespace resourceEdge.webUi.Infrastructure
             {
                  new Domain.Entities.AppraisalStatus() { Name = "Open" },
                  new Domain.Entities.AppraisalStatus() { Name = "Closed" },
-                 new Domain.Entities.AppraisalStatus() { Name = "In-Progress" }
+                 new Domain.Entities.AppraisalStatus() { Name = "In-Progress"}
             };
             foreach (var item in AppraisalStatus)
             {

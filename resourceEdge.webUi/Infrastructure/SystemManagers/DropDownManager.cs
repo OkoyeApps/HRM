@@ -72,7 +72,7 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
             IList<IdentityRole> Role = new List<IdentityRole>();
             using (ApplicationDbContext db = new ApplicationDbContext())
             {
-                var allRoles = db.Roles.Where(u => !u.Name.Contains("System Admin") && !u.Name.Contains("HR") && !u.Name.Contains("Head HR") && !u.Name.Contains("Head Of Unit") && !u.Name.Contains("Management") && !u.Name.Contains("Location Head") && !u.Name.Contains("Management") && (!u.Name.Contains("L1") && !u.Name.Contains("L2") && !u.Name.Contains("L3"))).ToList();
+                var allRoles = db.Roles.Where(u => !u.Name.Contains("System Admin")  && !u.Name.Contains("Head Of Unit") && !u.Name.Contains("Management") && !u.Name.Contains("Location Head") && !u.Name.Contains("Management") && (!u.Name.Contains("L1") && !u.Name.Contains("L2") && !u.Name.Contains("L3"))).ToList();
                 allRoles.ForEach(x => Role.Add(x));
             }
             result = new SelectList(Role, "Id", "name", "Id");

@@ -1,5 +1,5 @@
 ﻿@using resourceEdge.webUi.Models
-@{ 
+@{
     var usersessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
 
     var crumbs = (BreadCrumb)Session["_Crumbs"];
@@ -8,7 +8,7 @@
     string controller = "";
     string FullName = "";
     string BusinessUnit = "";
-   var sessionCheck =  (SessionModel)HttpContext.Current.Session["_ResourceEdgeTeneceIdentity"];
+    var sessionCheck = (SessionModel)HttpContext.Current.Session["_ResourceEdgeTeneceIdentity"];
     if (Request.UrlReferrer != null)
     {
         UrlName = Request.UrlReferrer.AbsolutePath.Split('/');
@@ -53,7 +53,7 @@
     <link href="~/Content/jBox.css" rel="stylesheet" />
     <link href="~/assets/AdminTemplate/assets/plugins/parsley/src/parsley.css" rel="stylesheet" />
     @*@Styles.Render("~/asset/BaseCss")
-    @Scripts.Render("~/asset/HeadJs")*@
+        @Scripts.Render("~/asset/HeadJs")*@
     <script src="~/assets/AdminTemplate/assets/plugins/pace/pace.min.js"></script>
     <script src="~/Scripts/jquery-3.2.1.js"></script>
     <script src="~/Scripts/jBox.min.js"></script>
@@ -319,100 +319,104 @@
                 <!-- begin sidebar nav -->
                 <ul class="nav">
                     <li class="nav-header">Navigation</li>
-@if (User.IsInRole("HR"))
-{
-                    <li class="has-sub">
-                        <a href="javascript:;">
-                            <b class="caret pull-right"></b>
-                            <i class="fa fa-laptop"></i>
-                            <span>Employee Configuration</span>
-                        </a>
-                        <ul class="sub-menu">
-                            <li>
-                                @Html.ActionLink("Add Employee", "Create", "HR", null, new { @class = "nav-link  title" })
-                            </li>
-                            <li class="has-sub">
-                                <a href="javascript:;"><b class="caret pull-right"></b>Report Manager</a>
-                                <ul class="sub-menu">
-                                    <li>@Html.ActionLink("Assign Department Head", "AssignDepartmentHead")</li>
-                                    <li>@Html.ActionLink(" Assign Report Managers", "AssignReportManager", null, new { @class = "nav-link  title" })</li>
-                                </ul>
-                            </li>
-                       
-                            <li>
-                                @Html.ActionLink("Employee KPI", "AddedQuestions", "Appraisal", null, new { @class = "nav-link  title" })
-                                
-                            </li>
-                        </ul>
-                    </li>
-                            }
-@if (User.IsInRole("HR"))
-{
-                    <li class="has-sub">
-                        <a href="javascript:;">
-                            <b class="caret pull-right"></b>
-                            <i class="fa fa-inbox"></i>
-                            <span>Leave Management</span>
-                        </a>
-                        <ul class="sub-menu">
-                            <li>@Html.ActionLink("All Leaves", "AllEmployeeLeave", "Leave", null, new { @class = "nav-link  title" })</li>
-                            <li>@Html.ActionLink("Allot Leave", "AllotLeaves", "Leave", null, new { @class = "nav-link  title" })</li>
-                            <li>@Html.ActionLink("All Request", "AllLeaveRequest", "Leave", null, new { @class = "nav-link  title" })</li>
-                            <li class="has-sub">
-                                <a href="javascript:;"><b class="caret pull-right"></b>Leave Configuration</a>
-                                <ul class="sub-menu">
-                                    <li>@Html.ActionLink("All Leave Type", "AllLeaveType", "Configuration", null, new { @class = "nav-link  title" })</li>
-                                    <li>@Html.ActionLink("Add Leave Type", "AddLeaveType", "Configuration", null, new { @class = "nav-link  title" })</li>
-                                </ul>
-                            </li>
+                    @if (User.IsInRole("HR"))
+                    {
+                        <li class="has-sub">
+                            <a href="javascript:;">
+                                <b class="caret pull-right"></b>
+                                <i class="fa fa-laptop"></i>
+                                <span>Employee Configuration</span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li>
+                                    @Html.ActionLink("Add Employee", "Create", "HR", null, new { @class = "nav-link  title" })
+                                </li>
+                                <li class="has-sub">
+                                    <a href="javascript:;"><b class="caret pull-right"></b>Report Manager</a>
+                                    <ul class="sub-menu">
+                                        <li>@Html.ActionLink("Assign Department Head", "AssignDepartmentHead")</li>
+                                        <li>@Html.ActionLink(" Assign Report Managers", "AssignReportManager", null, new { @class = "nav-link  title" })</li>
+                                    </ul>
+                                </li>
 
-                        </ul>
+                                <li>
+                                    @Html.ActionLink("Employee KPI(s)", "AllQuestions", "HR", null, new { @class = "nav-link  title" })
 
-                    </li>
-}
-                    <li class="has-sub">
-                        <a href="javascript:;">
-                            <span class="caret pull-right"></span>
-                            <i class="fa fa-inbox"></i>
-                            <span>Self Service</span>
-                        </a>
-                        <ul class="sub-menu">
-                            <li>
-                                @Html.ActionLink("Leave Dashboard", "Leave", "SelfService", null, new { @class = "nav-link  title" })
-                            </li>
-                            <li>
-                                @Html.ActionLink("Request Leave", "RequestLeave", "SelfService", null, new { @class = "nav-link  title" })
-                            </li>
-                            <li>
-                                @Html.ActionLink("My Incident(s)", "MyIncident", "SelfService", null, new { @class = "nav-link  title" })
-                            </li>
-                           
-                          
-                        </ul>
-                    </li>
-@if (User.IsInRole("HR"))
-{
-                    <li class="has-sub">
-                        <a href="javascript:;">
-                            <b class="caret pull-right"></b>
-                            <i class="fa fa-suitcase"></i>
-                            <span>Appraisals Management</span>
-                        </a>
-                        <ul class="sub-menu">
-                            
-                            <li>
-                                @Html.ActionLink("Employee Questions", "AddedQuestions", "HR", null, new { @class = "nav-link  title" })
-                            </li>
-                            <li>
-                                @Html.ActionLink("All Intitialized Appraisal", "Index", "Appraisal", null, new { @class = "nav-link  title" })               
-                            </li>
-                            <li>
-                                @Html.ActionLink("Configure Appraisal", "ConfigureAppraisal", "Appraisal", null, new { @class = "nav-link  title" })
-                            </li>
-                        </ul>
-                    </li>
-}
-               
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                    @if (User.IsInRole("HR"))
+                    {
+                        <li class="has-sub">
+                            <a href="javascript:;">
+                                <b class="caret pull-right"></b>
+                                <i class="fa fa-inbox"></i>
+                                <span>Leave Management</span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li>@Html.ActionLink("All Leaves", "AllEmployeeLeave", "Leave", null, new { @class = "nav-link  title" })</li>
+                                <li>@Html.ActionLink("Allot Leave", "AllotLeaves", "Leave", null, new { @class = "nav-link  title" })</li>
+                                <li>@Html.ActionLink("All Request", "AllLeaveRequest", "Leave", null, new { @class = "nav-link  title" })</li>
+                                <li class="has-sub">
+                                    <a href="javascript:;"><b class="caret pull-right"></b>Leave Configuration</a>
+                                    <ul class="sub-menu">
+                                        <li>@Html.ActionLink("All Leave Type", "AllLeaveType", "Configuration", null, new { @class = "nav-link  title" })</li>
+                                        <li>@Html.ActionLink("Add Leave Type", "AddLeaveType", "Configuration", null, new { @class = "nav-link  title" })</li>
+                                    </ul>
+                                </li>
+
+                            </ul>
+
+                        </li>
+                    }
+                    @if (!User.IsInRole("System Admin") && !User.IsInRole("Super Admin"))
+                    {
+                        <li class="has-sub">
+                            <a href="javascript:;">
+                                <span class="caret pull-right"></span>
+                                <i class="fa fa-inbox"></i>
+                                <span>Self Service</span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li>
+                                    @Html.ActionLink("Leave Dashboard", "Leave", "SelfService", null, new { @class = "nav-link  title" })
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Request Leave", "RequestLeave", "SelfService", null, new { @class = "nav-link  title" })
+                                </li>
+                                <li>
+                                    @Html.ActionLink("My Incident(s)", "MyIncident", "SelfService", null, new { @class = "nav-link  title" })
+                                </li>
+
+
+                            </ul>
+                        </li>
+                    }
+
+                    @if (User.IsInRole("HR"))
+                    {
+                        <li class="has-sub">
+                            <a href="javascript:;">
+                                <b class="caret pull-right"></b>
+                                <i class="fa fa-suitcase"></i>
+                                <span>Appraisals Management</span>
+                            </a>
+                            <ul class="sub-menu">
+
+                                <li>
+                                    @Html.ActionLink("Employee Questions", "AddedQuestions", "HR", null, new { @class = "nav-link  title" })
+                                </li>
+                                <li>
+                                    @Html.ActionLink("All Intitialized Appraisal", "Index", "Appraisal", null, new { @class = "nav-link  title" })
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Configure Appraisal", "ConfigureAppraisal", "Appraisal", null, new { @class = "nav-link  title" })
+                                </li>
+                            </ul>
+                        </li>
+                    }
+
                     <li class="has-sub">
                         <a href="javascript:;">
                             <b class="caret pull-right"></b>
@@ -420,41 +424,41 @@
                             <span>Requisition Manager</span>
                         </a>
                         <ul class="sub-menu">
-@if (User.IsInRole("HR"))
-{
-                            <li>@Html.ActionLink("Openings/Position", "Index", "Recruitment", null, new { @class = "nav-link  title" })</li>
-                            <li class="has-sub">
-                                <a href="javascript:;"><b class="caret pull-right"></b>Requisition Management</a>
-                                <ul class="sub-menu">
-                                    <li>
-                                        @Html.ActionLink("Add Requisition", "Create", "Recruitment", null, new { @class = "nav-link  title" })
-                                    </li>
-                                </ul>
-                            </li>
-
-                            <li class="has-sub">
-                                <a href="javascript:;"><b class="caret pull-right"></b>Candidates</a>
-                                <ul class="sub-menu">
-                                    <li>@Html.ActionLink("All Candidate", "AllCandidate", "Recruitment", null, new { @class = "nav-link  title" })</li>
-                                    <li class="has-sub">
-                                        <a href="javascript:;"><b class="caret pull-right"></b>Candidates Management</a>
-                                        <ul class="sub-menu">
-                                            <li>@Html.ActionLink("Candidate for interview", "AllCandidateForInterview", "Recruitment", null, new { @class = "nav-link  title" })</li>
-                                            <li>@Html.ActionLink("Selected Candidates", "SelectedCandidates", "Recruitment", null, new { @class = "nav-link  title" })</li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                @Html.ActionLink("Interviews", "AllInterview", "Recruitment", null, new { @class = "nav-link  title" })
-                            </li>
-                        }
-                            @if(User.IsInRole("Location Head") || User.IsInRole("Manager"))
+                            @if (User.IsInRole("HR"))
                             {
-                                    <li>@Html.ActionLink("All Requisition(s)", "AllRequisition", "Recruitment", null, new { @class = "nav-link  title" })</li>
+                                <li>@Html.ActionLink("Openings/Position", "Index", "Recruitment", null, new { @class = "nav-link  title" })</li>
+                                <li class="has-sub">
+                                    <a href="javascript:;"><b class="caret pull-right"></b>Requisition Management</a>
+                                    <ul class="sub-menu">
+                                        <li>
+                                            @Html.ActionLink("Add Requisition", "Create", "Recruitment", null, new { @class = "nav-link  title" })
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li class="has-sub">
+                                    <a href="javascript:;"><b class="caret pull-right"></b>Candidates</a>
+                                    <ul class="sub-menu">
+                                        <li>@Html.ActionLink("All Candidate", "AllCandidate", "Recruitment", null, new { @class = "nav-link  title" })</li>
+                                        <li class="has-sub">
+                                            <a href="javascript:;"><b class="caret pull-right"></b>Candidates Management</a>
+                                            <ul class="sub-menu">
+                                                <li>@Html.ActionLink("Candidate for interview", "AllCandidateForInterview", "Recruitment", null, new { @class = "nav-link  title" })</li>
+                                                <li>@Html.ActionLink("Selected Candidates", "SelectedCandidates", "Recruitment", null, new { @class = "nav-link  title" })</li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Interviews", "AllInterview", "Recruitment", null, new { @class = "nav-link  title" })
+                                </li>
+                            }
+                            @if (User.IsInRole("Location Head") || User.IsInRole("Manager"))
+                            {
+                                <li>@Html.ActionLink("All Requisition(s)", "AllRequisition", "Recruitment", null, new { @class = "nav-link  title" })</li>
                             }
                         </ul>
-                        </li>
+                    </li>
 
                     <li class="has-sub">
                         <a href="javascript:;">
@@ -463,7 +467,7 @@
                             <span>Asset Management</span>
                         </a>
                         <ul class="sub-menu">
-                            @if (User.IsInRole("HR") || User.IsInRole("System Admin"))
+                            @if (User.IsInRole("HR") || User.IsInRole("System Admin") || User.IsInRole("Super Admin"))
                             {
                                 <li>@Html.ActionLink("All Asset", "Index", "Asset", null, new { @class = "nav-link  title" })</li>
                                 <li>@Html.ActionLink("All Category", "AllAssetCategory", "Asset", null, new { @class = "nav-link  title" })</li>
@@ -474,77 +478,80 @@
                             }
                             <li> @Html.ActionLink("Request Asset", "RequestAsset", "Asset", null, new { @class = "nav-link  title" })</li>
                             <li>@Html.ActionLink("All Request", "AllRequest", "Asset", null, new { @class = "nav-link  title" })</li>
-                         </ul>
-                    </li>
-@if (User.IsInRole("System Admin") || User.IsInRole("HR"))
-{
-                    <li class="has-sub">
-                        <a href="javascript:;">
-                            <b class="caret pull-right"></b>
-                            <i class="fa fa-laptop"></i>
-                            <span>Configuration Manager</span>
-                        </a>
-                        <ul class="sub-menu">
-                            @if (User.IsInRole("System Admin"))
-                            {
-                                <li>
-                                    @Html.ActionLink("All Group", "AllGroup", "Configuration", null, new { @class = "nav-link  title" })
-                                </li>
-                                <li>
-                                    @Html.ActionLink("All Identity Code", "AllCodes", "Configuration", null, new { @class = "nav-link title" })
-                                </li>
-                                <li>
-                                    @Html.ActionLink("All Location", "AllLocation", "Configuration", null, new { @class = "nav-link  title" })
-                                </li>
-                                <li>
-                                    @Html.ActionLink("All Job", "AllJob", "Configuration", null, new { @class = "nav-link  title" })
-                                </li>
-                                <li>
-                                    @Html.ActionLink("All Business Unit", "allBusinessUnits", "Configuration", null, new { @class = "nav-link  title" })
-                                </li>
-                            }
-                     
-                            <li>
-                                @Html.ActionLink("All Department", "AllDepartment", "Configuration", null, new { @class = "nav-link  title" })
-                            </li>
-                            <li>
-                                @Html.ActionLink("All Level", "AllLevel", "Configuration", null, new { @class = "nav-link  title" })
-                            </li>
-
-                            <li>
-                                @Html.ActionLink("All Position", "Allposition", "Configuration", null, new { @class = "nav-link  title" })
-                            </li>
-                            <li>
-                                @Html.ActionLink("All Employment Status", "AllEmploymentStatus", "Configuration", null, new { @class = "nav-link  title" })
-                            </li>
-                            <li>
-                                @Html.ActionLink("All Prefix", "AllPrefix", "Configuration", null, new { @class = "nav-link  title" })
-                            </li>
                         </ul>
                     </li>
-                        }
-@if (User.IsInRole("HR") || User.IsInRole("System Admin"))
-{
-                    <li class="has-sub">
-                        <a href="javascript:;">
-                            <b class="caret pull-right"></b>
-                            <i class="fa fa-laptop"></i>
-                            <span>Disciplinary manager</span>
-                        </a>
-                        <ul class="sub-menu">
-                            <li class="has-sub">
-                                <a href="javascript:;"><b class="caret pull-right"></b>Configuration</a>
-                                <ul class="sub-menu">
-                                    <li>@Html.ActionLink("All Violation(s)", "allViolation", "Discipline", null, new { @class = "nav-link  title" })</li>
-                                    <li>@Html.ActionLink("All Consequence(s)", "allConsequence", "Discipline", null, new { @class = "nav-link  title" })</li>
-                                </ul>
-                            </li>
-                         
+                    @if (User.IsInRole("System Admin") || User.IsInRole("HR"))
+                    {
+                        <li class="has-sub">
+                            <a href="javascript:;">
+                                <b class="caret pull-right"></b>
+                                <i class="fa fa-laptop"></i>
+                                <span>Configuration Manager</span>
+                            </a>
+                            <ul class="sub-menu">
+                                @if (User.IsInRole("System Admin"))
+                                {
+                                    <li>
+                                        @Html.ActionLink("All Group", "AllGroup", "Configuration", null, new { @class = "nav-link  title" })
+                                    </li>
+                                    <li>
+                                        @Html.ActionLink("All Identity Code", "AllCodes", "Configuration", null, new { @class = "nav-link title" })
+                                    </li>
+                                    <li>
+                                        @Html.ActionLink("All Location", "AllLocation", "Configuration", null, new { @class = "nav-link  title" })
+                                    </li>
+                                    <li>
+                                        @Html.ActionLink("All Job", "AllJob", "Configuration", null, new { @class = "nav-link  title" })
+                                    </li>
+                                    <li>
+                                        @Html.ActionLink("All Business Unit", "allBusinessUnits", "Configuration", null, new { @class = "nav-link  title" })
+                                    </li>
+                                    <li>
+                                        @Html.ActionLink("All Admin", "Index", "admin", null, new { @class = "nav-link  title" })
+                                    </li>
+                                }
+
+                                <li>
+                                    @Html.ActionLink("All Department", "AllDepartment", "Configuration", null, new { @class = "nav-link  title" })
+                                </li>
+                                <li>
+                                    @Html.ActionLink("All Level", "AllLevel", "Configuration", null, new { @class = "nav-link  title" })
+                                </li>
+
+                                <li>
+                                    @Html.ActionLink("All Position", "Allposition", "Configuration", null, new { @class = "nav-link  title" })
+                                </li>
+                                <li>
+                                    @Html.ActionLink("All Employment Status", "AllEmploymentStatus", "Configuration", null, new { @class = "nav-link  title" })
+                                </li>
+                                <li>
+                                    @Html.ActionLink("All Prefix", "AllPrefix", "Configuration", null, new { @class = "nav-link  title" })
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                    @if (User.IsInRole("HR") || User.IsInRole("System Admin"))
+                    {
+                        <li class="has-sub">
+                            <a href="javascript:;">
+                                <b class="caret pull-right"></b>
+                                <i class="fa fa-laptop"></i>
+                                <span>Disciplinary manager</span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="has-sub">
+                                    <a href="javascript:;"><b class="caret pull-right"></b>Configuration</a>
+                                    <ul class="sub-menu">
+                                        <li>@Html.ActionLink("All Violation(s)", "allViolation", "Discipline", null, new { @class = "nav-link  title" })</li>
+                                        <li>@Html.ActionLink("All Consequence(s)", "allConsequence", "Discipline", null, new { @class = "nav-link  title" })</li>
+                                    </ul>
+                                </li>
+
                                 <li>@Html.ActionLink("All Incident", "AllIncident", "Discipline", null, new { @class = "nav-link  title" })</li>
                                 @*<li>@Html.ActionLink("All Category", "AllAssetCategory", "Asset", null, new { @class = "nav-link  title" })</li>*@
-                        </ul>
-                    </li>
-                            }
+                            </ul>
+                        </li>
+                    }
                     @*<li class="has-sub active">
                         <a href="javascript:;">
                         <b class="caret pull-right"></b>
@@ -710,24 +717,24 @@
     <script src="~/assets/AdminTemplate/assets/plugins/jquery/jquery-1.9.1.min.js"></script>
     @*<script src="~/Scripts/jquery-1.10.2.min.js"></script>*@
     @*<script src="~/Scripts/jquery.blockUI.js"></script>
-    <script src="~/assets/AdminTemplate/assets/plugins/jquery/jquery-migrate-1.1.0.min.js"></script>
-    <script src="~/assets/AdminTemplate/assets/plugins/jquery-ui/ui/minified/jquery-ui.min.js"></script>
-    <script src="~/assets/AdminTemplate/assets/plugins/bootstrap/js/bootstrap.min.js"></script>*@
+        <script src="~/assets/AdminTemplate/assets/plugins/jquery/jquery-migrate-1.1.0.min.js"></script>
+        <script src="~/assets/AdminTemplate/assets/plugins/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+        <script src="~/assets/AdminTemplate/assets/plugins/bootstrap/js/bootstrap.min.js"></script>*@
     <!--[if lt IE 9]>
         <script src="~/assets/AdminTemplate/assets/crossbrowserjs/html5shiv.js"></script>
         <script src="~/assets/AdminTemplate/assets/crossbrowserjs/respond.min.js"></script>
         <script src="~/assets/AdminTemplate/assets/crossbrowserjs/excanvas.min.js"></script>
     <![endif]-->
     @*<script src="~/assets/AdminTemplate/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="~/assets/AdminTemplate/assets/plugins/jquery-cookie/jquery.cookie.js"></script>*@
+        <script src="~/assets/AdminTemplate/assets/plugins/jquery-cookie/jquery.cookie.js"></script>*@
     @Scripts.Render("~/assets/BaseJs")
     <!-- ================== END BASE JS ================== -->
     @*<script src="~/Scripts/Pages/JS/EdgeValidation.js"></script>
-    <script src="~/assets/AdminTemplate/assets/plugins/parsley/dist/parsley.js"></script>*@
+        <script src="~/assets/AdminTemplate/assets/plugins/parsley/dist/parsley.js"></script>*@
     @RenderSection("Scripts", required: false)
     <script src="~/assets/AdminTemplate/assets/js/apps.min.js"></script>
-        @RenderSection("Scrpit2", required: false)
-        <script src="~/Scripts/Pages/AlertInterceptors.js"></script>
+    @RenderSection("Scrpit2", required: false)
+    <script src="~/Scripts/Pages/AlertInterceptors.js"></script>
     <script>
         $(document).ready(function () {
             App.init();

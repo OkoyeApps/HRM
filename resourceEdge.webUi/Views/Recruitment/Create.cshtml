@@ -138,7 +138,7 @@
                         @Html.LabelFor(model => model.ReqExpYears, htmlAttributes: new { @class = "control-label " })
                         @Html.EditorFor(model => model.ReqExpYears, new { htmlAttributes = new { @class = "form-control input-circle-right", required = "", data_parsley_min = "0" } })
                         @Html.ValidationMessageFor(model => model.ReqExpYears, "", new { @class = "text-danger" })
-                        <br /><br />
+           
                     </div>
 
 
@@ -147,7 +147,7 @@
                         @Html.LabelFor(model => model.ReqPriority, htmlAttributes: new { @class = "control-label " })
                         @Html.EnumDropDownListFor(model => model.ReqPriority,"select priority", htmlAttributes: new { @class = "form-control input-circle-right" })
                         @Html.ValidationMessageFor(model => model.ReqPriority, "", new { @class = "text-danger" })
-                        <br /><br />
+                 
                     </div>
 
                     <div class="col-md-3">

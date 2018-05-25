@@ -490,6 +490,26 @@ namespace resourceEdge.webUi.Infrastructure
             return null;
         }
 
+        public IEnumerable<dynamic> GetLocationsWithNoAdmin(int groupid)
+        {
+            var ExistingAdmins = unitOfWork.SystemAdmin.Get(filter: x => x.GroupId == groupid).Select(x=> new {groupId = x.GroupId, locationId = x.LocationId }).ToList();
+            var Locations = unitOfWork.Locations.Get(X => X.GroupId == groupid).Select(x=> new { Id = x.Id, Name = x.State}).ToList();
+            List<int> AllIdsToRemove = new List<int>();
+            foreach (var item in Locations)
+            {
+                if (ExistingAdmins.Any(x=>x.locationId == item.Id))
+                {
+                    AllIdsToRemove.Add(item.Id);
+                }
+            }
+            foreach (var item in AllIdsToRemove)
+            {
+                var currentLocation = Locations.Where(x => x.Id == item).FirstOrDefault();
+                Locations.Remove(currentLocation);
+            }
+            return Locations;
+        }
+
         public List<Month> GetAllMonths()
         {
             return unitOfWork.GetDbContext().Month.ToList();

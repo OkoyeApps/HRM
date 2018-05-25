@@ -24,7 +24,7 @@ namespace resourceEdge.webUi
     {
         protected void Application_Start()
         {
-            //Database.SetInitializer(new resourceEdge.webUi.Infrastructure.DbInitializer());
+          //  Database.SetInitializer(new resourceEdge.webUi.Infrastructure.DbInitializer());
             GlobalConfiguration.Configure(WebApiConfig.Register);
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

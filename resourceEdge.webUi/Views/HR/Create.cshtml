@@ -118,7 +118,7 @@
             <div class="col-md-3">
                 <div class="form-group">
                   @*  @Html.Label("Employement status", htmlAttributes: new { @class = "control-label " })*@
-                    <label class="control-label">Employement status <b style="color:red;">*</b></label>
+                    <label class="control-label">Employment status <b style="color:red;">*</b></label>
                     @Html.DropDownListFor(model => model.empStatusId, (SelectList)ViewBag.EmpStatus, "Select Status", htmlAttributes: new { id = "EmpStat", @class = "form-control", required = "" })
                     @Html.ValidationMessageFor(model => model.empStatusId, "", new { @class = "text-danger" })
                 </div>
@@ -181,7 +181,7 @@
                                 <div class="form-group">
                                    @* @Html.Label("Office number", htmlAttributes: new { @class = "control-label " })*@
                                     <label class="control-label">Office number <b style="color:red;">*</b></label>
-                                    @Html.EditorFor(model => model.officeNumber, new { htmlAttributes = new { @class = "form-control", @type = "tel", required = "", data_parsley_type = "number", placeholder="Enter Phone Number"  } })
+                                    @Html.EditorFor(model => model.officeNumber, new { htmlAttributes = new { @class = "form-control", @type = "tel", required = "",placeholder = "Enter phone number", data_parsley_pattern = @"^\+?[1-9]\d{1,14}$", data_required_message = "Please phone number seems to be invalid" } })
                                     @Html.ValidationMessageFor(model => model.officeNumber, "", new { @class = "text-danger" })
                                 </div>
                             </div>

@@ -501,7 +501,23 @@ namespace resourceEdge.webUi.Controllers
             }
             return Ok(result);
         }
-        
+
+        [Route("api/settings/GetLocationForAdmin/{id:int}")]
+        [HttpGet]
+        public IHttpActionResult GetAdminLocation(int? Id)
+        {
+            if (Id == null)
+            {
+                return BadRequest();
+            }
+            var result = Apimanager.GetLocationsWithNoAdmin(Id.Value);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
+
 
         // POST: api/Settings
         public void Post([FromBody]string value)

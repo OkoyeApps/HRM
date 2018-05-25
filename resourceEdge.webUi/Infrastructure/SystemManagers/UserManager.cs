@@ -29,7 +29,7 @@ namespace resourceEdge.webUi.Infrastructure
         public static async Task<Tuple<ApplicationUser, string>> CreateUser(
             string email, string empRole, string userstatus, string fname, string lname, string phoneNo,
             string empId, string jobId, string Comments, string createdBy, string modifiedBy, string modeofEntry, DateTime? selectedDate, string candidateReferredBy, bool? isactive
-            , string DeptId, string BUnitId, int groupId)
+            , string DeptId, string BUnitId, int groupId, int locationId)
         {
             try
             {
@@ -56,7 +56,9 @@ namespace resourceEdge.webUi.Infrastructure
                     SelectedDate = selectedDate,
                     Candidatereferredby = candidateReferredBy,
                     JobtitleId = int.Parse(jobId),
-                    Isactive = isactive, GroupId = groupId
+                    Isactive = isactive,
+                    GroupId = groupId,
+                    LocationId = locationId
                 };
                 //Enable this later
                 //IdentityResult validEmail = await userManager.UserValidator.ValidateAsync(user);
@@ -116,17 +118,23 @@ namespace resourceEdge.webUi.Infrastructure
                 throw ex;
             }
         }
-        public static bool checkEmployeeId(string id, string email)
+        public static bool checkEmployeeId(string id)
         {
-            var user = context.Users.Where(x => x.EmployeeId == id || x.Email == email).FirstOrDefault();
+            var user = context.Users.Where(x => x.EmployeeId == id).FirstOrDefault();
             if (user != null)
             {
                 return true;
             }
-            else
+            return false;
+        }
+        public static bool checkEmail(string email)
+        {
+            var user = context.Users.Where(x => x.Email == email).FirstOrDefault();
+            if (user != null)
             {
-                return false;
+                return true;
             }
+            return false;
         }
         public static ApplicationUser getEmployeeIdFromUserTable(string userid)
         {
