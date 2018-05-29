@@ -118,6 +118,39 @@ namespace resourceEdge.webUi.Infrastructure
                 throw ex;
             }
         }
+
+    
+
+        public static Employee CreateEmployee(EmployeeViewModel employees)
+        {
+            var UserId = HttpContext.Current.User.Identity.GetUserId();
+            Employee realEmployee = new Employee();
+            var UserFromSession = (SessionModel)HttpContext.Current.Session["_ResourceEdgeTeneceIdentity"];
+            var unitDetail = unitOfWork.BusinessUnit.GetByID(employees.businessunitId);
+            realEmployee.businessunitId = employees.businessunitId;
+            realEmployee.createdby = UserId;
+            realEmployee.dateOfJoining = employees.dateOfJoining;
+            realEmployee.dateOfLeaving = employees.dateOfLeaving;
+            realEmployee.DepartmentId = employees.departmentId;
+            realEmployee.empEmail = employees.empEmail;
+            realEmployee.FullName = employees.FirstName + " " + employees.lastName;
+            realEmployee.empStatusId = employees.empStatusId;
+            realEmployee.isactive = true;
+            realEmployee.jobtitleId = employees.jobtitleId;
+            realEmployee.modeofEmployement = employees.modeofEmployement;
+            realEmployee.modifiedby = UserId;
+            realEmployee.officeNumber = employees.officeNumber;
+            realEmployee.positionId = employees.positionId;
+            realEmployee.prefixId = employees.prefixId;
+            realEmployee.yearsExp = employees.yearsExp;
+            realEmployee.LevelId = employees.Level;
+            realEmployee.LocationId = unitDetail.LocationId.Value;
+            realEmployee.GroupId = UserFromSession.GroupId;
+            realEmployee.isactive = true;
+            var CreatedDate = realEmployee.createddate = DateTime.Now;
+            var modifiedDate = realEmployee.modifieddate = DateTime.Now;
+            return realEmployee;
+        }
         public static bool checkEmployeeId(string id)
         {
             var user = context.Users.Where(x => x.EmployeeId == id).FirstOrDefault();

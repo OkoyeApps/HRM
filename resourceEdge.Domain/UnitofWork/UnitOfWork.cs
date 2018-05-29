@@ -70,6 +70,8 @@ namespace resourceEdge.Domain.UnitofWork
         private GenericRepository<DisciplinaryIncident> disciplineRepo;
         private GenericRepository<Consequence> consequenceRepo;
         private GenericRepository<SystemAdmin> systemAdminRepo;
+        private GenericRepository<Birthday> birthdayRepo;
+        private GenericRepository<Announcement> announcementRepo;
         private EdgeDbContext Context
         {
             get
@@ -320,6 +322,14 @@ namespace resourceEdge.Domain.UnitofWork
         public GenericRepository<SystemAdmin> SystemAdmin
         {
             get { return this.systemAdminRepo ?? new GenericRepository<Entities.SystemAdmin>(Context); }
+        }
+        public GenericRepository<Birthday> BirthDay
+        {
+            get { return this.birthdayRepo ?? new GenericRepository<Birthday>(Context); }
+        }
+        public GenericRepository<Announcement> Annoncement
+        {
+            get { return this.announcementRepo ?? new GenericRepository<Announcement>(Context); }
         }
         public void Save()
         {

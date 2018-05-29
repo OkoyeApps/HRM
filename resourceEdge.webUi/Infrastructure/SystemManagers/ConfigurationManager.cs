@@ -280,14 +280,14 @@ namespace resourceEdge.webUi.Infrastructure
                     var allGradeCode = allKeys.Where(x => x.ToLower().StartsWith("jobpaygradecode")).ToList();
                     var Group = allKeys.Where(x => x.ToLower().StartsWith("group")).FirstOrDefault();
                     allKeys.ToList().RemoveRange(0, 2);
+                    int length = (allKeys.Count() - 2) / 6;
                     int groupId = 0;
                     double experience = 0;
-                   
-                    //int.TryParse(Group, out groupId);
-                    for (int i = 0; i < allKeys.Length; i++)
+                    int.TryParse(collection[Group], out groupId);
+                    
+                    for (int i = 0; i < length; i++)
                     {
-                        double.TryParse(collection[allExperience[i].ToString()], out experience);
-                        int.TryParse(collection[Group], out groupId);
+                        double.TryParse(collection[allExperience[i].ToString()], out experience);   
                         if (experience != 0 && groupId != 0)
                         {
                           //  var aa = Enum.GetName(typeof(JobFrequency), allPayFreq[i]);
@@ -306,10 +306,10 @@ namespace resourceEdge.webUi.Infrastructure
                                 isactive = true
                             };
                             unitOfWork.jobTitles.Insert(job);
-                            unitOfWork.Save();
-                            return true;
                         }
                     }
+                            unitOfWork.Save();
+                            return true;
                 }
                 else if (Id != null)
                 {
@@ -482,7 +482,7 @@ namespace resourceEdge.webUi.Infrastructure
         }
         public IEnumerable<Location> GetAllLocation()
         {
-            var result = unitOfWork.Locations.Get(includeProperties: "Group");
+            var result = unitOfWork.Locations.Get(includeProperties: "Group").OrderBy(x=>x.Group.GroupName);
             return result;
         }
         public IEnumerable<Prefix> GetAllPrefix()

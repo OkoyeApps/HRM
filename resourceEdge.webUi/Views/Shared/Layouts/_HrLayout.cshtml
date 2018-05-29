@@ -37,26 +37,27 @@
 
     <!-- ================== BEGIN BASE CSS STYLE ================== -->
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
-    <link href="~/assets/AdminTemplate/assets/plugins/jquery-ui/themes/base/minified/jquery-ui.min.css" rel="stylesheet" />
-    <link href="~/assets/AdminTemplate/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
     <link href="~/assets/AdminTemplate/assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="~/assets/AdminTemplate/assets/css/animate.min.css" rel="stylesheet" />
+    @*    <link href="~/assets/AdminTemplate/assets/plugins/jquery-ui/themes/base/minified/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/assets/AdminTemplate/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="~/assets/AdminTemplate/assets/css/animate.min.css" rel="stylesheet" />
     <link href="~/assets/AdminTemplate/assets/css/style.min.css" rel="stylesheet" />
     <link href="~/assets/AdminTemplate/assets/css/style-responsive.min.css" rel="stylesheet" />
-    <link href="~/assets/AdminTemplate/assets/css/theme/default.css" rel="stylesheet" id="theme" />
-    @*@Styles.Render("~/asset/DefaultCss")*@
+    <link href="~/assets/AdminTemplate/assets/css/theme/default.css" rel="stylesheet" id="theme" />*@
+    @Styles.Render("~/asset/DefaultCss")
     <!-- ================== END BASE CSS STYLE ================== -->
     <!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
     @RenderSection("css", required: false)
     <!-- ================== END PAGE LEVEL STYLE ================== -->
     <!-- ================== BEGIN BASE JS ================== -->
-    <link href="~/Content/jBox.css" rel="stylesheet" />
-    <link href="~/assets/AdminTemplate/assets/plugins/parsley/src/parsley.css" rel="stylesheet" />
-    @*@Styles.Render("~/asset/BaseCss")
-        @Scripts.Render("~/asset/HeadJs")*@
-    <script src="~/assets/AdminTemplate/assets/plugins/pace/pace.min.js"></script>
+    @*<link href="~/Content/jBox.css" rel="stylesheet" />*@
+  @*  <link href="~/assets/AdminTemplate/assets/plugins/parsley/src/parsley.css" rel="stylesheet" />*@
+    @Styles.Render("~/asset/BaseCss")
+        @Scripts.Render("~/asset/HeadJs")
+    @*<script src="~/assets/AdminTemplate/assets/plugins/pace/pace.min.js"></script>
     <script src="~/Scripts/jquery-3.2.1.js"></script>
-    <script src="~/Scripts/jBox.min.js"></script>
+    <script src="~/Scripts/jBox.min.js"></script>*@
     <!-- ================== END BASE JS ================== -->
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -506,11 +507,14 @@
                                     <li>
                                         @Html.ActionLink("All Business Unit", "allBusinessUnits", "Configuration", null, new { @class = "nav-link  title" })
                                     </li>
-                                    <li>
-                                        @Html.ActionLink("All Admin", "Index", "admin", null, new { @class = "nav-link  title" })
-                                    </li>
-                                }
+                                    if (User.IsInRole("Super Admin"))
+                                    {
+                                        <li>
+                                            @Html.ActionLink("All Admin", "Index", "admin", null, new { @class = "nav-link  title" })
+                                        </li>
+                                    }
 
+                                }
                                 <li>
                                     @Html.ActionLink("All Department", "AllDepartment", "Configuration", null, new { @class = "nav-link  title" })
                                 </li>

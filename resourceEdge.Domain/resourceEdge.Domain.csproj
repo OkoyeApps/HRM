@@ -190,6 +190,7 @@
     <Compile Include="Concrete\RequisitionRepo.cs" />
     <Compile Include="DbEntities\products.cs" />
     <Compile Include="Entities\ActivityLog.cs" />
+    <Compile Include="Entities\Announcement.cs" />
     <Compile Include="Entities\AppraisalPeriod.cs" />
     <Compile Include="Entities\Appraisal\AppraisalHistory.cs" />
     <Compile Include="Entities\Appraisal\AppraisalInitialization.cs" />
@@ -203,6 +204,7 @@
     <Compile Include="Entities\Appraisal\Parameters.cs" />
     <Compile Include="Entities\Asset.cs" />
     <Compile Include="Entities\AssetCategory.cs" />
+    <Compile Include="Entities\Birthday.cs" />
     <Compile Include="Entities\Candidate.cs" />
     <Compile Include="Entities\CandidateInterview.cs" />
     <Compile Include="Entities\CandidateStatus.cs" />
@@ -386,6 +388,14 @@
     <Compile Include="Migrations\EdgeDbContext2\201805241902164_System admin model added.Designer.cs">
       <DependentUpon>201805241902164_System admin model added.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201805251607114_nullable locationId for job.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201805251607114_nullable locationId for job.Designer.cs">
+      <DependentUpon>201805251607114_nullable locationId for job.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201805291115419_Birthday and ammouncement model added.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201805291115419_Birthday and ammouncement model added.Designer.cs">
+      <DependentUpon>201805291115419_Birthday and ammouncement model added.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\EdgeDbContext2\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitofWork\GenericRepository.cs" />
@@ -512,6 +522,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\EdgeDbContext2\201805241902164_System admin model added.resx">
       <DependentUpon>201805241902164_System admin model added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805251607114_nullable locationId for job.resx">
+      <DependentUpon>201805251607114_nullable locationId for job.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805291115419_Birthday and ammouncement model added.resx">
+      <DependentUpon>201805291115419_Birthday and ammouncement model added.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

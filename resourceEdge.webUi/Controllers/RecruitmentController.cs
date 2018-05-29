@@ -68,7 +68,7 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.RecruitmentId = RecruitmentManager.GenerateRequisitionCode(UserFromSession.GroupId);
             ViewBag.EmpStatus = dropDownManager.GetEmploymentStatus();
             ViewBag.businessUnits = dropDownManager.GetBusinessUnit(UserFromSession.GroupId, UserFromSession.LocationId);
-            ViewBag.jobTitles = dropDownManager.GetJobtitle(UserFromSession.GroupId, UserFromSession.LocationId); 
+            ViewBag.jobTitles = dropDownManager.GetJobtitle(UserFromSession.GroupId); 
             ViewBag.ReportManager = new SelectList(managerRepo.GetManagersByLocationAndGroup(UserFromSession.GroupId, UserFromSession.LocationId).Select(x => new { name = x.FullName, id = x.ManagerUserId }).OrderBy(x => x.name), "id", "name", "id");
             ViewBag.Approval1 = new SelectList(EmpManager.GetLocationHeadsDetails(UserFromSession.LocationId).Select(x => new { name = x.FullName, id = x.userId }).OrderBy(x => x.name), "id", "name", "id");
             //fix approval 2 later for the manager in charge to approve

@@ -13,7 +13,7 @@ namespace resourceEdge.Domain.Entities
         [Key]
         public int Id { get; set; }
         public int GroupId { get; set; }
-        public int LocationId { get; set; }
+        public int? LocationId { get; set; }
         public string jobtitlecode { get; set; }
         public string jobtitlename { get; set; }
         public string jobdescription { get; set; }

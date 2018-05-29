@@ -150,29 +150,36 @@ namespace resourceEdge.webUi.Controllers
                         if (validDate)
                         {
                             var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
-                            var unitDetail = BunitsRepo.GetById(employees.businessunitId);
-                            realEmployee.businessunitId = employees.businessunitId;
-                            realEmployee.createdby = User.Identity.GetUserId();
-                            realEmployee.dateOfJoining = employees.dateOfJoining;
-                            realEmployee.dateOfLeaving = employees.dateOfLeaving;
-                            realEmployee.DepartmentId = employees.departmentId;
-                            realEmployee.empEmail = employees.empEmail;
-                            realEmployee.FullName = employees.FirstName + " " + employees.lastName;
-                            realEmployee.empStatusId = employees.empStatusId;
-                            realEmployee.isactive = true;
-                            realEmployee.jobtitleId = employees.jobtitleId;
-                            realEmployee.modeofEmployement = employees.modeofEmployement;
-                            realEmployee.modifiedby = User.Identity.GetUserId();
-                            realEmployee.officeNumber = employees.officeNumber;
-                            realEmployee.positionId = employees.positionId;
-                            realEmployee.prefixId = employees.prefixId;
-                            realEmployee.yearsExp = employees.yearsExp;
-                            realEmployee.LevelId = employees.Level;
-                            realEmployee.LocationId = unitDetail.LocationId.Value;
-                            realEmployee.GroupId = UserFromSession.GroupId;
-                            realEmployee.isactive = true;
-                            var CreatedDate = realEmployee.createddate = DateTime.Now;
-                            var modifiedDate = realEmployee.modifieddate = DateTime.Now;
+                            //var unitDetail = BunitsRepo.GetById(employees.businessunitId);
+                            //realEmployee.businessunitId = employees.businessunitId;
+                            //realEmployee.createdby = User.Identity.GetUserId();
+                            //realEmployee.dateOfJoining = employees.dateOfJoining;
+                            //realEmployee.dateOfLeaving = employees.dateOfLeaving;
+                            //realEmployee.DepartmentId = employees.departmentId;
+                            //realEmployee.empEmail = employees.empEmail;
+                            //realEmployee.FullName = employees.FirstName + " " + employees.lastName;
+                            //realEmployee.empStatusId = employees.empStatusId;
+                            //realEmployee.isactive = true;
+                            //realEmployee.jobtitleId = employees.jobtitleId;
+                            //realEmployee.modeofEmployement = employees.modeofEmployement;
+                            //realEmployee.modifiedby = User.Identity.GetUserId();
+                            //realEmployee.officeNumber = employees.officeNumber;
+                            //realEmployee.positionId = employees.positionId;
+                            //realEmployee.prefixId = employees.prefixId;
+                            //realEmployee.yearsExp = employees.yearsExp;
+                            //realEmployee.LevelId = employees.Level;
+                            //realEmployee.LocationId = unitDetail.LocationId.Value;
+                            //realEmployee.GroupId = UserFromSession.GroupId;
+                            //realEmployee.isactive = true;
+                            //var CreatedDate = realEmployee.createddate = DateTime.Now;
+                            //var modifiedDate = realEmployee.modifieddate = DateTime.Now;
+
+                            var result = UserManagement.CreateEmployee(employees);
+                            if (result != null)
+                            {
+                                realEmployee = result;
+                            }
+                            
                             try
                             {
                                 var newCreatedUser = await Infrastructure.UserManagement.CreateUser(employees.empEmail, employees.empRoleId.ToString(), employees.empStatusId, employees.FirstName, employees.lastName, employees.officeNumber,
@@ -201,7 +208,7 @@ namespace resourceEdge.webUi.Controllers
                                         manager.LocationId = realEmployee.LocationId.Value;
                                         employeeManager.AssignReportManager(manager);
                                     }
-                                    var groupName = employeeManager.GetGroupName(employees.GroupId);
+                                    var groupName = employeeManager.GetGroupName(realEmployee.GroupId);
                                     employeeManager.AddEmployeeToMailDispatch(employees.empEmail, newCreatedUser.Item2, "noreply@tenece.com", groupName, realEmployee.FullName);
                                 }
                             }

@@ -20,38 +20,38 @@
         <div class="form-horizontal" id="jobForm">
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-            <div class="col-md-6">
-                @Html.Label("Groups", htmlAttributes: new { @class = "control-label " })
+            <div class="col-md-3">
+                @*@Html.Label("Groups", htmlAttributes: new { @class = "control-label " })*@
+                <label for="group" class="control-label">Group&nbsp;<span style="color:red">*</span></label>
                 <div>
-                    @Html.DropDownList("GroupId", (SelectList)ViewBag.Groups, "Select Group", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "form-control bs-select", required = "" })
-                    @Html.ValidationMessage("GroupId", "", new { @class = "text-danger" })
+                    @Html.DropDownList("GroupId", (SelectList)ViewBag.Groups, "Select Group", htmlAttributes: new { data_live_search = "true", data_size = "3", @class = "form-control bs-select", required = "" })
                 </div>
             </div>
 
-            <div class="col-md-6">
-                <label for="jobtitlename" class="control-label">Name</label>
+            <div class="col-md-3">
+                <label for="jobtitlename" class="control-label">Name&nbsp;<span style="color:red">*</span></label>
                 <input name="jobtitlename[0]" id="Country" class="form-control" required />
             </div>
 
-            <div class="col-md-6">
-                <label for="minexperiencerequired" class="control-label">Minimum Experienced</label>
+            <div class="col-md-3">
+                <label for="minexperiencerequired" class="control-label">Minimum Experience&nbsp;<span style="color:red">*</span></label>
                 <input name="minexperiencerequired[0]" id="minexp" class="form-control" required data-parsley-min="0" />
             </div>
 
-            <div class="col-md-6">
-                <label for="jobtitlecode" class="control-label">Job Code</label>
+            <div class="col-md-3">
+                <label for="jobtitlecode" class="control-label">Job Code &nbsp;<span style="color:red">*</span></label>
                 <input name="jobtitlecode[0]" id="City" class="form-control" required />
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <label for="jobpayfrequency" class="control-label">Job Pay Frequency</label>
                 <input name="jobpayfrequency[0]" id="City" class="form-control"  />
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <label for="jobpaygradecode" class="control-label">Job pay grade Code</label>
                 <input name="jobpaygradecode[0]" id="City" class="form-control" />
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <label for="jobdescription" class="control-label">Job Descriptions</label>
                 <textarea cols="2" name="jobdescription[0]" id="Address1" class="form-control" ></textarea>
             </div>

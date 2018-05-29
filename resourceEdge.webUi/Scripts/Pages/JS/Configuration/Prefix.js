@@ -12,7 +12,7 @@
         </div>
         <div class ="col-md-6">
             <label for="description" class ="control-label">Description</label>
-            <textarea cols="2" name="description[${count}]" id="Address1" class ="form-control" required></textarea>
+            <textarea cols="2" name="description[${count}]" id="Address1" class ="form-control"></textarea>
         </div>
            <div class="col-md-12">
             <hr />
