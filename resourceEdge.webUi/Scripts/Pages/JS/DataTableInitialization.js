@@ -1,4 +1,5 @@
-﻿function initializeTable(name) {
+﻿(function(){
+    function initializeTable(name) {
     name.DataTable({
         colReorder: {
             realtime: false
@@ -10,7 +11,9 @@
     });
 }
 
-$(document).ready(function () {
+    $(document).ready(function () {
+        console.log("In the document mwthod");
     initializeTable($('#tblGeneral'));
 
 })
+})();

@@ -3,7 +3,10 @@
 @{
     Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
 }
+@section css{
 
+  @Styles.Render("~/asset/tablecss");
+}
 <table class="table table-striped table-responsive table-bordered">
     <tr>
         <td>
@@ -12,7 +15,8 @@
     </tr>
     <tr>
         <td>
-            <table class="table table-striped table-responsive table-bordered">
+            <table class="table table-striped table-responsive table-bordered" id="tblGeneral">
+                <thead>
                 <tr>
                     <th>
                         Group Name
@@ -22,7 +26,8 @@
                     </th>
                     <th></th>
                 </tr>
-
+                </thead>
+                <tbody>
                 @foreach (var item in Model)
                 {
                     <tr>
@@ -33,13 +38,18 @@
                             @Html.DisplayFor(modelItem => item.Descriptions)
                         </td>
                         <td>
-                            @Html.ActionLink("Edit", "EditGroup", "Configuration", new { id = item.Id }, new { @class = "btn btn-warning" })
+                            @Html.ActionLink("Edit", "EditGroup", "Configuration", new { id = item.Id }, new { @class = "btn btn-warning pull-right" })
                         </td>
                     </tr>
                 }
+                </tbody>
 
             </table>
         </td>
     </tr>
 </table>
 
+@section Scripts{
+    @Scripts.Render("~/assets/Table");
+<script src="~/Scripts/Pages/JS/DataTableInitialization.js"></script>
+    }

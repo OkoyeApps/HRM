@@ -16,7 +16,7 @@ using resourceEdge.webUi.Infrastructure.SystemManagers;
 
 namespace resourceEdge.webUi.Controllers
 {
-    [CustomAuthorizationFilter(Roles = "System Admin,HR")]
+    [CustomAuthorizationFilter]
     public class ConfigurationController : Controller
     {
         private ApplicationUserManager userManager;
@@ -62,13 +62,14 @@ namespace resourceEdge.webUi.Controllers
         {
             return View("Configuration");
         }
-
+        [CustomAuthorizationFilter(Roles = "Super Admin")]
         public ActionResult AllCodes()
         {
             ViewBag.PageTitle = "All Identity Codes";
             var result = ConfigManager.GetAllIdentityCodes();
             return View(result);
         }
+        [CustomAuthorizationFilter(Roles = "Super Admin")]
         public ActionResult AddCode(string returnUrl, string previousUrl)
         {
 
@@ -105,6 +106,7 @@ namespace resourceEdge.webUi.Controllers
             this.AddNotification($"Sorry Identity Code has been Added for this Group already", NotificationType.ERROR);
             return RedirectToAction("AddCode");
         }
+        [CustomAuthorizationFilter(Roles = "Super Admin")]
         public ActionResult EditCode(int id = 1)
         {
             ViewBag.PageTitle = "Edit Identity Code";
@@ -142,11 +144,13 @@ namespace resourceEdge.webUi.Controllers
                 return View();
             }
         }
+        [CustomAuthorizationFilter(Roles = "System Admin,HR")]
         public ActionResult AllPrefix()
         {
             ViewBag.PageTitle = "All Prefixes";
             return View(ConfigManager.GetAllPrefix());
         }
+        [CustomAuthorizationFilter(Roles = "System Admin,HR")]
         public ActionResult addPrefix(string returnUrl, string previousUrl)
         {
             ViewBag.returnUrl = returnUrl;
@@ -189,6 +193,7 @@ namespace resourceEdge.webUi.Controllers
             this.AddNotification($"Oops! Operation failed, please make sure all required fields are filled and failure continues, please contact your system administrator", NotificationType.ERROR);
             return View(model);
         }
+        [CustomAuthorizationFilter(Roles = "System Admin,HR")]
         public ActionResult EditPrefix(int id)
         {
             var prefix = prefixRepo.GetById(id);
@@ -215,11 +220,13 @@ namespace resourceEdge.webUi.Controllers
             this.AddNotification("Oops! Operation failed, please make sure all required fields are filled and failure continues, please contact your system administrator", NotificationType.ERROR);
             return View(model);
         }
+        [CustomAuthorizationFilter(Roles = "System Admin,HR, Super Admin")]
         public ActionResult AllBusinessUnits()
         {
             ViewBag.PageTitle = "All Business Units";
             return View(ConfigManager.GetAllBusinessUnit());
         }
+        [CustomAuthorizationFilter(Roles = "Super Admin, System Admin")]
         public ActionResult addBusinessUnits()
         {
             ViewBag.PageTitle = "Add Business Unit";
@@ -236,6 +243,14 @@ namespace resourceEdge.webUi.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    if (model.startdate.HasValue)
+                    {
+                        if (model.startdate.Value.Date > DateTime.Now.Date)
+                        {
+                            this.AddNotification("Please the system does not recognise units created for the future. please try again with a date less than or equal to today", NotificationType.ERROR);
+                            return RedirectToAction("addBusinessUnits");
+                        }
+                    }
                     var existingUnit = ConfigManager.DoesUnitExstInLocation(model.LocationId.Value, model.unitname);
                     int? location = null;
                     BusinessUnit unit = new BusinessUnit();
@@ -274,10 +289,12 @@ namespace resourceEdge.webUi.Controllers
             }
 
             this.AddNotification($"Oops! Operation failed, please make sure all required fields are filled and failure continues, please contact your system administrator", NotificationType.ERROR);
+            ViewBag.PageTitle = "Add Business Unit";
             ViewBag.Locations = DropDown.GetLocation();
+            ViewBag.Groups = DropDown.GetGroup();
             return View(model);
         }
-
+        [CustomAuthorizationFilter(Roles = "Super Admin")]
         public ActionResult EditUnit(int? id)
         {
 
@@ -337,17 +354,18 @@ namespace resourceEdge.webUi.Controllers
             BusinessRepo.Delete(id);
             return RedirectToAction("AllBusinessUnits");
         }
-
+        [CustomAuthorizationFilter(Roles = "System Admin,HR, Super Admin")]
         public ActionResult AllDepartment()
         {
             ViewBag.PageTitle = "All Departments";
             var result = ConfigManager.GetAllDepartment();
             return View(result);
         }
-
+        [CustomAuthorizationFilter(Roles = "System Admin,HR")]
         public ActionResult addDepartment()
         {
-            ViewBag.businessUnits = DropDown.GetBusinessUnit();
+            var userFromSession = (SessionModel)Session[""];
+            ViewBag.businessUnits = DropDown.GetBusinessUnit(userFromSession.GroupId, userFromSession.LocationId);
             ViewBag.PageTitle = "Add Department";
             return View(new DepartmentViewModel());
         }
@@ -394,7 +412,7 @@ namespace resourceEdge.webUi.Controllers
             this.AddNotification($"Oops! Operation failed, please make sure all required fields are filled and failure continues, please contact your system administrator", NotificationType.ERROR);
             return View(model);
         }
-
+        [CustomAuthorizationFilter(Roles = "System Admin,HR")]
         public ActionResult EditDepartment(int id)
         {
             Departments dept = DeptRepo.GetdepartmentById(id);
@@ -429,7 +447,7 @@ namespace resourceEdge.webUi.Controllers
             this.AddNotification($"Oops! Operation failed, please make sure all required fields are filled and failure continues, please contact your system administrator", NotificationType.ERROR);
             return View(dept);
         }
-
+        [CustomAuthorizationFilter(Roles = "System Admin,HR")]
         public ActionResult DeptDetail(int id)
         {
             Departments dept = DeptRepo.GetdepartmentById(id);
@@ -451,13 +469,13 @@ namespace resourceEdge.webUi.Controllers
                 return RedirectToAction("AllDepartment");
             }
         }
-
+        [CustomAuthorizationFilter(Roles = "System Admin,HR")]
         public ActionResult allJob()
         {
             ViewBag.PageTitle = "All Jobs";
             return View(ConfigManager.GetAllJob());
         }
-
+        [CustomAuthorizationFilter(Roles = "System Admin,HR")]
         public ActionResult AddJobTitle(string returnUrl, string previousUrl)
         {
             ViewBag.returnUrl = returnUrl;
@@ -508,6 +526,7 @@ namespace resourceEdge.webUi.Controllers
 
             return RedirectToAction("AddJobTitle");
         }
+        [CustomAuthorizationFilter(Roles = "System Admin,HR")]
         public ActionResult EditJob(int id)
         {
             var job = JobRepo.GetById(id);
@@ -543,7 +562,7 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.PageTitle = "All Positions";
             return View(ConfigManager.GetAllPosition());
         }
-
+        [CustomAuthorizationFilter(Roles = "System Admin,HR")]
         public ActionResult addPosition(string returnUrl, string previousUrl)
         {
             ViewBag.returnUrl = returnUrl;
@@ -585,7 +604,7 @@ namespace resourceEdge.webUi.Controllers
             this.AddNotification($"Oops! Operation failed, please make sure all required fields are filled and failure continues, please contact your system administrator", NotificationType.ERROR);
             return RedirectToAction("addPosition");
         }
-
+        [CustomAuthorizationFilter(Roles = "System Admin,HR")]
         public ActionResult EditPosition(int id)
         {
             var position = positionRepo.GetById(id);
@@ -613,14 +632,14 @@ namespace resourceEdge.webUi.Controllers
             this.AddNotification("Oops! Operation failed, please make sure all required fields are filled and failure continues, please contact your system administrator", NotificationType.ERROR);
             return View(model);
         }
-
+        [CustomAuthorizationFilter(Roles = "System Admin,HR")]
         public ActionResult allEmploymentStatus()
         {
             ViewBag.PageTitle = "All Employment Status";
             var result = ConfigManager.GetAllEmploymentStatus();
             return View(result);
         }
-
+        [CustomAuthorizationFilter(Roles = "System Admin,HR")]
         [HttpGet]
         public ActionResult addEmploymentStatus(string returnUrl, string previousUrl)
         {
@@ -666,7 +685,7 @@ namespace resourceEdge.webUi.Controllers
             this.AddNotification($"Oops! Operation failed, please make sure all required fields are filled and failure continues, please contact your system administrator", NotificationType.ERROR);
             return RedirectToAction("addEmploymentStatus");
         }
-
+        [CustomAuthorizationFilter(Roles = "System Admin,HR")]
         public ActionResult EditEmpStatus(int id)
         {
             var stat = statusRepo.GetById(id);
@@ -693,11 +712,13 @@ namespace resourceEdge.webUi.Controllers
             this.AddNotification("Oops! Operation failed, please make sure all required fields are filled and failure continues, please contact your system administrator", NotificationType.ERROR);
             return View(stat);
         }
+        [CustomAuthorizationFilter(Roles = "System Admin,HR")]
         public ActionResult AllLeaveType()
         {
             ViewBag.PageTitle = "All Types of available Leaves";
             return View(ConfigManager.GetAllLeaveType());
         }
+        [CustomAuthorizationFilter(Roles = "System Admin,HR")]
         public ActionResult AddLeaveType()
         {
             ViewBag.PageTitle = "Add Leave Type";
@@ -756,6 +777,7 @@ namespace resourceEdge.webUi.Controllers
             this.AddNotification("Oops! Operation failed, please make sure all required fields are filled and failure continues, please contact your system administrator", NotificationType.ERROR);
             return View("AllLeaveType");
         }
+        [CustomAuthorizationFilter(Roles = "System Admin,HR")]
         public ActionResult AddLevel(string retunUrl, string previousUrl)
         {
             ViewBag.returnUrl = retunUrl;
@@ -766,6 +788,7 @@ namespace resourceEdge.webUi.Controllers
 
             return View();
         }
+        [CustomAuthorizationFilter(Roles = "System Admin,HR")]
         public ActionResult AllLevel()
         {
             ViewBag.PageTitle = "All Levels";
@@ -816,6 +839,7 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.Groups = DropDown.GetGroup();
             return View(model);
         }
+        [CustomAuthorizationFilter(Roles = "System Admin,HR")]
         public ActionResult Editlevel(int id)
         {
             var level = levelRepo.GetById(id);
@@ -844,13 +868,13 @@ namespace resourceEdge.webUi.Controllers
             this.AddNotification("Something went wrong, please try again", NotificationType.ERROR);
             return View("AllLevel");
         }
-        [CustomAuthorizationFilter(Roles = "System Admin,HR, Super Admin")]
+        [CustomAuthorizationFilter(Roles = "System Admin, Super Admin")]
         public ActionResult Alllocation()
         {
             ViewBag.PageTitle = "All Locations";
             return View(ConfigManager.GetAllLocation());
         }
-        [CustomAuthorizationFilter(Roles = "System Admin,HR, Super Admin")]
+        [CustomAuthorizationFilter(Roles = "System Admin, Super Admin")]
         public ActionResult AddLocation(string returnUrl)
         {
             ViewBag.returnUrl = returnUrl;
@@ -860,7 +884,7 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.Groups = DropDown.GetGroup();
             return View();
         }
-        [CustomAuthorizationFilter(Roles = "System Admin,HR, Super Admin")]
+        [CustomAuthorizationFilter(Roles = "System Admin, Super Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AddLocation(LocationViewModel model = null, FormCollection collection = null)
@@ -900,6 +924,7 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.Groups = DropDown.GetGroup();
             return View(model);
         }
+        [CustomAuthorizationFilter(Roles = "System Admin, Super Admin")]
         public ActionResult Editlocation(int id)
         {
             var level = LocationRepo.GetById(id);
@@ -969,13 +994,14 @@ namespace resourceEdge.webUi.Controllers
             this.AddNotification($"Something went wrong, please try again", NotificationType.ERROR);
             return View(model);
         }
+        [CustomAuthorizationFilter(Roles = "System Admin,Super Admin")]
         public ActionResult AllGroup()
         {
             ViewBag.PageTitle = "All Groups";
-            return View(ConfigManager.GetAllGroup());
+            return View(ConfigManager.GetAllGroup().OrderBy(x=>x.GroupName));
         }
 
-        [CustomAuthorizationFilter(Roles = "System Admin,HR, Super Admin")]
+        [CustomAuthorizationFilter(Roles = "System Admin, Super Admin")]
         public ActionResult AddGroup(string returnUrl, string previousUrl)
         {
             ViewBag.returnUrl = returnUrl;
@@ -984,7 +1010,7 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.PageTitle = "Add  Group";
             return View();
         }
-        [CustomAuthorizationFilter(Roles = "System Admin,HR, Super Admin"), HttpPost, ValidateAntiForgeryToken]
+        [CustomAuthorizationFilter(Roles = "System Admin, Super Admin"), HttpPost, ValidateAntiForgeryToken]
         public ActionResult AddGroup(GroupViewModel model, string returnUrl)
         {
             try
@@ -1014,7 +1040,7 @@ namespace resourceEdge.webUi.Controllers
             this.AddNotification($"Something went wrong, Please try again", NotificationType.ERROR);
             return View(model);
         }
-        [CustomAuthorizationFilter(Roles = "System Admin,HR, Super Admin")]
+        [CustomAuthorizationFilter(Roles = "System Admin, Super Admin")]
         public ActionResult EditGroup(int id)
         {
             var group = GroupRepo.GetById(id);
@@ -1041,6 +1067,26 @@ namespace resourceEdge.webUi.Controllers
             }
             this.AddNotification("Oops! Something went wrong, Please try again", NotificationType.ERROR);
             return View("AllGroup");
+        }
+        [NonAction]
+        public bool validateDates(DateTime? dateOfJoining, DateTime? dateOfLeaveing)
+        {
+            if (dateOfJoining != null && dateOfJoining <= DateTime.Now)
+            {
+                if (dateOfLeaveing != null)
+                {
+                    if (dateOfJoining > dateOfLeaveing || (dateOfJoining > DateTime.Now))
+                    {
+                        return false;
+                    }
+                    else if (dateOfJoining < dateOfLeaveing)
+                    {
+                        return true;
+                    }
+                }
+                return true;
+            }
+            return false;
         }
     }
 }

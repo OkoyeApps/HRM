@@ -1460,7 +1460,6 @@
     <Content Include="Views\Configuration\AllGroup.cshtml" />
     <Content Include="Views\Configuration\Alllocation.cshtml" />
     <Content Include="Views\Configuration\AllLevel.cshtml" />
-    <Content Include="Views\Configuration\allEmployementStatus.cshtml" />
     <Content Include="Views\Configuration\allJob.cshtml" />
     <Content Include="Views\Configuration\AllPrefix.cshtml" />
     <Content Include="Views\Configuration\EditCode.cshtml" />
@@ -1508,6 +1507,7 @@
     <Content Include="Views\SystemAdmin\Index.cshtml" />
     <Content Include="Views\SystemAdmin\AddAdmin.cshtml" />
     <Content Include="Views\SystemAdmin\AdminDetail.cshtml" />
+    <Content Include="Views\Configuration\allEmploymentStatus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

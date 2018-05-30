@@ -63,6 +63,24 @@ namespace resourceEdge.webUi
                 "~/assets/AdminTemplate/assets/plugins/parsley/dist/parsley.js"
 
                 ));
+            bundles.Add(new ScriptBundle("~/assets/Table").Include(
+                     "~/assets/AdminTemplate/assets/plugins/DataTables/media/js/jquery.dataTables.js",
+                     "~/assets/AdminTemplate/assets/plugins/DataTables/media/js/dataTables.bootstrap.min.js",
+                     "~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Buttons/js/dataTables.buttons.min.js",
+                     "~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Buttons/js/buttons.bootstrap.min.js",
+                     "~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Buttons/js/buttons.flash.min.js",
+                     "~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Buttons/js/jszip.min.js",
+                     "~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Buttons/js/pdfmake.min.js",
+                     "~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Buttons/js/vfs_fonts.min.js",
+                     "~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Buttons/js/buttons.html5.min.js",
+                     "~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Buttons/js/buttons.print.min.js",
+                     "~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Responsive/js/dataTables.responsive.min.js"
+                ));
+            bundles.Add(new StyleBundle("~/asset/tablecss").Include(
+                   "~/assets/AdminTemplate/assets/plugins/DataTables/media/css/dataTables.bootstrap.min.css",
+                    "~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Buttons/css/buttons.bootstrap.min.css",
+                    "~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css"
+                ));
             BundleTable.EnableOptimizations = true;
         }
     }

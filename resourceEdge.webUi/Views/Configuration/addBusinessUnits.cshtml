@@ -34,7 +34,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     @Html.Label("Unit Name", htmlAttributes: new { @class = "control-label" })
-                    @Html.EditorFor(model => model.unitname, new { htmlAttributes = new { @class = "form-control", required = "" } })
+                    @Html.EditorFor(model => model.unitname, new { htmlAttributes = new { @class = "form-control", required = "", data_parsley_minlength = "5" } })
 
                 </div>
             </div>
@@ -42,7 +42,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     @Html.Label("Unit Code", htmlAttributes: new { @class = "control-label" })
-                    @Html.EditorFor(model => model.unitcode, new { htmlAttributes = new { @class = "form-control", required = "" } })
+                    @Html.EditorFor(model => model.unitcode, new { htmlAttributes = new { @class = "form-control", required = "", data_parsley_minlength = "2" } })
 
                 </div>
             </div>
@@ -56,7 +56,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     @Html.Label("Descriptions", htmlAttributes: new { @class = "control-label" })
-                    @Html.EditorFor(model => model.descriptions, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.descriptions, new { htmlAttributes = new { @class = "form-control", data_parsley_maxlength = "100" } })
 
                 </div>
             </div>
@@ -70,6 +70,6 @@
 
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+    @*@Scripts.Render("~/bundles/jqueryval")*@
     <script src="~/Scripts/Pages/JS/Configuration/addunit.js"></script>
 }

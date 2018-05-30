@@ -4,7 +4,10 @@
     ViewBag.Title = "AllPrefix";
     Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
 }
+@section css{
 
+    @Styles.Render("~/asset/tablecss");
+}
 <table class="table table-bordered table-responsive table-striped">
     <tr>
         <td>
@@ -13,7 +16,8 @@
     </tr>
     <tr>
         <td>
-            <table class="table table-bordered table-responsive table-striped">
+            <table class="table table-bordered table-responsive table-striped" id="tblGeneral">
+                <thead>
                 <tr>
                     <th>
                         Prefix Name
@@ -24,6 +28,8 @@
                     <th></th>
                 </tr>
 
+                </thead>
+                <tbody>
                 @foreach (var item in Model)
                 {
                     <tr>
@@ -40,7 +46,13 @@
                     </tr>
                 }
 
+                </tbody>
+
             </table>
             </td>
 </tr>
 </table>
+@section Scripts{
+    @Scripts.Render("~/assets/Table");
+    <script src="~/Scripts/Pages/JS/DataTableInitialization.js"></script>
+}
