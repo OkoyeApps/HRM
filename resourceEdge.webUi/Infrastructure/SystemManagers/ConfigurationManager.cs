@@ -47,7 +47,7 @@ namespace resourceEdge.webUi.Infrastructure
             }
             return false;
         }
-        public bool DoesDeptartmentExstInLocation(int unitId, string deptName)
+        public bool DoesDeptartmentExistInLocation(int unitId, string deptName)
         {
             var location = unitOfWork.Department.Get(filter: x => x.deptname.ToLower() == deptName && x.BusinessUnitsId == unitId).FirstOrDefault(); //This code checks if the Busines sunit already exist in the db and then if it doesnt
             if (location != null) //If it does it check if it has the same location
@@ -61,6 +61,12 @@ namespace resourceEdge.webUi.Infrastructure
             List<JobListItem> Result = new List<JobListItem>();
             unitOfWork.jobTitles.Get().ToList().ForEach(X => Result.Add(new JobListItem { JobId = X.Id, JobName = X.jobtitlename }));
             return Result;
+        }
+
+        public bool ValidateLevel(string levelname, int levelnumber, int groupId)
+        {
+            var level = unitOfWork.Levels.Get(filter: x => x.GroupId == groupId).Any(x => x.LevelName.ToLower() == levelname || x.levelNo == levelnumber);
+            return level;
         }
 
         public bool AddOrUpdateDepartment(DepartmentViewModel model = null, int? id = null)

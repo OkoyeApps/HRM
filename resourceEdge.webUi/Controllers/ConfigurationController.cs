@@ -357,7 +357,7 @@ namespace resourceEdge.webUi.Controllers
         {
             if (ModelState.IsValid)
             {
-                var existingDept = ConfigManager.DoesDeptartmentExstInLocation(model.BunitId, model.deptname);
+                var existingDept = ConfigManager.DoesDeptartmentExistInLocation(model.BunitId, model.deptname);
                 if (existingDept)
                 {
                     this.AddNotification("Please Department already exist with same name for this Unit. Kindly try using another name or a different Location", NotificationType.ERROR);
@@ -781,19 +781,26 @@ namespace resourceEdge.webUi.Controllers
                 if (ModelState.IsValid)
                 {
                     var userSessionDetail = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
-                    Level level = new Level();
-                    level.LevelName = model.LevelName;
-                    level.levelNo = model.levelNo;
-                    level.EligibleYears = model.EligibleYears;
-                    level.CreatedBy = User.Identity.GetUserId();
-                    level.ModifiedBy = User.Identity.GetUserId();
-                    level.CreatedOn = DateTime.Now;
-                    level.ModifiedOn = DateTime.Now;
-                    level.GroupId = userSessionDetail.GroupId;
-                    levelRepo.Insert(level);
-                    ModelState.Clear();
-                    this.AddNotification($"", NotificationType.SUCCESS);
-                    return Redirect(Request.UrlReferrer.AbsolutePath);
+                    var validLevel = ConfigManager.ValidateLevel(model.LevelName, model.levelNo, userSessionDetail.GroupId);
+                    if (!validLevel) //Actually this check in logic is the not operation of the operation, therefore if it is valid then it checks it with the false value.
+                    {
+                        Level level = new Level();
+                        level.LevelName = model.LevelName;
+                        level.levelNo = model.levelNo;
+                        level.EligibleYears = model.EligibleYears;
+                        level.CreatedBy = User.Identity.GetUserId();
+                        level.ModifiedBy = User.Identity.GetUserId();
+                        level.CreatedOn = DateTime.Now;
+                        level.ModifiedOn = DateTime.Now;
+                        level.GroupId = userSessionDetail.GroupId;
+                        levelRepo.Insert(level);
+                        ModelState.Clear();
+                        this.AddNotification("Level Added", NotificationType.SUCCESS);
+                        return Redirect(Request.UrlReferrer.AbsolutePath);
+                    }
+                    this.AddNotification("Oops! please this level or the name used already exist in the system", NotificationType.ERROR);
+                    ViewBag.Groups = DropDown.GetGroup();
+                    return View(model);
                 }
             }
             else
