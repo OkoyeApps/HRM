@@ -173,7 +173,7 @@ namespace resourceEdge.Domain.Entities
         [Key]
         [HiddenInput(DisplayValue = false)]
         public int empID { get; set; }
-        [Required]
+        //[Required]
         public string identityCode { get; set; }
 
         [Required(ErrorMessage = "Please provide an Id for the employee"), Display(Name = "Employee Id")]

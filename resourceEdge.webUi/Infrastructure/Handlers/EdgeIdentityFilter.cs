@@ -68,7 +68,7 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
 
                                 var user = db.Users.Where(X => X.Id == userIdentityObject).Select(x => new { Email = x.Email, locationId = x.LocationId, groupId = x.GroupId, fullName = x.UserfullName }).FirstOrDefault();
 
-                                if (filterContext.Controller.ControllerContext.HttpContext.User.IsInRole("System Admin"))
+                                if (filterContext.HttpContext.User.IsInRole("System Admin") || filterContext.HttpContext.User.IsInRole("Super Admin"))
                                 {
                                     key = new SessionModel()
                                     {
@@ -128,7 +128,7 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
 
                                 var user = db.Users.Where(X => X.Id == userIdentityObject).Select(x => new { Email = x.Email, locationId = x.LocationId, groupId = x.GroupId, fullName = x.UserfullName }).FirstOrDefault();
 
-                                if (filterContext.Controller.ControllerContext.HttpContext.User.IsInRole("System Admin"))
+                                if (filterContext.Controller.ControllerContext.HttpContext.User.IsInRole("System Admin") || filterContext.HttpContext.User.IsInRole("Super Admin"))
                                 {
                                     SessionModel key = new SessionModel()
                                     {

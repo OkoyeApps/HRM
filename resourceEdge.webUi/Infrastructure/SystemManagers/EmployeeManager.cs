@@ -254,16 +254,6 @@ namespace resourceEdge.webUi.Infrastructure
         /// <param name="userid"></param>
         /// <returns></returns>
 
-        public ReportManager getReportManagerByUserId(string userId)
-        {
-            var manager = unitofWork.ReportManager.Get(filter: x=>x.ManagerUserId ==  userId).FirstOrDefault();
-            if (manager != null)
-            {
-                return manager;
-            }
-            return null;
-        }
-
         public List<EmployeeListItem> GetReportManagrbyUserId(string userId)
         {
             var employee = UserManagement.getEmployeeIdFromUserTable(userId); //Check if this check actually checks the user table
@@ -303,6 +293,12 @@ namespace resourceEdge.webUi.Infrastructure
                 return true;
             }
             return false;
+        }
+
+        public int ReportManagerForUnitCount(int unitId)
+        {
+            var result = unitofWork.ReportManager.Get(filter: x => x.BusinessUnitId == unitId).Count();
+            return result;
         }
 
         public bool AddEmployeeToMailDispatch(string userName, string password, string sender, string GroupName, string Fullname)

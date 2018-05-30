@@ -98,7 +98,7 @@ namespace resourceEdge.webUi.Controllers
                     IdentityRepo.Insert(code);
                     ModelState.Clear();
                     this.AddNotification("Code created successfully", NotificationType.SUCCESS);
-                        return Redirect(Request.UrlReferrer.AbsolutePath);
+                    return Redirect(Request.UrlReferrer.AbsolutePath);
                 }
 
             }
@@ -173,7 +173,7 @@ namespace resourceEdge.webUi.Controllers
                     };
                     prefixRepo.Insert(prefixes);
                     this.AddNotification($"Prefix(es) added", NotificationType.SUCCESS);
-                        return Redirect(Request.UrlReferrer.AbsolutePath);
+                    return Redirect(Request.UrlReferrer.AbsolutePath);
 
                 }
             }
@@ -355,7 +355,7 @@ namespace resourceEdge.webUi.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult addDepartment(DepartmentViewModel model)
         {
-            if (ModelState.IsValid )
+            if (ModelState.IsValid)
             {
                 var existingDept = ConfigManager.DoesDeptartmentExstInLocation(model.BunitId, model.deptname);
                 if (existingDept)
@@ -489,15 +489,15 @@ namespace resourceEdge.webUi.Controllers
                             ModelState.Clear();
                         }
                     }
-                        this.AddNotification($"Job Added!", NotificationType.SUCCESS);
-                        return Redirect(Request.UrlReferrer.AbsolutePath);
+                    this.AddNotification($"Job Added!", NotificationType.SUCCESS);
+                    return Redirect(Request.UrlReferrer.AbsolutePath);
                 }
             }
             else
             {
                 var result = ConfigManager.AddOrUpdateJobs(collection);
 
-                 if (result)
+                if (result)
                 {
                     this.AddNotification($"Job Added", NotificationType.SUCCESS);
                     return RedirectToAction("AddJobTitle");
@@ -569,13 +569,13 @@ namespace resourceEdge.webUi.Controllers
                     positionRepo.Insert(position);
                     ModelState.Clear();
                     this.AddNotification($"Position Added!", NotificationType.SUCCESS);
-                        return Redirect(Request.UrlReferrer.AbsolutePath);
+                    return Redirect(Request.UrlReferrer.AbsolutePath);
                 }
             }
             else
             {
                 var result = ConfigManager.AddOrUpdatePosition(collection);
-                 if (result)
+                if (result)
                 {
                     this.AddNotification($"Position Added!", NotificationType.SUCCESS);
                     return RedirectToAction("addPosition");
@@ -793,7 +793,7 @@ namespace resourceEdge.webUi.Controllers
                     levelRepo.Insert(level);
                     ModelState.Clear();
                     this.AddNotification($"", NotificationType.SUCCESS);
-                        return Redirect(Request.UrlReferrer.AbsolutePath);
+                    return Redirect(Request.UrlReferrer.AbsolutePath);
                 }
             }
             else
@@ -837,12 +837,13 @@ namespace resourceEdge.webUi.Controllers
             this.AddNotification("Something went wrong, please try again", NotificationType.ERROR);
             return View("AllLevel");
         }
-
+        [CustomAuthorizationFilter(Roles = "System Admin,HR, Super Admin")]
         public ActionResult Alllocation()
         {
             ViewBag.PageTitle = "All Locations";
             return View(ConfigManager.GetAllLocation());
         }
+        [CustomAuthorizationFilter(Roles = "System Admin,HR, Super Admin")]
         public ActionResult AddLocation(string returnUrl)
         {
             ViewBag.returnUrl = returnUrl;
@@ -852,6 +853,7 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.Groups = DropDown.GetGroup();
             return View();
         }
+        [CustomAuthorizationFilter(Roles = "System Admin,HR, Super Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AddLocation(LocationViewModel model = null, FormCollection collection = null)
@@ -874,14 +876,14 @@ namespace resourceEdge.webUi.Controllers
                     location.GroupId = model.GroupId;
                     LocationRepo.Insert(location);
                     ModelState.Clear();
-                        this.AddNotification("Location Added", NotificationType.SUCCESS);
-                        return Redirect(Request.UrlReferrer.AbsolutePath);
+                    this.AddNotification("Location Added", NotificationType.SUCCESS);
+                    return Redirect(Request.UrlReferrer.AbsolutePath);
                 }
             }
             else
             {
                 var result = ConfigManager.AddOrUpdateLocation(collection);
-                 if (result)
+                if (result)
                 {
                     this.AddNotification($"Location Added!", NotificationType.SUCCESS);
                     return RedirectToAction("AddLocation");
@@ -948,7 +950,7 @@ namespace resourceEdge.webUi.Controllers
                     careerRepo.Insert(career);
                     ModelState.Clear();
                     this.AddNotification($"Career Added!", NotificationType.SUCCESS);
-                        return Redirect(Request.UrlReferrer.AbsolutePath);
+                    return Redirect(Request.UrlReferrer.AbsolutePath);
                 }
             }
             catch (Exception ex)
@@ -966,7 +968,7 @@ namespace resourceEdge.webUi.Controllers
             return View(ConfigManager.GetAllGroup());
         }
 
-
+        [CustomAuthorizationFilter(Roles = "System Admin,HR, Super Admin")]
         public ActionResult AddGroup(string returnUrl, string previousUrl)
         {
             ViewBag.returnUrl = returnUrl;
@@ -975,8 +977,7 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.PageTitle = "Add  Group";
             return View();
         }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [CustomAuthorizationFilter(Roles = "System Admin,HR, Super Admin"), HttpPost, ValidateAntiForgeryToken]
         public ActionResult AddGroup(GroupViewModel model, string returnUrl)
         {
             try
@@ -994,7 +995,7 @@ namespace resourceEdge.webUi.Controllers
                     GroupRepo.Insert(Group);
                     ModelState.Clear();
                     this.AddNotification($"Group Added", NotificationType.SUCCESS);
-                        return RedirectToAction("AllGroup");
+                    return RedirectToAction("AllGroup");
                 }
             }
             catch (Exception ex)
@@ -1006,7 +1007,7 @@ namespace resourceEdge.webUi.Controllers
             this.AddNotification($"Something went wrong, Please try again", NotificationType.ERROR);
             return View(model);
         }
-
+        [CustomAuthorizationFilter(Roles = "System Admin,HR, Super Admin")]
         public ActionResult EditGroup(int id)
         {
             var group = GroupRepo.GetById(id);

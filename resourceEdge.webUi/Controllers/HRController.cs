@@ -22,7 +22,7 @@ using resourceEdge.webUi.Infrastructure.SystemManagers;
 namespace resourceEdge.webUi.Controllers
 {
    // [Authorize(Roles = "System Admin,HR")]
-    [CustomAuthorizationFilter(Roles ="HR, System Admin")]
+    [CustomAuthorizationFilter(Roles ="HR, System Admin, Super Admin")]
     public class HRController : Controller
     {
         IEmployees empRepo;
@@ -118,7 +118,6 @@ namespace resourceEdge.webUi.Controllers
         {
             ViewBag.PageTitle = "Create Employee";
             var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
-            ViewBag.Groups = GroupRepo.GetById(UserFromSession.GroupId).GroupName;
             ViewBag.Locations =ConfigManager.GetLocationByGroupId(UserFromSession.GroupId);
             ViewBag.roles = dropDownManager.GetRole();
             ViewBag.code = ConfigManager.GetIdentityCode(UserFromSession.GroupId);
@@ -127,6 +126,14 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.businessUnits = dropDownManager.GetBusinessUnit();
             ViewBag.jobTitles = dropDownManager.GetJobtitle();
             ViewBag.Levels = dropDownManager.GetLevel();
+            if (!User.IsInRole("Super Admin"))
+            {
+            ViewBag.Groups = GroupRepo.GetById(UserFromSession.GroupId).GroupName;
+            }
+            if (User.IsInRole("Super Admin"))
+            {
+                ViewBag.group = dropDownManager.GetGroup();
+            }
             return View();
         }
 
@@ -136,7 +143,16 @@ namespace resourceEdge.webUi.Controllers
         {
             Employee realEmployee = new Employee();
             ReportManager manager = null;
-            var RealUserId = employees.identityCode + employees.empUserId;
+            string RealUserId = "";
+           
+            if (!User.IsInRole("Super Admin"))
+            {
+                RealUserId = employees.identityCode + employees.empUserId;
+            }
+            if (User.IsInRole("Super Admin"))
+            {
+                RealUserId = UserManagement.GetIdentityCode(employees.GroupId) + employees.empUserId;
+            }
             var EmployeeIdExist = Infrastructure.UserManagement.checkEmployeeId(RealUserId);
             var employeeEmailExist = UserManagement.checkEmail(employees.empEmail);
             var validDate = validateDates(employees.dateOfJoining, employees.dateOfLeaving);
@@ -149,31 +165,16 @@ namespace resourceEdge.webUi.Controllers
                     {
                         if (validDate)
                         {
+                            int groupidToUse = 0;
                             var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
-                            //var unitDetail = BunitsRepo.GetById(employees.businessunitId);
-                            //realEmployee.businessunitId = employees.businessunitId;
-                            //realEmployee.createdby = User.Identity.GetUserId();
-                            //realEmployee.dateOfJoining = employees.dateOfJoining;
-                            //realEmployee.dateOfLeaving = employees.dateOfLeaving;
-                            //realEmployee.DepartmentId = employees.departmentId;
-                            //realEmployee.empEmail = employees.empEmail;
-                            //realEmployee.FullName = employees.FirstName + " " + employees.lastName;
-                            //realEmployee.empStatusId = employees.empStatusId;
-                            //realEmployee.isactive = true;
-                            //realEmployee.jobtitleId = employees.jobtitleId;
-                            //realEmployee.modeofEmployement = employees.modeofEmployement;
-                            //realEmployee.modifiedby = User.Identity.GetUserId();
-                            //realEmployee.officeNumber = employees.officeNumber;
-                            //realEmployee.positionId = employees.positionId;
-                            //realEmployee.prefixId = employees.prefixId;
-                            //realEmployee.yearsExp = employees.yearsExp;
-                            //realEmployee.LevelId = employees.Level;
-                            //realEmployee.LocationId = unitDetail.LocationId.Value;
-                            //realEmployee.GroupId = UserFromSession.GroupId;
-                            //realEmployee.isactive = true;
-                            //var CreatedDate = realEmployee.createddate = DateTime.Now;
-                            //var modifiedDate = realEmployee.modifieddate = DateTime.Now;
-
+                            if (User.IsInRole("Super Admin"))
+                            {
+                                groupidToUse = employees.GroupId;
+                            }
+                            if (User.IsInRole("Super Admin"))
+                            {
+                                groupidToUse = UserFromSession.GroupId;
+                            }
                             var result = UserManagement.CreateEmployee(employees);
                             if (result != null)
                             {
@@ -182,13 +183,34 @@ namespace resourceEdge.webUi.Controllers
                             
                             try
                             {
+                                var role = db.Roles.Find(employees.empRoleId.ToString());
+                                var roleId = RoleManager.GetRoleByName("employee");
+                                if (role.Name.ToLower() == "manager")
+                                {
+                                  var existingReportManager =   employeeManager.ReportManagerForUnitCount(employees.businessunitId);
+                                    if (existingReportManager ==2)
+                                    {       
+                                        employees.empRoleId =int.Parse(roleId.Id);
+                                    }
+                                }
+                             
+                                if (role.Name.ToLower() == "location head")
+                                {
+                                    var existingHeads = UserManagement.IsLocationHeadComplete(realEmployee.LocationId.Value);
+                                    if (!existingHeads)
+                                    {
+                                        employees.empRoleId =int.Parse(roleId.Id);
+                                    }
+
+                                }
+
                                 var newCreatedUser = await Infrastructure.UserManagement.CreateUser(employees.empEmail, employees.empRoleId.ToString(), employees.empStatusId, employees.FirstName, employees.lastName, employees.officeNumber,
                                      RealUserId, employees.jobtitleId.ToString(), null, User.Identity.GetUserId(), User.Identity.GetUserId(), employees.modeofEmployement.ToString(),
-                                      employees.dateOfJoining, null, true, employees.departmentId.ToString(), employees.businessunitId.ToString(), UserFromSession.GroupId, employees.Location);
+                                      employees.dateOfJoining, null, true, employees.departmentId.ToString(), employees.businessunitId.ToString(), groupidToUse, employees.Location);
                                 if (newCreatedUser.Item1.Id != null)
                                 {
 
-                                    var role = db.Roles.Find(employees.empRoleId.ToString());
+                                   
                                     if (role.Name.ToLower() == "manager")
                                     {
                                         realEmployee.IsUnithead = true;
@@ -208,8 +230,23 @@ namespace resourceEdge.webUi.Controllers
                                         manager.LocationId = realEmployee.LocationId.Value;
                                         employeeManager.AssignReportManager(manager);
                                     }
+                                    bool locationHead = false;
+                                    if (role.Name.ToLower() == "location head")
+                                    {
+                                        var existingHeads = UserManagement.IsLocationHeadComplete(realEmployee.LocationId.Value);
+                                        if (existingHeads)
+                                        {
+                                            locationHead = UserManagement.AssignLocationHead(newCreatedUser.Item1.Id, realEmployee.GroupId);
+                                        }
+
+                                    }
                                     var groupName = employeeManager.GetGroupName(realEmployee.GroupId);
                                     employeeManager.AddEmployeeToMailDispatch(employees.empEmail, newCreatedUser.Item2, "noreply@tenece.com", groupName, realEmployee.FullName);
+                                    if (!locationHead)
+                                    {
+                                        this.AddNotification("Employee added successfully. Note, could not assign as location head because the required number of heads are complete already. you can manually re-assign this from the Employee configuration tab.", NotificationType.SUCCESS);
+                                        return RedirectToAction("Create");
+                                    }
                                 }
                             }
                             catch (Exception ex)

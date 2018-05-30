@@ -20,7 +20,7 @@ namespace resourceEdge.webUi.Infrastructure
         private static ApplicationDbContext context = new ApplicationDbContext();
         static UnitOfWork unitOfWork = new UnitOfWork();
         public static ApplicationUserManager userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -119,38 +119,52 @@ namespace resourceEdge.webUi.Infrastructure
             }
         }
 
-    
+
 
         public static Employee CreateEmployee(EmployeeViewModel employees)
         {
             var UserId = HttpContext.Current.User.Identity.GetUserId();
             Employee realEmployee = new Employee();
+            int group = 0;
             var UserFromSession = (SessionModel)HttpContext.Current.Session["_ResourceEdgeTeneceIdentity"];
-            var unitDetail = unitOfWork.BusinessUnit.GetByID(employees.businessunitId);
-            realEmployee.businessunitId = employees.businessunitId;
-            realEmployee.createdby = UserId;
-            realEmployee.dateOfJoining = employees.dateOfJoining;
-            realEmployee.dateOfLeaving = employees.dateOfLeaving;
-            realEmployee.DepartmentId = employees.departmentId;
-            realEmployee.empEmail = employees.empEmail;
-            realEmployee.FullName = employees.FirstName + " " + employees.lastName;
-            realEmployee.empStatusId = employees.empStatusId;
-            realEmployee.isactive = true;
-            realEmployee.jobtitleId = employees.jobtitleId;
-            realEmployee.modeofEmployement = employees.modeofEmployement;
-            realEmployee.modifiedby = UserId;
-            realEmployee.officeNumber = employees.officeNumber;
-            realEmployee.positionId = employees.positionId;
-            realEmployee.prefixId = employees.prefixId;
-            realEmployee.yearsExp = employees.yearsExp;
-            realEmployee.LevelId = employees.Level;
-            realEmployee.LocationId = unitDetail.LocationId.Value;
-            realEmployee.GroupId = UserFromSession.GroupId;
-            realEmployee.isactive = true;
-            var CreatedDate = realEmployee.createddate = DateTime.Now;
-            var modifiedDate = realEmployee.modifieddate = DateTime.Now;
-            return realEmployee;
+            if (!HttpContext.Current.User.IsInRole("Super Admin"))
+            {
+                group = UserFromSession.GroupId;
+            }
+            else if (HttpContext.Current.User.IsInRole("Super Admin"))
+            {
+                group = employees.GroupId;
+            }
+            if (group != 0)
+            {
+                var unitDetail = unitOfWork.BusinessUnit.GetByID(employees.businessunitId);
+                realEmployee.businessunitId = employees.businessunitId;
+                realEmployee.createdby = UserId;
+                realEmployee.dateOfJoining = employees.dateOfJoining;
+                realEmployee.dateOfLeaving = employees.dateOfLeaving;
+                realEmployee.DepartmentId = employees.departmentId;
+                realEmployee.empEmail = employees.empEmail;
+                realEmployee.FullName = employees.FirstName + " " + employees.lastName;
+                realEmployee.empStatusId = employees.empStatusId;
+                realEmployee.isactive = true;
+                realEmployee.jobtitleId = employees.jobtitleId;
+                realEmployee.modeofEmployement = employees.modeofEmployement;
+                realEmployee.modifiedby = UserId;
+                realEmployee.officeNumber = employees.officeNumber;
+                realEmployee.positionId = employees.positionId;
+                realEmployee.prefixId = employees.prefixId;
+                realEmployee.yearsExp = employees.yearsExp;
+                realEmployee.LevelId = employees.Level;
+                realEmployee.LocationId = unitDetail.LocationId.Value;
+                realEmployee.GroupId = group;
+                realEmployee.isactive = true;
+                var CreatedDate = realEmployee.createddate = DateTime.Now;
+                var modifiedDate = realEmployee.modifieddate = DateTime.Now;
+                return realEmployee;
+            }
+            return null;
         }
+    
         public static bool checkEmployeeId(string id)
         {
             var user = context.Users.Where(x => x.EmployeeId == id).FirstOrDefault();
@@ -175,5 +189,52 @@ namespace resourceEdge.webUi.Infrastructure
             return result ?? null;
         }
 
+        public static bool AssignLocationHead(string userId, int groupId)
+        {
+            var location = unitOfWork.Locations.GetByID(groupId);
+            if (location != null)
+            {
+                if (string.IsNullOrEmpty(location.LocationHead1))
+                {
+                    location.LocationHead1 = userId;
+                }
+                else if (string.IsNullOrEmpty(location.LocationHead2) && !string.IsNullOrEmpty(location.LocationHead3) && !string.IsNullOrEmpty(location.LocationHead1))
+                {
+                    location.LocationHead2 = userId;
+                }
+                else if (string.IsNullOrEmpty(location.LocationHead3) && !string.IsNullOrEmpty(location.LocationHead2) && !string.IsNullOrEmpty(location.LocationHead1))
+                {
+                    location.LocationHead3 = userId;
+                }
+                if (string.IsNullOrEmpty(location.LocationHead1) || string.IsNullOrEmpty(location.LocationHead2) || string.IsNullOrEmpty(location.LocationHead3))
+                {
+                    unitOfWork.Locations.Update(location);
+                    unitOfWork.Save();
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static bool IsLocationHeadComplete(int locationId)
+        {
+            var location = unitOfWork.Locations.Get(filter: x => x.Id == locationId).Any(x=> (x.LocationHead1 == null || x.LocationHead2 == null || x.LocationHead3 == null));
+            if (location)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public static string GetIdentityCode(int groupId)
+        {
+            var code = unitOfWork.identityCodes.Get(filter: x => x.GroupId == groupId).FirstOrDefault();
+            string identityCode = "";
+            if (code != null)
+            {
+                identityCode = code.employee_code;
+            }
+            return identityCode;
+        }
     }
 }
