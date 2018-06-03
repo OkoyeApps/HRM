@@ -81,6 +81,9 @@ namespace resourceEdge.webUi
                     "~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Buttons/css/buttons.bootstrap.min.css",
                     "~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css"
                 ));
+            bundles.Add(new StyleBundle("~/asset/configAppraisal").Include(
+
+                ));
             BundleTable.EnableOptimizations = true;
         }
     }

@@ -39,7 +39,7 @@
             $('#overload').empty();
             $('#overload').append(`<div class="alert alert-danger">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    <span>Sorry you can't add more than Three(3) Location at a time. kindly submit and then add again</span>
+    <span>Sorry you can't add more than Three(3) Location(s) at a time. kindly submit and then add again</span>
 </div>`);
         }
         })

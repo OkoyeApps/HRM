@@ -144,8 +144,9 @@
             idToSend = unitObject.unitId,
             option = 'U'
         }
-        if (id == 3) {
-            idToSend = unitObject.unitId,
+        if (id.includes('G')) {
+            var splitString = id.split(',');
+            idToSend = splitString[0];
             option = 'G'
         }
         $.ajax({

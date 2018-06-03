@@ -433,7 +433,7 @@ namespace resourceEdge.webUi.Controllers
             {
                 return BadRequest();
             }
-           List<EmployeeListItem> result = null;
+           IEnumerable<EmployeeListItem> result = null;
            var groupId = Apimanager.GetEmployeeByUserId(User.Identity.GetUserId());
             switch (option)
             {
@@ -442,10 +442,10 @@ namespace resourceEdge.webUi.Controllers
                     break;
                 case 'U':
 
-                   result = Apimanager.GetEmpByBusinessUnit(Id.Value);
+                   result = Apimanager.GetEmployeeForAppraisalConfiguration(Id.Value, 'U');
                     break;
                 case 'G':
-                    result = Apimanager.GetAllEmployessInGroup(Id.Value);
+                    result = Apimanager.GetEmployeeForAppraisalConfiguration(Id.Value, 'G');
                     break;
                 default:
                     break;

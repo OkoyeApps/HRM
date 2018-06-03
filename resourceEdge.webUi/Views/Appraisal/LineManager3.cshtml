@@ -31,13 +31,13 @@
       
                 <td><span class="label label-sm label-success">Pending</span></td>
                 <td>
-                    <table>
-                        <tr>
+                    <table  class="pull-right">
+                        <tr >
                             <td>
-                                @using (Html.BeginForm("SubmittedAppraisal", "Appraisal", new { userId = item.userId }, FormMethod.Post, null))
+                                @using (Html.BeginForm("SubmittedAppraisal", "Appraisal", new { key = item.userId }, FormMethod.Post, null))
                                 {
                                 @Html.AntiForgeryToken()
-                                <button class="btn btn-warning" type="submit"><i class="icon-eye"></i>View</button>
+                                <button class="btn btn-info pull-right" type="submit"><i class="icon-eye"></i>View</button>
                                 }
                             </td>
                         </tr>

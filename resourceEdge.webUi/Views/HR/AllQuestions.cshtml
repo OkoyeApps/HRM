@@ -5,11 +5,9 @@
     Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
 }
 @section css{
-    <link href="~/assets/AdminTemplate/assets/plugins/DataTables/media/css/dataTables.bootstrap.min.css" rel="stylesheet" />
-<link href="~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Buttons/css/buttons.bootstrap.min.css" rel="stylesheet" />
-<link href="~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css" rel="stylesheet" />
+    @Styles.Render("~/asset/tablecss")
     }
-<table class="table table-responsive table-striped table-bordered table-hover table-checkable">
+<table class="table table-responsive table-striped table-bordered ">
     <tr>
 
     </tr>
@@ -20,7 +18,6 @@
                 <table class="table table-responsive table-striped table-bordered table-hover table-checkable" id="tblGeneral">
                     <thead>
                         <tr>
-
                             <th>
                                 @Html.DisplayName("Name")
                             </th>
@@ -38,7 +35,6 @@
                     {
                         <tbody class="portlet-body">
                             <tr>
-
                                 <td>
                                     @Html.DisplayFor(modelItem => item.UserFullName)
                                 </td>
@@ -49,7 +45,12 @@
                                     @Html.DisplayFor(modelItem => item.BusinessUnit.unitname)
                                 </td>
                                 <td>
-                                    @Html.ActionLink("View", "ViewQuestion", "HR", new { Id = item.UserIdForQuestion }, new { @class = "btn btn-success" })
+                                    @using (Html.BeginForm("ViewQuestion", "HR", new { key = item.UserIdForQuestion }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-success pull-right">View</button>
+                                    }
+                                 @*   @Html.ActionLink("View", "ViewQuestion", "HR", new { Id = item.UserIdForQuestion }, new { @class = "btn btn-success pull-right" })*@
                                 </td>
                             </tr>
                         </tbody>
@@ -66,16 +67,6 @@
 </table>
 
 @section Scripts{
-    <script src="~/assets/AdminTemplate/assets/plugins/DataTables/media/js/jquery.dataTables.js"></script>
-<script src="~/assets/AdminTemplate/assets/plugins/DataTables/media/js/dataTables.bootstrap.min.js"></script>
-<script src="~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
-<script src="~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Buttons/js/buttons.bootstrap.min.js"></script>
-<script src="~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Buttons/js/buttons.flash.min.js"></script>
-<script src="~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Buttons/js/jszip.min.js"></script>
-<script src="~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Buttons/js/pdfmake.min.js"></script>
-<script src="~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Buttons/js/vfs_fonts.min.js"></script>
-<script src="~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Buttons/js/buttons.html5.min.js"></script>
-<script src="~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Buttons/js/buttons.print.min.js"></script>
-<script src="~/assets/AdminTemplate/assets/plugins/DataTables/extensions/Responsive/js/dataTables.responsive.min.js"></script>
+@Scripts.Render("~/assets/Table");
 <script src="~/Scripts/Pages/JS/DataTableInitialization.js"></script>
 }

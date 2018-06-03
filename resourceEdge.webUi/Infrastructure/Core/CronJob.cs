@@ -203,6 +203,9 @@ namespace resourceEdge.webUi.Infrastructure.Core
                 }
             }
         }
+        /// <summary>
+        /// Remember that when an appraisal ends you need to close all actie subscription by checking the isactive field and disabling it...
+        /// </summary>
 
         public void CloseAllFinishedAppraisal()
         {
@@ -222,5 +225,6 @@ namespace resourceEdge.webUi.Infrastructure.Core
             ExpiredIncidents.ForEach(x => x.IsActive = false);
             ExpiredIncidents.ForEach(X => unitOfWork.Discipline.Update(X));
         }
+
     }
 }

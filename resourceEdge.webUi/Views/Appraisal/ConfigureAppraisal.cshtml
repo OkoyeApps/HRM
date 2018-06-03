@@ -9,21 +9,6 @@
 
 @section css{
     <link href="~/assets/AdminTemplate/assets/plugins/bootstrap-wizard/css/bwizard.min.css" rel="stylesheet" />
-    <link href="~/assets/AdminTemplate/assets/plugins/parsley/src/parsley.css" rel="stylesheet" />
-    <link href="~/assets/AdminTemplate/assets/plugins/ionRangeSlider/css/ion.rangeSlider.css" rel="stylesheet" />
-    <link href="~/assets/AdminTemplate/assets/plugins/ionRangeSlider/css/ion.rangeSlider.skinNice.css" rel="stylesheet" />
-    <link href="~/assets/AdminTemplate/assets/plugins/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
-    <link href="~/assets/AdminTemplate/assets/plugins/bootstrap-datepicker/css/datepicker3.css" rel="stylesheet" />
-    <link href="~/assets/AdminTemplate/assets/plugins/ionRangeSlider/css/ion.rangeSlider.css" rel="stylesheet" />
-    <link href="~/assets/AdminTemplate/assets/plugins/ionRangeSlider/css/ion.rangeSlider.skinNice.css" rel="stylesheet" />
-    <link href="~/assets/AdminTemplate/assets/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css" rel="stylesheet" />
-    <link href="~/assets/AdminTemplate/assets/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet" />
-    <link href="~/assets/AdminTemplate/assets/plugins/password-indicator/css/password-indicator.css" rel="stylesheet" />
-    <link href="~/assets/AdminTemplate/assets/plugins/bootstrap-combobox/css/bootstrap-combobox.css" rel="stylesheet" />
-
-
-    <link href="~/assets/AdminTemplate/assets/plugins/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" />
-    <link href="~/assets/AdminTemplate/assets/plugins/select2/dist/css/select2.min.css" rel="stylesheet" />
     }
 <span id="group" hidden>@usersessionObject.GroupId</span>
 @using (Html.BeginForm("ConfigureAppraisal", "Appraisal", FormMethod.Post, new { data_parsley_validate = "true", name = "form-wizard" }))
@@ -39,10 +24,10 @@
                                             Configure Line Managers
                                             <small>Configure Line Managers by using The Group, Units or the Deparemental Heads</small>
                                         </li>
-                                        <li>
+                                        @*<li>
                                             Configure Appraisal Parameters
                                             <small>Set the Appraisal parameters for an Employee, Department or a Business Unit </small>
-                                        </li>
+                                        </li>*@
                                     </ol>
                                     <!-- begin wizard step-1 -->
                                     <div class="wizard-step-1">
@@ -95,12 +80,12 @@
                                                 <!-- end col-4 -->
 
                                                 <!-- begin col-4 -->
-                                                <div class="col-md-4">
+                                                @*<div class="col-md-4">
                                                     <div class="form-group block1">
                                                         <label>Parameters</label>
                                                        @Html.DropDownList("Parameters", dropDowns.Parameter, "All", htmlAttributes: new { @class = "form-control selectpicker", data_size = "10", data_live_search = "true", data_style = "btn-white", data_parsley_group = "wizard-step-1", required = "required" })
                                                     </div>
-                                                </div>
+                                                </div>*@
                                                 <!-- end col-4 -->
                                             
                                                 <!-- begin col-4 -->
@@ -185,7 +170,7 @@
                                                             <option>Select Line Manager 3</option>
                                                             <option value="1">Department Heads Only</option>
                                                             <option value="2">All EMPLOYEE IN UNIT</option>
-                                                            <option value="3">All EMPLOYEE IN GROUP</option>
+                                                            <option value="@usersessionObject.GroupId,G">All EMPLOYEE IN GROUP</option>
 
                                                         </select>
                                                     </div>
@@ -216,59 +201,8 @@
                                             <!-- end row -->
                                         </fieldset>
                                     </div>
-                                    <br /><br />
-                                    <input type="submit" class="btn btn-success" value="Submit" />
-                                    <!-- end wizard step-2 -->
-                                    <!-- begin wizard step-3 -->
-                                    @*<div class="wizard-step-3">
-                                        <fieldset>
-                                            <legend class="pull-left width-full">PARAMETERS</legend>
-                                            <!-- begin row -->
-                                            <div class="row">
-                                                <!-- begin col-4 -->
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label>Username</label>
-                                                        <div class="controls">
-                                                            <input type="text" name="username" placeholder="johnsmithy" class="form-control" data-parsley-group="wizard-step-3" required />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- end col-4 -->
-                                                <!-- begin col-4 -->
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label>Pasword</label>
-                                                        <div class="controls">
-                                                            <input type="password" name="password" placeholder="Your password" class="form-control" data-parsley-group="wizard-step-3" required />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- end col-4 -->
-                                                <!-- begin col-4 -->
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label>Confirm Pasword</label>
-                                                        <div class="controls">
-                                                            <input type="password" name="password2" placeholder="Confirmed password" class="form-control" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- end col-6 -->
-                                            </div>
-                                            <!-- end row -->
-                                        </fieldset>
-                                    </div>*@
-                                    <!-- end wizard step-3 -->
-                                    <!-- begin wizard step-4 -->
-                                    @*<div>
-                                        <div class="jumbotron m-b-0 text-center">
-                                            <h1>Login Successfully</h1>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris consequat commodo porttitor. Vivamus eleifend, arcu in tincidunt semper, lorem odio molestie lacus, sed malesuada est lacus ac ligula. Aliquam bibendum felis id purus ullamcorper, quis luctus leo sollicitudin. </p>
-                                            <p><a class="btn btn-success btn-lg" role="button">Proceed to User Profile</a></p>
-                                        </div>
-                                    </div>*@
-                                    <!-- end wizard step-4 -->
+                                    @*<br /><br />*@
+                                    <input type="submit" class="btn btn-success col-lg-offset-11" value="Submit" />
                                     
                                 </div>
                                 }
@@ -278,18 +212,6 @@
     <!-- ================== BEGIN PAGE LEVEL JS ================== -->
 
     <script src="~/Scripts/jquery.blockUI.js"></script>
-     <script src="~/assets/AdminTemplate/assets/plugins/ionRangeSlider/js/ion-rangeSlider/ion.rangeSlider.min.js"></script> 
-    <script src="~/assets/AdminTemplate/assets/plugins/ionRangeSlider/js/ion-rangeSlider/ion.rangeSlider.min.js"></script>
-    <script src="~/assets/AdminTemplate/assets/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
-    <script src="~/assets/AdminTemplate/assets/plugins/masked-input/masked-input.min.js"></script>
-    <script src="~/assets/AdminTemplate/assets/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
-    <script src="~/assets/AdminTemplate/assets/plugins/password-indicator/js/password-indicator.js"></script>
-    <script src="~/assets/AdminTemplate/assets/plugins/bootstrap-combobox/js/bootstrap-combobox.js"></script>
-
-    <script src="~/assets/AdminTemplate/assets/plugins/bootstrap-select/bootstrap-select.min.js"></script>
-    <script src="~/assets/AdminTemplate/assets/plugins/select2/dist/js/select2.min.js"></script>
-    <script src="~/assets/AdminTemplate/assets/js/form-plugins.demo.min.js"></script>
-    <script src="~/assets/AdminTemplate/assets/plugins/parsley/dist/parsley.js"></script>
     <script src="~/assets/AdminTemplate/assets/plugins/bootstrap-wizard/js/bwizard.js"></script>
     <script src="~/assets/AdminTemplate/assets/js/form-wizards-validation.demo.min.js"></script>
     <script src="~/assets/AdminTemplate/assets/js/apps.min.js"></script>

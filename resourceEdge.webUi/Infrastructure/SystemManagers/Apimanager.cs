@@ -169,6 +169,48 @@ namespace resourceEdge.webUi.Infrastructure
             
             return employeeByUnit ?? null;
         }
+
+        /// <summary>
+        /// this methods is used for the appraisal configurations.
+        /// it removes any employee that is already a reportmanager which means 
+        /// he is already a unit head
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<EmployeeListItem> GetEmployeeForAppraisalConfiguration(int id, char formatter)
+        {
+            List<EmployeeListItem> employeeByUnit = new List<EmployeeListItem>();
+            switch (formatter)
+            {
+                case 'U':
+                    employeeByUnit = GetEmpByBusinessUnit(id);
+                    break;
+                case 'G':
+                    employeeByUnit = unitOfWork.GetDbContext().Employee.Where(x => x.GroupId == id && (x.IsUnithead == false || x.IsUnithead == null)).Select(x => new EmployeeListItem { userId = x.userId, FullName = x.FullName }).ToList();
+                    break;
+            }   
+            List<string> UserIdsToRemove = new List<string>();
+            foreach (var item in employeeByUnit)
+            {
+                var isLocationHead = userManager.IsInRole(item.userId, "Location Head");
+                var isUnitHead = userManager.IsInRole(item.userId, "Manager");
+                if (isLocationHead || isUnitHead)
+                {
+                    UserIdsToRemove.Add(item.userId);
+                }
+            }
+            if (UserIdsToRemove.Count > 0)
+            {
+                foreach (var item in UserIdsToRemove)
+                {
+                    var user = employeeByUnit.Where(x => x.userId == item).FirstOrDefault();
+                    if (user!= null)
+                    {
+                    employeeByUnit.Remove(user);
+                    }
+                }
+            }
+            return employeeByUnit;
+        }
         public IEnumerable<dynamic> GetEmployeeByDepartment(int groupId,int locationId, int deptId)
         {
             var Employees = unitOfWork.GetDbContext().Employee.Where(X=>X.LocationId == locationId && X.GroupId == groupId && X.DepartmentId ==deptId)
@@ -419,6 +461,8 @@ namespace resourceEdge.webUi.Infrastructure
             var allEmployeeInGroup = unitOfWork.employees.Get(x => x.GroupId == groupId).Select(x => new EmployeeListItem { FullName = x.FullName, userId = x.userId }).ToList();
             return allEmployeeInGroup ?? null;
         }
+
+
         public LocationListItem GetLocationDetails(int id)
         {
             var result = unitOfWork.GetDbContext().Location.Where(m => m.Id == id).Select(x => new LocationListItem() { GroupId = x.GroupId, LocationId = x.Id, Manager1 = x.LocationHead1, Manager2 = x.LocationHead2, Manager3 = x.LocationHead3 }).FirstOrDefault();
@@ -449,7 +493,7 @@ namespace resourceEdge.webUi.Infrastructure
                 }
                 if (result.Manager2 != null  && ManagerWithFullname.ContainsKey(result.Manager2))
                 {
-                    result.FullName1 = ManagerWithFullname[result.Manager1];
+                    result.FullName2 = ManagerWithFullname[result.Manager2];
                 }
                 if (result.Manager3 != null && ManagerWithFullname.ContainsKey(result.Manager3))
                 {

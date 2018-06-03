@@ -406,7 +406,7 @@
                         </li>
                     }
 
-                    @if (User.IsInRole("HR"))
+                    @if (User.IsInRole("HR") || User.IsInRole("Head HR"))
                     {
                         <li class="has-sub">
                             <a href="javascript:;">
@@ -419,9 +419,12 @@
                                 <li>
                                     @Html.ActionLink("Employee Questions", "AddedQuestions", "HR", null, new { @class = "nav-link  title" })
                                 </li>
+                                @if(User.IsInRole("Head HR"))
+                                {
                                 <li>
                                     @Html.ActionLink("All Intitialized Appraisal", "Index", "Appraisal", null, new { @class = "nav-link  title" })
                                 </li>
+                                 }
                                 <li>
                                     @Html.ActionLink("Configure Appraisal", "ConfigureAppraisal", "Appraisal", null, new { @class = "nav-link  title" })
                                 </li>

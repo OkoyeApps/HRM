@@ -86,6 +86,7 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.Avartar = GetAllEmpImage();
             var employees = empRepo.Get().ToList();
             ViewBag.employeeDetails = empdetail.GetAllEmployeesDetails();
+       
             return View(employees.ToList());
         }
         [ChildActionOnly]
@@ -242,7 +243,7 @@ namespace resourceEdge.webUi.Controllers
                                     }
                                     var groupName = employeeManager.GetGroupName(realEmployee.GroupId);
                                     employeeManager.AddEmployeeToMailDispatch(employees.empEmail, newCreatedUser.Item2, "noreply@tenece.com", groupName, realEmployee.FullName);
-                                    if (!locationHead)
+                                    if (!locationHead && role.Name.ToLower() == "location head")
                                     {
                                         this.AddNotification("Employee added successfully. Note, could not assign as location head because the required number of heads are complete already. you can manually re-assign this from the Employee configuration tab.", NotificationType.SUCCESS);
                                         return RedirectToAction("Create");
@@ -495,71 +496,72 @@ namespace resourceEdge.webUi.Controllers
             var result = employeeManager.GetEmployeesByLocation(usersessionObject.LocationId);
             return View(result);
         }
-       
-        public ActionResult ViewQuestion(string ID)
+       [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult ViewQuestion(string key)
         {
-            ViewBag.PageTitle =$"{employeeManager.GetEmployeeByUserId(ID).FullName} Questions";
-            ViewBag.ID = ID;
-            var result = employeeManager.KpiQuestions(ID);
+            ViewBag.PageTitle =$"{employeeManager.GetEmployeeByUserId(key).FullName} performance Indicator";
+            ViewBag.ID = key;
+            var result = employeeManager.KpiQuestions(key);
+         
             return View(result);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult ApproveQuestion(string userId=null, int? QstId=null)
+        public ActionResult ApproveQuestion(string key=null, int? QstId=null, string question = null)
         {
             bool result = false;
-            if (string.IsNullOrEmpty(userId) && QstId == null)
+            if (string.IsNullOrEmpty(key) && QstId == null)
             {
                 //Approve all request
                 result =  employeeManager.ApproveQuestion();
             }
-            else if (userId != null && QstId == null)
+            else if (key != null && QstId == null)
             {
                 //approve all user Request
-              result= employeeManager.ApproveQuestion(userId);
+              result= employeeManager.ApproveQuestion(key);
                 
             }
-            else if (!string.IsNullOrEmpty(userId) && QstId != null)
+            else if (!string.IsNullOrEmpty(key) && QstId != null)
             {
                 //Approve specific user Request
-               result =  employeeManager.ApproveQuestion(userId, QstId);
+               result =  employeeManager.ApproveQuestion(key, QstId);
             }
             if (result != false)
             {
                 this.AddNotification("Successfuly Approved Question(s)", NotificationType.SUCCESS);
-                return RedirectToAction("AddedQuestions");
+                return RedirectToAction("AllQuestions");
             }
             this.AddNotification("Question could not be approved please try again", NotificationType.ERROR);
-            return RedirectToAction("AddedQuestion");
+            return RedirectToAction("AllQuestions");
 
         }
         [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult RejectQuestion(string userId=null, int? QstId = null)
+        public ActionResult RejectQuestion(string key=null, int? QstId = null)
         {
             bool result = false;
-            if (string.IsNullOrEmpty(userId) && QstId == null)
+            if (string.IsNullOrEmpty(key) && QstId == null)
             {
                 //Approve all request
                 result = employeeManager.RejectQuestion();
             }
-            else if (userId != null && QstId == null)
+            else if (key != null && QstId == null)
             {
                 //approve all user Request
-                result = employeeManager.RejectQuestion(userId);
+                result = employeeManager.RejectQuestion(key);
 
             }
-            else if (!string.IsNullOrEmpty(userId) && QstId != null)
+            else if (!string.IsNullOrEmpty(key) && QstId != null)
             {
                 //Approve specific user Request
-                result = employeeManager.RejectQuestion(userId, QstId);
+                result = employeeManager.RejectQuestion(key, QstId);
             }
             if (result != false)
             {
                 this.AddNotification("Successfully Rejected Question(s)", NotificationType.SUCCESS);
-                return RedirectToAction("AddedQuestions");
+                return RedirectToAction("AllQuestions");
             }
             this.AddNotification("Question could not be Rejected please try again", NotificationType.ERROR);
-            return RedirectToAction("AddedQuestion");
+            return RedirectToAction("AllQuestions");
         }
         public ActionResult Questions(string department, string id = null)
         {

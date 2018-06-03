@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
     int counter = 1;
 }
+
 <style>
     .bs-callout-warning {
         background-color: #fcf8f2;
@@ -25,213 +26,214 @@
         border-left: 3px solid #eee;
     }
 </style>
-<div class="table-responsive">
-    @if (Model.Questions.Count() > 0)
-    {
-        <div class="bs-callout bs-callout-warning hidden">
-            <h4>Oh snap!</h4>
-            <p>Please all question needs to be answered. If not applicable please pick the last option</p>
-        </div>
-        using (Html.BeginForm("EmployeeAppraisal", "Appraisal", null, FormMethod.Post, new { id = "appraisalForm", data_parsley_validate = "" }))
-        {
-            @Html.AntiForgeryToken()
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            foreach (var item in Model.Questions)
+    <tr>
+        
+        <td>
+            @if (Model.Questions.Count() > 0 || Model.DepartmentQuestion.Count() > 0 || Model.GeneralQuestion.Count() > 0)
             {
-           
-                <table class="table table-responsive table-bordered">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Question</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>@counter</td>
-                            <td>
-                                @item.EmpQuestion
-                                @Html.Hidden("Question", @item.Id)
-
-                                <hr />
-                                <table>
-                                    <thead>
-                                        <tr></tr>
-                                    </thead>
-                                    <tr>
-                                        <td>
-
-                                            <input type="radio" value="5" class="" name="questionAns[@counter]" required="" /><span class="bolder" style="font-weight:600;font:bolder;">  (5 Points)</span>
-                                            <br /><br />
-
-                                            <input type="radio" value="4" class="" name="questionAns[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (4 Points)</span>
-                                            <br /><br />
-
-                                            <input type="radio" value="3" class="" name="questionAns[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (3 Points)</span>
-                                            <br /><br />
-
-                                            <input type="radio" value="2" class="" name="questionAns[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (2 Points)</span>
-                                            <br /><br />
-
-                                            <input type="radio" value="1" class="" name="questionAns[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (1 Point)</span>
-                                            <br /><br />
-                                            <input type="radio" value="0" class="" name="questionAns[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (Not Applicable)</span>
-                                        </td>
-
-                                    </tr>
-                                </table>
-                                @if (Model.PreviousAnswer != null && Model.PreviousAnswer.Count > 0)
-                                {
-                                    if (Model.PreviousAnswer.ContainsKey(item.Id))
-                                    {
-                                        var answer = Model.PreviousAnswer[item.Id];
-                                        <div style="color:dodgerblue" class="pull-right"><p><b>Previous Answer: @answer</b></p></div>
-                                    }
-                                }
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                counter++;
-            }
-
-            if (Model.GeneralQuestion.Count() > 0)
-            {
-                <div class="alert alert-info">Group Questions</div>
-                counter = 1;
-                foreach (var item in Model.GeneralQuestion)
+                <div class="bs-callout bs-callout-warning hidden">
+                    <h4>Oh snap!</h4>
+                    <p>Please all question needs to be answered. If not applicable please pick the last option</p>
+                </div>
+                using (Html.BeginForm("EmployeeAppraisal", "Appraisal", null, FormMethod.Post, new { id = "appraisalForm", data_parsley_validate = "" }))
                 {
-                    <table class="table table-responsive table-bordered">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Question</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>@counter</td>
-                                <td>
-                                    @item.Question
-                                    @Html.Hidden("GenQuestion", @item.Id)
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    foreach (var item in Model.Questions)
+                    {
 
-                                    <hr />
-                                    <table>
-                                        <thead>
-                                            <tr></tr>
-                                        </thead>
-                                        <tr>
-                                            <td>
+                        <table class="table table-responsive table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Question</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>@counter</td>
+                                    <td>
+                                        @item.EmpQuestion
+                                        @Html.Hidden("Question", @item.Id)
 
-                                                <input type="radio" value="5" class="" name="generalAns[@counter]" required="" /><span class="bolder" style="font-weight:600;font:bolder;">  (5 Points)</span>
-                                                <br /><br />
+                                        <hr />
+                                        <table>
+                                            <thead>
+                                                <tr></tr>
+                                            </thead>
+                                            <tr>
+                                                <td>
 
-                                                <input type="radio" value="4" class="" name="generalAns[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (4 Points)</span>
-                                                <br /><br />
+                                                    <input type="radio" value="5" class="" name="questionAns[@counter]" required="" /><span class="bolder" style="font-weight:600;font:bolder;">  (5 Points)</span>
+                                                    <br /><br />
 
-                                                <input type="radio" value="3" class="" name="generalAns[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (3 Points)</span>
-                                                <br /><br />
+                                                    <input type="radio" value="4" class="" name="questionAns[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (4 Points)</span>
+                                                    <br /><br />
 
-                                                <input type="radio" value="2" class="" name="generalAns[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (2 Points)</span>
-                                                <br /><br />
+                                                    <input type="radio" value="3" class="" name="questionAns[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (3 Points)</span>
+                                                    <br /><br />
 
-                                                <input type="radio" value="1" class="" name="generalAns[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (1 Point)</span>
-                                                <br /><br />
-                                                <input type="radio" value="0" class="" name="generalAns[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (Not Applicable)</span>
-                                            </td>
+                                                    <input type="radio" value="2" class="" name="questionAns[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (2 Points)</span>
+                                                    <br /><br />
 
-                                        </tr>
-                                    </table>
-                                    @if (Model.GeneralPreviousAnswer != null && Model.GeneralPreviousAnswer.Count > 0)
+                                                    <input type="radio" value="1" class="" name="questionAns[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (1 Point)</span>
+                                                    <br /><br />
+                                                    <input type="radio" value="0" class="" name="questionAns[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (Not Applicable)</span>
+                                                </td>
+
+                                            </tr>
+                                        </table>
+                                        @if (Model.PreviousAnswer != null && Model.PreviousAnswer.Count > 0)
+                                        {
+                                            if (Model.PreviousAnswer.ContainsKey(item.Id))
+                                            {
+                                                var answer = Model.PreviousAnswer[item.Id];
+                                                <div style="color:dodgerblue" class="pull-right"><p><b>Previous Answer: @answer</b></p></div>
+                                            }
+                                        }
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        counter++;
+                    }
+
+                    if (Model.GeneralQuestion.Count() > 0)
+                    {
+                        <div class="alert alert-info">Group Questions</div>
+                        counter = 1;
+                        foreach (var item in Model.GeneralQuestion)
+                        {
+                            <table class="table table-responsive table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Question</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td>
+                                            @item.Question
+                                            @Html.Hidden("GenQuestion", @item.Id)
+
+                                            <hr />
+                                            <table>
+                                                <thead>
+                                                    <tr></tr>
+                                                </thead>
+                                                <tr>
+                                                    <td>
+
+                                                        <input type="radio" value="5" class="" name="generalAns[@counter]" required="" /><span class="bolder" style="font-weight:600;font:bolder;">  (5 Points)</span>
+                                                        <br /><br />
+
+                                                        <input type="radio" value="4" class="" name="generalAns[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (4 Points)</span>
+                                                        <br /><br />
+
+                                                        <input type="radio" value="3" class="" name="generalAns[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (3 Points)</span>
+                                                        <br /><br />
+
+                                                        <input type="radio" value="2" class="" name="generalAns[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (2 Points)</span>
+                                                        <br /><br />
+
+                                                        <input type="radio" value="1" class="" name="generalAns[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (1 Point)</span>
+                                                        <br /><br />
+                                                        <input type="radio" value="0" class="" name="generalAns[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (Not Applicable)</span>
+                                                    </td>
+
+                                                </tr>
+                                            </table>
+                                            @if (Model.GeneralPreviousAnswer != null && Model.GeneralPreviousAnswer.Count > 0)
                             {
                                 if (Model.GeneralPreviousAnswer.ContainsKey(item.Id))
                                 {
                                     var answer = Model.GeneralPreviousAnswer[item.Id];
-                                            <div style="color:dodgerblue" class="pull-right"><p><b>Previous Answer: @answer</b></p></div>
-                                        }
-                                    }
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    counter++;
-                }
-            }
-            if (Model.DepartmentQuestion.Count() > 0)
-            {
-                <div class="alert alert-info">Department Questions</div>
-                counter = 1;
-                foreach (var item in Model.DepartmentQuestion)
-                {
-                    <table class="table table-responsive table-bordered">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Question</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>@counter</td>
-                                <td>
-                                    @item.Question
-                                    @Html.Hidden("deptQuestion", @item.Id)
+                                                    <div style="color:dodgerblue" class="pull-right"><p><b>Previous Answer: @answer</b></p></div>
+                                                }
+                                            }
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            counter++;
+                        }
+                    }
+                    if (Model.DepartmentQuestion.Count() > 0)
+                    {
+                        <div class="alert alert-info">Department Questions</div>
+                        counter = 1;
+                        foreach (var item in Model.DepartmentQuestion)
+                        {
+                            <table class="table table-responsive table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Question</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td>
+                                            @item.Question
+                                            @Html.Hidden("deptQuestion", @item.Id)
 
-                                    <hr />
-                                    <table>
-                                        <thead>
-                                            <tr></tr>
-                                        </thead>
-                                        <tr>
-                                            <td>
+                                            <hr />
+                                            <table>
+                                                <thead>
+                                                    <tr></tr>
+                                                </thead>
+                                                <tr>
+                                                    <td>
 
-                                                <input type="radio" value="5" class="" name="departmentAns[@counter]" required="" /><span class="bolder" style="font-weight:600;font:bolder;">  (5 Points)</span>
-                                                <br /><br />
+                                                        <input type="radio" value="5" class="" name="departmentAns[@counter]" required="" /><span class="bolder" style="font-weight:600;font:bolder;">  (5 Points)</span>
+                                                        <br /><br />
 
-                                                <input type="radio" value="4" class="" name="departmentAns[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (4 Points)</span>
-                                                <br /><br />
+                                                        <input type="radio" value="4" class="" name="departmentAns[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (4 Points)</span>
+                                                        <br /><br />
 
-                                                <input type="radio" value="3" class="" name="departmentAns[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (3 Points)</span>
-                                                <br /><br />
+                                                        <input type="radio" value="3" class="" name="departmentAns[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (3 Points)</span>
+                                                        <br /><br />
 
-                                                <input type="radio" value="2" class="" name="departmentAns[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (2 Points)</span>
-                                                <br /><br />
+                                                        <input type="radio" value="2" class="" name="departmentAns[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (2 Points)</span>
+                                                        <br /><br />
 
-                                                <input type="radio" value="1" class="" name="departmentAns[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (1 Point)</span>
-                                                <br /><br />
-                                                <input type="radio" value="0" class="" name="departmentAns[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (Not Applicable)</span>
-                                            </td>
+                                                        <input type="radio" value="1" class="" name="departmentAns[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (1 Point)</span>
+                                                        <br /><br />
+                                                        <input type="radio" value="0" class="" name="departmentAns[@counter]" /><span class="bolder" style="font-weight:600;font:bolder;"> (Not Applicable)</span>
+                                                    </td>
 
-                                        </tr>
-                                    </table>
-                                    @if (Model.DepartmentPreviousAnswer != null && Model.DepartmentPreviousAnswer.Count > 0)
+                                                </tr>
+                                            </table>
+                                            @if (Model.DepartmentPreviousAnswer != null && Model.DepartmentPreviousAnswer.Count > 0)
                             {
                                 if (Model.DepartmentPreviousAnswer.ContainsKey(item.Id))
                                 {
-                                    var answer = Model.PreviousAnswer[item.Id];
-                                            <div style="color:dodgerblue" class="pull-right"><p><b>Previous Answer: @answer</b></p></div>
-                                        }
-                                    }
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    counter++;
+                                    var answer = Model.DepartmentPreviousAnswer[item.Id];
+                                                    <div style="color:dodgerblue" class="pull-right"><p><b>Previous Answer: @answer</b></p></div>
+                                                }
+                                            }
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            counter++;
 
+                        }
+                    }
+                    <div class="form-group">
+                        <div class="col-md-offset-10 ">
+                            <input type="submit" value="Submit Answers" class="btn btn-success" />
+                        </div>
+                    </div>
                 }
             }
-            <div class="form-group">
-                <div class="col-md-offset-10 col-md-10">
-                    <input type="submit" value="Submit Answers" class="btn btn-success" />
-                </div>
-            </div>
-        }
-    }
-    else
-    {
-        <div class="alert alert-warning">Please it seems like you have already participated for this appraisal. Kindly check back for Corrections if rejected by your Line Manager.</div>
-    }
-</div>
+            else
+            {
+                <div class="alert alert-warning">Please it seems like you have already participated for this appraisal. Kindly check back for Corrections if rejected by your Line Manager.</div>
+            }
 @section InitScript{
     <script>
         $(function () {
@@ -245,4 +247,9 @@
               });
         });
     </script>
+
 }
+@section Scripts{
+    @Scripts.Render("~/assets/Table");
+    <script src="~/Scripts/Pages/JS/DataTableInitialization.js"></script>
+    }

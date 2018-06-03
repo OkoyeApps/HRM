@@ -63,4 +63,9 @@ namespace resourceEdge.Domain.Infrastructures
     {
         Guilty = 1, Not_Guilty
     }
+    public enum AppraisalQuestionType
+    {
+        Personal =1,
+        general, Department
+    }
 }
