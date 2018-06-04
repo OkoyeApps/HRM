@@ -1,13 +1,13 @@
 ﻿@{
     Layout = null;
 
-    var CurrentEmployee = (Tuple<resourceEdge.Domain.Entities.Employees, resourceEdge.webUi.Models.ApplicationUser, resourceEdge.Domain.Entities.Files,
-    resourceEdge.Domain.Entities.Jobtitles, resourceEdge.Domain.Entities.Positions, resourceEdge.Domain.Entities.EmpPayroll, 
+    var CurrentEmployee = (Tuple<resourceEdge.Domain.Entities.Employee, resourceEdge.webUi.Models.ApplicationUser, resourceEdge.Domain.Entities.File,
+    resourceEdge.Domain.Entities.Jobtitle, resourceEdge.Domain.Entities.Position, resourceEdge.Domain.Entities.EmpPayroll,
     List<resourceEdge.Domain.Entities.LeaveRequest>>)ViewBag.empDetails;
 
-    var Hr = (Tuple<resourceEdge.Domain.Entities.Employees, resourceEdge.webUi.Models.ApplicationUser, resourceEdge.Domain.Entities.Files>)ViewBag.HrDetails;
-    var unitHead = (Tuple<resourceEdge.Domain.Entities.Employees, resourceEdge.webUi.Models.ApplicationUser, resourceEdge.Domain.Entities.Files>)ViewBag.unitHeadDetails;
-    var TeamMemberDetails = (Tuple<List<resourceEdge.Domain.Entities.Employees>,List<resourceEdge.Domain.Entities.Files>, List<resourceEdge.webUi.Models.ApplicationUser>>)ViewBag.TeamMembers;
+    var Hr = (Tuple<resourceEdge.Domain.Entities.Employee, resourceEdge.webUi.Models.ApplicationUser, resourceEdge.Domain.Entities.File>)ViewBag.HrDetails;
+    var unitHead = (Tuple<resourceEdge.Domain.Entities.Employee, resourceEdge.webUi.Models.ApplicationUser, resourceEdge.Domain.Entities.File>)ViewBag.unitHeadDetails;
+    var TeamMemberDetails = (Tuple<List<resourceEdge.Domain.Entities.Employee>, List<resourceEdge.Domain.Entities.File>, List<resourceEdge.webUi.Models.ApplicationUser>>)ViewBag.TeamMembers;
 
 }
 
@@ -1293,7 +1293,7 @@
                                         <ul>
                                             <li>
                                                 Business unit:
-                                                <strong>@Hr.Item1.Departments.BusinessUnits.unitname</strong>
+                                                <strong>@Hr.Item1.Department.BusinessUnits.unitname</strong>
                                             </li>
                                             <li>
                                                 Phone No:
@@ -1313,15 +1313,18 @@
                                 <div class="profile-tile">
                                     <a class="profile-tile-box" href="users_profile_small.html">
                                         <div class="pt-avatar-w">
-                                            @if (unitHead.Item3 != null)
+                                    @if (unitHead != null)
+                                           if (unitHead.Item3 != null)
                                             {
                                                 <img alt="" src="@Url.Content(unitHead.Item3.FilePath)">
                                             }
+                                           
                                             else
                                             {
 
                                                 <img alt="" src="" class="icon-user">
                                             }
+                                    }
                                         </div>
                                         <div class="pt-user-name">John Mayers</div>
                                     </a>
@@ -1329,7 +1332,7 @@
                                         <ul>
                                             <li>
                                                 Business unit:
-                                                <strong>@unitHead.Item1.Departments.BusinessUnits.unitname</strong>
+                                                <strong>@unitHead.Item1.Department.BusinessUnits.unitname</strong>
                                             </li>
                                             <li>
                                                 Phone No:
@@ -1378,7 +1381,7 @@
                                                         </div>
                                                         <div class="user-name">
                                                             <h6 class="user-title">@emp.FullName</h6>
-                                                            <div class="user-role">@emp.Departments.BusinessUnits.unitname</div>
+                                                            <div class="user-role">@emp.Department.BusinessUnits.unitname</div>
                                                         </div>
                                                         <div class="user-action">
                                                             <div class="os-icon os-icon-email-forward"></div>

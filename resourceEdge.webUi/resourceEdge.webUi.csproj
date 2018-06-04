@@ -56,6 +56,18 @@
       <HintPath>..\packages\Fluentx.Mvc.1.0.4\lib\Fluentx.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Glimpse.AspNet, Version=1.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Glimpse.AspNet.1.8.0\lib\net45\Glimpse.AspNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Glimpse.Core, Version=1.8.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Glimpse.1.8.2\lib\net45\Glimpse.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Glimpse.Mvc5, Version=1.5.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Glimpse.Mvc5.1.5.3\lib\net45\Glimpse.Mvc5.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Hangfire.Core, Version=1.6.17.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Hangfire.Core.1.6.17\lib\net45\Hangfire.Core.dll</HintPath>
       <Private>True</Private>
@@ -247,6 +259,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SystemAdminController.cs" />
     <Compile Include="Controllers\ValidationController.cs" />
+    <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1233,7 +1246,6 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Appraisal\EditQuestion.cshtml" />
     <Content Include="Views\Appraisal\EmployeeAppraisal.cshtml" />
-    <Content Include="ClassDiagram2.cd" />
     <Content Include="Views\Appraisal\AddGeneralQuestion.cshtml" />
     <None Include="Views\Appraisal\ConfigureAppraisal.cshtml" />
     <Content Include="Global.asax" />
@@ -1338,7 +1350,6 @@
     <Content Include="Views\Appraisal\InitilizeAppraisal.cshtml" />
     <Content Include="Views\Appraisal\Index.cshtml" />
     <Content Include="Views\Appraisal\ConfigureAppraisal1.cshtml" />
-    <Content Include="ClassDiagram1.cd" />
     <Content Include="Views\HR\AssignDepartmentHead.cshtml" />
     <Content Include="Views\Shared\Layouts\_HrLayout.cshtml" />
     <Content Include="Views\Shared\Layouts\_EmployeeLayout.cshtml" />

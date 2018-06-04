@@ -188,15 +188,5 @@ namespace resourceEdge.webUi.Controllers
             this.AddNotification("Something went wrong", NotificationType.ERROR);
             return Redirect(returnUrl);
         }
-
-        //public ActionResult AddUnitQuestion()
-        //{
-            
-        //}
-        //public ActionResult AddUnitQuestion(GeneralQuestionViewModel model)
-        //{
-
-        //}
-
     }
 }

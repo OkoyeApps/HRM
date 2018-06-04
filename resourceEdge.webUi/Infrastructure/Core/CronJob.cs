@@ -40,6 +40,7 @@ namespace resourceEdge.webUi.Infrastructure.Core
 
                     }
                 }
+                unitOfWork.Save();
             }
         }
 

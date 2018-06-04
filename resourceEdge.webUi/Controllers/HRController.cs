@@ -252,7 +252,7 @@ namespace resourceEdge.webUi.Controllers
                             }
                             catch (Exception ex)
                             {
-                                ViewBag.Error = "Sorry Employee was not created. Please try Again";
+                                this.AddNotification("Something went wrong, this could be caused by a poor network, try again and if problem continues contact your system administrator", NotificationType.ERROR);
                                 throw ex;
                             }
                             this.AddNotification("Employee Created Successfully", NotificationType.SUCCESS);
@@ -267,6 +267,7 @@ namespace resourceEdge.webUi.Controllers
                     this.AddNotification($"Sorry Employee with this Email address already exist in the System Please try Again", NotificationType.ERROR);
                     return RedirectToAction("Create");
             }
+            this.AddNotification("Please some fields are invalid, please refill and try again", NotificationType.ERROR);
             return RedirectToAction("Create");
 
         }
@@ -292,9 +293,9 @@ namespace resourceEdge.webUi.Controllers
         }
         public ActionResult AssignReportManager()
         {
-            var CurrentEmployee = empRepo.GetByUserId(User.Identity.GetUserId());
+            var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
             ViewBag.PageTitle = "Assign Manager";
-            ViewBag.businessUnits = new SelectList(BunitsRepo.GetUnitsByLocation(CurrentEmployee.LocationId.Value).OrderBy(x => x.Id), "Id", "unitname", "Id");
+            ViewBag.businessUnits = new SelectList(BunitsRepo.GetUnitsByLocation(UserFromSession.LocationId).OrderBy(x => x.Id), "Id", "unitname", "Id");
             return View();
         }
 

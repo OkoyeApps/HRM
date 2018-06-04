@@ -224,7 +224,12 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult AllBusinessUnits()
         {
             ViewBag.PageTitle = "All Business Units";
-            return View(ConfigManager.GetAllBusinessUnit());
+            if (User.IsInRole("Super Admin"))
+            {
+                return View(ConfigManager.GetAllBusinessUnit());
+            }
+            var userFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+            return View(ConfigManager.GetAllBusinessUnitByLocation(userFromSession.LocationId));
         }
         [CustomAuthorizationFilter(Roles = "Super Admin, System Admin")]
         public ActionResult addBusinessUnits()
@@ -364,7 +369,7 @@ namespace resourceEdge.webUi.Controllers
         [CustomAuthorizationFilter(Roles = "System Admin,HR")]
         public ActionResult addDepartment()
         {
-            var userFromSession = (SessionModel)Session[""];
+            var userFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
             ViewBag.businessUnits = DropDown.GetBusinessUnit(userFromSession.GroupId, userFromSession.LocationId);
             ViewBag.PageTitle = "Add Department";
             return View(new DepartmentViewModel());

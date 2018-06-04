@@ -1,4 +1,5 @@
 ﻿using Hangfire;
+using Hangfire.SqlServer;
 using Microsoft.Owin;
 using Owin;
 using resourceEdge.webUi.Infrastructure;
@@ -15,8 +16,9 @@ namespace resourceEdge.webUi
             ConfigureAuth(app);
             CreateDeafaultRoles();
             //app.MapSignalR();
+            var options = new SqlServerStorageOptions() { PrepareSchemaIfNecessary = true };
             GlobalConfiguration.Configuration
-              .UseSqlServerStorage("ResourceDbContext");
+              .UseSqlServerStorage("ResourceDbContext", options);
 
             app.UseHangfireDashboard();
             app.UseHangfireServer();

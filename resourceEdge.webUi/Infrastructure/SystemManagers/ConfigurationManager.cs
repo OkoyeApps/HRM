@@ -506,6 +506,12 @@ namespace resourceEdge.webUi.Infrastructure
             var result = unitOfWork.BusinessUnit.Get(includeProperties: "Location,Employee");
             return result;
         }
+        public IEnumerable<BusinessUnit> GetAllBusinessUnitByLocation(int locationId)
+        {
+            var result = unitOfWork.BusinessUnit.Get(filter: x=>x.LocationId == locationId, includeProperties: "Location,Employee");
+            return result;
+        }
+
         public bool ChangeAllEmployeeCodes(string oldCode, string newCode)
         {
             if (!string.IsNullOrEmpty(oldCode))

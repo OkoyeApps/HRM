@@ -193,7 +193,7 @@
                     <div class="form-group">
                         @* @Html.Label("Office number", htmlAttributes: new { @class = "control-label " })*@
                         <label class="control-label">Office number&nbsp; <b style="color:red;">*</b></label>
-                        @Html.EditorFor(model => model.officeNumber, new { htmlAttributes = new { @class = "form-control", @type = "tel", required = "", placeholder = "Enter phone number", data_parsley_pattern = @"^\+?[1-9]\d{1,14}$", data_required_message = "Please phone number seems to be invalid" } })
+                        @Html.EditorFor(model => model.officeNumber, new { htmlAttributes = new { @class = "form-control", @type = "tel", required = "", placeholder = "+234--- ----", data_parsley_pattern = @"^\+?[1-9]\d{1,14}$", data_required_message = "Please phone number seems to be invalid" } })
                         @Html.ValidationMessageFor(model => model.officeNumber, "", new { @class = "text-danger" })
                     </div>
                 </div>

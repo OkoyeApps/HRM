@@ -46,7 +46,14 @@ namespace resourceEdge.webUi.Infrastructure
                 smtp.Host = "smtp.gmail.com";
                 smtp.Port = 587;
                 smtp.EnableSsl = true;
-                await smtp.SendMailAsync( message);
+                try
+                {
+                    await smtp.SendMailAsync(message);
+                }catch(Exception ex)
+                {
+                    return false;
+                }
+                
                 return true; 
             }
         }
@@ -76,7 +83,7 @@ namespace resourceEdge.webUi.Infrastructure
                 body = body.Replace("{UserName}", UserName);
                 body = body.Replace("{Password}", Password);
                 body = body.Replace("{FullName}", Mail.FullName);
-                body = body.Replace("GroupName", Mail.Footer);  
+                body = body.Replace("{GroupName}", Mail.Footer);  
             }
            
 
