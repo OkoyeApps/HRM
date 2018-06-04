@@ -224,7 +224,7 @@ namespace resourceEdge.webUi.Controllers
                                     {
                                         manager.BusinessUnitId = employees.businessunitId;
                                         manager.DepartmentId = employees.departmentId;
-                                        manager.employeeId = realEmployee.empID;
+                                        manager.employeeId = realEmployee.ID;
                                         manager.FullName = realEmployee.FullName;
                                         manager.ManagerUserId = realEmployee.userId;
                                         manager.GroupId = realEmployee.GroupId;
@@ -318,7 +318,7 @@ namespace resourceEdge.webUi.Controllers
                         {
                            
                             var result = empRepo.GetByUserId(model.ManagerId);
-                            manager.employeeId = result.empID;
+                            manager.employeeId = result.ID;
                             manager.DepartmentId = result.DepartmentId;
                             manager.FullName = result.FullName;
                             result.IsUnithead = true;

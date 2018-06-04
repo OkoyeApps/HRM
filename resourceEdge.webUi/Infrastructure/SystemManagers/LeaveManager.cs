@@ -184,7 +184,7 @@ namespace resourceEdge.webUi.Infrastructure
                         Reason =x.Reason,
                          RequestDays = x.NoOfDays.Value,
                           FullName = x.UserId,
-                           UnitName = unitofWork.employees.Get(filter: y=>y.userId == x.UserId).FirstOrDefault().businessunitId.ToString(),
+                           UnitName = unitofWork.employees.Get(filter: y=>y.userId == x.UserId).FirstOrDefault().BusinessunitId.ToString(),
                             UserId = x.UserId,
                              Id =x.id
                 }).ToList();
@@ -204,7 +204,7 @@ namespace resourceEdge.webUi.Infrastructure
                        Reason = x.Reason,
                        RequestDays = x.NoOfDays.Value,
                        FullName = x.UserId,
-                       UnitName = unitofWork.employees.Get(filter: y => y.userId == x.UserId).FirstOrDefault().businessunitId.ToString(),
+                       UnitName = unitofWork.employees.Get(filter: y => y.userId == x.UserId).FirstOrDefault().BusinessunitId.ToString(),
                        UserId = x.UserId,
                        Id = x.id
                    }).ToList();

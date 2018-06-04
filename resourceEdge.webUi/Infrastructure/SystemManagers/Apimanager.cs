@@ -165,7 +165,7 @@ namespace resourceEdge.webUi.Infrastructure
         }
         public List<EmployeeListItem> GetEmpByBusinessUnit(int id)
         {
-            var employeeByUnit = unitOfWork.GetDbContext().Employee.Where(x => x.businessunitId == id).Select(x=> new EmployeeListItem { userId = x.userId, FullName = x.FullName }).ToList();
+            var employeeByUnit = unitOfWork.GetDbContext().Employee.Where(x => x.BusinessunitId == id).Select(x=> new EmployeeListItem { userId = x.userId, FullName = x.FullName }).ToList();
             
             return employeeByUnit ?? null;
         }
@@ -220,13 +220,13 @@ namespace resourceEdge.webUi.Infrastructure
         public List<Employee> GetEligibleManagerBybBusinessUnit(int id)
         {
             var unit = unitOfWork.BusinessUnit.GetByID(id); //This gets the business unit by ID 
-            var employeeByUnit = unitOfWork.GetDbContext().Employee.Where(x => x.businessunitId == id && x.LocationId == unit.LocationId && x.empRoleId != 3 && x.empRoleId != 2 && x.empRoleId != 1).ToList();
+            var employeeByUnit = unitOfWork.GetDbContext().Employee.Where(x => x.BusinessunitId == id && x.LocationId == unit.LocationId && x.empRoleId != 3 && x.empRoleId != 2 && x.empRoleId != 1).ToList();
             if (employeeByUnit != null)
             {
                 return employeeByUnit;
             }
             //although i used 0 to check the location, it might not be best practice but for now its fine
-            var employeeWithoutLocation = unitOfWork.GetDbContext().Employee.Where(x => x.businessunitId == id && x.LocationId == 0 && x.empRoleId != 3 || x.empRoleId != 2 || x.empRoleId != 1).ToList();
+            var employeeWithoutLocation = unitOfWork.GetDbContext().Employee.Where(x => x.BusinessunitId == id && x.LocationId == 0 && x.empRoleId != 3 || x.empRoleId != 2 || x.empRoleId != 1).ToList();
 
             return null;
         }
@@ -237,7 +237,7 @@ namespace resourceEdge.webUi.Infrastructure
             var ReportManager = unitOfWork.GetDbContext().ReportManager.Where(x => x.BusinessUnitId == id).FirstOrDefault();
             if (ReportManager != null)
             {
-                var employee = unitOfWork.GetDbContext().Employee.Where(x => x.businessunitId == ReportManager.BusinessUnitId && x.empRoleId == 2).ToList();
+                var employee = unitOfWork.GetDbContext().Employee.Where(x => x.BusinessunitId == ReportManager.BusinessUnitId && x.empRoleId == 2).ToList();
                 if (employee != null)
                 {
                     return employee;
@@ -297,7 +297,7 @@ namespace resourceEdge.webUi.Infrastructure
         public List<EmployeeListItem> GetReportManagrbyUserId(string userId)
         {
             List<EmployeeListItem> managers = new List<EmployeeListItem>();
-            int? employeeBusinessUnit = unitOfWork.employees.Get(filter: x => x.userId == userId).Select(x => x.businessunitId).FirstOrDefault();
+            int? employeeBusinessUnit = unitOfWork.employees.Get(filter: x => x.userId == userId).Select(x => x.BusinessunitId).FirstOrDefault();
             if (employeeBusinessUnit != null)
             {
                 var Reportmanager = unitOfWork.GetDbContext().ReportManager.Where(x => x.BusinessUnitId == employeeBusinessUnit).
@@ -357,7 +357,7 @@ namespace resourceEdge.webUi.Infrastructure
             List<Employee> TeamMembers = new List<Employee>();
             if (searchparam.StartsWith("tenece"))
             {
-                var TeamByEmpId = db.Users.Where(x => x.BusinessunitId == userUnitId.businessunitId.ToString() && x.EmployeeId == searchparam).FirstOrDefault();
+                var TeamByEmpId = db.Users.Where(x => x.BusinessunitId == userUnitId.BusinessunitId.ToString() && x.EmployeeId == searchparam).FirstOrDefault();
                 if (TeamByEmpId != null)
                 {
                     var TeamMember = unitOfWork.employees.Get(x => x.userId == TeamByEmpId.Id).SingleOrDefault();
@@ -367,15 +367,15 @@ namespace resourceEdge.webUi.Infrastructure
             }
             if (searchparam.Contains("@"))
             {
-                TeamMembers = unitOfWork.employees.Get(X => X.businessunitId == userUnitId.businessunitId && X.empEmail.Contains(searchparam)).ToList();
+                TeamMembers = unitOfWork.employees.Get(X => X.BusinessunitId == userUnitId.BusinessunitId && X.empEmail.Contains(searchparam)).ToList();
                 return TeamMembers;
             }
-            TeamMembers = unitOfWork.employees.Get(x => x.businessunitId == userUnitId.businessunitId && x.FullName.Contains(searchparam)).ToList();
+            TeamMembers = unitOfWork.employees.Get(x => x.BusinessunitId == userUnitId.BusinessunitId && x.FullName.Contains(searchparam)).ToList();
             if (TeamMembers != null)
             {
                 return TeamMembers;
             }
-            var a = GetBusinessunitByLocation(userUnitId.businessunitId);
+            var a = GetBusinessunitByLocation(userUnitId.BusinessunitId);
 
             return null;
 
@@ -450,7 +450,7 @@ namespace resourceEdge.webUi.Infrastructure
 
         public List<EmployeeListItem> GetDeptHeadByUnit(int id)
         {
-            var employee = unitOfWork.GetDbContext().Employee.Where(x=>x.businessunitId == id && x.IsDepthead == true).Select(x=> new EmployeeListItem { FullName = x.FullName, userId = x.userId }).ToList();
+            var employee = unitOfWork.GetDbContext().Employee.Where(x=>x.BusinessunitId == id && x.IsDepthead == true).Select(x=> new EmployeeListItem { FullName = x.FullName, userId = x.userId }).ToList();
             
             return employee ?? null;
         }
@@ -527,7 +527,7 @@ namespace resourceEdge.webUi.Infrastructure
             var requisition = unitOfWork.GetDbContext().Requisition.Where(X => X.id == Id).FirstOrDefault();
             if (requisition != null)
             {
-                var interviewers = unitOfWork.GetDbContext().Employee.Where(X => X.businessunitId == requisition.BusinessUnitId.Value && X.DepartmentId == requisition.DepartmentId)
+                var interviewers = unitOfWork.GetDbContext().Employee.Where(X => X.BusinessunitId == requisition.BusinessUnitId.Value && X.DepartmentId == requisition.DepartmentId)
                     .Select(X=>new { name = X.FullName, Id = X.userId });
                 return interviewers;
             }

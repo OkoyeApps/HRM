@@ -31,7 +31,7 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                 var userObject = await unitOfWork.GetDbContext().Employee.Where(x => x.userId == userIdentityObject).FirstOrDefaultAsync();
                 if (filterContext.Controller.ControllerContext.HttpContext.Session != null && userObject != null)
                 {
-                    var unitDetails = unitOfWork.GetDbContext().Businessunit.Find(userObject.businessunitId);
+                    var unitDetails = unitOfWork.GetDbContext().Businessunit.Find(userObject.BusinessunitId);
                     string controller = filterContext.RequestContext.RouteData.Values["controller"].ToString();
                     string action = filterContext.RequestContext.RouteData.Values["action"].ToString();
                     var key = new SessionModel()
@@ -41,7 +41,7 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                         LocationId = userObject.LocationId.Value,
                         GroupId = userObject.GroupId,
                         IssuedDate = DateTime.Now,
-                        UnitId = userObject.businessunitId,
+                        UnitId = userObject.BusinessunitId,
                         UnitName = unitDetails.unitname,
                     };
                     filterContext.Controller.ControllerContext.HttpContext.Session["_ResourceEdgeTeneceIdentity"] = key;

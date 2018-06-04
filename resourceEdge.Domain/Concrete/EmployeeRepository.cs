@@ -45,7 +45,7 @@ namespace resourceEdge.Domain.Concrete
 
        public List<Employee> GetEmpByBusinessUnit(int id)
         {
-            var result = unitOfWork.employees.Get(filter: x => x.businessunitId == id).ToList();
+            var result = unitOfWork.employees.Get(filter: x => x.BusinessunitId == id).ToList();
             return result ?? null;
         }
 
@@ -62,7 +62,7 @@ namespace resourceEdge.Domain.Concrete
 
         public List<Employee> GetUnitHead(int unitId)
         {
-            var result = unitOfWork.employees.Get(filter: x => x.businessunitId == unitId && x.IsUnithead == true).ToList();
+            var result = unitOfWork.employees.Get(filter: x => x.BusinessunitId == unitId && x.IsUnithead == true).ToList();
             return result ?? null;
         }
 
@@ -73,13 +73,13 @@ namespace resourceEdge.Domain.Concrete
         }
         public List<Employee> GetEmployeeUnitMembers(int unitId)
         {
-            var result = unitOfWork.employees.Get(x => x.businessunitId == unitId && x.IsUnithead != true).ToList();
+            var result = unitOfWork.employees.Get(x => x.BusinessunitId == unitId && x.IsUnithead != true).ToList();
             return result ?? null;
         }
 
         public List<Employee> GetReportManagers(int unitId)
         {
-            var result = unitOfWork.employees.Get(filter: x =>x.businessunitId == unitId && x.empRoleId == 2).ToList();
+            var result = unitOfWork.employees.Get(filter: x =>x.BusinessunitId == unitId && x.empRoleId == 2).ToList();
             return result ?? null;
         }
 

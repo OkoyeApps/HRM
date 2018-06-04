@@ -111,10 +111,34 @@ namespace resourceEdge.webUi.Infrastructure
         /// <para name="userId"></para>
         /// </summary>
         /// <returns></returns>
-        public List<Employee> GetAllEmployees()
+        public IEnumerable<EmployeeListItem> GetAllEmployees()
         {
-            return EmployeeRepo.Get().ToList();
+            var result = unitofWork.employees.Get(includeProperties: "Department,Group,Level,Location,Businessunit").Select(x => new EmployeeListItem
+            {
+                BusinessUnitName = x.Businessunit.unitname,
+                DepartmentName = x.Department.deptname,
+                empEmail = x.empEmail,
+                FullName = x.FullName,
+                Id = x.ID,
+                GroupName = x.Group.GroupName,
+                LocationName = x.Location.State
+            });
+            return result;
         }
+        public IEnumerable<EmployeeListItem> GetAllEmployeeByLocation(int locationId)
+        {
+            var result = unitofWork.employees.Get(filter: x => x.LocationId == locationId, includeProperties: "Department,Group,Level,Location,Businessunit").Select(x => new EmployeeListItem
+            {
+                BusinessUnitName = x.Businessunit.unitname,
+                DepartmentName = x.Department.deptname,
+                empEmail = x.empEmail,
+                FullName = x.FullName,
+                Id = x.ID,
+                GroupName = x.Group.GroupName,
+                LocationName = x.Location.State
+            });
+            return result;
+        } 
         public List<Employee> GetEmpByBusinessUnit(int id)
         {
             var employeeByUnit = EmployeeRepo.GetEmpByBusinessUnit(id);
@@ -189,7 +213,7 @@ namespace resourceEdge.webUi.Infrastructure
 
         public List<Employee> GetEmployeeUnitMembers(int unitId, int locationId)
         {
-            var members = unitofWork.employees.Get(filter: x => x.businessunitId == unitId && x.LocationId == locationId).ToList();
+            var members = unitofWork.employees.Get(filter: x => x.BusinessunitId == unitId && x.LocationId == locationId).ToList();
             return members ?? null;
         }
 
@@ -200,7 +224,7 @@ namespace resourceEdge.webUi.Infrastructure
             List<Employee> TeamMembers = new List<Employee>();
             if (searchString.ToLower().StartsWith("tenece"))
             {
-                var TeamByEmpId = db.Users.Where(x => x.BusinessunitId == userUnitId.businessunitId.ToString() && x.EmployeeId == searchString).FirstOrDefault();
+                var TeamByEmpId = db.Users.Where(x => x.BusinessunitId == userUnitId.BusinessunitId.ToString() && x.EmployeeId == searchString).FirstOrDefault();
                 if (TeamByEmpId != null)
                 {
                     var TeamMember = EmployeeRepo.GetByUserId(TeamByEmpId.Id);
@@ -208,7 +232,7 @@ namespace resourceEdge.webUi.Infrastructure
                     return TeamMembers;
                 }
             }
-            TeamMembers = EmployeeRepo.GetEmpByBusinessUnit(userUnitId.businessunitId).Where(x => x.empEmail.Contains(searchString) || x.FullName.Contains(searchString)).ToList();
+            TeamMembers = EmployeeRepo.GetEmpByBusinessUnit(userUnitId.BusinessunitId).Where(x => x.empEmail.Contains(searchString) || x.FullName.Contains(searchString)).ToList();
             if (TeamMembers != null)
             {
                 return TeamMembers;
@@ -413,7 +437,7 @@ namespace resourceEdge.webUi.Infrastructure
                 else
                 {
                     EmpPayroll payroll = new EmpPayroll();
-                    payroll.BusinessUnit = employee.businessunitId.ToString();
+                    payroll.BusinessUnit = employee.BusinessunitId.ToString();
                     payroll.Department = employee.DepartmentId.ToString();
                     payroll.EmpName = employee.FullName;
                     payroll.UserId = currentUser.Id;
@@ -506,7 +530,7 @@ namespace resourceEdge.webUi.Infrastructure
             var result = EmployeeRepo.GetAllEmployeesByLocation(id)
                 .Select(x => new EmployeeListItem()
                     {
-                        businessunitId = x.businessunitId, FullName = x.FullName, userId = x.userId, GroupId = x.GroupId
+                        businessunitId = x.BusinessunitId, FullName = x.FullName, userId = x.userId, GroupId = x.GroupId
                     }).ToList();
             result.ForEach(x =>x.Units = unitofWork.BusinessUnit.GetByID(x.businessunitId));
             result.ForEach(x => x.Group = unitofWork.Groups.GetByID(x.GroupId));
@@ -621,8 +645,8 @@ namespace resourceEdge.webUi.Infrastructure
                 if (employee != null)
                 {
                     var empUserDetails = userManager.FindById(employee.userId);
-                    var job = unitofWork.jobTitles.GetByID(employee.jobtitleId);
-                    var position = unitofWork.positions.GetByID(employee.positionId);
+                    var job = unitofWork.jobTitles.GetByID(employee.JobTitleId);
+                    var position = unitofWork.positions.GetByID(employee.PositionId);
                     var avatar = unitofWork.Files.Get(filter: x => x.UserId == employee.userId && x.FileType == FileType.Avatar).FirstOrDefault();
                     var Salary = unitofWork.PayRoll.Get(filter: x => x.UserId == employee.userId).SingleOrDefault();
                     var leave = unitofWork.LRequest.Get(filter: x => x.UserId == employee.userId).ToList();
@@ -633,7 +657,7 @@ namespace resourceEdge.webUi.Infrastructure
 
             public Tuple<Employee, ApplicationUser, Domain.Entities.File> GetAllHrDetails(int unitId)
             {
-                var members = unitofWork.employees.Get(filter: x => x.businessunitId == unitId && x.empRoleId == 3).FirstOrDefault();
+                var members = unitofWork.employees.Get(filter: x => x.BusinessunitId == unitId && x.empRoleId == 3).FirstOrDefault();
                 ApplicationUser HrUserDetail = new ApplicationUser();
                 Domain.Entities.File Avatar = new Domain.Entities.File();
                 if (members != null)
@@ -646,7 +670,7 @@ namespace resourceEdge.webUi.Infrastructure
 
             public Tuple<Employee, ApplicationUser, Domain.Entities.File> GetAllUnitHeadDetails(int unitId)
             {
-                var members = unitofWork.employees.Get(filter: x => x.businessunitId == unitId && x.IsUnithead == true).FirstOrDefault();
+                var members = unitofWork.employees.Get(filter: x => x.BusinessunitId == unitId && x.IsUnithead == true).FirstOrDefault();
                 ApplicationUser HrUserDetail = new ApplicationUser();
                 Domain.Entities.File Avatar = new Domain.Entities.File();
                 if (members != null)
@@ -662,7 +686,7 @@ namespace resourceEdge.webUi.Infrastructure
                 List<Domain.Entities.File> Images = new List<Domain.Entities.File>();
                 List<Employee> TeamMembers = new List<Employee>();
                 List<ApplicationUser> TeamMemberUserDetail = new List<ApplicationUser>();
-                var members = unitofWork.employees.Get(x => x.businessunitId == unitId && x.IsUnithead != true).ToList();
+                var members = unitofWork.employees.Get(x => x.BusinessunitId == unitId && x.IsUnithead != true).ToList();
                 if (members != null)
                 {
                     foreach (var item in members)
@@ -690,12 +714,12 @@ namespace resourceEdge.webUi.Infrastructure
                     var ImagList = unitofWork.Files.Get(filter: x => x.UserId == item.userId && x.FileType == FileType.Avatar).Select(x=>x.FilePath).FirstOrDefault();
                     var userlist = userManager.FindById(item.userId);
                     bool? loginList = unitofWork.Logins.Get(filter: x => x.UserID == item.userId && x.IsLogOut == false).Select(x=>x.IsLogIn).LastOrDefault();
-                    var employeeUnit = unitofWork.BusinessUnit.GetByID(item.businessunitId).unitname;
+                    var employeeUnit = unitofWork.BusinessUnit.GetByID(item.BusinessunitId).unitname;
                     var employeeDept = unitofWork.Department.GetByID(item.DepartmentId).deptname;
                     listItem.BusinessUnitName = employeeUnit;
                     listItem.DepartmentName = employeeDept;
                     listItem.IsUnitHead = item.IsUnithead;
-                    listItem.EmployeeId = item.empID;
+                    listItem.EmployeeId = item.ID;
                     listItem.Login = loginList ?? false;
                     listItem.UserId = userlist.Id;
                     listItem.ImageUrl = ImagList;

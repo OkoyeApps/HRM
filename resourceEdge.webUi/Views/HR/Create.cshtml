@@ -70,7 +70,7 @@
                     <div class="form-group">
                         @*@Html.Label("First name", htmlAttributes: new { @class = "control-label " })*@
                         <label class="control-label">First name &nbsp;<b style="color:red;">*</b></label>
-                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", required = "", placeholder = "Enter First name" } })
+                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", required = "", placeholder = "Enter First name", data_parsley_minlength = "3" } })
                         @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -79,7 +79,7 @@
                     <div class="form-group">
                         @* @Html.Label("Last name", htmlAttributes: new { @class = "control-label " })*@
                         <label class="control-label">Last name&nbsp; <b style="color:red;">*</b></label>
-                        @Html.EditorFor(model => model.lastName, new { htmlAttributes = new { @class = "form-control", required = "", placeholder = "Enter last name" } })
+                        @Html.EditorFor(model => model.lastName, new { htmlAttributes = new { @class = "form-control", required = "", placeholder = "Enter last name", data_parsley_minlength = "3" } })
                         @Html.ValidationMessageFor(model => model.lastName, "", new { @class = "text-danger" })
                     </div>
                 </div>

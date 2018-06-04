@@ -73,7 +73,7 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.Approval1 = new SelectList(EmpManager.GetLocationHeadsDetails(UserFromSession.LocationId).Select(x => new { name = x.FullName, id = x.userId }).OrderBy(x => x.name), "id", "name", "id");
             //fix approval 2 later for the manager in charge to approve
             ViewBag.Approval2 = new SelectList(EmpManager.GetReportManagerBusinessUnit(UserFromSession.UnitId).Select(x => new { name = x.FullName, Id = x.userId }), "Id", "name", "Id");
-            ViewBag.Employee = new SelectList(EmployeeRepo.Get().Select(x=> new { name = x.FullName, id = x.empID}).OrderBy(x=>x.id), "id", "name", "id");
+            ViewBag.Employee = new SelectList(EmployeeRepo.Get().Select(x=> new { name = x.FullName, id = x.ID}).OrderBy(x=>x.id), "id", "name", "id");
             return View();
         }
 

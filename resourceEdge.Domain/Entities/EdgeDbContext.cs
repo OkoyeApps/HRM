@@ -99,6 +99,8 @@ namespace resourceEdge.Domain.Entities
         public DbSet<SystemAdmin> SystemAdmin { get; set; }
         public DbSet<Birthday> BirthDay { get; set; }
         public DbSet<Announcement> Announcement { get; set; }
+
+        //public System.Data.Entity.DbSet<resourceEdge.webUi.Infrastructure.Core.EmployeeListItem> EmployeeListItems { get; set; }
     }
     
 }

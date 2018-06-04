@@ -138,7 +138,7 @@ namespace resourceEdge.webUi.Infrastructure
             if (group != 0)
             {
                 var unitDetail = unitOfWork.BusinessUnit.GetByID(employees.businessunitId);
-                realEmployee.businessunitId = employees.businessunitId;
+                realEmployee.BusinessunitId = employees.businessunitId;
                 realEmployee.createdby = UserId;
                 realEmployee.dateOfJoining = employees.dateOfJoining;
                 realEmployee.dateOfLeaving = employees.dateOfLeaving;
@@ -147,12 +147,12 @@ namespace resourceEdge.webUi.Infrastructure
                 realEmployee.FullName = employees.FirstName + " " + employees.lastName;
                 realEmployee.empStatusId = employees.empStatusId;
                 realEmployee.isactive = true;
-                realEmployee.jobtitleId = employees.jobtitleId;
-                realEmployee.modeofEmployement = employees.modeofEmployement;
+                realEmployee.JobTitleId = employees.jobtitleId;
+                realEmployee.modeofEmployement =(int) employees.modeofEmployement;
                 realEmployee.modifiedby = UserId;
                 realEmployee.officeNumber = employees.officeNumber;
-                realEmployee.positionId = employees.positionId;
-                realEmployee.prefixId = employees.prefixId;
+                realEmployee.PositionId = employees.positionId;
+                realEmployee.prefixId =(int) employees.prefixId;
                 realEmployee.yearsExp = employees.yearsExp;
                 realEmployee.LevelId = employees.Level;
                 realEmployee.LocationId = unitDetail.LocationId.Value;

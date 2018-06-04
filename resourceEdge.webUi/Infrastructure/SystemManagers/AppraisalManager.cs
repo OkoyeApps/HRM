@@ -322,7 +322,7 @@ namespace resourceEdge.webUi.Infrastructure
                                 ModifiedDate = DateTime.Now,
                                 CreatedDate = DateTime.Now,
                                 Isactive = false,
-                                BusinessUnitId = EmployeeDetail.businessunitId,
+                                BusinessUnitId = EmployeeDetail.BusinessunitId,
                                 DepartmentId = EmployeeDetail.DepartmentId,
                                 GroupId = EmployeeDetail.GroupId,
                                 LocationId = EmployeeDetail.LocationId.Value,
@@ -686,14 +686,14 @@ namespace resourceEdge.webUi.Infrastructure
                 {
                     foreach (var item in lineManagerUnitToAppraise)
                     {
-                        var AllEmployees = unitOfWork.employees.Get(filter: x => x.businessunitId == item.unit && x.DepartmentId == item.dept)
+                        var AllEmployees = unitOfWork.employees.Get(filter: x => x.BusinessunitId == item.unit && x.DepartmentId == item.dept)
                                                  .Select(x => new EmployeeListItem()
                                                  {
                                                      FullName = x.FullName,
                                                      userId = x.userId,
                                                      empEmail = x.empEmail,
                                                      DepartmentName = unitOfWork.Department.GetByID(x.DepartmentId).deptname,
-                                                     BusinessUnitName = unitOfWork.BusinessUnit.GetByID(x.businessunitId).unitname
+                                                     BusinessUnitName = unitOfWork.BusinessUnit.GetByID(x.BusinessunitId).unitname
                                                      //Be careful when using this, i could do this i.e using the the dbcontext in this manner
                                                      //this is safe because the application uses one dbcontext per request...
                                                  }).ToList();
@@ -1047,7 +1047,7 @@ namespace resourceEdge.webUi.Infrastructure
                 //This foreach gets all the user in a current department for appraisal only
                 foreach (var item in DepartmentToAppraise)
                 {
-                    var employee = unitOfWork.employees.Get(filter: x => x.businessunitId == item.businessunitId && x.DepartmentId == item.departmentId).Select(x => new EmployeeListItem() { userId = x.userId });
+                    var employee = unitOfWork.employees.Get(filter: x => x.BusinessunitId == item.businessunitId && x.DepartmentId == item.departmentId).Select(x => new EmployeeListItem() { userId = x.userId });
                     if (employee != null)
                     {
                         employee.ToList().ForEach(x => AllEmployeesToAppraise.Add(x));
@@ -1085,7 +1085,7 @@ namespace resourceEdge.webUi.Infrastructure
                                 userId = x.userId,
                                 FullName = x.FullName,
                                 DepartmentName = unitOfWork.Department.GetByID(x.DepartmentId).deptname,
-                                BusinessUnitName = unitOfWork.BusinessUnit.GetByID(x.businessunitId).unitname
+                                BusinessUnitName = unitOfWork.BusinessUnit.GetByID(x.BusinessunitId).unitname
                             }).FirstOrDefault();
                         EmployeeToAttend.Add(currentEmployee);
                     }
@@ -1098,7 +1098,7 @@ namespace resourceEdge.webUi.Infrastructure
                             userId = x.userId,
                             FullName = x.FullName,
                             DepartmentName = unitOfWork.Department.GetByID(x.DepartmentId).deptname,
-                            BusinessUnitName = unitOfWork.BusinessUnit.GetByID(x.businessunitId).unitname
+                            BusinessUnitName = unitOfWork.BusinessUnit.GetByID(x.BusinessunitId).unitname
                         }).FirstOrDefault();
                         EmployeesForL2.Add(currentEmployee);
                     }
@@ -1111,7 +1111,7 @@ namespace resourceEdge.webUi.Infrastructure
                             userId = x.userId,
                             FullName = x.FullName,
                             DepartmentName = unitOfWork.Department.GetByID(x.DepartmentId).deptname,
-                            BusinessUnitName = unitOfWork.BusinessUnit.GetByID(x.businessunitId).unitname
+                            BusinessUnitName = unitOfWork.BusinessUnit.GetByID(x.BusinessunitId).unitname
                         }).FirstOrDefault();
                         EmployeesForL3.Add(currentEmployee);
                     }

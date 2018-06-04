@@ -45,7 +45,7 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                         var userObject = unitOfWork.Employee.Where(x => x.userId == userIdentityObject).Include("Department").FirstOrDefault();
                         if (filterContext.Controller.ControllerContext.HttpContext.Session != null && userObject != null)
                         {
-                            var unitDetails = unitOfWork.Businessunit.Find(userObject.businessunitId);
+                            var unitDetails = unitOfWork.Businessunit.Find(userObject.BusinessunitId);
                             key = new SessionModel()
                             {
                                 Email = userObject.empEmail,
@@ -53,7 +53,7 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                                 LocationId = userObject.LocationId.Value,
                                 GroupId = userObject.GroupId,
                                 IssuedDate = DateTime.Now,
-                                UnitId = userObject.businessunitId,
+                                UnitId = userObject.BusinessunitId,
                                 UnitName = unitDetails.unitname,
                                  DepartmentId = userObject.DepartmentId,
                                  DepartmentName = userObject.Department.deptname
@@ -104,7 +104,7 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                         var userObject = unitOfWork.Employee.Where(x => x.userId == userIdentityObject).Include("Department").FirstOrDefaultAsync();
                         if (filterContext.Controller.ControllerContext.HttpContext.Session != null && userObject.Result != null)
                         {
-                            var unitDetails = unitOfWork.Businessunit.Find(userObject.Result.businessunitId);
+                            var unitDetails = unitOfWork.Businessunit.Find(userObject.Result.BusinessunitId);
                             SessionModel Key = new SessionModel();
                             if (Key != null)
                             {
@@ -113,7 +113,7 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                                 Key.LocationId = userObject.Result.LocationId.Value;
                                 Key.GroupId = userObject.Result.GroupId;
                                 Key.IssuedDate = DateTime.Now;
-                                Key.UnitId = userObject.Result.businessunitId;
+                                Key.UnitId = userObject.Result.BusinessunitId;
                                 Key.UnitName = unitDetails.unitname;
                                 Key.DepartmentId = userObject.Result.DepartmentId;
                                 Key.DepartmentName = userObject.Result.Department.deptname;                          

@@ -56,6 +56,17 @@ namespace resourceEdge.webUi.Controllers
             }
         }
         // Edit: Edit
+
+        public ActionResult Index()
+        {
+            ViewBag.PageTitle = "All Employees";
+            if (User.IsInRole("Super Admin"))
+            {
+                return View(EmpManager.GetAllEmployees());
+            }
+            var userSessionDetail = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+            return View(EmpManager.GetAllEmployeeByLocation(userSessionDetail.LocationId));
+        }
         public ActionResult Edit(string key)
         {
             ViewBag.UserId = key;
@@ -76,9 +87,9 @@ namespace resourceEdge.webUi.Controllers
                 return HttpNotFound();
             }
             ViewBag.empDetails = EmpDetails.GetEmpDetails(id.Value);
-            ViewBag.HrDetails = EmpDetails.GetAllHrDetails(employees.businessunitId);
-            ViewBag.unitHeadDetails = EmpDetails.GetAllUnitHeadDetails(employees.businessunitId);
-            var TeamMembers = EmpDetails.GetTeamMembersWithAvatars(employees.businessunitId);
+            ViewBag.HrDetails = EmpDetails.GetAllHrDetails(employees.BusinessunitId);
+            ViewBag.unitHeadDetails = EmpDetails.GetAllUnitHeadDetails(employees.BusinessunitId);
+            var TeamMembers = EmpDetails.GetTeamMembersWithAvatars(employees.BusinessunitId);
             ViewBag.TeamMembers = TeamMembers;
             return View(employees);
         }
