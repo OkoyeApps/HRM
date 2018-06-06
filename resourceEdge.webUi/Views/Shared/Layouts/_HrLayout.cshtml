@@ -341,14 +341,17 @@
                                 <li>
                                     @Html.ActionLink("Add Employee", "Create", "HR", null, new { @class = "nav-link  title" })
                                 </li>
+                                        <li>
+                                            @Html.ActionLink("All Employee", "Index", "Employee", null, new { @class = "nav-link  title" })
+                                        </li>
                                 }
                                 @if (User.IsInRole("HR") || User.IsInRole("System Admin"))
                                 {
                                 <li class="has-sub">
                                     <a href = "javascript:;" ><b class="caret pull-right"></b>Report Manager</a>
                                     <ul class="sub-menu">
-                                        <li>@Html.ActionLink("Assign Department Head", "AssignDepartmentHead")</li>
-                                        <li>@Html.ActionLink(" Assign Report Managers", "AssignReportManager", null, new { @class = "nav-link  title" })</li>
+                                        <li>@Html.ActionLink("Assign Department Head", "AssignDepartmentHead", "HR")</li>
+                                        <li>@Html.ActionLink(" Assign Report Managers", "AssignReportManager","HR", null, new { @class = "nav-link  title" })</li>
                                     </ul>
                                 </li>
                                  }

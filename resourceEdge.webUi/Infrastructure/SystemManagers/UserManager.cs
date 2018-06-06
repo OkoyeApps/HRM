@@ -148,11 +148,11 @@ namespace resourceEdge.webUi.Infrastructure
                 realEmployee.empStatusId = employees.empStatusId;
                 realEmployee.isactive = true;
                 realEmployee.JobTitleId = employees.jobtitleId;
-                realEmployee.modeofEmployement =(int) employees.modeofEmployement;
+                realEmployee.modeofEmployement = (int)employees.modeofEmployement;
                 realEmployee.modifiedby = UserId;
                 realEmployee.officeNumber = employees.officeNumber;
                 realEmployee.PositionId = employees.positionId;
-                realEmployee.prefixId =(int) employees.prefixId;
+                realEmployee.prefixId = (int)employees.prefixId;
                 realEmployee.yearsExp = employees.yearsExp;
                 realEmployee.LevelId = employees.Level;
                 realEmployee.LocationId = unitDetail.LocationId.Value;
@@ -164,7 +164,7 @@ namespace resourceEdge.webUi.Infrastructure
             }
             return null;
         }
-    
+
         public static bool checkEmployeeId(string id)
         {
             var user = context.Users.Where(x => x.EmployeeId == id).FirstOrDefault();
@@ -218,7 +218,7 @@ namespace resourceEdge.webUi.Infrastructure
 
         public static bool IsLocationHeadComplete(int locationId)
         {
-            var location = unitOfWork.Locations.Get(filter: x => x.Id == locationId).Any(x=> (x.LocationHead1 == null || x.LocationHead2 == null || x.LocationHead3 == null));
+            var location = unitOfWork.Locations.Get(filter: x => x.Id == locationId).Any(x => (x.LocationHead1 == null || x.LocationHead2 == null || x.LocationHead3 == null));
             if (location)
             {
                 return true;
@@ -235,6 +235,33 @@ namespace resourceEdge.webUi.Infrastructure
                 identityCode = code.employee_code;
             }
             return identityCode;
+        }
+        public static bool? ValidateHeadHRsInGroup(IdentityRole role, int groupId)
+        {
+            if (role != null)
+            {
+                Dictionary<string, int> usersAndGroup = new Dictionary<string, int>();
+                int counter = 0;
+                foreach (var item in role.Users)
+                {
+                    var userDetail = unitOfWork.employees.Get(filter: x => x.userId == item.UserId).Select(x=>new {GroupId = x.GroupId }).FirstOrDefault();
+                    if (userDetail != null)
+                    {
+                        if (!usersAndGroup.ContainsKey(item.UserId))
+                        {
+                            usersAndGroup.Add(item.UserId, userDetail.GroupId);
+                            if (usersAndGroup.Any(x=>x.Value == userDetail.GroupId) && counter >0)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                    counter++;
+                }
+
+                    return true;
+            }
+                return null;
         }
     }
 }

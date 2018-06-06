@@ -4,6 +4,10 @@
     ViewBag.Title = "AllLevel";
     Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
 }
+@section css{
+
+    @Styles.Render("~/asset/tablecss");
+}
 <table class="table table-bordered table-responsive table-striped">
     <tr>
         <td>
@@ -13,40 +17,49 @@
     <tr>
         <td>
 
-            <table class="table table-bordered table-responsive table-striped">
-                <tr>
-                    <th>
-                       Level Number
-                    </th>
-                    <th>
-                       Level Name
-                    </th>
-                    <th>
-                       Eligible Years
-                    </th>
-                    <th></th>
-                </tr>
-
-                @foreach (var item in Model)
-            {
+            <table class="table table-bordered table-responsive table-striped" id="tblGeneral">
+                <thead>
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.levelNo)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.LevelName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.EligibleYears)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Edit", "Editlevel", "Configuration", new { id = item.Id }, new { @class = "btn btn-warning" })
-                        </td>
+                        <th>
+                            Level Number
+                        </th>
+                        <th>
+                            Level Name
+                        </th>
+                        <th>
+                            Eligible Years
+                        </th>
+                        <th></th>
                     </tr>
-                }
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+            {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.levelNo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LevelName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EligibleYears)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Editlevel", "Configuration", new { id = item.Id }, new { @class = "btn btn-warning pull-right" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
 
             </table>
         </td>
     </tr>
 </table>
 
+@section Scripts{
+    @Scripts.Render("~/assets/Table");
+    <script src="~/Scripts/Pages/JS/DataTableInitialization.js"></script>
+}

@@ -139,6 +139,24 @@ namespace resourceEdge.webUi.Infrastructure
             });
             return result;
         } 
+        public EmployeeListItem GetEmployeeById(int id)
+        {
+            var result = unitofWork.employees.Get(filter: x => x.ID == id, includeProperties: "Department,Group,Level,Location,Businessunit").Select(x => new EmployeeListItem
+            {
+                BusinessUnitName = x.Businessunit.unitname,
+                DepartmentName = x.Department.deptname,
+                empEmail = x.empEmail,
+                FullName = x.FullName,
+                Id = x.ID,
+                GroupName = x.Group.GroupName,
+                LocationName = x.Location.State,
+                 businessunitId = x.BusinessunitId,
+                 departmentId = x.DepartmentId,
+                  PhoneNumber = x.PhoneNumber
+               
+            }).FirstOrDefault();
+            return result;
+        }
         public List<Employee> GetEmpByBusinessUnit(int id)
         {
             var employeeByUnit = EmployeeRepo.GetEmpByBusinessUnit(id);
@@ -148,16 +166,16 @@ namespace resourceEdge.webUi.Infrastructure
             }
             return null;
         }
-        public List<PrefixesListItem> PrefixeList()
-        {
-            List<PrefixesListItem> Result = new List<PrefixesListItem>();
-            unitofWork.prefix.Get().ToList().ForEach(x => Result.Add(new PrefixesListItem { prefixId = x.Id, prefixName = x.prefixName }));
-            return Result;
-        }
+
         public string GetGroupName(int id)
         {
             var result = unitofWork.Groups.GetByID(id).GroupName;
             return result ?? null;
+        }
+        public string GetUserIdFromEmployeeTable(int Id)
+        {
+            var user = unitofWork.employees.GetByID(Id);
+            return user != null ? user.userId : null;
         }
         public List<Employee> GetReportManagerBusinessUnit(int id)
         {

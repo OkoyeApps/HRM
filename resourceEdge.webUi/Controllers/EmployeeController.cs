@@ -67,11 +67,16 @@ namespace resourceEdge.webUi.Controllers
             var userSessionDetail = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
             return View(EmpManager.GetAllEmployeeByLocation(userSessionDetail.LocationId));
         }
-        public ActionResult Edit(string key)
+        public ActionResult Edit(int Id)
         {
-            ViewBag.UserId = key;
-            ViewBag.Avartar = EmpEdit.getEmpAvatar(key);
+            var userId = EmpManager.GetUserIdFromEmployeeTable(Id);
+            if (!string.IsNullOrEmpty(userId))
+            {
+            ViewBag.UserId = Id;
+            ViewBag.Avartar = EmpEdit.getEmpAvatar(userId);
             return View();
+            }
+            return new HttpStatusCodeResult(HttpStatusCode.NotFound);
         }
 
         public ActionResult Details(int? id)
@@ -80,18 +85,18 @@ namespace resourceEdge.webUi.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employees = EmployeeRepo.GetById(id.Value);
+            EmployeeListItem employees = EmpManager.GetEmployeeById(id.Value);
 
             if (employees == null)
             {
                 return HttpNotFound();
             }
             ViewBag.empDetails = EmpDetails.GetEmpDetails(id.Value);
-            ViewBag.HrDetails = EmpDetails.GetAllHrDetails(employees.BusinessunitId);
-            ViewBag.unitHeadDetails = EmpDetails.GetAllUnitHeadDetails(employees.BusinessunitId);
-            var TeamMembers = EmpDetails.GetTeamMembersWithAvatars(employees.BusinessunitId);
+            ViewBag.HrDetails = EmpDetails.GetAllHrDetails(employees.businessunitId);
+            ViewBag.unitHeadDetails = EmpDetails.GetAllUnitHeadDetails(employees.businessunitId);
+            var TeamMembers = EmpDetails.GetTeamMembersWithAvatars(employees.businessunitId);
             ViewBag.TeamMembers = TeamMembers;
-            return View(employees);
+            return View("TabView",employees);
         }
 
 
@@ -129,11 +134,11 @@ namespace resourceEdge.webUi.Controllers
                 ViewBag.empSalary = empSalary;
                 ViewBag.UserId = userId;
                 ViewBag.returnUrl = returnUrl;
-                return View(empToSend);
+                return PartialView(empToSend);
             }
-            this.AddNotification("", NotificationType.ERROR);
+            //this.AddNotification("", NotificationType.ERROR);
 
-            return RedirectToAction("allEmployee", "HR");
+            return PartialView(empToSend);
         }
 
         [HttpPost]
@@ -169,16 +174,16 @@ namespace resourceEdge.webUi.Controllers
                 return View();
             }
             TempData["Error"] = "This route does not exist";
-            return RedirectToAction("allEmployee", "HR");
+            return PartialView();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult UpdateEmpAvater(Domain.Entities.File model, string userId, string returnUrl, HttpPostedFileBase File)
         {
-            var user = userManager.FindById(userId);
-            var employee = EmployeeRepo.GetByUserId(userId);
-            var existingAvatar = FileRepo.GetByUserId(userId);
+            var user = EmpManager.GetUserIdFromEmployeeTable(int.Parse(userId));
+            var employee = EmployeeRepo.GetByUserId(user);
+            var existingAvatar = FileRepo.GetByUserId(user);
             try
             {
                 if (ModelState.IsValid && employee != null && File.ContentLength >0)
@@ -198,6 +203,11 @@ namespace resourceEdge.webUi.Controllers
             }
             this.AddNotification("Something went wrong", NotificationType.ERROR);
             return Redirect(returnUrl);
+        }
+
+        public ActionResult TabView()
+        {
+            return View();
         }
     }
 }

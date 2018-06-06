@@ -1059,6 +1059,12 @@
     <Content Include="assets\AdminTemplate\assets\plugins\superbox\js\superbox.js" />
     <Content Include="assets\AdminTemplate\assets\plugins\switchery\switchery.min.css" />
     <Content Include="assets\AdminTemplate\assets\plugins\switchery\switchery.min.js" />
+    <Content Include="assets\AdminTemplate\bootstrap-tabdrop.js" />
+    <Content Include="assets\AdminTemplate\components.min.css" />
+    <Content Include="assets\AdminTemplate\CustomNav.css" />
+    <Content Include="assets\AdminTemplate\layout.min.css" />
+    <Content Include="assets\AdminTemplate\simple-line-icons.css" />
+    <Content Include="assets\AdminTemplate\simple-line-icons.min.css" />
     <Content Include="assets\BowerTemplate\%27img\avatar1.html" />
     <Content Include="assets\BowerTemplate\%27img\avatar3.html" />
     <Content Include="assets\BowerTemplate\%27img\avatar4.html" />
@@ -1507,6 +1513,7 @@
     <Content Include="Views\SystemAdmin\AdminDetail.cshtml" />
     <Content Include="Views\Configuration\allEmploymentStatus.cshtml" />
     <Content Include="Views\Employee\Index.cshtml" />
+    <Content Include="Views\Employee\TabView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

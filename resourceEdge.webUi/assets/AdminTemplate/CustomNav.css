@@ -1,0 +1,40 @@
+﻿.tabs-left.nav-tabs,
+.tabs-right.nav-tabs {
+    border-bottom: 0
+}
+
+.tabs-left.nav-tabs>li,
+.tabs-right.nav-tabs>li {
+    float: none
+}
+
+.tabs-left.nav-tabs>li>a,
+.tabs-right.nav-tabs>li>a {
+    margin-right: 0;
+    margin-bottom: 3px
+}
+
+.tabs-left.nav-tabs {
+    border-right: 1px solid #ddd
+}
+
+.tabs-left.nav-tabs>li>a {
+    display: block;
+    margin-right: -1px
+}
+
+.tabs-left.nav-tabs>li>a:focus,
+.tabs-left.nav-tabs>li>a:hover {
+    border-radius: 4px 0 0 4px;
+    border-color: #eee #ddd #eee #eee
+}
+
+.tabs-left.nav-tabs>li.active>a,
+.tabs-left.nav-tabs>li.active>a:hover>li.active>a:focus {
+    -webkit-border-radius: 4px 0 0 4px;
+    -moz-border-radius: 4px 0 0 4px;
+    -ms-border-radius: 4px 0 0 4px;
+    -o-border-radius: 4px 0 0 4px;
+    border-radius: 4px 0 0 4px;
+    border-color: #ddd transparent #ddd #ddd
+}

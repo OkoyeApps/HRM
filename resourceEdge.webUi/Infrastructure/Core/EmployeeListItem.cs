@@ -19,6 +19,7 @@ namespace resourceEdge.webUi.Infrastructure.Core
         public string reportingManager1 { get; set; }
         public string reportingManager2 { get; set; }
         public string empStatusId { get; set; }
+        public string PhoneNumber { get; set; }
         public int businessunitId { get; set; }
         public int departmentId { get; set; }
         public int LocationId { get; set; }

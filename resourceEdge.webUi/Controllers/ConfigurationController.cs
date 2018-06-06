@@ -712,7 +712,7 @@ namespace resourceEdge.webUi.Controllers
                 oldStat.modifieddate = DateTime.Now;
                 statusRepo.update(oldStat);
                 this.AddNotification("Yay Edited!", NotificationType.SUCCESS);
-                return RedirectToAction("allEmployementStatus");
+                return RedirectToAction("allEmploymentStatus");
             }
             this.AddNotification("Oops! Operation failed, please make sure all required fields are filled and failure continues, please contact your system administrator", NotificationType.ERROR);
             return View(stat);
@@ -804,12 +804,19 @@ namespace resourceEdge.webUi.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddLevel(LevelsViewModel model = null, FormCollection collection = null)
         {
+            var userSessionDetail = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+        
             if (!collection.AllKeys.Contains("LevelName[0]"))
             {
                 if (ModelState.IsValid)
                 {
-                    var userSessionDetail = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
                     var validLevel = ConfigManager.ValidateLevel(model.LevelName, model.levelNo, userSessionDetail.GroupId);
+                    if (validLevel)
+                    {
+                        this.AddNotification("Sorry please the level with same Level no or name already exists in the system", NotificationType.ERROR);
+                        ViewBag.Groups = DropDown.GetGroup();
+                        return View(model);
+                    }
                     if (!validLevel) //Actually this check in logic is the not operation of the operation, therefore if it is valid then it checks it with the false value.
                     {
                         Level level = new Level();
@@ -834,11 +841,17 @@ namespace resourceEdge.webUi.Controllers
             else
             {
                 var result = ConfigManager.AddOrUpdateLevel(collection);
-                if (result)
+                if (result.HasValue)
                 {
-                    this.AddNotification($"Level Added!", NotificationType.SUCCESS);
-                    return RedirectToAction("AddLevel");
+                    if (result.Value)
+                    {
+                        this.AddNotification($"Level Added!", NotificationType.SUCCESS);
+                        return RedirectToAction("AddLevel");
+                    }
+                   
                 }
+                this.AddNotification("Sorry please the level with same Level no or name already exists in the system", NotificationType.ERROR);
+                return RedirectToAction("AddLevel");
             }
             this.AddNotification("Oops! Operation failed, please make sure all required fields are filled and failure continues, please contact your system administrator", NotificationType.ERROR);
             ViewBag.Groups = DropDown.GetGroup();
@@ -859,7 +872,14 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult Editlevel(Level level)
         {
             var oldLevel = levelRepo.GetById(level.Id);
-            if (oldLevel != null)
+            var userSessionDetail = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+            var validLevel = ConfigManager.ValidateLevel(level.LevelName, level.levelNo, userSessionDetail.GroupId);
+            if (level.levelNo < 0)
+            {
+                this.AddNotification("Sorry Level number can't be less than 0", NotificationType.ERROR);
+                return View(level);
+            }
+            if (oldLevel != null && level.levelNo >= 0)
             {
                 oldLevel.LevelName = level.LevelName;
                 oldLevel.levelNo = level.levelNo;
@@ -871,7 +891,7 @@ namespace resourceEdge.webUi.Controllers
                 return RedirectToAction("AllLevel");
             }
             this.AddNotification("Something went wrong, please try again", NotificationType.ERROR);
-            return View("AllLevel");
+            return View(level);
         }
         [CustomAuthorizationFilter(Roles = "System Admin, Super Admin")]
         public ActionResult Alllocation()

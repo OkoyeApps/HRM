@@ -1280,7 +1280,7 @@
                                         <div class="pt-avatar-w">
                                             @if (Hr.Item3 != null)
                                             {
-                                                <img alt="" src="@Url.Content(Hr.Item3.FilePath)">
+                                                <img alt="" src="@Url.Content(Hr.Item3.FilePath ?? "")">
                                             }
                                             else
                                             {
@@ -1313,10 +1313,10 @@
                                 <div class="profile-tile">
                                     <a class="profile-tile-box" href="users_profile_small.html">
                                         <div class="pt-avatar-w">
-                                    @if (unitHead != null)
-                                           if (unitHead.Item3 != null)
-                                            {
-                                                <img alt="" src="@Url.Content(unitHead.Item3.FilePath)">
+                                    @if (unitHead != null) { 
+                                    if (unitHead.Item3 != null)
+                                    {
+                                                <img alt="" src="@Url.Content(unitHead.Item3.FilePath ?? "")">
                                             }
                                            
                                             else

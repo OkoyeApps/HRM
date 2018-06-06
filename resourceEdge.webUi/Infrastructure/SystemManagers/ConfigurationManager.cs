@@ -63,9 +63,9 @@ namespace resourceEdge.webUi.Infrastructure
             return Result;
         }
 
-        public bool ValidateLevel(string levelname, int levelnumber, int groupId)
+        public bool ValidateLevel(string levelname, int levelnumber, int? groupId)
         {
-            var level = unitOfWork.Levels.Get(filter: x => x.GroupId == groupId).Any(x => x.LevelName.ToLower() == levelname || x.levelNo == levelnumber);
+            var level = unitOfWork.Levels.Get(filter: x => x.GroupId == groupId).Any(x => x.LevelName.ToLower() == levelname.ToLower() || x.levelNo == levelnumber);
             return level;
         }
 
@@ -391,7 +391,7 @@ namespace resourceEdge.webUi.Infrastructure
             }
             return false;
         }
-        public bool AddOrUpdateLevel(FormCollection collection, int? Id = null, LevelsViewModel model = null)
+        public bool? AddOrUpdateLevel(FormCollection collection, int? Id = null, LevelsViewModel model = null)
         {
             try
             {
@@ -427,7 +427,11 @@ namespace resourceEdge.webUi.Infrastructure
                             GroupId = GroupId,
                             ModifiedOn = DateTime.Now
                         };
-
+                        var isLevelExist = ValidateLevel(level.LevelName, level.levelNo, level.GroupId);
+                        if (isLevelExist)
+                        {
+                            return null;
+                        }
                         unitOfWork.Levels.Insert(level);
                     }
                     unitOfWork.Save();

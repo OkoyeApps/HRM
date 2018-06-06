@@ -172,7 +172,7 @@ namespace resourceEdge.webUi.Controllers
                             {
                                 groupidToUse = employees.GroupId;
                             }
-                            if (User.IsInRole("Super Admin"))
+                            if (!User.IsInRole("Super Admin"))
                             {
                                 groupidToUse = UserFromSession.GroupId;
                             }
@@ -184,6 +184,8 @@ namespace resourceEdge.webUi.Controllers
                             
                             try
                             {
+                                bool isReportManager = false;
+                                bool isHeadHrComplete = false;
                                 var role = db.Roles.Find(employees.empRoleId.ToString());
                                 var roleId = RoleManager.GetRoleByName("employee");
                                 if (role.Name.ToLower() == "manager")
@@ -192,6 +194,7 @@ namespace resourceEdge.webUi.Controllers
                                     if (existingReportManager ==2)
                                     {       
                                         employees.empRoleId =int.Parse(roleId.Id);
+                                        isReportManager = true;
                                     }
                                 }
                              
@@ -204,14 +207,32 @@ namespace resourceEdge.webUi.Controllers
                                     }
 
                                 }
+                               
+                                if (role.Name.ToLower() == "head hr")
+                                {
+                                    var usersInRole = RoleManager.GetRoleByName(role.Name);
+                                    if (usersInRole != null)
+                                    {
+                                        var IsHeadHrExist = UserManagement.ValidateHeadHRsInGroup(usersInRole, realEmployee.GroupId);
+                                        if (IsHeadHrExist.HasValue)
+                                        {
+                                            if (!IsHeadHrExist.Value)
+                                            {
+                                                employees.empRoleId = int.Parse(roleId.Id);
+                                                isHeadHrComplete = true;
+                                            }
+                                           
+                                        }
+                                     
+                                    }
+
+                                }
 
                                 var newCreatedUser = await Infrastructure.UserManagement.CreateUser(employees.empEmail, employees.empRoleId.ToString(), employees.empStatusId, employees.FirstName, employees.lastName, employees.officeNumber,
                                      RealUserId, employees.jobtitleId.ToString(), null, User.Identity.GetUserId(), User.Identity.GetUserId(), employees.modeofEmployement.ToString(),
                                       employees.dateOfJoining, null, true, employees.departmentId.ToString(), employees.businessunitId.ToString(), groupidToUse, employees.Location);
                                 if (newCreatedUser.Item1.Id != null)
-                                {
-
-                                   
+                                {               
                                     if (role.Name.ToLower() == "manager")
                                     {
                                         realEmployee.IsUnithead = true;
@@ -248,6 +269,16 @@ namespace resourceEdge.webUi.Controllers
                                         this.AddNotification("Employee added successfully. Note, could not assign as location head because the required number of heads are complete already. you can manually re-assign this from the Employee configuration tab.", NotificationType.SUCCESS);
                                         return RedirectToAction("Create");
                                     }
+                                    if (isReportManager && role.Name.ToLower() == "manager")
+                                    {
+                                        this.AddNotification("Employee added successfully. Note, could not assign as Manager because the required number of managers are complete already for this business unit. you can manually re-assign this from the Employee configuration tab.", NotificationType.SUCCESS);
+                                        return RedirectToAction("Create");
+                                    }
+                                    if (isHeadHrComplete && role.Name.ToLower() == "head hr")
+                                    {
+                                        this.AddNotification("Employee added successfully. Note, could not assign as Head HR because the required number of Head HR is complete already for this group. you can manually re-assign this from the Employee configuration tab.", NotificationType.SUCCESS);
+                                        return RedirectToAction("Create");
+                                    }
                                 }
                             }
                             catch (Exception ex)
@@ -258,7 +289,7 @@ namespace resourceEdge.webUi.Controllers
                             this.AddNotification("Employee Created Successfully", NotificationType.SUCCESS);
                             return RedirectToAction("Create");
                         }
-                        this.AddNotification("Sorry, Please the entry date must not be less than or equal to the Exit Date Please try Again", NotificationType.ERROR);
+                        this.AddNotification("Sorry, Please the entry date must not be greater than Today or greater than or equal to the Exit Date Please try Again", NotificationType.ERROR);
                         return RedirectToAction("Create");
                     }
                     this.AddNotification($"Sorry Employee with this Id { employees.empUserId } already exist in the System Please try Again", NotificationType.ERROR);
