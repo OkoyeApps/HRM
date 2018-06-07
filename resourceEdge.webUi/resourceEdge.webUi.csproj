@@ -257,6 +257,7 @@
     <Compile Include="Infrastructure\SystemManagers\AdminManager.cs" />
     <Compile Include="Infrastructure\SystemManagers\Apimanager.cs" />
     <Compile Include="Infrastructure\SystemManagers\AppraisalManager.cs" />
+    <Compile Include="Infrastructure\SystemManagers\ArchiveManager.cs" />
     <Compile Include="Infrastructure\SystemManagers\AssetManager.cs" />
     <Compile Include="Infrastructure\SystemManagers\BackendValidationManager.cs" />
     <Compile Include="Infrastructure\SystemManagers\ConfigurationManager.cs" />
@@ -1063,6 +1064,8 @@
     <Content Include="assets\AdminTemplate\components.min.css" />
     <Content Include="assets\AdminTemplate\CustomNav.css" />
     <Content Include="assets\AdminTemplate\layout.min.css" />
+    <Content Include="assets\AdminTemplate\noImage.PNG" />
+    <Content Include="assets\AdminTemplate\noImage2.png" />
     <Content Include="assets\AdminTemplate\simple-line-icons.css" />
     <Content Include="assets\AdminTemplate\simple-line-icons.min.css" />
     <Content Include="assets\BowerTemplate\%27img\avatar1.html" />
@@ -1520,6 +1523,7 @@
     <Folder Include="Files\Asset\" />
     <Folder Include="Files\Avatars\" />
     <Folder Include="Files\Cv\" />
+    <Folder Include="Files\Documents\" />
     <Folder Include="Images\Assets\" />
     <Folder Include="Images\Employee\" />
     <Folder Include="Scripts\Pages\CSS\" />

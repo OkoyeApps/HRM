@@ -226,7 +226,7 @@ namespace resourceEdge.webUi.Infrastructure
                 return employeeByUnit;
             }
             //although i used 0 to check the location, it might not be best practice but for now its fine
-            var employeeWithoutLocation = unitOfWork.GetDbContext().Employee.Where(x => x.BusinessunitId == id && x.LocationId == 0 && x.empRoleId != 3 || x.empRoleId != 2 || x.empRoleId != 1).ToList();
+            var employeeWithoutLocation = unitOfWork.GetDbContext().Employee.Where(x => x.BusinessunitId == id && x.LocationId == null && x.empRoleId != 3 || x.empRoleId != 2 || x.empRoleId != 1).ToList();
 
             return null;
         }

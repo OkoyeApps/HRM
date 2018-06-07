@@ -211,6 +211,23 @@
     <Compile Include="Entities\CandidateWorkDetail.cs" />
     <Compile Include="Entities\Consequence.cs" />
     <Compile Include="Entities\DisciplinaryIncident.cs" />
+    <Compile Include="Entities\EmployeeArchives\AdditionalDetail.cs" />
+    <Compile Include="Entities\EmployeeArchives\Contact.cs" />
+    <Compile Include="Entities\EmployeeArchives\CooperateCard.cs" />
+    <Compile Include="Entities\EmployeeArchives\Dependency.cs" />
+    <Compile Include="Entities\EmployeeArchives\DependencyRelation.cs" />
+    <Compile Include="Entities\EmployeeArchives\Disability.cs" />
+    <Compile Include="Entities\EmployeeArchives\Document.cs" />
+    <Compile Include="Entities\EmployeeArchives\Education.cs" />
+    <Compile Include="Entities\EmployeeArchives\EducationLevel.cs" />
+    <Compile Include="Entities\EmployeeArchives\Experience.cs" />
+    <Compile Include="Entities\EmployeeArchives\JobHistory.cs" />
+    <Compile Include="Entities\EmployeeArchives\MedicalClaim.cs" />
+    <Compile Include="Entities\EmployeeArchives\MedicalClaimType.cs" />
+    <Compile Include="Entities\EmployeeArchives\Personal.cs" />
+    <Compile Include="Entities\EmployeeArchives\Skill.cs" />
+    <Compile Include="Entities\EmployeeArchives\TrainingAndCertification.cs" />
+    <Compile Include="Entities\EmployeeArchives\Visa.cs" />
     <Compile Include="Entities\GeneralQuestion.cs" />
     <Compile Include="Entities\Interview.cs" />
     <Compile Include="Entities\InterviewStatus.cs" />
@@ -400,6 +417,10 @@
     <Compile Include="Migrations\EdgeDbContext2\201806041630558_Update to employee model asssociation.Designer.cs">
       <DependentUpon>201806041630558_Update to employee model asssociation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201806061607439_Employee Archive added.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201806061607439_Employee Archive added.Designer.cs">
+      <DependentUpon>201806061607439_Employee Archive added.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\EdgeDbContext2\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitofWork\GenericRepository.cs" />
@@ -535,6 +556,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\EdgeDbContext2\201806041630558_Update to employee model asssociation.resx">
       <DependentUpon>201806041630558_Update to employee model asssociation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201806061607439_Employee Archive added.resx">
+      <DependentUpon>201806061607439_Employee Archive added.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -143,8 +143,7 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
         public IEnumerable<RequestAsset> GetAllRequestByUser(int groupId, int locationId)
         {
             if (HttpContext.Current.User.IsInRole("HR"))
-            {
-               
+            {          
                 var result = unitOfWork.RequestAsset.Get(filter: x=>x.GroupId == groupId && x.LocationId == locationId, includeProperties:"AssetCategory");
                 return result;
             }

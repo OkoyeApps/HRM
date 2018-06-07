@@ -3,13 +3,13 @@
     Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
 }
 @section css{
-@*<link href="~/assets/AdminTemplate/components.min.css" rel="stylesheet" />*@
-@*<link href="~/assets/AdminTemplate/simple-line-icons.css" rel="stylesheet" />*@
-<link href="~/assets/AdminTemplate/CustomNav.css" rel="stylesheet" />
+    @*<link href="~/assets/AdminTemplate/components.min.css" rel="stylesheet" />*@
+    @*<link href="~/assets/AdminTemplate/simple-line-icons.css" rel="stylesheet" />*@
+    <link href="~/assets/AdminTemplate/CustomNav.css" rel="stylesheet" />
 
 }
-<div class="profile-container">
-    <table class="table table-bordered">
+<div class="profile-container table-responsive">
+    <table class="table table-bordered col-md-12 ">
         <tr>
             <td>
                 <div class="profile-section">
@@ -17,21 +17,22 @@
                     <div class="profile-left">
                         <!-- begin profile-image -->
                         <div class="profile-image">
-                            <img src="assets/img/profile-cover.jpg" />
+                            <img src="~/assets/AdminTemplate/noImage2.PNG" />
+                           @* <img src="assets/img/profile-cover.jpg" />*@
                             <i class="fa fa-user hide"></i>
                         </div>
                         <!-- end profile-image -->
                         <div class="m-b-10">
-                            <a href="#" class="btn btn-warning btn-block btn-sm">Change Picture</a>
+                            <button type="button" class="btn btn-success btn-block btn-sm">Active</button>
                         </div>
                         <!-- begin profile-highlight -->
                         <div class="profile-highlight">
-                            <h4><i class="fa fa-cog"></i> Only My Contacts</h4>
+                            <h4><i class="fa fa-cog"></i> Role</h4>
                             <div class="checkbox m-b-5 m-t-0">
-                                <label><input type="checkbox" /> Show my timezone</label>
+                                <label>Role</label>
                             </div>
                             <div class="checkbox m-b-0">
-                                <label><input type="checkbox" /> Show i have 14 contacts</label>
+                                <label> Show i have 14 contacts</label>
                             </div>
                         </div>
                         <!-- end profile-highlight -->
@@ -81,8 +82,8 @@
                                             <td class="field">Contact</td>
                                             <td><a href="#">Add Mood Message</a></td>
                                         </tr>
-                                      
-                           
+
+
                                     </tbody>
                                 </table>
                             </div>
@@ -96,42 +97,66 @@
         </tr>
         <tr>
             <td>
-                <div class="profile-section">
+                <div class="">
                     <!-- begin row -->
                     <div class="row">
-                        <div class="col-md-12">
-                            <ul class="nav nav-tabs nav-tabs-inverse nav-justified nav-justified-mobile" data-sortable-id="index-3">
-                                <li class="active"><a href="#approved" data-toggle="tab"><i class="fa fa-calender m-r-5"></i> <span class="hidden-xs">Approved</span></a></li>
-                                <li class=""><a href="#denied" data-toggle="tab"><i class="fa fa-calendar m-r-5"></i> <span class="hidden-xs">Denied</span></a></li>
-                                <li class=""><a href="#pending" data-toggle="tab"><i class="fa fa-calendar m-r-5"></i> <span class="hidden-xs">Pending</span></a></li>
-                                <li class=""><a href="#all" data-toggle="tab"><i class="fa fa-calendar m-r-5"> <span class="hidden-xs">Pending</span></i></a></li>
-                                <li class=""><a href="#all" data-toggle="tab"><i class="fa fa-calendar m-r-5"> <span class="hidden-xs"> Pending</span></i></a></li>
-                                <li class=""><a href="#all" data-toggle="tab"><i class="fa fa-calendar m-r-5"> <span class="hidden-xs"> Pending</span></i></a></li>
-                                <li class=""><a href="#all" data-toggle="tab"><i class="fa fa-calendar m-r-5"> <span class="hidden-xs"> Pending</span></i></a></li>
-                                <li class=""><a href="#all" data-toggle="tab"><i class="fa fa-calendar m-r-5"> <span class="hidden-xs"> Pending</span></i></a></li>
-                                <li class=""><a href="#all" data-toggle="tab"><i class="fa fa-calendar m-r-5"> <span class="hidden-xs">Pending</span></i></a></li>
-                                <li class=""><a href="#all" data-toggle="tab"><i class="fa fa-calendar m-r-5"> <span class="hidden-xs"> Pending</span></i></a></li>
-                                <li class=""><a href="#all" data-toggle="tab"><i class="fa fa-calendar m-r-5"> <span class="hidden-xs"> Pending</span></i></a></li>
-
-
-
-                            </ul>
-                            <div class="tab-content" data-sortable-id="index-3">
-                                <div class="tab-pane fade active in" id="approved" name="approved">
-                                    <div class="height-sm" data-scrollbar="true">
-                                    </div>
+                        <div class="panel panel-default panel-with-tabs" data-sortable-id="ui-unlimited-tabs-2">
+                            <div class="panel-heading p-0">
+                                <div class="panel-heading-btn m-r-10 m-t-10">
+                                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-inverse" data-click="panel-expand"><i class="fa fa-expand"></i></a>
                                 </div>
-                                <div class="tab-pane fade" id="denied" name="denied">
-                                    <div class="height-sm" data-scrollbar="true">
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="pending" name="pending">
-                                    <div class="height-sm" data-scrollbar="true">
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="all" name="all">
-                                    <div class="height-sm" data-scrollbar="true">
+                                <!-- begin nav-tabs -->
+                                <div class="tab-overflow">
+                                    <ul class="nav nav-tabs">
+                                        <li class="prev-button"><a href="javascript:;" data-click="prev-tab" class="text-inverse"><i class="fa fa-arrow-left"></i></a></li>
+                                        <li class=""><a href="#nav-tab2-1" data-toggle="tab">Nav Tab 1</a></li>
+                                        <li class=""><a href="#nav-tab2-2" data-toggle="tab">Nav Tab 2</a></li>
+                                        <li class=""><a href="#nav-tab2-3" data-toggle="tab">Nav Tab 3</a></li>
+                                        <li class=""><a href="#nav-tab2-4" data-toggle="tab">Nav Tab 4</a></li>
+                                        <li class=""><a href="#nav-tab2-5" data-toggle="tab">Nav Tab 5</a></li>
+                                        <li class=""><a href="#nav-tab2-6" data-toggle="tab">Nav Tab 6</a></li>
+                                        <li class=""><a href="#nav-tab2-7" data-toggle="tab">Nav Tab 7</a></li>
+                                        <li class=""><a href="#nav-tab2-8" data-toggle="tab">Nav Tab 8</a></li>
+                                        <li class=""><a href="#nav-tab2-9" data-toggle="tab">Nav Tab 8</a></li>
+                                        <li class=""><a href="#nav-tab2-10" data-toggle="tab">Nav Tab 10</a></li>
+                                        <li class=""><a href="#nav-tab2-11" data-toggle="tab">Nav Tab 11</a></li>
+                                        <li class="active"><a href="#nav-tab2-12" data-toggle="tab">Nav Tab 12</a></li>
+                                        <li class=""><a href="#nav-tab2-13" data-toggle="tab">Nav Tab 13</a></li>
+                                        <li class=""><a href="#nav-tab2-14" data-toggle="tab">Nav Tab 14</a></li>
+                                        <li class=""><a href="#nav-tab2-15" data-toggle="tab">Nav Tab 15</a></li>
+                                        <li class=""><a href="#nav-tab2-11" data-toggle="tab">Nav Tab 16</a></li>
+                                        <li class=""><a href="#nav-tab2-17" data-toggle="tab">Nav Tab 17</a></li>
+                                        <li class=""><a href="#nav-tab2-18" data-toggle="tab">Nav Tab 18</a></li>
+                                        <li class=""><a href="#nav-tab2-19" data-toggle="tab">Nav Tab 19</a></li>
+                                        <li class=""><a href="#nav-tab2-20" data-toggle="tab">Nav Tab 20</a></li>                           
+                                        <li class=""><a href="#nav-tab2-18" data-toggle="tab">Nav Tab 21</a></li>
+                                        <li class=""><a href="#nav-tab2-19" data-toggle="tab">Nav Tab 22</a></li>
+                                        <li class=""><a href="#nav-tab2-20" data-toggle="tab">Nav Tab 23</a></li>
+                                        <li class=""><a href="#nav-tab2-20" data-toggle="tab">Nav Tab 24</a></li>
+                                        <li class="next-button"><a href="javascript:;" data-click="next-tab" class="text-inverse"><i class="fa fa-arrow-right"></i></a></li>
 
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="tab-content">
+                                <div class="tab-pane fade" id="nav-tab2-1">
+
+                                    <div class="tab-pane fade active in" id="approved" name="approved">
+                                        <div class="height-sm" data-scrollbar="true">
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="denied" name="denied">
+                                        <div class="height-sm" data-scrollbar="true">
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="pending" name="pending">
+                                        <div class="height-sm" data-scrollbar="true">
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="all" name="all">
+                                        <div class="height-sm" data-scrollbar="true">
+
+                                        </div>
                                     </div>
                                 </div>
 
@@ -145,10 +170,8 @@
     </table>
 
     <!-- begin profile-section -->
- 
     <!-- end profile-section -->
     <!-- begin profile-section -->
-
     <!-- end profile-section -->
 </div>
 
@@ -175,6 +198,6 @@
 
 
 @section Scripts{
-    
-<script src="~/assets/AdminTemplate/bootstrap-tabdrop.js"></script>
-    }
+
+    <script src="~/assets/AdminTemplate/bootstrap-tabdrop.js"></script>
+}

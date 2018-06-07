@@ -155,15 +155,15 @@
                     <div class="form-group">
                         @* <label class="control-label">Date of joining</label>*@
                         <label class="control-label">Date of joining&nbsp; <b style="color:red;">*</b></label>
-                        <input type="date" name="dateOfJoining" class="form-control" id="dateJoin" required="" placeholder="dd-mm-yyyy">
+                        <input type="date" name="dateOfJoining" class="form-control" id="dateJoin"  onchange="validateDate()" required="" placeholder="dd-mm-yyyy">
                         <div id="dateSpan"></div>
                     </div>
                </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="control-label">Date of leaving</label>
-                        <input type="date" name="dateOfLeaving" class="form-control" id="dateleave" placeholder="dd-mm-yyyy">
-                       <span id="join_date_error_message" class="hidden"></span>
+                        <input type="date" name="dateOfLeaving" class="form-control" id="dateleave" onchange="validateDate()" placeholder="dd-mm-yyyy">
+                       <div id="join_date_error_message"></div>
                     </div>
                 </div>
 
@@ -183,7 +183,7 @@
                 </div>
 
                 <div class="pull-right" style="clear:both;">
-                    <input type="submit" id="hrSubmit" onclick="validateDateOfJoining" class="btn btn-success" value="Save" />
+                    <input type="submit" id="hrSubmit" disabled onclick="validateDateOfJoining" class="btn btn-success" value="Save" />
                 </div>
 }
 @section Scripts{
@@ -192,7 +192,47 @@
     <script src="~/assets/AdminTemplate/assets/plugins/parsley/dist/parsley.js"></script>
     <script src="~/Scripts/Pages/JS/HR/Create.js"></script>
     <script src="~/Scripts/Pages/JS/PartailPages/Modal.js"></script>
+    <script>
 
+        function validateDate() {
+            console.log("Entered Function");
+            var dateOfEntry = $('#dateJoin').val().split('-');
+            var dateofExit = $('#dateleave').val().split('-');
+
+            var currentDay1 = dateOfEntry[1] + '/' + dateOfEntry[2] + '/' + dateOfEntry[0];
+            var currentDay2 = dateofExit[1] + '/' + dateofExit[2] + '/' + dateofExit[0];
+
+            var entryDate = new Date(currentDay1);
+            var exitDate = new Date(currentDay2);
+            if (dateofExit[0] == '' && entryDate > new Date()) {
+                $('#dateSpan').empty();
+                $('#hrSubmit').prop('disabled', true);
+                $('#dateSpan').append(`<span style="color:red">Please the entry date cannot be greater than today</span>`);
+            }
+            else if (dateofExit[0] != '' && entryDate > exitDate) {
+                $('#dateSpan').empty();
+                $('#hrSubmit').prop('disabled', true);
+                $('#dateSpan').append(`<span style="color:red">Please the entry date cannot be greater than exit date</span>`);
+            }
+            else if (dateofExit[0] != '' && exitDate < entryDate) {
+                $('#hrSubmit').prop('disabled', true);
+                $('#join_date_error_message').empty();
+                $('#join_date_error_message').append(`<span style="color:red">Please the exit date cannot be less than entry date`);
+            }
+           else if (dateofExit[0] != '' && exitDate < new Date()) {
+               $('#hrSubmit').prop('disabled', true);
+               $('#join_date_error_message').empty();
+                $('#join_date_error_message').append(`<span style="color:red">Please no employee could have left before joining`);
+                //$('#join_date_error_message').toggleClass('hidden');
+           }
+           else {
+            $('#hrSubmit').prop('disabled', false);
+            $('#dateSpan').empty();
+            $('#join_date_error_message').empty();
+           }
+        };
+       
+    </script>
 
 }
 
@@ -201,13 +241,10 @@
     <span id="empId">Action("GetEmployeeCodeByGroup", "settings")</span>
     @Html.Partial("AddJobTitle");
     @Html.Partial("addPosition");
-    @*@Html.Partial("AddCode");*@
     @Html.Partial("addPrefix");
     @Html.Partial("addEmploymentStatus");
     @Html.Partial("AddLevel");
     @Html.Partial("AddCareer");
-    @*@Html.Partial("AddLocation");*@
-    @*@Html.Partial("AddGroup"))*@
     @Html.Partial("addPrefix")
 
 </div>

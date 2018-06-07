@@ -68,4 +68,17 @@ namespace resourceEdge.Domain.Infrastructures
         Personal =1,
         general, Department
     }
+    public enum Gender
+    {
+        Male = 1, Female, Others
+    }
+    public enum maritalStatus
+    {
+        Divorced=1, Married, Seperated, Single,Window,Widower
+    }
+    public enum Severity
+    {
+        Major =1, Minor
+    }
+
 }

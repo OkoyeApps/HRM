@@ -98,9 +98,24 @@ namespace resourceEdge.Domain.Entities
         public DbSet<DisciplinaryIncident> Discipline { get; set; }
         public DbSet<SystemAdmin> SystemAdmin { get; set; }
         public DbSet<Birthday> BirthDay { get; set; }
-        public DbSet<Announcement> Announcement { get; set; }
+        public DbSet<AdditionalDetail> AdditionalDetail { get; set; }
+        public DbSet<Contact> Contact { get; set; }
+        public DbSet<CooperateCard> CooperateCard { get; set; }
+        public DbSet<Dependency> Dependency { get; set; }
+        public DbSet<Disability> Disability { get; set; }
+        public DbSet<Document> Document { get; set; }
+        public DbSet<Education> Education { get; set; }
+        public DbSet<Experience> Experience { get; set; }
+        public DbSet<JobHistory> JobHistory { get; set; }
+        public DbSet<MedicalClaim> MedicalClaim { get; set; }
+        public DbSet<Personal> Personal { get; set; }
+        public DbSet<Skill> Skill { get; set; }
+        public DbSet<TrainingAndCertification> TrainingAndCertification { get; set; }
+        public DbSet<Visa> Visa { get; set; }
+        public DbSet<DependencyRelation> DependencyRelation { get; set; }
+        public DbSet<EducationLevel> EducationLevel { get; set; }
+        public DbSet<MedicalClaimType> MedicalClaimType { get; set; }
 
-        //public System.Data.Entity.DbSet<resourceEdge.webUi.Infrastructure.Core.EmployeeListItem> EmployeeListItems { get; set; }
     }
     
 }

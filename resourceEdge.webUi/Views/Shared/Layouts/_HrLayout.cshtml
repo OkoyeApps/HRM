@@ -388,6 +388,22 @@
 
                         </li>
                     }
+                    @if (User.IsInRole("Manager"))
+                    {
+                        <li class="has-sub">
+                            <a href="javascript:;">
+                                <b class="caret pull-right"></b>
+                                <i class="fa fa-inbox"></i>
+                                <span>Employee Management</span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li>@Html.ActionLink("Performance Indicator", "addQuestion", "Employee", null, new { @class = "nav-link  title" })</li>
+                                <li>@Html.ActionLink("Leave Requests", "leaveRequests", "Leave", null, new { @class = "nav-link  title" })</li>
+
+                            </ul>
+
+                        </li>
+                    }
                     @if (!User.IsInRole("System Admin") && !User.IsInRole("Super Admin"))
                     {
                         <li class="has-sub">

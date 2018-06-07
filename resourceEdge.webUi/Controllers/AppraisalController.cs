@@ -98,17 +98,18 @@ namespace resourceEdge.webUi.Controllers
             return View(model);
         }
 
-        [CustomAuthorizationFilter(Roles ="Manager")]
+        [CustomAuthorizationFilter(Roles ="Manager"), Route("Employee/addQuestion")]
         public ActionResult AddQuestion()
         {
             var userObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
             var users =new SelectList(EmployeeManager.GetEmployeeUnitMembers(userObject.UnitId, userObject.LocationId).Select(X=> new { Text = X.FullName, Value = X.userId}), "Value", "Text","Value");
             ViewBag.Employees = users;
             ViewBag.parameter = dropDownmanager.GetParameter();
+            ViewBag.PageTitle = "Add Performance Indicator";
             return View();
         }
 
-        [HttpPost, ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken, CustomAuthorizationFilter(Roles = "Manager"), Route("Employee/addQuestion")]
         public ActionResult AddQuestion(FormCollection collection, string returnUrl)
         {
             var result = AppraisalManager.AddOrUpdateAppraisalQuestion(collection);

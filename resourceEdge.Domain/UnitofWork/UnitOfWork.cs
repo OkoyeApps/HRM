@@ -72,6 +72,20 @@ namespace resourceEdge.Domain.UnitofWork
         private GenericRepository<SystemAdmin> systemAdminRepo;
         private GenericRepository<Birthday> birthdayRepo;
         private GenericRepository<Announcement> announcementRepo;
+        private GenericRepository<AdditionalDetail> additionalDetailRepo;
+        private GenericRepository<Contact> contactRepo;
+        private GenericRepository<CooperateCard> cooperateCareRepo;
+        private GenericRepository<Dependency> dependencyRepo;
+        private GenericRepository<Disability> disabilityRepo;
+        private GenericRepository<Document> documentRepo;
+        private GenericRepository<Education> educationRepo;
+        private GenericRepository<Experience> experienceRepo;
+        private GenericRepository<JobHistory> jobHistoryRepo;
+        private GenericRepository<MedicalClaim> medicalClaimRepo;
+        private GenericRepository<Personal> personalRepo;
+        private GenericRepository<Skill> skillRepo;
+        private GenericRepository<TrainingAndCertification> trainingRepo;
+        private GenericRepository<Visa> visaRepo;
         private EdgeDbContext Context
         {
             get
@@ -330,6 +344,62 @@ namespace resourceEdge.Domain.UnitofWork
         public GenericRepository<Announcement> Annoncement
         {
             get { return this.announcementRepo ?? new GenericRepository<Announcement>(Context); }
+        }
+        public GenericRepository<AdditionalDetail> AdditionalDetail
+        {
+            get { return this.additionalDetailRepo ?? new GenericRepository<AdditionalDetail>(Context); }
+        }
+        public GenericRepository<Contact> Contact
+        {
+            get { return this.contactRepo ?? new GenericRepository<Contact>(Context); }
+        }
+        public GenericRepository<CooperateCard> CooperateCard
+        {
+            get { return this.cooperateCareRepo ?? new GenericRepository<CooperateCard>(Context); }
+        }
+        public GenericRepository<Dependency> Dependency
+        {
+            get { return this.dependencyRepo ?? new GenericRepository<Dependency>(Context); }
+        }
+        public GenericRepository<Disability> Disability
+        {
+            get { return this.disabilityRepo ?? new GenericRepository<Disability>(Context); }
+        }
+        public GenericRepository<Document> Document
+        {
+            get { return this.documentRepo ?? new GenericRepository<Document>(Context); }
+        }
+        public GenericRepository<Education> Education
+        {
+            get { return this.educationRepo ?? new GenericRepository<Education>(Context); }
+        }
+        public GenericRepository<Experience> Experience
+        {
+            get { return this.experienceRepo ?? new GenericRepository<Experience>(Context); }
+        }
+        public GenericRepository<JobHistory> JobHistory
+        {
+            get { return this.jobHistoryRepo ?? new GenericRepository<JobHistory>(Context); }
+        }
+        public GenericRepository<MedicalClaim> MedicalClaim
+        {
+            get { return this.medicalClaimRepo ?? new GenericRepository<MedicalClaim>(Context); }
+        }
+        public GenericRepository<Personal> Personal
+        {
+            get { return this.personalRepo ?? new GenericRepository<Personal>(Context); }
+        }
+        public GenericRepository<Skill> Skill
+        {
+            get { return this.skillRepo ?? new GenericRepository<Skill>(Context); }
+        }
+        public GenericRepository<TrainingAndCertification> Training
+        {
+            get { return this.trainingRepo ?? new GenericRepository<TrainingAndCertification>(Context); }
+        }
+        public GenericRepository<Visa> Visa
+        {
+            get { return this.visaRepo ?? new GenericRepository<Visa>(Context); }
         }
         public void Save()
         {
