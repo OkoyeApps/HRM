@@ -421,6 +421,10 @@
     <Compile Include="Migrations\EdgeDbContext2\201806061607439_Employee Archive added.Designer.cs">
       <DependentUpon>201806061607439_Employee Archive added.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201806071549178_Department Location and Group Association Added.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201806071549178_Department Location and Group Association Added.Designer.cs">
+      <DependentUpon>201806071549178_Department Location and Group Association Added.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\EdgeDbContext2\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitofWork\GenericRepository.cs" />
@@ -559,6 +563,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\EdgeDbContext2\201806061607439_Employee Archive added.resx">
       <DependentUpon>201806061607439_Employee Archive added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201806071549178_Department Location and Group Association Added.resx">
+      <DependentUpon>201806071549178_Department Location and Group Association Added.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

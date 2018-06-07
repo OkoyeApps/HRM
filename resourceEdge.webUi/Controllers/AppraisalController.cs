@@ -346,14 +346,22 @@ namespace resourceEdge.webUi.Controllers
             if (userSessionObject != null)
             {
                 var result = AppraisalManager.SubscribeForAppraisal(code, userSessionObject.LocationId, User.Identity.GetUserId());
-                if (result != false)
+                if (result.HasValue)
                 {
-                    this.AddNotification($"Subscribed for appraisal", NotificationType.SUCCESS);
-                  return  RedirectToAction("ConfigureAppraisal");
+                    if (result.Value)
+                    {
+                    this.AddNotification("Subscribed for appraisal", NotificationType.SUCCESS);
+                    return  RedirectToAction("ConfigureAppraisal");
+                    }
+                    this.AddNotification("Could not subscribe for appraisal, please make sure your subscription code is right and if problem continues please see your Head Hr", NotificationType.ERROR);
+                    return RedirectToAction("SubscribeToAppraisal");
                 }
+                this.AddNotification("You are already subscribed to this process", NotificationType.ERROR);
+                return RedirectToAction("ConfigureAppraisal");
+
             }
-            this.AddNotification("Could not subscribed for this Appraisal. please see the Head HR", NotificationType.ERROR);
-            return View(code);
+            this.AddNotification("Could not subscribe for this Appraisal. please see the Head HR", NotificationType.ERROR);
+            return RedirectToAction("SubscribeToAppraisal");
         }
 
 

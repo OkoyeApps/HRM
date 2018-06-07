@@ -71,6 +71,22 @@ namespace resourceEdge.webUi.Infrastructure
             var result = unitOfWork.GetDbContext().departments.Where(x => x.BusinessUnitsId == id).OrderBy(x => x.deptname).Select(x => new DepartmentListItem { deptId = x.Id, deptName = x.deptname, businessUnitId = x.BusinessUnitsId }).ToList();
             return result ?? null;
         }
+
+        public IEnumerable<DepartmentListItem> GetDepartmentByUnit(int unitId, int? Location= null, int? Group = null)
+        {
+            IEnumerable<DepartmentListItem> result = null;
+            if (Location ==null && Group == null)
+            {
+                result = unitOfWork.GetDbContext().departments.Where(x => x.BusinessUnitsId == unitId).OrderBy(x => x.deptname).Select(x => new DepartmentListItem { deptId = x.Id, deptName = x.deptname, businessUnitId = x.BusinessUnitsId }).ToList();
+
+            }else if(Location != null && Group != null)
+            {
+                result = unitOfWork.GetDbContext().departments.Where(x => x.BusinessUnitsId == unitId && x.LocationId == Location && x.GroupId == Group).OrderBy(x => x.deptname).Select(x => new DepartmentListItem { deptId = x.Id, deptName = x.deptname, businessUnitId = x.BusinessUnitsId }).ToList();
+            }
+            //result = unitOfWork.GetDbContext().departments.Where(x => x.BusinessUnitsId == unitId).OrderBy(x => x.deptname).Select(x => new DepartmentListItem { deptId = x.Id, deptName = x.deptname, businessUnitId = x.BusinessUnitsId }).ToList();
+            return result;
+        }
+
         public List<PrefixesListItem> PrefixeList()
         {
             List<PrefixesListItem> Result = new List<PrefixesListItem>();

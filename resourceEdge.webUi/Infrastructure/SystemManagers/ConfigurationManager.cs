@@ -460,9 +460,19 @@ namespace resourceEdge.webUi.Infrastructure
             var codes = unitOfWork.identityCodes.Get(includeProperties: "Group");
             return codes;
         }
-        public IEnumerable<Departments> GetAllDepartment()
+        public IEnumerable<Departments> GetAllDepartment(int? groupId=null, int? locationId=null)
         {
-            var department = unitOfWork.Department.Get(includeProperties: "BusinessUnits");
+            //Fix this later for the locations to see only the location Departments
+            IEnumerable<Departments> department = null;
+            if (groupId != null)
+            {
+               
+            }
+            if (locationId != null)
+            {
+
+            }
+             department = unitOfWork.Department.Get(includeProperties: "BusinessUnits");
             return department;
         }
         public IEnumerable<EmploymentStatus> GetAllEmploymentStatus()

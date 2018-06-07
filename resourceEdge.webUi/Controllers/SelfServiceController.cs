@@ -21,11 +21,13 @@ namespace resourceEdge.webUi.Controllers
     {
         ILeaveManagement leaveRepo;
         LeaveManager leavemanagerRepo;
+        EmployeeManager EmpManager;
 
         public SelfServiceController(ILeaveManagement lParam, IEmployees EmpParam)
         {
             leaveRepo = lParam;
             leavemanagerRepo = new LeaveManager(EmpParam, leaveRepo);
+            EmpManager = new EmployeeManager(EmpParam);
         }
 
         public ActionResult Leave()
@@ -113,6 +115,18 @@ namespace resourceEdge.webUi.Controllers
             var disciplineManager =new DisciplinaryManager();
             var result = disciplineManager.MyIncident();
             ViewBag.PageTitle = "My Incident(s)";
+            return View(result);
+        }
+
+        
+        public ActionResult MyPerformanceIndicator()
+        {
+            if (User.IsInRole("Systm Admin") || User.IsInRole("Super Admin"))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+            }
+            ViewBag.PageTitle = EmpManager.GetEmployeeByUserId(User.Identity.GetUserId()).FullName + " Performance Indicators";
+            var result = EmpManager.KpiQuestions(User.Identity.GetUserId());
             return View(result);
         }
         public bool ValidateDates(DateTime from, DateTime to)

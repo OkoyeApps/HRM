@@ -99,7 +99,7 @@ namespace resourceEdge.webUi.Controllers
             }
             else
             {
-                var dept = Apimanager.DepartmentById(id);
+                var dept = Apimanager.GetDepartmentByUnit(id.Value);
                 if (dept == null)
                 {
                     return NotFound();

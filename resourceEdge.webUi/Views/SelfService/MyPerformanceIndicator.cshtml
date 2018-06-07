@@ -1,0 +1,54 @@
+﻿@model IEnumerable<resourceEdge.Domain.Entities.QuestionViewModel>
+@{
+    ViewBag.Title = "ViewQuestion";
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+    int counter = 1;
+    var modelItem = Model;
+
+}
+@section css{
+    @Styles.Render("~/asset/tablecss")
+}
+<div class="table-responsive">
+    @if (Model.Count() > 0)
+    {
+        <table class="table table-bordered table-striped">
+            <tr>
+                <td>
+                    <table class="table table-bordered table-responsive" id="tblGeneral">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th class="col-md-8">Questions</th>
+                                <th>Descriptions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td> @counter</td>
+                                    <td>@item.Question</td>
+                                    <td>@item.Description</td>
+                                </tr>
+                                counter++;
+                            }
+
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+    }
+    else
+    {
+        <div class="alert alert-danger text-center bold">No Performance Indictor yet, Please see your Manager</div>
+    }
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/assets/Table");
+    <script src="~/Scripts/Pages/JS/DataTableInitialization.js"></script>
+}
+

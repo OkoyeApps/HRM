@@ -1,4 +1,5 @@
 ﻿@using resourceEdge.webUi.Models
+@using Microsoft.AspNet.Identity
 @{
     var usersessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
 
@@ -20,7 +21,8 @@
     }
     if (usersessionObject != null)
     {
-        FullName = usersessionObject.FullName;
+        var usernameArray = User.Identity.GetUserName().Split('@');
+        FullName = usersessionObject.FullName ??usernameArray[0];
         BusinessUnit = usersessionObject.UnitName;
     }
 }
@@ -275,6 +277,7 @@
                             <img src="~/assets/AdminTemplate/assets/img/user-13.jpg" alt="" />
 
                             <span class="hidden-xs">@FullName</span> <b class="caret"></b>
+                          
                         </a>
                         <ul class="dropdown-menu animated fadeInLeft">
                             <li class="arrow"></li>

@@ -35,6 +35,10 @@ namespace resourceEdge.webUi.Infrastructure
             employeeRepo = EmpParam;
         }
 
+        public AppraisalManager()
+        {
+                
+        }
 
         public SystemViewModel InitAppraisal(int? id = null)
         {
@@ -127,12 +131,12 @@ namespace resourceEdge.webUi.Infrastructure
             return result;
         }
 
-        public bool SubscribeForAppraisal(string code, int locationId, string userId)
+        public bool? SubscribeForAppraisal(string code, int locationId, string userId)
         {
             var initialization = GetInitializationCode(code);
             if (initialization != null)
             {
-                var ExistingSubscription = unitOfWork.SubscribedAppraisal.Get(x => x.Code == code);
+                var ExistingSubscription = unitOfWork.SubscribedAppraisal.Get(x => x.Code == code && x.LocationId == locationId);
                 if (ExistingSubscription.Count() == 0)
                 {
                     var subscription = new SubscribedAppraisal()
@@ -148,6 +152,7 @@ namespace resourceEdge.webUi.Infrastructure
                     unitOfWork.Save();
                     return true;
                 }
+                return null;
             }
             return false;
         }

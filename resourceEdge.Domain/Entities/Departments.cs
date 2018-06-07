@@ -15,7 +15,9 @@ namespace resourceEdge.Domain.Entities
         public string deptname { get; set; }
         public string deptcode { get; set; }
         public string descriptions { get; set; }
-        public Nullable<System.DateTime> startdate { get; set; }
+        public int? LocationId { get; set; }
+        public int? GroupId { get; set; }
+        public DateTime? startdate { get; set; }
         public string reportManager1 { get; set; }
         public string reportManager2 { get; set; }
         public string depthead { get; set; }
@@ -27,6 +29,8 @@ namespace resourceEdge.Domain.Entities
         public DateTime? ModifiedDate { get; set; }
         public bool? Isactive { get; set; }
         public  BusinessUnit BusinessUnits { get; set; }
+        public Location Location { get; set; }
+        public Group Group { get; set; }
         //public virtual ICollection<Employees> Employees { get; set; }
     }
 }

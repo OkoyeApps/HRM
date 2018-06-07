@@ -1517,6 +1517,7 @@
     <Content Include="Views\Configuration\allEmploymentStatus.cshtml" />
     <Content Include="Views\Employee\Index.cshtml" />
     <Content Include="Views\Employee\TabView.cshtml" />
+    <Content Include="Views\SelfService\MyPerformanceIndicator.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

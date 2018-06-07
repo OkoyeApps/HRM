@@ -380,19 +380,21 @@ namespace resourceEdge.webUi.Controllers
         {
             if (ModelState.IsValid)
             {
+                var userFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
                 var existingDept = ConfigManager.DoesDeptartmentExistInLocation(model.BunitId, model.deptname);
+               
                 if (existingDept)
                 {
                     this.AddNotification("Please Department already exist with same name for this Unit. Kindly try using another name or a different Location", NotificationType.ERROR);
-                    //ViewBag.businessUnits = DropDown.GetBusinessUnit();
-                    //ViewBag.Locations = DropDown.GetLocation();
-                    //return RedirectToAction("addDepartment");
+                    ViewBag.businessUnits = DropDown.GetBusinessUnit(userFromSession.GroupId, userFromSession.LocationId);
                     return View(model);
                 }
+                ViewBag.businessUnits = DropDown.GetBusinessUnit(userFromSession.GroupId, userFromSession.LocationId);
                 if (model.StartDate.HasValue && model.StartDate.Value.Date > DateTime.Now.Date)
                 {
                     this.AddNotification("Sorry, please system does not allow departments to be created in the Future", NotificationType.ERROR);
-                    return RedirectToAction("addDepartment");
+                    ViewBag.businessUnits = DropDown.GetBusinessUnit(userFromSession.GroupId, userFromSession.LocationId);
+                    return View(model);
                 }
                 Departments depts = new Departments()
                 {
