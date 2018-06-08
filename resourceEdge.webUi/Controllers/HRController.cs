@@ -119,9 +119,9 @@ namespace resourceEdge.webUi.Controllers
         {
             ViewBag.PageTitle = "Create Employee";
             var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
-            ViewBag.Locations =ConfigManager.GetLocationByGroupId(UserFromSession.GroupId);
+            ViewBag.Locations =ConfigManager.GetLocationByGroupId(UserFromSession.GroupId.Value);
             ViewBag.roles = dropDownManager.GetRole();
-            ViewBag.code = ConfigManager.GetIdentityCode(UserFromSession.GroupId);
+            ViewBag.code = ConfigManager.GetIdentityCode(UserFromSession.GroupId.Value);
             ViewBag.EmpStatus = dropDownManager.GetEmploymentStatus();
             ViewBag.prefix = dropDownManager.GetPrefix();
             ViewBag.businessUnits = dropDownManager.GetBusinessUnit();
@@ -129,7 +129,7 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.Levels = dropDownManager.GetLevel();
             if (!User.IsInRole("Super Admin"))
             {
-            ViewBag.Groups = GroupRepo.GetById(UserFromSession.GroupId).GroupName;
+            ViewBag.Groups = GroupRepo.GetById(UserFromSession.GroupId.Value).GroupName;
             }
             if (User.IsInRole("Super Admin"))
             {
@@ -174,7 +174,7 @@ namespace resourceEdge.webUi.Controllers
                             }
                             if (!User.IsInRole("Super Admin"))
                             {
-                                groupidToUse = UserFromSession.GroupId;
+                                groupidToUse = UserFromSession.GroupId.Value;
                             }
                             var result = UserManagement.CreateEmployee(employees);
                             if (result != null)
@@ -328,7 +328,7 @@ namespace resourceEdge.webUi.Controllers
         {
             var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
             ViewBag.PageTitle = "Assign Manager";
-            ViewBag.businessUnits = new SelectList(BunitsRepo.GetUnitsByLocation(UserFromSession.LocationId).OrderBy(x => x.Id), "Id", "unitname", "Id");
+            ViewBag.businessUnits = new SelectList(BunitsRepo.GetUnitsByLocation(UserFromSession.LocationId.Value).OrderBy(x => x.Id), "Id", "unitname", "Id");
             return View();
         }
 
@@ -405,7 +405,7 @@ namespace resourceEdge.webUi.Controllers
             var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
             if (UserFromSession != null)
             {
-                ViewBag.businessUnits = new SelectList(BunitsRepo.GetUnitsByLocation(UserFromSession.LocationId).OrderBy(x => x.Id), "Id", "unitname", "Id");
+                ViewBag.businessUnits = new SelectList(BunitsRepo.GetUnitsByLocation(UserFromSession.LocationId.Value).OrderBy(x => x.Id), "Id", "unitname", "Id");
             }
             ViewBag.PageTitle = "Assign Department Head";
             return View();
@@ -473,7 +473,7 @@ namespace resourceEdge.webUi.Controllers
         {
             //ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(X => X.Id), "Id", "GroupName", "Id");
             var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
-            var employees = employeeManager.GetEmployeesByLocation(UserFromSession.LocationId);
+            var employees = employeeManager.GetEmployeesByLocation(UserFromSession.LocationId.Value);
             ViewBag.allEmployees = new SelectList(employees.OrderBy(x => x.empEmail), "userId", "empEmail");
             ViewBag.PageTitle = "Add Admin";
             return View();
@@ -527,7 +527,7 @@ namespace resourceEdge.webUi.Controllers
         {
             ViewBag.PageTitle = "Add Questions";
             var usersessionObject =(SessionModel) Session["_ResourceEdgeTeneceIdentity"];
-            var result = employeeManager.GetEmployeesByLocation(usersessionObject.LocationId);
+            var result = employeeManager.GetEmployeesByLocation(usersessionObject.LocationId.Value);
             return View(result);
         }
        [HttpPost, ValidateAntiForgeryToken]
@@ -597,19 +597,8 @@ namespace resourceEdge.webUi.Controllers
             this.AddNotification("Question could not be Rejected please try again", NotificationType.ERROR);
             return RedirectToAction("AllQuestions");
         }
-        public ActionResult Questions(string department, string id = null)
-        {
-            
-            if (id == null)
-            {
-
-            }
-            else
-            {
-
-            }
-            return View();
-        }
+       
+   
     }
 
 }

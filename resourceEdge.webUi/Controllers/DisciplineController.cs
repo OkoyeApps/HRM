@@ -127,7 +127,7 @@ namespace resourceEdge.webUi.Controllers
         {
             ViewBag.PageTitle = "All RaisedIncident(s)";
             var userDetails = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
-            var result = disciplineManager.AllIncident(userDetails.GroupId, userDetails.LocationId);
+            var result = disciplineManager.AllIncident(userDetails.GroupId.Value, userDetails.LocationId.Value);
             return View(result);
         }
         [CustomAuthorizationFilter(Roles = "HR, System Admin")]
@@ -174,7 +174,7 @@ namespace resourceEdge.webUi.Controllers
         {
             var userDetails = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
             ViewBag.PageTitle = "Details";
-            var result = disciplineManager.IncidentDetail(userDetails.GroupId, userDetails.LocationId, id);
+            var result = disciplineManager.IncidentDetail(userDetails.GroupId.Value, userDetails.LocationId.Value, id);
             if (result != null)
             {
                 return PartialView(result);

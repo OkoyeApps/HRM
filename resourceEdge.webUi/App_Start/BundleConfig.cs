@@ -84,6 +84,24 @@ namespace resourceEdge.webUi
             bundles.Add(new StyleBundle("~/asset/configAppraisal").Include(
 
                 ));
+            bundles.Add(new StyleBundle("~/asset/loginCss").Include(
+                 "~/assets/AdminTemplate/assets/plugins/jquery-ui/themes/base/minified/jquery-ui.min.css",
+                 "~/assets/AdminTemplate/assets/plugins/bootstrap/css/bootstrap.min.css",
+                 "~/assets/AdminTemplate/assets/plugins/font-awesome/css/font-awesome.min.css",
+                 "~/assets/AdminTemplate/assets/css/animate.min.css",
+                 "~/assets/AdminTemplate/assets/css/style.min.css",
+                 "~/assets/AdminTemplate/assets/css/style-responsive.min.css",
+                 "~/assets/AdminTemplate/assets/css/theme/default.css"
+                ));
+
+            bundles.Add(new ScriptBundle("~/assets/loginJs").Include(
+                "~/assets/AdminTemplate/assets/plugins/jquery/jquery-1.9.1.min.js" ,
+                "~/assets/AdminTemplate/assets/plugins/jquery/jquery-migrate-1.1.0.min.js" ,
+                "~/assets/AdminTemplate/assets/plugins/jquery-ui/ui/minified/jquery-ui.min.js" ,
+                "~/assets/AdminTemplate/assets/plugins/bootstrap/js/bootstrap.min.js",
+                "~/assets/AdminTemplate/assets/plugins/slimscroll/jquery.slimscroll.min.js" ,
+                "~/assets/AdminTemplate/assets/plugins/jquery-cookie/jquery.cookie.js" 
+                ));
             BundleTable.EnableOptimizations = true;
         }
     }

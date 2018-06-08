@@ -287,6 +287,10 @@
     <Compile Include="Migrations\ApplicationDbConntextMigrations\201803211503312_InitialCreate.Designer.cs">
       <DependentUpon>201803211503312_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\ApplicationDbConntextMigrations\201806081202338_Identity model updated with nullable group and location Id.cs" />
+    <Compile Include="Migrations\ApplicationDbConntextMigrations\201806081202338_Identity model updated with nullable group and location Id.Designer.cs">
+      <DependentUpon>201806081202338_Identity model updated with nullable group and location Id.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\ApplicationDbConntextMigrations\Configuration.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -1518,6 +1522,8 @@
     <Content Include="Views\Employee\Index.cshtml" />
     <Content Include="Views\Employee\TabView.cshtml" />
     <Content Include="Views\SelfService\MyPerformanceIndicator.cshtml" />
+    <Content Include="Views\Employee\AllDepartmentHead.cshtml" />
+    <Content Include="Views\Employee\AllUnitHead.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1553,6 +1559,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\ApplicationDbConntextMigrations\201803211503312_InitialCreate.resx">
       <DependentUpon>201803211503312_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\ApplicationDbConntextMigrations\201806081202338_Identity model updated with nullable group and location Id.resx">
+      <DependentUpon>201806081202338_Identity model updated with nullable group and location Id.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

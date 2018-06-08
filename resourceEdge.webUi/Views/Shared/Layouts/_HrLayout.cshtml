@@ -351,10 +351,10 @@
                                 @if (User.IsInRole("HR") || User.IsInRole("System Admin"))
                                 {
                                 <li class="has-sub">
-                                    <a href = "javascript:;" ><b class="caret pull-right"></b>Report Manager</a>
+                                    <a href = "javascript:;" ><b class="caret pull-right"></b>Managers</a>
                                     <ul class="sub-menu">
-                                        <li>@Html.ActionLink("Assign Department Head", "AssignDepartmentHead", "HR")</li>
-                                        <li>@Html.ActionLink(" Assign Report Managers", "AssignReportManager","HR", null, new { @class = "nav-link  title" })</li>
+                                        <li>@Html.ActionLink("Department Head", "AllDepartmentHead", "Employee")</li>
+                                        <li>@Html.ActionLink("Report Managers", "AllUnitHead", "Employee", null, new { @class = "nav-link  title" })</li>
                                     </ul>
                                 </li>
                                  }

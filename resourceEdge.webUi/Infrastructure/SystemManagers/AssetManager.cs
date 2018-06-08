@@ -130,8 +130,8 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
                     CreatedOn = DateTime.Now,
                     DueTime = model.DueTime,
                     RequestedBy = model.RequestedBy,
-                    LocationId = userFromSession.LocationId,
-                    GroupId = userFromSession.GroupId
+                    LocationId = userFromSession.LocationId.Value,
+                    GroupId = userFromSession.GroupId.Value
                 };
                 var fullName = unitOfWork.employees.Get(filter: x => x.userId == reqAssest.createdBy).FirstOrDefault().FullName;
                 reqAssest.CreatedByFullName = fullName;

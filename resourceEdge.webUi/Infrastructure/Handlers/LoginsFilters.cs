@@ -37,14 +37,12 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                 {
                     var currentLogin = unitOfWork.Login.Where(x => x.UserID == UserID && x.SessionID == sessionId && x.IsLogOut == false);
                     var previousUserSessions = unitOfWork.Login.Where(x => x.UserID == UserID && x.IsLogOut == false && x.SessionID != sessionId).FirstOrDefault();
-                    //var previousUserSessions = LoginRepo.Get(x => x.UserID == UserID && x.IsLogOut == false && x.SessionID != sessionId).GetAwaiter().GetResult().FirstOrDefault();
-
                     var CurrentUrl = filterContext.HttpContext.Request.Url.AbsoluteUri;
                     if (previousUserSessions != null)
                     {
                         Email = filterContext.Controller.TempData["Email"] != null ? filterContext.Controller.TempData["Email"].ToString() : null;
                         Password = filterContext.Controller.TempData["Password"] != null ? filterContext.Controller.TempData["Password"].ToString() : null;
-                        if (previousUserSessions != null)
+                        if (Email != null)
                         {
                             filterContext.HttpContext.Session.Clear();
                             filterContext.HttpContext.Session.Abandon();

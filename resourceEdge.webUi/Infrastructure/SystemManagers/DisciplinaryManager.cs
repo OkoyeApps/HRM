@@ -181,8 +181,8 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
                         DepartmentId = model.Department,
                         EmployeeAppeal = (int)model.EmployeeAppeal,
                         IsActive = true, 
-                         GroupId = userDetails.GroupId,
-                          LocationId = userDetails.LocationId
+                         GroupId = userDetails.GroupId.Value,
+                          LocationId = userDetails.LocationId.Value
                     };
                     unitofWork.Discipline.Insert(incident);
                     unitofWork.Save();

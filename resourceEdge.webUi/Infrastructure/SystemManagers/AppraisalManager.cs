@@ -371,7 +371,7 @@ namespace resourceEdge.webUi.Infrastructure
 
                 var userQuestions = unitOfWork.Questions.Get(filter: x => x.UserIdForQuestion == userId && x.Approved == true).ToList();
                 var DepartmentQuestions = unitOfWork.GeneralQuestion.Get(filter: x => x.BusinessUnitId == userSessionObject.UnitId && x.DepartmentId == userSessionObject.DepartmentId).ToList();
-                var GeneralQuestions = unitOfWork.GeneralQuestion.Get(filter: x => x.GroupId == userSessionObject.GroupId && x.DepartmentId == null).ToList();
+                var GeneralQuestions = unitOfWork.GeneralQuestion.Get(filter: x => x.GroupId == userSessionObject.GroupId.Value && x.DepartmentId == null).ToList();
                 IList<Question> QuestionToRemove = new List<Question>();
                 IList<GeneralQuestion> GeneralQuestionToRemove = new List<GeneralQuestion>();
                 IList<GeneralQuestion> DepartmentQuestionToRemove = new List<GeneralQuestion>();
@@ -486,7 +486,7 @@ namespace resourceEdge.webUi.Infrastructure
                 if (userSessionObject != null)
                 {
                     var appraisalConfigurationDetails = unitOfWork.AppraisalConfiguration
-                        .Get(filter: x => x.LocationId == userSessionObject.LocationId
+                        .Get(filter: x => x.LocationId == userSessionObject.LocationId.Value
                         && x.BusinessUnitId == userSessionObject.UnitId
                         && x.IsActive == true).LastOrDefault();
                     if (appraisalConfigurationDetails != null)
@@ -535,14 +535,14 @@ namespace resourceEdge.webUi.Infrastructure
                                     {
                                         QuestionId = question,
                                         Answer = answer,
-                                        GroupId = userSessionObject.GroupId,
+                                        GroupId = userSessionObject.GroupId.Value,
                                         L1Status = null,
                                         L2Status = null,
                                         L3Status = null,
                                         LineManager1 = appraisalConfigurationDetails.LineManager1,
                                         LinrManager2 = appraisalConfigurationDetails.LineManager2,
                                         LineManager3 = appraisalConfigurationDetails.LineManager3,
-                                        LocationId = userSessionObject.LocationId,
+                                        LocationId = userSessionObject.LocationId.Value,
                                         UserId = userId,
                                         IsSubmitted = true
                                     };
@@ -574,14 +574,14 @@ namespace resourceEdge.webUi.Infrastructure
                                     {
                                         GeneralQuestionId = question,
                                         Answer = answer,
-                                        GroupId = userSessionObject.GroupId,
+                                        GroupId = userSessionObject.GroupId.Value,
                                         L1Status = null,
                                         L2Status = null,
                                         L3Status = null,
                                         LineManager1 = appraisalConfigurationDetails.LineManager1,
                                         LinrManager2 = appraisalConfigurationDetails.LineManager2,
                                         LineManager3 = appraisalConfigurationDetails.LineManager3,
-                                        LocationId = userSessionObject.LocationId,
+                                        LocationId = userSessionObject.LocationId.Value,
                                         UserId = userId,
                                         IsSubmitted = true
                                     };
@@ -615,14 +615,14 @@ namespace resourceEdge.webUi.Infrastructure
                                         DepartmentQuestionId = question,
                                         BusinessUnitId = userSessionObject.UnitId,
                                         Answer = answer,
-                                        GroupId = userSessionObject.GroupId,
+                                        GroupId = userSessionObject.GroupId.Value,
                                         L1Status = null,
                                         L2Status = null,
                                         L3Status = null,
                                         LineManager1 = appraisalConfigurationDetails.LineManager1,
                                         LinrManager2 = appraisalConfigurationDetails.LineManager2,
                                         LineManager3 = appraisalConfigurationDetails.LineManager3,
-                                        LocationId = userSessionObject.LocationId,
+                                        LocationId = userSessionObject.LocationId.Value,
                                         UserId = userId,
                                         IsSubmitted = true
                                     };
@@ -691,16 +691,14 @@ namespace resourceEdge.webUi.Infrastructure
                 {
                     foreach (var item in lineManagerUnitToAppraise)
                     {
-                        var AllEmployees = unitOfWork.employees.Get(filter: x => x.BusinessunitId == item.unit && x.DepartmentId == item.dept)
+                        var AllEmployees = unitOfWork.employees.Get(filter: x => x.BusinessunitId == item.unit && x.DepartmentId == item.dept, includeProperties: "Department,Businessunit")
                                                  .Select(x => new EmployeeListItem()
                                                  {
                                                      FullName = x.FullName,
                                                      userId = x.userId,
                                                      empEmail = x.empEmail,
-                                                     DepartmentName = unitOfWork.Department.GetByID(x.DepartmentId).deptname,
-                                                     BusinessUnitName = unitOfWork.BusinessUnit.GetByID(x.BusinessunitId).unitname
-                                                     //Be careful when using this, i could do this i.e using the the dbcontext in this manner
-                                                     //this is safe because the application uses one dbcontext per request...
+                                                     DepartmentName = x.Department.deptname,
+                                                     BusinessUnitName = x.Businessunit.unitname
                                                  }).ToList();
                         AllEmployees.ForEach(X => EmployeeList.Add(X));
                     }
@@ -1084,39 +1082,39 @@ namespace resourceEdge.webUi.Infrastructure
                     //This returns the Employees for LineManager 1 to Appraise
                     if (EmployeeToAppraise && UserPrincipal.IsInRole("L1"))
                     {
-                        var currentEmployee = unitOfWork.employees.Get(filter: x => x.userId == item.userId, includeProperties: "Department")
+                        var currentEmployee = unitOfWork.employees.Get(filter: x => x.userId == item.userId, includeProperties: "Businessunit,Department")
                             .Select(x => new EmployeeListItem
                             {
                                 userId = x.userId,
                                 FullName = x.FullName,
-                                DepartmentName = unitOfWork.Department.GetByID(x.DepartmentId).deptname,
-                                BusinessUnitName = unitOfWork.BusinessUnit.GetByID(x.BusinessunitId).unitname
+                                DepartmentName = x.Department.deptname,
+                                BusinessUnitName = x.Businessunit.unitname
                             }).FirstOrDefault();
                         EmployeeToAttend.Add(currentEmployee);
                     }
                     //This returns the Employees for LineManager 2 to Appraise
                     if (EmployeeForL2 && (UserPrincipal.IsInRole("L1") || UserPrincipal.IsInRole("L2")))
                     {
-                        var currentEmployee = unitOfWork.employees.Get(filter: x => x.userId == item.userId, includeProperties: "Department")
+                        var currentEmployee = unitOfWork.employees.Get(filter: x => x.userId == item.userId, includeProperties: "Businessunit,Department")
                         .Select(x => new EmployeeListItem
                         {
                             userId = x.userId,
                             FullName = x.FullName,
-                            DepartmentName = unitOfWork.Department.GetByID(x.DepartmentId).deptname,
-                            BusinessUnitName = unitOfWork.BusinessUnit.GetByID(x.BusinessunitId).unitname
+                            DepartmentName = x.Department.deptname,
+                            BusinessUnitName = x.Businessunit.unitname
                         }).FirstOrDefault();
                         EmployeesForL2.Add(currentEmployee);
                     }
                     //This returns the Employees for LineManager 3 to Appraise
                     if (EmployeeForL3 && (UserPrincipal.IsInRole("L1") || UserPrincipal.IsInRole("L3") || UserPrincipal.IsInRole("L2")))
                     {
-                        var currentEmployee = unitOfWork.employees.Get(filter: x => x.userId == item.userId, includeProperties: "Department")
+                        var currentEmployee = unitOfWork.employees.Get(filter: x => x.userId == item.userId, includeProperties: "Businessunit,Department")
                         .Select(x => new EmployeeListItem
                         {
                             userId = x.userId,
                             FullName = x.FullName,
-                            DepartmentName = unitOfWork.Department.GetByID(x.DepartmentId).deptname,
-                            BusinessUnitName = unitOfWork.BusinessUnit.GetByID(x.BusinessunitId).unitname
+                            DepartmentName = x.Department.deptname,
+                            BusinessUnitName = x.Businessunit.unitname
                         }).FirstOrDefault();
                         EmployeesForL3.Add(currentEmployee);
                     }
@@ -1167,11 +1165,11 @@ namespace resourceEdge.webUi.Infrastructure
                                 var userSessionObject = (SessionModel)HttpContext.Current.Session["_ResourceEdgeTeneceIdentity"];
                                 if (userSessionObject != null && departmentId != 0)
                                 {
-                                    Question.LocationId = userSessionObject.LocationId;
-                                    Question.GroupId = userSessionObject.GroupId;
+                                    Question.LocationId = userSessionObject.LocationId.Value;
+                                    Question.GroupId = userSessionObject.GroupId.Value;
                                     Question.BusinessUnitId = userSessionObject.UnitId;
                                     Question.DepartmentId = departmentId;
-                                    Question.GroupId = userSessionObject.GroupId;
+                                    Question.GroupId = userSessionObject.GroupId.Value;
                                 }
                             }
                             unitOfWork.GeneralQuestion.Insert(Question);

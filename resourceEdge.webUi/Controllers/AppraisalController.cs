@@ -102,7 +102,7 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult AddQuestion()
         {
             var userObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
-            var users =new SelectList(EmployeeManager.GetEmployeeUnitMembers(userObject.UnitId, userObject.LocationId).Select(X=> new { Text = X.FullName, Value = X.userId}), "Value", "Text","Value");
+            var users =new SelectList(EmployeeManager.GetEmployeeUnitMembers(userObject.UnitId, userObject.LocationId.Value).Select(X=> new { Text = X.FullName, Value = X.userId}), "Value", "Text","Value");
             ViewBag.Employees = users;
             ViewBag.parameter = dropDownmanager.GetParameter();
             ViewBag.PageTitle = "Add Performance Indicator";
@@ -345,7 +345,7 @@ namespace resourceEdge.webUi.Controllers
           var userSessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
             if (userSessionObject != null)
             {
-                var result = AppraisalManager.SubscribeForAppraisal(code, userSessionObject.LocationId, User.Identity.GetUserId());
+                var result = AppraisalManager.SubscribeForAppraisal(code, userSessionObject.LocationId.Value, User.Identity.GetUserId());
                 if (result.HasValue)
                 {
                     if (result.Value)
@@ -369,8 +369,8 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult ConfigureAppraisal()
         {
             var userSessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
-            ViewBag.groupId = userSessionObject.GroupId;
-            ViewBag.dropDowns = AppraisalManager.ConfigureAppraisal(userSessionObject.LocationId);
+            ViewBag.groupId = userSessionObject.GroupId.Value;
+            ViewBag.dropDowns = AppraisalManager.ConfigureAppraisal(userSessionObject.LocationId.Value);
             ViewBag.PageTitle = "Configure Appraisal";
             return View();
         }
@@ -381,7 +381,7 @@ namespace resourceEdge.webUi.Controllers
         {
             var userSessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
             var validCode = AppraisalManager.ValidateAppraisalCode(model.Code);
-            var validDepartment = AppraisalManager.validateDepartmentForAppraisal(null, userSessionObject.LocationId, model.Code, model.BusinessUnit, model.Department);
+            var validDepartment = AppraisalManager.validateDepartmentForAppraisal(null, userSessionObject.LocationId.Value, model.Code, model.BusinessUnit, model.Department);
             if (!validDepartment)
             {
                 this.AddNotification("Please the Department has already been configured, try configuring another. if problem persist, contact your system administrator", NotificationType.ERROR);
@@ -395,7 +395,7 @@ namespace resourceEdge.webUi.Controllers
             if (ModelState.IsValid)
             {
 
-                var result = AppraisalManager.AddOrUpdateAppraisalConfiguration(model,User.Identity.GetUserId(), userSessionObject.GroupId, userSessionObject.LocationId);
+                var result = AppraisalManager.AddOrUpdateAppraisalConfiguration(model,User.Identity.GetUserId(), userSessionObject.GroupId.Value, userSessionObject.LocationId.Value);
                 if (result)
                 {
                     this.AddNotification("Appraisal Configured Successfully", NotificationType.SUCCESS);
@@ -411,7 +411,7 @@ namespace resourceEdge.webUi.Controllers
         {
             var userSessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
             ViewBag.PageTitle = $"Appraisal for {userSessionObject.FullName.ToUpper()}";
-            var Question = AppraisalManager.GenerateAppraisalQuestions(User.Identity.GetUserId(), userSessionObject.GroupId, userSessionObject.LocationId);
+            var Question = AppraisalManager.GenerateAppraisalQuestions(User.Identity.GetUserId(), userSessionObject.GroupId.Value, userSessionObject.LocationId.Value);
             if (Question != null)
             {
              return View(Question);

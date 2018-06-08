@@ -84,8 +84,8 @@ namespace resourceEdge.webUi.Controllers
                             leave.modifieddate = DateTime.Now;
                             leave.isactive = true;
                             leave.LeaveStatus = null;
-                            leave.GroupId = UserFromSession.GroupId;
-                            leave.LocationId = UserFromSession.LocationId;
+                            leave.GroupId = UserFromSession.GroupId.Value;
+                            leave.LocationId = UserFromSession.LocationId.Value;
                             leave.LeaveName = leaveName.leavetype;
                             leave.Availableleave = int.Parse(model.AvailableLeave);
                             leave.AppliedleavesCount = +model.requestDays + getPreviousAppliedDateNo; //Remember to do this with the modelState to check if leave is finished

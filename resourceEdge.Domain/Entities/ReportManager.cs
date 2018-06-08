@@ -21,8 +21,10 @@ namespace resourceEdge.Domain.Entities
         public int GroupId { get; set; }
         public int LocationId { get; set; }
         public Departments Department { get; set; }
-
-
+        public BusinessUnit BusinessUnit { get; set; }
+        public Group Group { get; set; }
+        public Location Location { get; set; }
+        public Employee employee { get; set; }
         //Consider adding a manager Id for every employee that is a manager, which would help in getting a list of managers
 
     }

@@ -9,8 +9,8 @@ namespace resourceEdge.webUi.Models
     {
         public string Email { get; set; }
         public string FullName { get; set; }
-        public int LocationId { get; set; }
-        public int GroupId { get; set; }
+        public int? LocationId { get; set; }
+        public int? GroupId { get; set; }
         public int UnitId { get; set; }
         public int DepartmentId { get; set; }
         public string DepartmentName { get; set; }

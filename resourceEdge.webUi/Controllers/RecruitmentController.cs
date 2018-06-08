@@ -50,7 +50,7 @@ namespace resourceEdge.webUi.Controllers
             var result = RequisitionRepo.Get();
             ViewBag.PageTitle = "Requisition Dashboard";
             var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
-            ViewBag.AllRequisitons = RecruitmentManager.GenerateRequisitionDashboard(UserFromSession.GroupId);
+            ViewBag.AllRequisitons = RecruitmentManager.GenerateRequisitionDashboard(UserFromSession.GroupId.Value);
             return View();
         }
 
@@ -65,12 +65,12 @@ namespace resourceEdge.webUi.Controllers
         {
             var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
             ViewBag.PageTitle = "Recruitment";
-            ViewBag.RecruitmentId = RecruitmentManager.GenerateRequisitionCode(UserFromSession.GroupId);
+            ViewBag.RecruitmentId = RecruitmentManager.GenerateRequisitionCode(UserFromSession.GroupId.Value);
             ViewBag.EmpStatus = dropDownManager.GetEmploymentStatus();
-            ViewBag.businessUnits = dropDownManager.GetBusinessUnit(UserFromSession.GroupId, UserFromSession.LocationId);
-            ViewBag.jobTitles = dropDownManager.GetJobtitle(UserFromSession.GroupId); 
-            ViewBag.ReportManager = new SelectList(managerRepo.GetManagersByLocationAndGroup(UserFromSession.GroupId, UserFromSession.LocationId).Select(x => new { name = x.FullName, id = x.ManagerUserId }).OrderBy(x => x.name), "id", "name", "id");
-            ViewBag.Approval1 = new SelectList(EmpManager.GetLocationHeadsDetails(UserFromSession.LocationId).Select(x => new { name = x.FullName, id = x.userId }).OrderBy(x => x.name), "id", "name", "id");
+            ViewBag.businessUnits = dropDownManager.GetBusinessUnit(UserFromSession.GroupId.Value, UserFromSession.LocationId.Value);
+            ViewBag.jobTitles = dropDownManager.GetJobtitle(UserFromSession.GroupId.Value); 
+            ViewBag.ReportManager = new SelectList(managerRepo.GetManagersByLocationAndGroup(UserFromSession.GroupId.Value, UserFromSession.LocationId.Value).Select(x => new { name = x.FullName, id = x.ManagerUserId }).OrderBy(x => x.name), "id", "name", "id");
+            ViewBag.Approval1 = new SelectList(EmpManager.GetLocationHeadsDetails(UserFromSession.LocationId.Value).Select(x => new { name = x.FullName, id = x.userId }).OrderBy(x => x.name), "id", "name", "id");
             //fix approval 2 later for the manager in charge to approve
             ViewBag.Approval2 = new SelectList(EmpManager.GetReportManagerBusinessUnit(UserFromSession.UnitId).Select(x => new { name = x.FullName, Id = x.userId }), "Id", "name", "Id");
             ViewBag.Employee = new SelectList(EmployeeRepo.Get().Select(x=> new { name = x.FullName, id = x.ID}).OrderBy(x=>x.id), "id", "name", "id");
@@ -120,8 +120,8 @@ namespace resourceEdge.webUi.Controllers
                         Request.Modifiedby = User.Identity.GetUserId();
                         Request.CreatedDate = DateTime.Now;
                         Request.modifiedDate = DateTime.Now;
-                        Request.GroupId = UserFromSession.GroupId;
-                        Request.LocationId = UserFromSession.LocationId;
+                        Request.GroupId = UserFromSession.GroupId.Value;
+                        Request.LocationId = UserFromSession.LocationId.Value;
                         RequisitionRepo.Insert(Request);
                         this.AddNotification("Requisition created", NotificationType.SUCCESS);
                         return RedirectToAction("Index");
@@ -141,7 +141,7 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult AllCandidate()
         {
             var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
-            var result = RecruitmentManager.AllCandidate(UserFromSession.GroupId);
+            var result = RecruitmentManager.AllCandidate(UserFromSession.GroupId.Value);
             return View(result);
         }
 
@@ -194,7 +194,7 @@ namespace resourceEdge.webUi.Controllers
                 }
             }
             var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
-            var result = RecruitmentManager.AddOrUpdateCandidate(model, File, UserFromSession.GroupId);
+            var result = RecruitmentManager.AddOrUpdateCandidate(model, File, UserFromSession.GroupId.Value);
             if (result)
             {
                 this.AddNotification("Candidate Added!", NotificationType.SUCCESS);
@@ -223,7 +223,7 @@ namespace resourceEdge.webUi.Controllers
         {
             ViewBag.PageTitle = "All Interview";
             var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
-            return View(RecruitmentManager.AllInterview(UserFromSession.GroupId));
+            return View(RecruitmentManager.AllInterview(UserFromSession.GroupId.Value));
         }
 
         public ActionResult AddInterview()
@@ -321,14 +321,14 @@ namespace resourceEdge.webUi.Controllers
         {
             ViewBag.PageTitle = "All Candidate(s) For Interview";
             var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
-            var AllCandidates = RecruitmentManager.GetAllCandidateInterview(UserFromSession.GroupId);       
+            var AllCandidates = RecruitmentManager.GetAllCandidateInterview(UserFromSession.GroupId.Value);       
             return View(AllCandidates);
         }
         public ActionResult AddCandidateForInterview()
         {
             ViewBag.PageTitle = "Add Candidate(s) for Interview";
             var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
-            ViewBag.Candidate = RecruitmentManager.CandidatesForInterviewDropDown(UserFromSession.GroupId);
+            ViewBag.Candidate = RecruitmentManager.CandidatesForInterviewDropDown(UserFromSession.GroupId.Value);
             ViewBag.Interview = RecruitmentManager.GetAllInterviews();
             return View(new CandidateInterviewViewModel());
         }
@@ -373,7 +373,7 @@ namespace resourceEdge.webUi.Controllers
         {
             ViewBag.PageTitle = "All Selected Candidates";
             var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
-            var result = RecruitmentManager.GetSelectedCandidate(UserFromSession.GroupId);
+            var result = RecruitmentManager.GetSelectedCandidate(UserFromSession.GroupId.Value);
             return View(result);
         }
         public ActionResult candidateDetails(int id)

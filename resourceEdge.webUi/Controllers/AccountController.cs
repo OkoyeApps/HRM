@@ -466,10 +466,10 @@ namespace resourceEdge.webUi.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    if (HttpContext.Request.UrlReferrer.AbsolutePath != null)
-                    {
-                        return RedirectToLocal(HttpContext.Request.UrlReferrer.AbsolutePath);
-                    }
+                    //if (HttpContext.Request.UrlReferrer.AbsolutePath != null)
+                    //{
+                    //    return RedirectToLocal(HttpContext.Request.UrlReferrer.AbsolutePath);
+                    //}
                     return RedirectionUrls(model.Email);
                 case SignInStatus.Failure:
                 default:

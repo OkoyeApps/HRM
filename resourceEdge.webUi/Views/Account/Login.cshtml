@@ -14,13 +14,14 @@
 
     <!-- ================== BEGIN BASE CSS STYLE ================== -->
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
-    <link href="~/assets/AdminTemplate/assets/plugins/jquery-ui/themes/base/minified/jquery-ui.min.css" rel="stylesheet" />
+    @*<link href="~/assets/AdminTemplate/assets/plugins/jquery-ui/themes/base/minified/jquery-ui.min.css" rel="stylesheet" />
     <link href="~/assets/AdminTemplate/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/assets/AdminTemplate/assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
     <link href="~/assets/AdminTemplate/assets/css/animate.min.css" rel="stylesheet" />
     <link href="~/assets/AdminTemplate/assets/css/style.min.css" rel="stylesheet" />
     <link href="~/assets/AdminTemplate/assets/css/style-responsive.min.css" rel="stylesheet" />
-    <link href="~/assets/AdminTemplate/assets/css/theme/default.css" rel="stylesheet" id="theme" />
+    <link href="~/assets/AdminTemplate/assets/css/theme/default.css" rel="stylesheet" id="theme" />*@
+     @Styles.Render("~/asset/loginCss")
     <!-- ================== END BASE CSS STYLE ================== -->
     <!-- ================== BEGIN BASE JS ================== -->
     <script src="~/assets/AdminTemplate/assets/plugins/pace/pace.min.js"></script>
@@ -83,7 +84,7 @@
                         </div>
                         <hr />
                         <p class="text-center text-inverse">
-                            &copy; Tenece All Right Reserved @DateTime.Now.Year;
+                            &copy; Tenece All Right Reserved @DateTime.Now.Year
                         </p>
                        }
                 </div>
@@ -94,17 +95,18 @@
     </div>
     <!-- end page container -->
     <!-- ================== BEGIN BASE JS ================== -->
-    <script src="~/assets/AdminTemplate/assets/plugins/jquery/jquery-1.9.1.min.js"></script>
+     @Scripts.Render("~/assets/loginJs")
+    @*<script src="~/assets/AdminTemplate/assets/plugins/jquery/jquery-1.9.1.min.js"></script>
     <script src="~/assets/AdminTemplate/assets/plugins/jquery/jquery-migrate-1.1.0.min.js"></script>
     <script src="~/assets/AdminTemplate/assets/plugins/jquery-ui/ui/minified/jquery-ui.min.js"></script>
-    <script src="~/assets/AdminTemplate/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/assets/AdminTemplate/assets/plugins/bootstrap/js/bootstrap.min.js"></script>*@
     <!--[if lt IE 9]>
         <script src="~/assets/AdminTemplate/assets/crossbrowserjs/html5shiv.js"></script>
         <script src="~/assets/AdminTemplate/assets/crossbrowserjs/respond.min.js"></script>
         <script src="~/assets/AdminTemplate/assets/crossbrowserjs/excanvas.min.js"></script>
     <![endif]-->
-    <script src="~/assets/AdminTemplate/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="~/assets/AdminTemplate/assets/plugins/jquery-cookie/jquery.cookie.js"></script>
+    @*<script src="~/assets/AdminTemplate/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="~/assets/AdminTemplate/assets/plugins/jquery-cookie/jquery.cookie.js"></script>*@
     <!-- ================== END BASE JS ================== -->
     <!-- ================== BEGIN PAGE LEVEL JS ================== -->
     <script src="~/assets/AdminTemplate/assets/js/apps.min.js"></script>

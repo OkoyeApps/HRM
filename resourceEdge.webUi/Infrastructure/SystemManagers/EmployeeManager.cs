@@ -275,6 +275,78 @@ namespace resourceEdge.webUi.Infrastructure
             }
         }
 
+        public IEnumerable<EmployeeListItem> GetDepartmentHead(int? groupId = null, int? locationId = null)
+        {
+            IEnumerable<EmployeeListItem> DepartmentHead = new List<EmployeeListItem>();
+            if (locationId != null && groupId == null)
+            {
+                DepartmentHead = unitofWork.employees.Get(filter: x => x.LocationId == locationId && x.IsDepthead == true, includeProperties: "Businessunit,Department,Group,Location").Select(x => new EmployeeListItem {
+                    FullName = x.FullName,
+                    DepartmentName = x.Department.deptname,
+                    BusinessUnitName = x.Businessunit.unitname, empEmail = x.empEmail
+                });
+            }
+           else if (groupId != null && locationId == null)
+            {
+                DepartmentHead = unitofWork.employees.Get(filter: x => x.GroupId == groupId && x.IsDepthead == true, includeProperties: "Businessunit,Department,Group,Location").Select(x => new EmployeeListItem
+                {
+                    FullName = x.FullName,
+                    DepartmentName = x.Department.deptname,
+                    BusinessUnitName = x.Businessunit.unitname,
+                    empEmail = x.empEmail
+                });
+            }
+            else
+            {
+                DepartmentHead = unitofWork.employees.Get(filter: x => x.IsDepthead == true, includeProperties: "Businessunit,Department,Group,Location").Select(x => new EmployeeListItem
+                {
+                    FullName = x.FullName,
+                    DepartmentName = x.Department.deptname,
+                    BusinessUnitName = x.Businessunit.unitname,
+                    empEmail = x.empEmail
+                });
+                // this would be used by the Super admin...
+            }
+            return DepartmentHead;     
+        }
+
+        public IEnumerable<EmployeeListItem> GetUnitHead(int? groupId = null, int? locationId = null)
+        {
+            IEnumerable<EmployeeListItem> DepartmentHead = new List<EmployeeListItem>();
+            if (locationId != null && groupId == null)
+            {
+                DepartmentHead = unitofWork.ReportManager.Get(filter: x => x.LocationId == locationId , includeProperties: "Businessunit,Department,Group,Location,employee").Select(x => new EmployeeListItem
+                {
+                    FullName = x.FullName,
+                    DepartmentName = x.Department.deptname,
+                    BusinessUnitName = x.BusinessUnit.unitname,
+                    empEmail = x.employee.empEmail
+                });
+            }
+            else if (groupId != null && locationId == null)
+            {
+                DepartmentHead = unitofWork.ReportManager.Get(filter: x => x.GroupId == groupId, includeProperties: "Businessunit,Department,Group,Location,employee").Select(x => new EmployeeListItem
+                {
+                    FullName = x.FullName,
+                    DepartmentName = x.Department.deptname,
+                    BusinessUnitName = x.BusinessUnit.unitname,
+                    empEmail = x.employee.empEmail
+                });
+            }
+            else
+            {
+                DepartmentHead = unitofWork.ReportManager.Get(includeProperties: "Businessunit,Department,Group,Location,employee").Select(x => new EmployeeListItem
+                {
+                    FullName = x.FullName,
+                    DepartmentName = x.Department.deptname,
+                    BusinessUnitName = x.BusinessUnit.unitname,
+                    empEmail = x.employee.empEmail
+                });
+                // this would be used by the Super admin...
+            }
+            return DepartmentHead;
+        }
+
         /// <summary>
         /// This section is the EmployeeLeaves section
         /// </summary>

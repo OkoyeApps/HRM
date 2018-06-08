@@ -16,8 +16,8 @@ namespace resourceEdge.webUi.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string UserfullName { get; set; }
-        public int GroupId { get; set; }
-        public int LocationId { get; set; }
+        public int? GroupId { get; set; }
+        public int? LocationId { get; set; }
 
         public string BusinessunitId { get; set; }
         public string DepartmentId { get; set; }

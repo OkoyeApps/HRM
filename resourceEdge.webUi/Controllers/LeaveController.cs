@@ -96,7 +96,7 @@ namespace resourceEdge.webUi.Controllers
         {
             ViewBag.PageTitle = "Allot Leave";
             var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
-            ViewBag.businessUnits = dropdownManager.GetBusinessUnit(UserFromSession.GroupId, UserFromSession.LocationId);
+            ViewBag.businessUnits = dropdownManager.GetBusinessUnit(UserFromSession.GroupId.Value, UserFromSession.LocationId.Value);
             return View();
         }
 
@@ -194,7 +194,7 @@ namespace resourceEdge.webUi.Controllers
         {
             ViewBag.PageTitle = "All Leave Request";
             var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
-            return View(LmanagerRepo.AllLeaveRequestForConfirmation(UserFromSession.GroupId, UserFromSession.LocationId));
+            return View(LmanagerRepo.AllLeaveRequestForConfirmation(UserFromSession.GroupId.Value, UserFromSession.LocationId.Value));
         }
 
         [CustomAuthorizationFilter(Roles = "Manager")]

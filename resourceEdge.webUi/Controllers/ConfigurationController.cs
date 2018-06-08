@@ -229,7 +229,7 @@ namespace resourceEdge.webUi.Controllers
                 return View(ConfigManager.GetAllBusinessUnit());
             }
             var userFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
-            return View(ConfigManager.GetAllBusinessUnitByLocation(userFromSession.LocationId));
+            return View(ConfigManager.GetAllBusinessUnitByLocation(userFromSession.LocationId.Value));
         }
         [CustomAuthorizationFilter(Roles = "Super Admin, System Admin")]
         public ActionResult addBusinessUnits()
@@ -367,11 +367,11 @@ namespace resourceEdge.webUi.Controllers
             var userFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
             if (User.IsInRole("Super Admin"))
             {
-                result = ConfigManager.GetAllDepartment(userFromSession.GroupId);
+                result = ConfigManager.GetAllDepartment(userFromSession.GroupId.Value);
             }
             else
             {
-                result = ConfigManager.GetAllDepartment(userFromSession.GroupId, userFromSession.LocationId);
+                result = ConfigManager.GetAllDepartment(userFromSession.GroupId.Value, userFromSession.LocationId.Value);
             }
            
             return View(result);
@@ -380,7 +380,7 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult addDepartment()
         {
             var userFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
-            ViewBag.businessUnits = DropDown.GetBusinessUnit(userFromSession.GroupId, userFromSession.LocationId);
+            ViewBag.businessUnits = DropDown.GetBusinessUnit(userFromSession.GroupId.Value, userFromSession.LocationId.Value);
             ViewBag.PageTitle = "Add Department";
             return View(new DepartmentViewModel());
         }
@@ -396,14 +396,14 @@ namespace resourceEdge.webUi.Controllers
                 if (existingDept)
                 {
                     this.AddNotification("Please Department already exist with same name for this Unit. Kindly try using another name or a different Location", NotificationType.ERROR);
-                    ViewBag.businessUnits = DropDown.GetBusinessUnit(userFromSession.GroupId, userFromSession.LocationId);
+                    ViewBag.businessUnits = DropDown.GetBusinessUnit(userFromSession.GroupId.Value, userFromSession.LocationId.Value);
                     return View(model);
                 }
-                ViewBag.businessUnits = DropDown.GetBusinessUnit(userFromSession.GroupId, userFromSession.LocationId);
+                ViewBag.businessUnits = DropDown.GetBusinessUnit(userFromSession.GroupId.Value, userFromSession.LocationId.Value);
                 if (model.StartDate.HasValue && model.StartDate.Value.Date > DateTime.Now.Date)
                 {
                     this.AddNotification("Sorry, please system does not allow departments to be created in the Future", NotificationType.ERROR);
-                    ViewBag.businessUnits = DropDown.GetBusinessUnit(userFromSession.GroupId, userFromSession.LocationId);
+                    ViewBag.businessUnits = DropDown.GetBusinessUnit(userFromSession.GroupId.Value, userFromSession.LocationId.Value);
                     return View(model);
                 }
 
@@ -419,8 +419,8 @@ namespace resourceEdge.webUi.Controllers
                     ModifiedBy = User.Identity.GetUserId(),
                     ModifiedDate = DateTime.Now,
                     Isactive = true,
-                     LocationId = userFromSession.LocationId,
-                     GroupId = userFromSession.GroupId
+                     LocationId = userFromSession.LocationId.Value,
+                     GroupId = userFromSession.GroupId.Value
 
                 };
                 DeptRepo.addepartment(depts);
@@ -519,7 +519,7 @@ namespace resourceEdge.webUi.Controllers
                         var userSessionDetail = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
                         if (userSessionDetail != null)
                         {
-                            jobs.GroupId = userSessionDetail.GroupId;
+                            jobs.GroupId = userSessionDetail.GroupId.Value;
                             Jobtitle job = jobs;
                             job.createdby = null;
                             job.modifieddate = DateTime.Now;
@@ -842,7 +842,7 @@ namespace resourceEdge.webUi.Controllers
                         level.ModifiedBy = User.Identity.GetUserId();
                         level.CreatedOn = DateTime.Now;
                         level.ModifiedOn = DateTime.Now;
-                        level.GroupId = userSessionDetail.GroupId;
+                        level.GroupId = userSessionDetail.GroupId.Value;
                         levelRepo.Insert(level);
                         ModelState.Clear();
                         this.AddNotification("Level Added", NotificationType.SUCCESS);

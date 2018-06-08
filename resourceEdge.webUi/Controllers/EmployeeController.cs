@@ -65,7 +65,7 @@ namespace resourceEdge.webUi.Controllers
                 return View(EmpManager.GetAllEmployees());
             }
             var userSessionDetail = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
-            return View(EmpManager.GetAllEmployeeByLocation(userSessionDetail.LocationId));
+            return View(EmpManager.GetAllEmployeeByLocation(userSessionDetail.LocationId.Value));
         }
         public ActionResult Edit(int Id)
         {
@@ -204,9 +204,23 @@ namespace resourceEdge.webUi.Controllers
             this.AddNotification("Something went wrong", NotificationType.ERROR);
             return Redirect(returnUrl);
         }
-
+        public ActionResult AllUnitHead()
+        {
+            var userSessionDetail = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+            ViewBag.PageTitle = "Business Unit Heads";
+            var result = EmpManager.GetUnitHead(userSessionDetail.GroupId, userSessionDetail.LocationId);
+            return View(result);
+        }
+        public ActionResult AllDepartmentHead()
+        {
+            var userSessionDetail = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+            ViewBag.PageTitle = "Department Heads";
+            var result = EmpManager.GetDepartmentHead(userSessionDetail.GroupId, userSessionDetail.LocationId);
+            return View(result);
+        }
         public ActionResult TabView()
         {
+
             return View();
         }
     }

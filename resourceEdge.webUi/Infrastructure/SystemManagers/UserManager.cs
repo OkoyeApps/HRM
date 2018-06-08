@@ -129,7 +129,7 @@ namespace resourceEdge.webUi.Infrastructure
             var UserFromSession = (SessionModel)HttpContext.Current.Session["_ResourceEdgeTeneceIdentity"];
             if (!HttpContext.Current.User.IsInRole("Super Admin"))
             {
-                group = UserFromSession.GroupId;
+                group = UserFromSession.GroupId.Value;
             }
             else if (HttpContext.Current.User.IsInRole("Super Admin"))
             {
