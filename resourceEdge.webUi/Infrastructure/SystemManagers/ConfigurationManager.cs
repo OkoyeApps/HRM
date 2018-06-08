@@ -463,16 +463,16 @@ namespace resourceEdge.webUi.Infrastructure
         public IEnumerable<Departments> GetAllDepartment(int? groupId=null, int? locationId=null)
         {
             //Fix this later for the locations to see only the location Departments
-            IEnumerable<Departments> department = null;
-            if (groupId != null)
+            IEnumerable<Departments> department = new List<Departments>();
+            if (groupId != null && locationId == null)
             {
-               
+                department = unitOfWork.Department.Get(filter: x=> x.GroupId == groupId, includeProperties: "BusinessUnits,Location,Group").OrderBy(x=>x.Location.State);
             }
-            if (locationId != null)
+            if (locationId != null && groupId != null)
             {
-
+                department = unitOfWork.Department.Get(filter: x=>x.LocationId == locationId && x.GroupId == groupId, includeProperties: "BusinessUnits,Location,Group").OrderBy(x => x.Location.State);
             }
-             department = unitOfWork.Department.Get(includeProperties: "BusinessUnits");
+             //department = unitOfWork.Department.Get(includeProperties: "BusinessUnits");
             return department;
         }
         public IEnumerable<EmploymentStatus> GetAllEmploymentStatus()

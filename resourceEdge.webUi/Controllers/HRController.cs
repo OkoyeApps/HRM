@@ -240,7 +240,6 @@ namespace resourceEdge.webUi.Controllers
                                     }
                                     realEmployee.empRoleId = employees.empRoleId;
                                     realEmployee.userId = newCreatedUser.Item1.Id;
-                                    empRepo.Insert(realEmployee);
                                     if (manager != null)
                                     {
                                         manager.BusinessUnitId = employees.businessunitId;
@@ -250,8 +249,11 @@ namespace resourceEdge.webUi.Controllers
                                         manager.ManagerUserId = realEmployee.userId;
                                         manager.GroupId = realEmployee.GroupId;
                                         manager.LocationId = realEmployee.LocationId.Value;
+                                        realEmployee.IsUnithead = true;
+                                        
                                         employeeManager.AssignReportManager(manager);
                                     }
+                                    empRepo.Insert(realEmployee);
                                     bool locationHead = false;
                                     if (role.Name.ToLower() == "location head")
                                     {

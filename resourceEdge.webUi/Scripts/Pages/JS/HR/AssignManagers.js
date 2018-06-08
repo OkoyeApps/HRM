@@ -37,7 +37,7 @@
                 console.log($('#businessunitId'))
                 $('#ManagerId').empty();
                 $('#ManagerId').attr({ 'data-live-search': "true", 'data-size': "4" })
-                $('#ManagerId').append('<option value="">' + 'Select department' + '</option>');
+                $('#ManagerId').append('<option value="">' + 'Select Employee' + '</option>');
                 if (data.length >0) {
                     $.each(data, function (index, val) {
                         $('#ManagerId').append('<option value="' + val.userId + '">' + val.FullName + '</option>');

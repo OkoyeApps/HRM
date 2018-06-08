@@ -363,7 +363,17 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult AllDepartment()
         {
             ViewBag.PageTitle = "All Departments";
-            var result = ConfigManager.GetAllDepartment();
+            IEnumerable<Departments> result = new List<Departments>();
+            var userFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+            if (User.IsInRole("Super Admin"))
+            {
+                result = ConfigManager.GetAllDepartment(userFromSession.GroupId);
+            }
+            else
+            {
+                result = ConfigManager.GetAllDepartment(userFromSession.GroupId, userFromSession.LocationId);
+            }
+           
             return View(result);
         }
         [CustomAuthorizationFilter(Roles = "System Admin,HR")]
@@ -396,6 +406,7 @@ namespace resourceEdge.webUi.Controllers
                     ViewBag.businessUnits = DropDown.GetBusinessUnit(userFromSession.GroupId, userFromSession.LocationId);
                     return View(model);
                 }
+
                 Departments depts = new Departments()
                 {
                     BusinessUnitsId = model.BunitId,
@@ -407,7 +418,9 @@ namespace resourceEdge.webUi.Controllers
                     CreatedBy = User.Identity.GetUserId(),
                     ModifiedBy = User.Identity.GetUserId(),
                     ModifiedDate = DateTime.Now,
-                    Isactive = true
+                    Isactive = true,
+                     LocationId = userFromSession.LocationId,
+                     GroupId = userFromSession.GroupId
 
                 };
                 DeptRepo.addepartment(depts);

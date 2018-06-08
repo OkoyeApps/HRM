@@ -46,7 +46,7 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
             {
                  result = new SelectList(unitOfWork.BusinessUnit.Get(filter: x => x.GroupId == groupId).OrderBy(x => x.unitname), "Id", "unitname");
             }
-             result = new SelectList(unitOfWork.BusinessUnit.Get().OrderBy(x => x.unitname), "Id", "unitname");
+             //result = new SelectList(unitOfWork.BusinessUnit.Get().OrderBy(x => x.unitname), "Id", "unitname");
             return result;
         }
        

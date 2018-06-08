@@ -44,7 +44,7 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                     {
                         Email = filterContext.Controller.TempData["Email"] != null ? filterContext.Controller.TempData["Email"].ToString() : null;
                         Password = filterContext.Controller.TempData["Password"] != null ? filterContext.Controller.TempData["Password"].ToString() : null;
-                        if (Email != null && Password != null)
+                        if (previousUserSessions != null)
                         {
                             filterContext.HttpContext.Session.Clear();
                             filterContext.HttpContext.Session.Abandon();
@@ -59,8 +59,7 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                             // LoginRepo.Update(previousUserSessions).Wait();
 
                         }
-                        else
-                        {
+
                             // filterContext.Controller.TempData.Clear();
 
                             if (Email != null && Password != null)
@@ -72,7 +71,6 @@ namespace resourceEdge.webUi.Infrastructure.Handlers
                             {
                                 filterContext.Result = new RedirectResult("~/Account/CustomLogOff");
                             }
-                        }
                     }
 
                     if (currentLogin.Count() == 0 && previousUserSessions == null)
