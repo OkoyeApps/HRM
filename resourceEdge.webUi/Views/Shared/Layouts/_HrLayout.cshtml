@@ -516,8 +516,11 @@
                             {
                                 <li>@Html.ActionLink("All Request", "AllRequest", "Asset", null, new { @class = "nav-link  title" })</li>
                             }
+                            @if(!User.IsInRole("Super Admin"))
+                            {
                             <li> @Html.ActionLink("Request Asset", "RequestAsset", "Asset", null, new { @class = "nav-link  title" })</li>
-                            <li>@Html.ActionLink("All Request", "AllRequest", "Asset", null, new { @class = "nav-link  title" })</li>
+                            }
+                         @*   <li>@Html.ActionLink("All Request", "AllRequest", "Asset", null, new { @class = "nav-link  title" })</li>*@
                         </ul>
                     </li>
                     @if (User.IsInRole("System Admin") || User.IsInRole("HR") || User.IsInRole("Super Admin"))

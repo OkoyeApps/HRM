@@ -278,12 +278,15 @@ namespace resourceEdge.webUi.Infrastructure
         public IEnumerable<EmployeeListItem> GetDepartmentHead(int? groupId = null, int? locationId = null)
         {
             IEnumerable<EmployeeListItem> DepartmentHead = new List<EmployeeListItem>();
-            if (locationId != null && groupId == null)
+            if (locationId != null && groupId != null)
             {
                 DepartmentHead = unitofWork.employees.Get(filter: x => x.LocationId == locationId && x.IsDepthead == true, includeProperties: "Businessunit,Department,Group,Location").Select(x => new EmployeeListItem {
                     FullName = x.FullName,
                     DepartmentName = x.Department.deptname,
-                    BusinessUnitName = x.Businessunit.unitname, empEmail = x.empEmail
+                    BusinessUnitName = x.Businessunit.unitname,
+                    empEmail = x.empEmail,
+                    GroupName = x.Group.GroupName,
+                    LocationName = x.Location.State
                 });
             }
            else if (groupId != null && locationId == null)
@@ -293,7 +296,9 @@ namespace resourceEdge.webUi.Infrastructure
                     FullName = x.FullName,
                     DepartmentName = x.Department.deptname,
                     BusinessUnitName = x.Businessunit.unitname,
-                    empEmail = x.empEmail
+                    empEmail = x.empEmail,
+                    GroupName = x.Group.GroupName,
+                    LocationName = x.Location.State
                 });
             }
             else
@@ -303,7 +308,9 @@ namespace resourceEdge.webUi.Infrastructure
                     FullName = x.FullName,
                     DepartmentName = x.Department.deptname,
                     BusinessUnitName = x.Businessunit.unitname,
-                    empEmail = x.empEmail
+                    empEmail = x.empEmail,
+                    GroupName = x.Group.GroupName,
+                    LocationName = x.Location.State
                 });
                 // this would be used by the Super admin...
             }
@@ -313,14 +320,16 @@ namespace resourceEdge.webUi.Infrastructure
         public IEnumerable<EmployeeListItem> GetUnitHead(int? groupId = null, int? locationId = null)
         {
             IEnumerable<EmployeeListItem> DepartmentHead = new List<EmployeeListItem>();
-            if (locationId != null && groupId == null)
+            if (locationId != null && groupId != null)
             {
                 DepartmentHead = unitofWork.ReportManager.Get(filter: x => x.LocationId == locationId , includeProperties: "Businessunit,Department,Group,Location,employee").Select(x => new EmployeeListItem
                 {
                     FullName = x.FullName,
                     DepartmentName = x.Department.deptname,
                     BusinessUnitName = x.BusinessUnit.unitname,
-                    empEmail = x.employee.empEmail
+                    empEmail = x.employee.empEmail,
+                     GroupName = x.Group.GroupName,
+                      LocationName = x.Location.State
                 });
             }
             else if (groupId != null && locationId == null)
@@ -330,7 +339,9 @@ namespace resourceEdge.webUi.Infrastructure
                     FullName = x.FullName,
                     DepartmentName = x.Department.deptname,
                     BusinessUnitName = x.BusinessUnit.unitname,
-                    empEmail = x.employee.empEmail
+                    empEmail = x.employee.empEmail,
+                     GroupName = x.Group.GroupName,
+                    LocationName = x.Location.State
                 });
             }
             else
@@ -340,7 +351,9 @@ namespace resourceEdge.webUi.Infrastructure
                     FullName = x.FullName,
                     DepartmentName = x.Department.deptname,
                     BusinessUnitName = x.BusinessUnit.unitname,
-                    empEmail = x.employee.empEmail
+                    empEmail = x.employee.empEmail,
+                    GroupName = x.Group.GroupName,
+                    LocationName = x.Location.State
                 });
                 // this would be used by the Super admin...
             }

@@ -22,6 +22,8 @@
             <table class="table table-striped table-bordered display table-responsive" id="tblGeneral">
                 <thead>
                     <tr>
+                        <th>Group</th>
+                        <th>Location</th>
                         <th>
                             Business Unit
                         </th>
@@ -41,6 +43,8 @@
                     @foreach (var item in Model)
                     {
                         <tr>
+                            <td>@item.GroupName</td>
+                            <td>@item.LocationName</td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.BusinessUnitName)
                             </td>

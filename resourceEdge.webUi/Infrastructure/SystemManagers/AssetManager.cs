@@ -32,9 +32,17 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
             var categoryList = new SelectList(unitOfWork.AssetCategory.Get(filter: x=>x.GroupId == groupId).Select(x => new { name = x.Name, Id = x.ID }), "Id", "Name");
             return categoryList;
         }
-        public IEnumerable<Asset> GetAllAssetLazily(int groupId, int locationId)
+        public IEnumerable<Asset> GetAllAssetLazily(int? groupId, int? locationId)
         {
-            var result = unitOfWork.Asset.Get(filter: x => x.GroupId == groupId && x.LocationId == locationId, includeProperties: "AssetCategory");
+            IEnumerable<Asset> result = null;
+            if(groupId != null && locationId != null)
+            {
+                 result = unitOfWork.Asset.Get(filter: x => x.GroupId == groupId && x.LocationId == locationId, includeProperties: "AssetCategory");
+            }
+            else
+            {
+                result = unitOfWork.Asset.Get(includeProperties: "AssetCategory");
+            }
             return result;
         }
         public bool AddAsset(AssetViewModel model, HttpPostedFileBase File, int groupId, int locationId)
@@ -82,9 +90,18 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
             return false;
         }
 
-        public IEnumerable<AssetCategory> GetAllAssetCategoryByGroup(int groupId)
+        public IEnumerable<AssetCategory> GetAllAssetCategoryByGroup(int? groupId, int? locationId)
         {
-            return unitOfWork.AssetCategory.Get(filter: x=>x.GroupId == groupId);
+            IEnumerable<AssetCategory> result = null;
+            if (groupId != null && locationId != null)
+            {
+                result = unitOfWork.AssetCategory.Get(filter: x => x.GroupId == groupId);
+            }
+            else
+            {
+                result = unitOfWork.AssetCategory.Get();
+            }
+            return result;
         }
         public bool AddAssetCategory(AssetViewModel model, int groupId)
         {
