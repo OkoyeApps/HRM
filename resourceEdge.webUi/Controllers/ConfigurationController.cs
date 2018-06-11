@@ -367,7 +367,7 @@ namespace resourceEdge.webUi.Controllers
             var userFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
             if (User.IsInRole("Super Admin"))
             {
-                result = ConfigManager.GetAllDepartment(userFromSession.GroupId.Value);
+                result = ConfigManager.GetAllDepartment();
             }
             else
             {

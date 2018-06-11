@@ -90,10 +90,10 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
             return false;
         }
 
-        public IEnumerable<AssetCategory> GetAllAssetCategoryByGroup(int? groupId, int? locationId)
+        public IEnumerable<AssetCategory> GetAllAssetCategoryByGroup(int? groupId)
         {
             IEnumerable<AssetCategory> result = null;
-            if (groupId != null && locationId != null)
+            if (groupId != null)
             {
                 result = unitOfWork.AssetCategory.Get(filter: x => x.GroupId == groupId);
             }

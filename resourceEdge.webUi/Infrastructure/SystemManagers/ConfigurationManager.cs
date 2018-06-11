@@ -472,6 +472,10 @@ namespace resourceEdge.webUi.Infrastructure
             {
                 department = unitOfWork.Department.Get(filter: x=>x.LocationId == locationId && x.GroupId == groupId, includeProperties: "BusinessUnits,Location,Group").OrderBy(x => x.Location.State);
             }
+            else
+            {
+                department = unitOfWork.Department.Get(includeProperties: "BusinessUnits,Location,Group").OrderBy(x => x.Location.State);
+            }
              //department = unitOfWork.Department.Get(includeProperties: "BusinessUnits");
             return department;
         }

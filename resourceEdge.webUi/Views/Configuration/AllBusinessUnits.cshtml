@@ -9,6 +9,8 @@
     @Styles.Render("~/asset/tablecss");
 }
 <table class="table table-responsive table-bordered table-striped">
+    @if(!User.IsInRole("Super Admin"))
+    {
     <tr>
         <td>
             <p>
@@ -17,6 +19,7 @@
         </td>
 
     </tr>
+    }
     <tr>
         <td>
             <table class="table table-responsive table-bordered table-striped" id="tblGeneral">
