@@ -144,7 +144,7 @@ namespace resourceEdge.webUi.Controllers
                 return View();
             }
         }
-        [CustomAuthorizationFilter(Roles = "System Admin,HR")]
+        [CustomAuthorizationFilter(Roles = "System Admin,HR,Super Admin")]
         public ActionResult AllPrefix()
         {
             ViewBag.PageTitle = "All Prefixes";
@@ -616,7 +616,7 @@ namespace resourceEdge.webUi.Controllers
                 var result = ConfigManager.AddOrUpdatePosition(collection);
                 if (result)
                 {
-                    this.AddNotification($"Position Added!", NotificationType.SUCCESS);
+                    this.AddNotification("Position Added!", NotificationType.SUCCESS);
                     return RedirectToAction("addPosition");
                 }
             }
@@ -652,7 +652,7 @@ namespace resourceEdge.webUi.Controllers
             this.AddNotification("Oops! Operation failed, please make sure all required fields are filled and failure continues, please contact your system administrator", NotificationType.ERROR);
             return View(model);
         }
-        [CustomAuthorizationFilter(Roles = "System Admin,HR")]
+        [CustomAuthorizationFilter(Roles = "System Admin,HR, Super Admin")]
         public ActionResult allEmploymentStatus()
         {
             ViewBag.PageTitle = "All Employment Status";
@@ -808,7 +808,7 @@ namespace resourceEdge.webUi.Controllers
 
             return View();
         }
-        [CustomAuthorizationFilter(Roles = "System Admin,HR")]
+        [CustomAuthorizationFilter(Roles = "System Admin,HR, Super Admin")]
         public ActionResult AllLevel()
         {
             ViewBag.PageTitle = "All Levels";

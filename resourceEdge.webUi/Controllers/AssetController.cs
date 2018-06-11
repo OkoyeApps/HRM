@@ -108,7 +108,7 @@ namespace resourceEdge.webUi.Controllers
             return RedirectToAction("Index");
 
         }
-        [CustomAuthorizationFilter(Roles ="System Admin, HR")]
+        //[CustomAuthorizationFilter(Roles ="System Admin, HR")]
         public ActionResult AllAssetCategory()
         {
             ViewBag.PageTitle = "All Category";

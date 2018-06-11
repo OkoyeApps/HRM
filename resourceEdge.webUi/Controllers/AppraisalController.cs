@@ -411,12 +411,18 @@ namespace resourceEdge.webUi.Controllers
         {
             var userSessionObject = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
             ViewBag.PageTitle = $"Appraisal for {userSessionObject.FullName.ToUpper()}";
+            var IsEligible = AppraisalManager.EligibleDepartmentForAppraisal(userSessionObject.UnitId, userSessionObject.DepartmentId);
+            if (!IsEligible)
+            {
+                this.AddNotification("Sorry your HR hasn't configured appraisal for your department, Kindly see Him/Her for complain", NotificationType.ERROR);
+                return RedirectToAction("Leave", "SelfService");
+            }
             var Question = AppraisalManager.GenerateAppraisalQuestions(User.Identity.GetUserId(), userSessionObject.GroupId.Value, userSessionObject.LocationId.Value);
             if (Question != null)
             {
              return View(Question);
             }
-            this.AddNotification($"Sorry you can't perform this appraisal process Now", NotificationType.ERROR);
+            this.AddNotification("Sorry you can't perform this appraisal process Now", NotificationType.ERROR);
             return RedirectToAction("Leave", "SelfService");
         }
 

@@ -6,9 +6,12 @@
 }
 <div class="table-responsive">
     <table class="table table-responsive table-bordered table-striped">
+        @if (User.IsInRole("HR") || User.IsInRole("System Admin"))
+        {
         <tr>
             <td>@Html.ActionLink("Add new category", "addassetcategory", "Asset", null, new { @Class = "btn btn-info pull-right" })</td>
         </tr>
+        }
         <tr>
             <td>
                 <table class="table table-responsive table-bordered table-striped">

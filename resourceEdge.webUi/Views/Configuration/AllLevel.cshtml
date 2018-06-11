@@ -9,17 +9,23 @@
     @Styles.Render("~/asset/tablecss");
 }
 <table class="table table-bordered table-responsive table-striped">
+    @if(User.IsInRole("System Admin") || User.IsInRole("HR"))
+    {
     <tr>
         <td>
             @Html.ActionLink("Add New Level", "AddLevel", "Configuration", null, new { @class = "btn btn-info pull-right" })
         </td>
     </tr>
+    }
     <tr>
         <td>
 
             <table class="table table-bordered table-responsive table-striped" id="tblGeneral">
                 <thead>
                     <tr>
+                        <th>
+                            Group
+                        </th>
                         <th>
                             Level Number
                         </th>
@@ -37,6 +43,7 @@
                     @foreach (var item in Model)
             {
                         <tr>
+                            <td>@item.Group.GroupName</td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.levelNo)
                             </td>

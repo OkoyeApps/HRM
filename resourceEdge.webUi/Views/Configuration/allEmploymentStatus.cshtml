@@ -3,23 +3,31 @@
 @{
     Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
 }
+@section css{
 
+    @Styles.Render("~/asset/tablecss");
+}
 <table class="table table-responsive table-bordered table-striped">
+    @if(User.IsInRole("HR") || User.IsInRole("System Admin"))
+    {
     <tr>
         <td>
             @Html.ActionLink("Add Employment Status", "addEmploymentStatus", null, new { @class = "btn btn-info pull-right"})
         </td>
     </tr>
+    }
     <tr>
         <td>
-            <table class="table table-responsive table-bordered table-striped">
+            <table class="table table-responsive table-bordered table-striped" id="tblGeneral">
+                <thead>
                 <tr>
                     <th>
                        Employmnent Status
                     </th>
                     <th></th>
                 </tr>
-
+                </thead>
+                <tbody>
                 @foreach (var item in Model)
                 {
                     <tr>
@@ -27,15 +35,19 @@
                             @Html.DisplayFor(modelItem => item.employemntStatus)
                         </td>
                         <td>
-                            @Html.ActionLink("Edit", "EditEmpstatus","Configuration", new { id = item.empstId }, new { @class = "btn btn-warning" })
+                            @Html.ActionLink("Edit", "EditEmpstatus","Configuration", new { id = item.empstId }, new { @class = "btn btn-warning pull-right" })
                         </td>
                     </tr>
                 }
+                </tbody>
 
             </table>
         </td>
     </tr>
 </table>
-
+@section Scripts{
+    @Scripts.Render("~/assets/Table");
+    <script src="~/Scripts/Pages/JS/DataTableInitialization.js"></script>
+}
 
 

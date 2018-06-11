@@ -65,7 +65,7 @@ namespace resourceEdge.webUi.Controllers
             {
                 if (ModelState.IsValid && leaveName != null)
                 {
-                    if (validLeave)
+                    if (!validLeave)
                     {
                         if (validDate)
                         {

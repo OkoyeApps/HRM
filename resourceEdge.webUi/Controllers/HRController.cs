@@ -119,9 +119,7 @@ namespace resourceEdge.webUi.Controllers
         {
             ViewBag.PageTitle = "Create Employee";
             var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
-            ViewBag.Locations =ConfigManager.GetLocationByGroupId(UserFromSession.GroupId.Value);
             ViewBag.roles = dropDownManager.GetRole();
-            ViewBag.code = ConfigManager.GetIdentityCode(UserFromSession.GroupId.Value);
             ViewBag.EmpStatus = dropDownManager.GetEmploymentStatus();
             ViewBag.prefix = dropDownManager.GetPrefix();
             ViewBag.businessUnits = dropDownManager.GetBusinessUnit();
@@ -129,6 +127,8 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.Levels = dropDownManager.GetLevel();
             if (!User.IsInRole("Super Admin"))
             {
+            ViewBag.code = ConfigManager.GetIdentityCode(UserFromSession.GroupId.Value);
+            ViewBag.Locations =ConfigManager.GetLocationByGroupId(UserFromSession.GroupId.Value);
             ViewBag.Groups = GroupRepo.GetById(UserFromSession.GroupId.Value).GroupName;
             }
             if (User.IsInRole("Super Admin"))

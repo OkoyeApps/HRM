@@ -9,11 +9,14 @@
     @Styles.Render("~/asset/tablecss");
 }
 <table class="table table-bordered table-responsive table-striped">
+    @if(User.IsInRole("HR") || User.IsInRole("System Admin"))
+    {
     <tr>
         <td>
             @Html.ActionLink("Add New Position", "AddPosition", "Configuration", null, new { @class = "btn btn-info pull-right" })
         </td>
     </tr>
+    }
     <tr>
         <td>
             <table class="table table-bordered table-responsive table-striped" id="tblGeneral">

@@ -754,17 +754,18 @@ namespace resourceEdge.webUi.Infrastructure
                         {
                             EmployeeAppraisalQuestion.ElementAt(0).EditCount = true;
                         }
-                    //EmployeeAppraisalQuestion = appraisalQuestion.Select(x => new AppraisalQuestionViewModel() { Question = x.Question.EmpQuestion, Answers = x.Answer, id = x.QuestionId }).ToList();
-                    //var result = EmployeeAppraisalQuestion.Where(x => x.Question != null).FirstOrDefault();
-                    //result.EditCount = true;
-                    //EmployeeAppraisalQuestion.Remove(result);
-                    //EmployeeAppraisalQuestion.Add(result);
+                        //EmployeeAppraisalQuestion = appraisalQuestion.Select(x => new AppraisalQuestionViewModel() { Question = x.Question.EmpQuestion, Answers = x.Answer, id = x.QuestionId }).ToList();
+                        //var result = EmployeeAppraisalQuestion.Where(x => x.Question != null).FirstOrDefault();
+                        //result.EditCount = true;
+                        //EmployeeAppraisalQuestion.Remove(result);
+                        //EmployeeAppraisalQuestion.Add(result);
 
                     }
                 }
                 else if(HttpContext.Current.Request.Url.AbsolutePath.ToLower().Contains("myappraisal") || HttpContext.Current.Request.Url.AbsolutePath.ToLower().Contains("employeeappraisal"))
                 {
                    var EmployeesQuestion = EmployeeQuestions.Where(X => X.L3Status == null);
+                    
                     foreach (var item in EmployeeQuestions)
                     {
                         var Question = new AppraisalQuestionViewModel();
@@ -1198,6 +1199,15 @@ namespace resourceEdge.webUi.Infrastructure
             }
         }
 
+        public bool EligibleDepartmentForAppraisal(int unitId,int departmentId)
+        {
+            var Department = unitOfWork.AppraisalConfiguration.Get(filter: x => x.BusinessUnitId == unitId && x.DepartmentId == departmentId).LastOrDefault();
+            if (Department != null)
+            {
+                return true;
+            }
+            return false;
+        }
      
     }
 }

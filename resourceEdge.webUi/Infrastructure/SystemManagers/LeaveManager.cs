@@ -93,7 +93,7 @@ namespace resourceEdge.webUi.Infrastructure
 
         public bool DenyLeave(int leaveId, string userId)
         {
-            var CurrentleaveRequest = unitofWork.LRequest.Get(filter: x=>x.id==leaveId).FirstOrDefault();
+            var CurrentleaveRequest = unitofWork.LRequest.Get(filter: x=>x.id==leaveId && x.Approval1 == null).FirstOrDefault();
             if (CurrentleaveRequest != null)
             {
                 var EmpLeave = LeaveRepo.GetEmplyeeLeaveByUserId(userId);
@@ -102,6 +102,7 @@ namespace resourceEdge.webUi.Infrastructure
                 {
                     LeaveRepo.UpdateEmployeeLeave(EmpLeave);
                     CurrentleaveRequest.LeaveStatus = false;
+                    CurrentleaveRequest.Approval1 = false;
                     LastLeaveRequest.AppliedleavesCount = LastLeaveRequest.AppliedleavesCount - CurrentleaveRequest.requestDaysNo; 
                     LeaveRepo.updateLeaveRequest(CurrentleaveRequest);
                     LeaveRepo.updateLeaveRequest(LastLeaveRequest);
@@ -188,7 +189,7 @@ namespace resourceEdge.webUi.Infrastructure
                             UserId = x.UserId,
                              Id =x.id
                 }).ToList();
-            result.ForEach(x => x.FullName = unitofWork.employees.Get(y => y.userId == y.userId).FirstOrDefault().FullName);
+            result.ForEach(x => x.FullName = unitofWork.employees.Get(y => y.userId == x.UserId).FirstOrDefault().FullName);
             result.ForEach(x => x.UnitName = unitofWork.BusinessUnit.GetByID(int.Parse(x.UnitName)).unitname);
             return result;
         }
@@ -211,7 +212,7 @@ namespace resourceEdge.webUi.Infrastructure
 
             if (result != null)
             {
-                result.ForEach(x => x.FullName = unitofWork.employees.Get(y => y.userId == y.userId).FirstOrDefault().FullName);
+                result.ForEach(x => x.FullName = unitofWork.employees.Get(y => y.userId == x.UserId).FirstOrDefault().FullName);
                 result.ForEach(x => x.UnitName = unitofWork.BusinessUnit.GetByID(int.Parse(x.UnitName)).unitname);
                 return result;
             }

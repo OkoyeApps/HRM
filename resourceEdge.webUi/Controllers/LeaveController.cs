@@ -117,7 +117,7 @@ namespace resourceEdge.webUi.Controllers
                     if (result != false)
                     {
                         this.AddNotification($"Yay!", NotificationType.SUCCESS);
-                        return RedirectToAction("Index");
+                        return RedirectToAction("AllotLeaves");
                     }
 
                 }
@@ -232,13 +232,13 @@ namespace resourceEdge.webUi.Controllers
             if (id != null && userid != null)
             {
                 var result = LmanagerRepo.DenyLeave(id.Value, userid);
-                if (result != false)
+                if (result)
                 {
-                    this.AddNotification($"Leave Denied", NotificationType.SUCCESS);
+                    this.AddNotification("Leave Denied", NotificationType.SUCCESS);
                     return Redirect(returnUrl);
                 }
             }
-            this.AddNotification($"Something went wrong and this request could not be completed. please retry in a moment", NotificationType.ERROR);
+            this.AddNotification("Something went wrong and this request could not be completed. please retry in a moment", NotificationType.ERROR);
             return Redirect(returnUrl);
         }
 
