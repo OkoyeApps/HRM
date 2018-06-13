@@ -2,6 +2,7 @@
 using resourceEdge.Domain.Abstracts;
 using resourceEdge.Domain.Entities;
 using resourceEdge.Domain.UnitofWork;
+using resourceEdge.webUi.Models;
 using resourceEdge.webUi.Models.SystemModel;
 using System;
 using System.Collections.Generic;
@@ -212,6 +213,7 @@ namespace resourceEdge.webUi.Infrastructure
 
             if (result != null)
             {
+
                 result.ForEach(x => x.FullName = unitofWork.employees.Get(y => y.userId == x.UserId).FirstOrDefault().FullName);
                 result.ForEach(x => x.UnitName = unitofWork.BusinessUnit.GetByID(int.Parse(x.UnitName)).unitname);
                 return result;
@@ -288,6 +290,29 @@ namespace resourceEdge.webUi.Infrastructure
                 LeaveRepo.UpdateEmployeeLeave(ExistingLeave);
             }
             return false;
+        }
+
+        public IEnumerable<LeaveRequestListItem> LeaveHistory(string userId)
+        {
+            var userSessionDeatil = (SessionModel)HttpContext.Current.Session["_ResourceEdgeTeneceIdentity"];
+            var history = unitofWork.LRequest.Get(filter: x => x.UserId == userId && x.Approval2 == true).Select(x => new LeaveRequestListItem
+            {
+                From = x.FromDate.Value,
+                To = x.ToDate.Value,
+                LeaveName = x.LeaveName,
+                Reason = x.Reason,
+                RequestDays = x.AppliedleavesCount.Value,
+                FullName = x.UserId,
+                UnitName = userSessionDeatil.UnitId.ToString(),
+                UserId = x.UserId,
+                Id = x.id, AvailableDays = x.Availableleave
+            }).ToList();
+            if (history != null)
+            {
+                history.ForEach(x => x.FullName = unitofWork.employees.Get(y => y.userId == x.UserId).FirstOrDefault().FullName);
+                history.ForEach(x => x.UnitName = unitofWork.BusinessUnit.GetByID(int.Parse(x.UnitName)).unitname);
+            }
+            return history.OrderBy(x=>x.From);
         }
     }
 }

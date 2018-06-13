@@ -29,13 +29,13 @@
             </div>
         </div>
 
-        <div class="col-md-6">
+        @*<div class="col-md-6">
             @Html.Label("Parameters", htmlAttributes: new { @class = "control-label " })
             <div>
                 @Html.DropDownList("parameters", (SelectList)ViewBag.parameter, "Select Parameter", htmlAttributes: new { data_live_search = "true", data_size = "4", @class = "form-control bs-select" })
                 @Html.ValidationMessage("parameter", "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
 
         <div class="col-md-6">
             <label for="questions" class="control-label">Question</label>

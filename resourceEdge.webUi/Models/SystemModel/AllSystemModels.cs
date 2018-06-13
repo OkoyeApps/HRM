@@ -98,6 +98,7 @@ namespace resourceEdge.webUi.Models.SystemModel
         public string UnitName { get; set; }
         public string  UserId { get; set; }
         public int Id { get; set; }
+        public double AvailableDays { get; set; }
     }
     public class YearlistItem
     {

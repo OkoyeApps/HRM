@@ -386,9 +386,7 @@
                                         <li>@Html.ActionLink("Add Leave Type", "AddLeaveType", "Configuration", null, new { @class = "nav-link  title" })</li>
                                     </ul>
                                 </li>
-
                             </ul>
-
                         </li>
                     }
                     @if (User.IsInRole("Manager"))
@@ -402,9 +400,7 @@
                             <ul class="sub-menu">
                                 <li>@Html.ActionLink("Performance Indicator", "addQuestion", "Employee", null, new { @class = "nav-link  title" })</li>
                                 <li>@Html.ActionLink("Leave Requests", "leaveRequests", "Leave", null, new { @class = "nav-link  title" })</li>
-
                             </ul>
-
                         </li>
                     }
                     @if (!User.IsInRole("System Admin") && !User.IsInRole("Super Admin"))
@@ -425,11 +421,15 @@
                                 <li>
                                     @Html.ActionLink("My Incident(s)", "MyIncident", "SelfService", null, new { @class = "nav-link  title" })
                                 </li>
-
+                                <li>
+                                    @Html.ActionLink("Leave History", "LeaveHistory", "SelfService", null, new { @class = "nav-link  title" })
+                                </li>
 
                             </ul>
                         </li>
                     }
+                    @if(!User.IsInRole("Super Admin"))
+                    {
                         <li class="has-sub">
                             <a href="javascript:;">
                                 <b class="caret pull-right"></b>
@@ -446,11 +446,21 @@
                                 }
                                 @if (User.IsInRole("HR"))
                                 {
+                                    
                                     <li>
                                         @Html.ActionLink("Employee Questions", "AddedQuestions", "HR", null, new { @class = "nav-link  title" })
                                     </li>
                                     <li>
                                         @Html.ActionLink("Configure Appraisal", "ConfigureAppraisal", "Appraisal", null, new { @class = "nav-link  title" })
+                                    </li>
+                                    <li>
+                                        @Html.ActionLink("Employee Questions", "ViewConfiguredAppraisal", "Appraisal", null, new { @class = "nav-link  title" })
+                                    </li>
+                                }
+                                @if (User.IsInRole("Head HR") || User.IsInRole("Manager"))
+                                {
+                                    <li>
+                                    <a class="nav-link  title" href="/addGeneralQuestion">Add Departmental apppraisal</a>
                                     </li>
                                 }
                                 @if (User.IsInRole("L1") || User.IsInRole("L2") || User.IsInRole("L3"))
@@ -465,11 +475,12 @@
                                         @Html.ActionLink("My Appraisal", "EmployeeAppraisal", "Appraisal", null, new { @class = "nav-link  title" })
                                     </li>
                                     <li>
-                                        @Html.ActionLink("My Submiteed Appraisal", "MyAppraisal", "Appraisal", null, new { @class = "nav-link  title" })
+                                        @Html.ActionLink("My Submitted Appraisal", "MyAppraisal", "Appraisal", null, new { @class = "nav-link  title" })
                                     </li>
                                 }
                             </ul>
                         </li>
+                    }
                     @if (User.IsInRole("HR"))
                     {
                         <li class="has-sub">

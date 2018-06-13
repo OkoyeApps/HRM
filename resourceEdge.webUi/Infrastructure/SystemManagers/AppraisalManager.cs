@@ -37,7 +37,7 @@ namespace resourceEdge.webUi.Infrastructure
 
         public AppraisalManager()
         {
-                
+
         }
 
         public SystemViewModel InitAppraisal(int? id = null)
@@ -287,7 +287,7 @@ namespace resourceEdge.webUi.Infrastructure
             return false;
         }
 
-        public bool validateDepartmentForAppraisal(int? groupId, int locationId,string code, int? unitId, int? departmentId)
+        public bool validateDepartmentForAppraisal(int? groupId, int locationId, string code, int? unitId, int? departmentId)
         {
             var result = unitOfWork.AppraisalConfiguration.Get(filter: x => x.LocationId == locationId && x.BusinessUnitId == unitId && x.DepartmentId == departmentId && x.Code == code).FirstOrDefault();
             if (result != null)
@@ -502,7 +502,7 @@ namespace resourceEdge.webUi.Infrastructure
                         string[] DepartmentQuestions = null;
                         if (myDIctionary.ContainsKey("Question"))
                         {
-                             EmployeeQuestions = myDIctionary["Question"].ToString().Split(',');
+                            EmployeeQuestions = myDIctionary["Question"].ToString().Split(',');
                         }
                         if (myDIctionary.ContainsKey("GenQuestion"))
                         {
@@ -510,7 +510,7 @@ namespace resourceEdge.webUi.Infrastructure
                         }
                         if (myDIctionary.ContainsKey("deptQuestion"))
                         {
-                             DepartmentQuestions = myDIctionary["deptQuestion"].ToString().Split(',');
+                            DepartmentQuestions = myDIctionary["deptQuestion"].ToString().Split(',');
                         }
 
                         //Answers which include employee, General and departmental
@@ -519,7 +519,7 @@ namespace resourceEdge.webUi.Infrastructure
                         var questionAns = allKeys.Where(x => x.StartsWith("questionAns")).ToList();
 
                         //this loop adds the Employee Questions and answers
-                        if (EmployeeQuestions != null )
+                        if (EmployeeQuestions != null)
                         {
                             for (int i = 0; i < EmployeeQuestions.Count(); i++)
                             {
@@ -552,7 +552,7 @@ namespace resourceEdge.webUi.Infrastructure
                                 {
                                     existingQuestion.Answer = answer;
                                     existingQuestion.L3Status = null;
-                                    existingQuestion.EditCount = existingQuestion.EditCount != null? existingQuestion.EditCount + 1 : 1;
+                                    existingQuestion.EditCount = existingQuestion.EditCount != null ? existingQuestion.EditCount + 1 : 1;
                                     unitOfWork.AppraisalQuestion.Update(existingQuestion);
                                 }
                             }
@@ -601,7 +601,7 @@ namespace resourceEdge.webUi.Infrastructure
                         if (DepartmentQuestions != null)
                         {
                             for (int i = 0; i < DepartmentQuestions.Count(); i++)
-                            {                  
+                            {
                                 int.TryParse(DepartmentQuestions[i], out question);
                                 if (myDIctionary.ContainsKey(departmentnAns[i]))
                                 {
@@ -731,7 +731,7 @@ namespace resourceEdge.webUi.Infrastructure
                     {
                         foreach (var item in appraisalQuestion)
                         {
-                        var AppraisalQuestion = new AppraisalQuestionViewModel();
+                            var AppraisalQuestion = new AppraisalQuestionViewModel();
                             if (item.QuestionId != null)
                             {
                                 AppraisalQuestion.Question = item.Question.EmpQuestion;
@@ -762,10 +762,10 @@ namespace resourceEdge.webUi.Infrastructure
 
                     }
                 }
-                else if(HttpContext.Current.Request.Url.AbsolutePath.ToLower().Contains("myappraisal") || HttpContext.Current.Request.Url.AbsolutePath.ToLower().Contains("employeeappraisal"))
+                else if (HttpContext.Current.Request.Url.AbsolutePath.ToLower().Contains("myappraisal") || HttpContext.Current.Request.Url.AbsolutePath.ToLower().Contains("employeeappraisal"))
                 {
-                   var EmployeesQuestion = EmployeeQuestions.Where(X => X.L3Status == null);
-                    
+                    var EmployeesQuestion = EmployeeQuestions.Where(X => X.L3Status == null);
+
                     foreach (var item in EmployeeQuestions)
                     {
                         var Question = new AppraisalQuestionViewModel();
@@ -777,7 +777,7 @@ namespace resourceEdge.webUi.Infrastructure
                             Question.Status = item.L3Status;
                             Question.Type = Domain.Infrastructures.AppraisalQuestionType.Personal;
                         }
-                        else if(item.GeneralQuestion != null)
+                        else if (item.GeneralQuestion != null)
                         {
                             Question.Question = item.GeneralQuestion.Question;
                             Question.Answers = item.Answer;
@@ -889,7 +889,7 @@ namespace resourceEdge.webUi.Infrastructure
             {
                 IEnumerable<AppraisalQuestion> result = new List<AppraisalQuestion>();
                 var editCount = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == userId).Any(x => x.EditCount == 2);
-               
+
                 if (editCount && HttpContext.Current.User.IsInRole("L3"))
                 {
                     result = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == userId && x.L3Status != true);
@@ -898,11 +898,12 @@ namespace resourceEdge.webUi.Infrastructure
                 {
                     result = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == userId && x.L3Status == true);
                 }
-                else {
+                else
+                {
                     result = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == userId && x.L3Status != false && x.L3Status != true);
                 }
                 Dictionary<string, int> AllModel = new Dictionary<string, int>();
-                IList<AppraisalQuestion> QuestionsToUpdate = new List< AppraisalQuestion> ();
+                IList<AppraisalQuestion> QuestionsToUpdate = new List<AppraisalQuestion>();
                 if (editCount && HttpContext.Current.User.IsInRole("L3"))
                 {
                     var allKeys = collection.AllKeys;
@@ -941,7 +942,7 @@ namespace resourceEdge.webUi.Infrastructure
 
                                     var ans = AllModel[item.Id.ToString()];
                                     item.Answer = ans;
-                                    
+
                                     QuestionsToUpdate.Add(item);
                                 }
                             }
@@ -949,7 +950,7 @@ namespace resourceEdge.webUi.Infrastructure
                     }
                     foreach (var item in result)
                     {
-                        if (QuestionsToUpdate.Any(x=>x.Id == item.Id))
+                        if (QuestionsToUpdate.Any(x => x.Id == item.Id))
                         {
                             item.Answer = QuestionsToUpdate.Where(x => x.Id == item.Id).FirstOrDefault().Answer;
                         }
@@ -1072,11 +1073,11 @@ namespace resourceEdge.webUi.Infrastructure
                         }
                         if (HttpContext.Current.User.IsInRole("L2") || UserPrincipal.IsInRole("L1"))
                         {
-                        EmployeeForL2 = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == item.userId).All(X => X.L3Status == true && (X.L2Status == null || X.L2Status == false));
+                            EmployeeForL2 = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == item.userId).All(X => X.L3Status == true && (X.L2Status == null || X.L2Status == false));
                         }
                         if (HttpContext.Current.User.IsInRole("L3") || HttpContext.Current.User.IsInRole("L2") || UserPrincipal.IsInRole("L1"))
                         {
-                         EmployeeForL3 = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == item.userId).Any(X => X.L3Status == null || X.L3Status == false);
+                            EmployeeForL3 = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == item.userId).Any(X => X.L3Status == null || X.L3Status == false);
                         }
                     }
 
@@ -1199,7 +1200,7 @@ namespace resourceEdge.webUi.Infrastructure
             }
         }
 
-        public bool EligibleDepartmentForAppraisal(int unitId,int departmentId)
+        public bool EligibleDepartmentForAppraisal(int unitId, int departmentId)
         {
             var Department = unitOfWork.AppraisalConfiguration.Get(filter: x => x.BusinessUnitId == unitId && x.DepartmentId == departmentId).LastOrDefault();
             if (Department != null)
@@ -1208,6 +1209,44 @@ namespace resourceEdge.webUi.Infrastructure
             }
             return false;
         }
-     
+
+        public IEnumerable<AppraisalConfigratuionViewModel> ViewConfiguredAppraisal(int? locationId = null)
+        {
+            List<AppraisalConfigratuionViewModel> result = new List<AppraisalConfigratuionViewModel>();
+            if (locationId != null)
+            {
+                result = unitOfWork.AppraisalConfiguration.Get(filter: x => x.LocationId == locationId, includeProperties: "AppraisalInitialization,Department,BusinessUnit")
+                    .Select(x => new AppraisalConfigratuionViewModel
+                    {
+                        unitName = x.BusinessUnit.unitname,
+                        DepartmentName = x.Department.deptname,
+                        Code = x.Code,
+                        LineManager1 = x.LineManager1,
+                        LineManager2 = x.LineManager2,
+                        LineManager3 = x.LineManager3
+                    }).ToList();
+            }
+            else
+            {
+                result = unitOfWork.AppraisalConfiguration.Get(includeProperties: "AppraisalInitialization,Department,BusinessUnit")
+              .Select(x => new AppraisalConfigratuionViewModel
+              {
+                  AppraisalStatus = x.AppraisalStatus,
+                  unitName = x.BusinessUnit.unitname,
+                  DepartmentName = x.Department.deptname,
+                  Code = x.Code,
+                  LineManager1 = x.LineManager1,
+                  LineManager2 = x.LineManager2,
+                  LineManager3 = x.LineManager3
+              }).ToList();
+            }
+            if (result != null)
+            {
+                result.ForEach(x => x.LineManager1 = unitOfWork.employees.Get(filter: y => y.userId == x.LineManager1).FirstOrDefault().FullName);
+                result.ForEach(x => x.LineManager2 = unitOfWork.employees.Get(filter: y => y.userId == x.LineManager2).FirstOrDefault().FullName);
+                result.ForEach(x => x.LineManager3 = unitOfWork.employees.Get(filter: y => y.userId == x.LineManager3).FirstOrDefault().FullName);
+            }
+            return result;
+        }
     }
 }

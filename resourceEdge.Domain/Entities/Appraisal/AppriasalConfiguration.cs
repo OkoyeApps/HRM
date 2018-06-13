@@ -28,5 +28,7 @@ namespace resourceEdge.Domain.Entities
         public DateTime? ModifiedDate { get; set; }
         public bool IsActive { get; set; }
         public AppraisalInitialization AppraisalInitialization { get; set; }
+        public BusinessUnit BusinessUnit { get; set; }
+        public Departments Department { get; set; }
     }
 }

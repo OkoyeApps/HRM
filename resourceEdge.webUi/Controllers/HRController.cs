@@ -122,11 +122,11 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.roles = dropDownManager.GetRole();
             ViewBag.EmpStatus = dropDownManager.GetEmploymentStatus();
             ViewBag.prefix = dropDownManager.GetPrefix();
-            ViewBag.businessUnits = dropDownManager.GetBusinessUnit();
             ViewBag.jobTitles = dropDownManager.GetJobtitle();
             ViewBag.Levels = dropDownManager.GetLevel();
             if (!User.IsInRole("Super Admin"))
             {
+            ViewBag.businessUnits = dropDownManager.GetBusinessUnit(UserFromSession.GroupId, UserFromSession.LocationId);
             ViewBag.code = ConfigManager.GetIdentityCode(UserFromSession.GroupId.Value);
             ViewBag.Locations =ConfigManager.GetLocationByGroupId(UserFromSession.GroupId.Value);
             ViewBag.Groups = GroupRepo.GetById(UserFromSession.GroupId.Value).GroupName;
@@ -171,10 +171,12 @@ namespace resourceEdge.webUi.Controllers
                             if (User.IsInRole("Super Admin"))
                             {
                                 groupidToUse = employees.GroupId;
+                                employees.Location = employees.Location;
                             }
                             if (!User.IsInRole("Super Admin"))
                             {
                                 groupidToUse = UserFromSession.GroupId.Value;
+                                employees.Location = UserFromSession.LocationId.Value;
                             }
                             var result = UserManagement.CreateEmployee(employees);
                             if (result != null)
@@ -205,7 +207,6 @@ namespace resourceEdge.webUi.Controllers
                                     {
                                         employees.empRoleId =int.Parse(roleId.Id);
                                     }
-
                                 }
                                
                                 if (role.Name.ToLower() == "head hr")
@@ -471,7 +472,7 @@ namespace resourceEdge.webUi.Controllers
 
         public ActionResult AddHr()
         {
-            //ViewBag.Groups = new SelectList(GroupRepo.Get().OrderBy(X => X.Id), "Id", "GroupName", "Id");
+
             var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
             var employees = employeeManager.GetEmployeesByLocation(UserFromSession.LocationId.Value);
             ViewBag.allEmployees = new SelectList(employees.OrderBy(x => x.empEmail), "userId", "empEmail");
@@ -530,13 +531,12 @@ namespace resourceEdge.webUi.Controllers
             var result = employeeManager.GetEmployeesByLocation(usersessionObject.LocationId.Value);
             return View(result);
         }
-       [HttpPost, ValidateAntiForgeryToken]
+       [RedirectPostInterceptor(Order =1),HttpPost, ValidateAntiForgeryToken(Order =2)]
         public ActionResult ViewQuestion(string key)
         {
             ViewBag.PageTitle =$"{employeeManager.GetEmployeeByUserId(key).FullName} performance Indicator";
             ViewBag.ID = key;
-            var result = employeeManager.KpiQuestions(key);
-         
+            var result = employeeManager.KpiQuestions(key);     
             return View(result);
         }
 
@@ -563,7 +563,17 @@ namespace resourceEdge.webUi.Controllers
             if (result != false)
             {
                 this.AddNotification("Successfuly Approved Question(s)", NotificationType.SUCCESS);
-                return RedirectToAction("AllQuestions");
+                Dictionary<string, object> userIdToSend = new Dictionary<string, object>();
+                var token =new Generators();
+                var useridObject = new
+                {
+                    key = key,
+                    __RequestVerificationToken = token.GenerateAntiforgeryToken()
+
+                };
+                userIdToSend.Add("key", useridObject);
+                return new Fluentx.Mvc.RedirectAndPostActionResult("/HR/ViewQuestion", userIdToSend);
+                //return RedirectToAction("AllQuestions");
             }
             this.AddNotification("Question could not be approved please try again", NotificationType.ERROR);
             return RedirectToAction("AllQuestions");
@@ -575,24 +585,32 @@ namespace resourceEdge.webUi.Controllers
             bool result = false;
             if (string.IsNullOrEmpty(key) && QstId == null)
             {
-                //Approve all request
+                //Reject all request
                 result = employeeManager.RejectQuestion();
             }
             else if (key != null && QstId == null)
             {
-                //approve all user Request
+                //Reject all user Request
                 result = employeeManager.RejectQuestion(key);
-
             }
             else if (!string.IsNullOrEmpty(key) && QstId != null)
             {
-                //Approve specific user Request
+                //Reject specific user Request
                 result = employeeManager.RejectQuestion(key, QstId);
             }
             if (result != false)
             {
                 this.AddNotification("Successfully Rejected Question(s)", NotificationType.SUCCESS);
-                return RedirectToAction("AllQuestions");
+                Dictionary<string, object> userIdToSend = new Dictionary<string, object>();
+                var token = new Generators();
+                var useridObject = new
+                {
+                    key = key,
+                    __RequestVerificationToken = token
+                };
+                userIdToSend.Add("key", useridObject);
+                return new Fluentx.Mvc.RedirectAndPostActionResult("/HR/ViewQuestion", userIdToSend);
+                //return RedirectToAction("AllQuestions");
             }
             this.AddNotification("Question could not be Rejected please try again", NotificationType.ERROR);
             return RedirectToAction("AllQuestions");

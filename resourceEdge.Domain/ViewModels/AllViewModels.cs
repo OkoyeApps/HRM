@@ -496,6 +496,8 @@ namespace resourceEdge.Domain.Entities
         public string LineManager1 { get; set; }
         public string LineManager2 { get; set; }
         public string LineManager3 { get; set; }
+        public string unitName { get; set; }
+        public string DepartmentName { get; set; }
     }
 
     public class AppraisalQuestionViewModel

@@ -1,0 +1,63 @@
+﻿@model IEnumerable<resourceEdge.Domain.Entities.AppraisalConfigratuionViewModel>
+@{
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+    int no = 1;
+}
+@section css{
+
+    @Styles.Render("~/asset/tablecss");
+    
+}
+
+<div class="row table-responsive">
+    <div class="col-md-12">
+        <table class="table table-responsive table-striped table-bordered table-hover table-checkable" id="tblGeneral">
+            <thead>
+                <tr>
+                    <th>S/N</th>
+                    <th>Unit</th>
+                    <th>Name</th>
+                    <th>
+                        L1
+                    </th>
+                    <th class="">
+                       L2
+                    </th>
+                    <th class="">
+                       L3
+                    </th>
+                    <th class="">
+                       Code
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="green portlet-body">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@{int sn = no++;} @sn</td>
+                        <td>@item.unitName</td>
+                        <td>@item.DepartmentName</td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LineManager1)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LineManager2)
+                        </td>
+                        <td>
+                            @item.LineManager3
+                        </td>
+                        <td>@item.Code</td>
+                    </tr>
+                            }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    @Scripts.Render("~/assets/Table");
+    <script src="~/Scripts/Pages/JS/DataTableInitialization.js"></script>
+}

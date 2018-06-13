@@ -532,6 +532,13 @@ namespace resourceEdge.webUi.Controllers
             return View(result);
         }
 
+        public ActionResult ViewConfiguredAppraisal()
+        {
+            ViewBag.PageTitle = "Configured Appraisal";
+            var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+            var result = AppraisalManager.ViewConfiguredAppraisal(UserFromSession.LocationId);
+            return View(result);
+        }
 
         public string formatUserId(string Id)
         {

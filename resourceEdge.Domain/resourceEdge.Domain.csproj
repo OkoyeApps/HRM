@@ -429,6 +429,10 @@
     <Compile Include="Migrations\EdgeDbContext2\201806081228335_Report manager model association updated.Designer.cs">
       <DependentUpon>201806081228335_Report manager model association updated.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\EdgeDbContext2\201806120823463_Appraisal Configuration Association Update.cs" />
+    <Compile Include="Migrations\EdgeDbContext2\201806120823463_Appraisal Configuration Association Update.Designer.cs">
+      <DependentUpon>201806120823463_Appraisal Configuration Association Update.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\EdgeDbContext2\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitofWork\GenericRepository.cs" />
@@ -573,6 +577,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\EdgeDbContext2\201806081228335_Report manager model association updated.resx">
       <DependentUpon>201806081228335_Report manager model association updated.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\EdgeDbContext2\201806120823463_Appraisal Configuration Association Update.resx">
+      <DependentUpon>201806120823463_Appraisal Configuration Association Update.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

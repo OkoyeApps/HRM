@@ -1,0 +1,72 @@
+﻿@model IEnumerable<resourceEdge.webUi.Models.SystemModel.LeaveRequestListItem>
+
+@{
+    ViewBag.Title = "AllLeaveRequest";
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+    int no = 1;
+}
+
+@section css{
+
+    @Styles.Render("~/asset/tablecss");
+}
+    <div class="row table-responsive" >
+        <div class="col-md-12">
+            <table class="table table-responsive table-striped table-bordered table-hover table-checkable" id="tblGeneral">
+                <thead>
+                    <tr>
+                        <th>S/N</th>
+                        <th>Name</th>
+                        <th>Unit</th>
+                        <th>
+                            Reason
+                        </th>
+                        <th>
+                            Leave Type
+                        </th>
+                        <th class="">
+                            From
+                        </th>
+                        <th class="">
+                            To
+                        </th>
+                        <th class="">
+                           Total Requested Days
+                        </th>
+                        <th>Total Alloted Leave</th>
+                    </tr>
+                </thead>
+                <tbody class="green portlet-body">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@{int sn = no++;} @sn</td>
+                            <td>@item.FullName</td>
+                            <td>@item.UnitName</td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Reason)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LeaveName)
+                            </td>
+                            <td>
+                                @item.From.ToLongDateString()
+                            </td>
+                            <td>
+                                @item.To.ToLongDateString()
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.RequestDays)
+                            </td>
+                            <td>@item.AvailableDays</td>
+                        </tr>
+                                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+@section Scripts{
+    @Scripts.Render("~/assets/Table");
+    <script src="~/Scripts/Pages/JS/DataTableInitialization.js"></script>
+}

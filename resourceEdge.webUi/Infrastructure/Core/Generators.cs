@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.Helpers;
 
 namespace resourceEdge.webUi.Infrastructure.Core
 {
@@ -29,5 +30,14 @@ namespace resourceEdge.webUi.Infrastructure.Core
             builder.Append(CodeGeneration(2, false));
             return builder.ToString();
         }
+
+        public string GenerateAntiforgeryToken()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            string tokenHeader = $"{cookieToken}:{formToken}";
+            return tokenHeader;
+        }
+
     }
 }

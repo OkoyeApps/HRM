@@ -35,7 +35,6 @@
                 <table class="table table-bordered table-responsive" id="tblGeneral">
                     <thead>
                         <tr>
-                            <th></th>
                             <th>S/N</th>
                             <th class="col-md-8">Questions</th>
                             <th>Descriptions</th>
@@ -46,7 +45,6 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td><input type="checkbox" name="question + @item.Id" value="false" /></td>
                                 <td> @counter</td>
                                 <td>@item.Question</td>
                                 <td>@item.Description</td>

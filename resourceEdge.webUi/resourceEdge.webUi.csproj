@@ -253,6 +253,7 @@
     <Compile Include="Infrastructure\ActitivityLogs\LoggingEvents.cs" />
     <Compile Include="Infrastructure\Handlers\LeaveFilter.cs" />
     <Compile Include="Infrastructure\Handlers\LoginsFilters.cs" />
+    <Compile Include="Infrastructure\Handlers\RedirectPostInterceptor.cs" />
     <Compile Include="Infrastructure\Handlers\TempdateInterceptorFilter.cs" />
     <Compile Include="Infrastructure\SystemManagers\AdminManager.cs" />
     <Compile Include="Infrastructure\SystemManagers\Apimanager.cs" />
@@ -1524,6 +1525,8 @@
     <Content Include="Views\SelfService\MyPerformanceIndicator.cshtml" />
     <Content Include="Views\Employee\AllDepartmentHead.cshtml" />
     <Content Include="Views\Employee\AllUnitHead.cshtml" />
+    <Content Include="Views\SelfService\LeaveHistory.cshtml" />
+    <Content Include="Views\Appraisal\ViewConfiguredAppraisal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -73,7 +73,7 @@ namespace resourceEdge.webUi.Controllers
                             LeaveRequest leave = new LeaveRequest();
                             leave.UserId = model.userKey;
                             leave.RepmangId = model.RepmangId;
-                            leave.NoOfDays = model.LeaveNoOfDays;
+                            leave.NoOfDays = model.LeaveNoOfDays; // this is the number of days alloted to the specified leave
                             leave.ToDate = model.ToDate;
                             leave.FromDate = model.FromDate;
                             leave.Reason = model.Reason;
@@ -88,20 +88,20 @@ namespace resourceEdge.webUi.Controllers
                             leave.LocationId = UserFromSession.LocationId.Value;
                             leave.LeaveName = leaveName.leavetype;
                             leave.Availableleave = int.Parse(model.AvailableLeave);
-                            leave.AppliedleavesCount = +model.requestDays + getPreviousAppliedDateNo; //Remember to do this with the modelState to check if leave is finished
+                            leave.AppliedleavesCount =+ model.requestDays + getPreviousAppliedDateNo; //Remember to do this with the modelState to check if leave is finished
                             leave.requestDaysNo = model.requestDays;
                             leaveRepo.AddLeaveRequest(leave);
                             this.AddNotification("Request Submited", NotificationType.SUCCESS);
                             return RedirectToAction("Leave", "selfService"); //redirect to employee selservice page for him to see his requests
 
                         }
-                        this.AddNotification("Please your request days is incorrect, please make you are not starting your leave from previous days", NotificationType.WARNING);
+                        this.AddNotification("Please your request days is incorrect, please make you are not starting your leave from previous days", NotificationType.ERROR);
                         return RedirectToAction("RequestLeave");
                     }
-                    this.AddNotification("Please make sure your leave your leave hasn't been exhausted or you can ask The HR to assign more leave for you", NotificationType.WARNING);
+                    this.AddNotification("Please make sure your leave have not been exhausted and your request is within the specified available leave or you can ask The HR to assign more leave for you", NotificationType.ERROR);
                     return RedirectToAction("RequestLeave");
                 }
-                this.AddNotification("Please the system could not recognise the leave you requested, please contact your system admin if it persists", NotificationType.WARNING);
+                this.AddNotification("Please the system could not recognise the leave you requested, please contact your system admin if it persists", NotificationType.ERROR);
                 return RedirectToAction("RequestLeave");
             }
             this.AddNotification("Oops! please your leave days must be greater than 0", NotificationType.ERROR);
@@ -128,6 +128,22 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.PageTitle = EmpManager.GetEmployeeByUserId(User.Identity.GetUserId()).FullName + " Performance Indicators";
             var result = EmpManager.KpiQuestions(User.Identity.GetUserId());
             return View(result);
+        }
+
+        public ActionResult LeaveHistory(string UserId)
+        {
+            string userId = null;
+            ViewBag.PageTitle = "Leave History";
+            if (string.IsNullOrEmpty(UserId) && User.IsInRole("HR"))
+            {
+                userId = UserId;
+            }
+            else
+            {
+                userId = User.Identity.GetUserId();
+            }
+            var History = leavemanagerRepo.LeaveHistory(userId);
+            return View(History);
         }
         public bool ValidateDates(DateTime from, DateTime to)
         {
