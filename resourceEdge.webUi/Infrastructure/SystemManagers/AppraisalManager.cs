@@ -724,7 +724,7 @@ namespace resourceEdge.webUi.Infrastructure
             if (EmployeeQuestions != null && EmployeeQuestions.Count() > 0)
             {
 
-                if (EditCount && HttpContext.Current.User.IsInRole("L3") && !HttpContext.Current.Request.Url.AbsolutePath.ToLower().Contains("myappraisal"))
+                if (HttpContext.Current.User.IsInRole("L3") && !HttpContext.Current.Request.Url.AbsolutePath.ToLower().Contains("myappraisal"))
                 {
                     var appraisalQuestion = EmployeeQuestions.Where(X => X.L3Status == null || X.L3Status == false);
                     if (appraisalQuestion != null)
@@ -736,21 +736,24 @@ namespace resourceEdge.webUi.Infrastructure
                             {
                                 AppraisalQuestion.Question = item.Question.EmpQuestion;
                                 AppraisalQuestion.id = item.Id;
+                                AppraisalQuestion.Status = item.L3Status;
                             }
                             else if (item.GeneralQuestionId != null)
                             {
                                 AppraisalQuestion.Question = item.GeneralQuestion.Question;
                                 AppraisalQuestion.id = item.Id;
+                                AppraisalQuestion.Status = item.L3Status;
                             }
                             else if (item.DepartmentQuestionId != null)
                             {
                                 AppraisalQuestion.Question = item.DepartmentQuestion.Question;
                                 AppraisalQuestion.id = item.Id;
+                                AppraisalQuestion.Status = item.L3Status;
                             }
                             AppraisalQuestion.Answers = item.Answer;
                             EmployeeAppraisalQuestion.Add(AppraisalQuestion);
                         }
-                        if (EmployeeAppraisalQuestion.Count > 0)
+                        if (EmployeeAppraisalQuestion.Count > 0 && EditCount)
                         {
                             EmployeeAppraisalQuestion.ElementAt(0).EditCount = true;
                         }
@@ -1005,12 +1008,12 @@ namespace resourceEdge.webUi.Infrastructure
             }
             if (QuestionId == null)
             {
-                var result = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == userId && x.L3Status != false);
+                var result = unitOfWork.AppraisalQuestion.Get(filter: x => x.UserId == userId && x.L3Status != true);
                 if (result != null)
                 {
                     foreach (var item in result)
                     {
-                        if (HttpContext.Current.User.IsInRole("L1") && item.EditCount == null || item.EditCount <= 2) //this checks for edits less than or equal to 3 and approves finally from the lineManager1
+                        if (HttpContext.Current.User.IsInRole("L1")) //this checks for edits less than or equal to 3 and approves finally from the lineManager1
                         {
                             item.L1Status = false;
                             item.IsAccepted = false;
@@ -1069,7 +1072,7 @@ namespace resourceEdge.webUi.Infrastructure
                     {
                         if (HttpContext.Current.User.IsInRole("L1"))
                         {
-                            EmployeeToAppraise = EmployeeAppraisal.All(X => X.L1Status == null && (X.L3Status != null && X.L3Status == true) && (X.L2Status != null && X.L2Status.Value == true));
+                            EmployeeToAppraise = EmployeeAppraisal.All(X => X.L1Status == null && (X.L3Status != null && X.L3Status == true) && (X.L2Status != null && X.L2Status == true));
                         }
                         if (HttpContext.Current.User.IsInRole("L2") || UserPrincipal.IsInRole("L1"))
                         {

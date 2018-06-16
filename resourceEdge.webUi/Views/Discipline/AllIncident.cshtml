@@ -6,28 +6,29 @@
 @section Css{
     <style>
         #modaldia {
-            width:500px;
+            width:1000px;
             margin: auto;
             /*vertical-align: middle;*/
             margin-top: 50px;
-            /*height: 40%;*/
+            height: 40%;
         }
     </style>
+@Styles.Render("~/asset/tablecss");
 }
-
 
 <div class="table-responsive">
 
     <table class="table table-responsive table-striped table-bordered">
         <tr>
             <td>
-                @Html.ActionLink("Add new", "RaiseIncident", "discipline", null, new { @class = "btn btn-info pull-right" })
+                @Html.ActionLink("Raise Incident", "RaiseIncident", "discipline", null, new { @class = "btn btn-info pull-right" })
             </td>
         </tr>
         <tr>
             <td>
 
-                <table class="table table-responsive table-striped table-bordered">
+                <table class="table table-responsive table-striped table-bordered" id="tblGeneral">
+                    <thead>
                     <tr>
                         <th>
                             Unit
@@ -43,6 +44,8 @@
                         <th>Response</th>
                         <td></td>
                     </tr>
+                    </thead>
+                    <tbody>
 
                     @foreach (var item in Model)
                     {
@@ -61,11 +64,11 @@
                             <td>
                                 @if(!string.IsNullOrEmpty(item.Response))
                                 {
-                                    <span>item.Response</span>
+                                    <span class="label label-success">Response provided</span>
                                 }
                                 else
                                 {
-                                   <span class="label label-info">Waiting for response</span>
+                                   <span class="label label-warning">Waiting for response</span>
                                 }
                             </td>
                             <td class="">
@@ -102,6 +105,7 @@
                             </td>
                         </tr>
                     }
+                    </tbody>
 
                 </table>
 
@@ -153,7 +157,7 @@
                     console.log(data);
                     if (data != null) {
                         //console.log(data.asset.ImageUrl)
-                        $('#img').empty();
+                        $('#mBody').html("");
                         $('#mBody').html(data
                             )
                         $('#modal-without-animation').modal('show');
@@ -180,4 +184,7 @@
             GetAssetDetail(id);
         });
 </script>
+
+    @Scripts.Render("~/assets/Table");
+    <script src="~/Scripts/Pages/JS/DataTableInitialization.js"></script>
     }

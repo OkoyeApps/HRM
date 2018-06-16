@@ -236,7 +236,14 @@ namespace resourceEdge.webUi.Controllers
             this.AddNotification("Oops!something went wrong, please make sure you are not manually editing your request and if the problem persist please contact your system administrator", NotificationType.ERROR);
             return RedirectToAction("AllRequest");
         }
-
+        [CustomAuthorizationFilter(Roles ="System Admin, HR")]
+        public ActionResult RequestHistory()
+        {
+            ViewBag.PageTitle = "All Request History";
+            var UserFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
+            var result = assetmanager.AllRequestHistory(UserFromSession.GroupId.Value, UserFromSession.LocationId.Value);
+            return View(result);
+        }
         //public ActionResult EditRequest()
         //{
 

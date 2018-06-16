@@ -570,6 +570,12 @@ namespace resourceEdge.webUi.Infrastructure
             return Locations;
         }
 
+        public IEnumerable<dynamic> GetAssetByCategory(int categoryId)
+        {
+            var result = unitOfWork.Asset.Get(filter: x => x.AssetCategoryId == categoryId).Select(x => new {Id = x.ID, name = x.Name });
+            return result;
+        }
+
         public List<Month> GetAllMonths()
         {
             return unitOfWork.GetDbContext().Month.ToList();

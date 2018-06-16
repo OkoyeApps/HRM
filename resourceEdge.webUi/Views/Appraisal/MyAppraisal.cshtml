@@ -1,0 +1,69 @@
+﻿@model IEnumerable<resourceEdge.Domain.Entities.AppraisalQuestionViewModel>
+@{
+
+    Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
+    int counter = 1;
+    var isEditCountExceeded = Model.Any(x => x.EditCount == true);
+    bool? isPersonal = ViewBag.Personal;
+}
+@section css{
+
+    @Styles.Render("~/asset/tablecss");
+}
+<div class="table-responsive">
+
+    @if (!isEditCountExceeded)
+    {
+        if (Model.Count() > 0)
+        {
+            <div class="pull-right">
+
+            </div>
+            <br />
+
+            <br />
+            <table class="table table-striped table-bordered display table-responsive">
+                <tr>
+                    <td>
+                        <table class="table table-striped table-bordered display table-responsive" id="tblGeneral">
+                            <thead>
+                                <tr>
+                                    <th>S/N</th>
+                                    <th>Performance Indicator</th>
+                                    <th>Rating</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td>@item.Question</td>
+                                        <td>@item.Answers</td>
+                                    </tr>
+                                    { counter++; }
+                                }
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        }
+        else
+        {
+            if (!isPersonal.HasValue)
+            {
+                <div class="alert alert-warning" style="text-align:center;font-size:large;"><small> Sorry! No appriasal submitted yet or All appraisal have been confirmed</small></div>
+            }
+            else
+            {
+                <div class="alert alert-warning" style="text-align:center;font-size:large;"><small> Sorry! you have not participated in this appraisal</small> </div>
+            }
+        }
+    }
+
+</div>
+@section Scripts{
+    @Scripts.Render("~/assets/Table");
+    <script src="~/Scripts/Pages/JS/DataTableInitialization.js"></script>
+}

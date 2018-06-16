@@ -3,12 +3,16 @@
     ViewBag.Title = "allViolation";
     Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
 }
+@section css{
 
+    @Styles.Render("~/asset/tablecss");
+}
 
 
 <div class="table-responsive">
 
-                <table class="table table-responsive table-striped table-bordered">
+                <table class="table table-responsive table-striped table-bordered" id="tblGeneral">
+                    <thead>
                     <tr>
                         <th>
                             Unit
@@ -24,6 +28,8 @@
                         <th></th>
                     </tr>
 
+                    </thead>
+                    <tbody>
                     @foreach (var item in Model)
                     {
                         <tr>
@@ -42,11 +48,11 @@
                             <td>
                                 <table class="pull-right">
                                     <tr>
-                                        @if (item.Appeal == 1 && item.ExpiryDate.Date <= DateTime.Now.Date)
+                                        @if (item.Appeal == 1 && item.ExpiryDate.Date >= DateTime.Now.Date)
                                         {
-                                            <td>@Html.ActionLink("Appeal", "EditIncident", "Discipline", new { id = item.ID }, new { @class = "btn btn-warning pull-right" })</td>
+                                            <td>@Html.ActionLink("Appeal", "EditIncident", "Discipline", new { id = item.ID }, new { @class = "btn btn-info pull-right" })</td>
                                         }
-                                        @if (item.Appeal == 1 && item.ExpiryDate.Date > DateTime.Now.Date)
+                                        @if (item.Appeal == 1 && item.ExpiryDate.Date < DateTime.Now.Date)
                                         {
                                             <td><span class="label label-danger">Appeal Time Exceeded</span></td>
                                         }
@@ -56,9 +62,9 @@
                                         }
                                         <td>
                                         <table class="pull-right">
-                                            <tr>
-                                                <td>@Html.ActionLink("View", "incidentDetail", "Discipline", new { id = item.ID }, new { @class = "btn btn-info pull-right" })</td>
-                                            </tr>
+                                            @*<tr>
+                                                <td>@Html.Action("incidentDetail", "Discipline", new { id = item.ID })</td>
+                                            </tr>*@
                                         </table>
                                        
                                         </td>
@@ -68,5 +74,10 @@
                             </td>
                         </tr>
                     }
+                    </tbody>
                     </table>
     </div>
+@section Scripts{
+    @Scripts.Render("~/assets/Table");
+    <script src="~/Scripts/Pages/JS/DataTableInitialization.js"></script>
+}

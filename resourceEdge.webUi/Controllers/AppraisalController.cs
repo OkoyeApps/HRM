@@ -520,7 +520,7 @@ namespace resourceEdge.webUi.Controllers
             ViewBag.PageTitle = "Submitted Performanace indicator";
             var result = AppraisalManager.ViewSubmittedEmployeeAppraisal(User.Identity.GetUserId());
             ViewBag.Personal = true;
-            return View("SubmittedAppraisal", result);
+            return View(result);
         }
 
         [CustomAuthorizationFilter(Roles = "L1,L2,L3")]

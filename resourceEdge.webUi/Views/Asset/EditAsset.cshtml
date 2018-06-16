@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
 }
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("EditAsset", "Asset", null, FormMethod.Post, new { data_parsley_validate = "" }))
 {
     @Html.AntiForgeryToken()
     
@@ -16,8 +16,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", required = "" } })
             </div>
         </div>
 
@@ -25,7 +24,6 @@
             @Html.LabelFor(model => model.SerialNumber, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.SerialNumber, new { htmlAttributes = new { @class = "form-control", required = "" } })
-                @Html.ValidationMessageFor(model => model.SerialNumber, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -39,7 +37,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index", "Asset")
 </div>
 
 @section Scripts {

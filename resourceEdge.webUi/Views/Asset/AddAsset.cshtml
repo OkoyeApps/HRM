@@ -23,7 +23,7 @@
         <div class="form-group">
             @Html.Label("Serial Number", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.Editor("SerialNumber", new { htmlAttributes = new { @class = "form-control", data_parsley_min = "0", required = "" } })
+                @Html.Editor("SerialNumber", new { htmlAttributes = new { @class = "form-control", required = "" } })
                @* <input class="form-control" type="number" data-parsley-min = "0" name="SerialNumber" />*@
                 @Html.ValidationMessageFor(model => model.SerialNumber, "", new { @class = "text-danger" })
             </div>

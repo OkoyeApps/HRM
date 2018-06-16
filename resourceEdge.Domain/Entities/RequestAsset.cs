@@ -10,6 +10,7 @@ namespace resourceEdge.Domain.Entities
     {
         public int Id { get; set; }
         public int AssetCategoryId { get; set; }
+        public int AssetId { get; set; }
         public int GroupId { get; set; }
         public int LocationId { get; set; }
         public int Amount { get; set; }
@@ -22,5 +23,6 @@ namespace resourceEdge.Domain.Entities
         public DateTime? CreatedOn { get; set; }
         public DateTime? ModifiedOn {get; set; }
         public AssetCategory AssetCategory { get; set; }
+        public Asset Asset { get; set; }
     }
 }

@@ -13,7 +13,9 @@
     margin-top:50px;
     }
     </style>
+@Styles.Render("~/asset/tablecss");
 }
+
 <div class="table-responsive">
 
 <table class="table table-responsive table-striped table-bordered">
@@ -28,7 +30,8 @@
     <tr>
         <td>
 
-            <table class="table table-responsive table-striped table-bordered">
+            <table class="table table-responsive table-striped table-bordered" id="tblGeneral">
+                <thead>
                 <tr>
                     <th>
                         Category
@@ -44,6 +47,9 @@
                     </th>
                     <th></th>
                 </tr>
+
+                </thead>
+                <tbody>
 
                 @foreach (var item in Model)
                 {
@@ -66,10 +72,9 @@
                             <td>No</td>
                         }
                         <td>
-                            <table class="">
+                            <table class="pull-right">
                                 <tr>
                                     <td class="pull-left">@Html.ActionLink("Edit", "EditAsset", "Asset", new { id = item.ID }, new { @class = "btn btn-warning pull-right" })</td>
-                                    @*<td>@Html.ActionLink("", "", new { id = item.ID }, new { @class = "btn btn-info", id = "detail" })</td>*@
                                     <td>
                                     <table class="">
                                         <tr>
@@ -84,6 +89,7 @@
                         </td>
                     </tr>
                 }
+                </tbody>
 
             </table>
             <input class="hidden" type="hidden" id="mLength" value="@Model.Count()" data-id="@Model.Count()">
@@ -112,7 +118,6 @@
     </div>
 
 </div>
-
 @section Scripts{
     <script>
         function GetAssetDetail(id) {
@@ -147,21 +152,6 @@
             })
         };
 
-        //var modelLength = document.getElementById("mLength").value;
-
-        //console.log("current value is " + modelLength);
-        //for (var i = 0; i < modelLength; i++) {
-        //    console.log("inside the for loop i is " + i);
-        //    document.getElementById
-        //    $('#detail ' + i).on('click', function () {
-        //        console.log("adding event listener for " + i);
-        //        var id = $('#detail ' + i).attr('data-Id');
-        //        console.log(id);
-        //        //GetAssetDetail($('#item')[0].innerText);
-        //        GetAssetDetail(id);
-        //    });
-        //}
-
         $('#detail').on('click', function () {
             var id = $('.detail').attr('data-Id');
             console.log(id);
@@ -170,5 +160,6 @@
         });
 
     </script>
-
+@Scripts.Render("~/assets/Table");
+<script src="~/Scripts/Pages/JS/DataTableInitialization.js"></script>
     }

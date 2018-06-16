@@ -148,7 +148,8 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
                     DueTime = model.DueTime,
                     RequestedBy = model.RequestedBy,
                     LocationId = userFromSession.LocationId.Value,
-                    GroupId = userFromSession.GroupId.Value
+                    GroupId = userFromSession.GroupId.Value,
+                     AssetId = model.AssetId
                 };
                 var fullName = unitOfWork.employees.Get(filter: x => x.userId == reqAssest.createdBy).FirstOrDefault().FullName;
                 reqAssest.CreatedByFullName = fullName;
@@ -161,12 +162,12 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
         {
             if (HttpContext.Current.User.IsInRole("HR"))
             {          
-                var result = unitOfWork.RequestAsset.Get(filter: x=>x.GroupId == groupId && x.LocationId == locationId, includeProperties:"AssetCategory");
-                return result;
+                var result = unitOfWork.RequestAsset.Get(filter: x=>x.GroupId == groupId && x.LocationId == locationId, includeProperties:"AssetCategory,Asset");
+                return result.OrderBy(x=>x.DueTime);
             }
             var userId = HttpContext.Current.User.Identity.GetUserId();
-            var empResult = unitOfWork.RequestAsset.Get(filter: x => x.createdBy ==userId, includeProperties: "AssetCategory");
-            return empResult;
+            var empResult = unitOfWork.RequestAsset.Get(filter: x => x.createdBy ==userId, includeProperties: "AssetCategory,Asset");
+            return empResult.OrderBy(x => x.DueTime);
         }
         public bool AcceptRequest(int id)
         {
@@ -212,12 +213,23 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
 
         public Asset GetAssetDetail(int id)
         {
-            //var asset = unitOfWork.Asset.GetByID(id);
             var asset = unitOfWork.Asset.Get(filter: x =>x.ID == id, includeProperties: "AssetCategory,Group,Location").FirstOrDefault();
-            //asset.ImageUrl.Replace('~', ' ');
-            //var fullName = HttpContext.Current.Server.MapPath(asset.ImageUrl);
-            //asset.ImageUrl = fullName;
             return asset;
+        }
+        public IEnumerable<RequestAssetViewModel> AllRequestHistory(int groupId, int LocationId)
+        {
+            var History = unitOfWork.RequestAsset.Get(filter: x => x.GroupId == groupId && x.LocationId == LocationId, includeProperties: "AssetCategory,Asset")
+                .Select(x => new RequestAssetViewModel
+                {
+                    Amount = x.Amount,
+                    CreatedByFullName = x.CreatedByFullName,
+                    DueTime = x.DueTime,
+                    RequestedBy = x.RequestedBy,
+                     CategoryName = x.AssetCategory.Name,
+                   AssetName = x.Asset.Name,
+                   IsResolved=  x.IsResolved
+                });
+            return History;
         }
     }
 }

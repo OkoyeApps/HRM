@@ -4,35 +4,43 @@
     ViewBag.Title = "AllAssetCategory";
     Layout = "~/Views/Shared/Layouts/_HrLayout.cshtml";
 }
+@section css{
+
+    @Styles.Render("~/asset/tablecss");
+}
 <div class="table-responsive">
     <table class="table table-responsive table-bordered table-striped">
         @if (User.IsInRole("HR") || User.IsInRole("System Admin"))
         {
-        <tr>
-            <td>@Html.ActionLink("Add new category", "addassetcategory", "Asset", null, new { @Class = "btn btn-info pull-right" })</td>
-        </tr>
+            <tr>
+                <td>@Html.ActionLink("Add new category", "addassetcategory", "Asset", null, new { @Class = "btn btn-info pull-right" })</td>
+            </tr>
         }
         <tr>
             <td>
-                <table class="table table-responsive table-bordered table-striped">
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Name)
-                        </th>
-                        <th></th>
-                    </tr>
-
-                    @foreach (var item in Model)
-                    {
+                <table class="table table-responsive table-bordered table-striped" id="tblGeneral">
+                    <thead>
                         <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                @Html.ActionLink("Edit", "EditAssetCategory","Asset", new { id = item.ID }, new { @class = "btn btn-warning pull-right" })
-                            </td>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </th>
+                            <th></th>
                         </tr>
-                    }
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "EditAssetCategory","Asset", new { id = item.ID }, new { @class = "btn btn-warning pull-right" })
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
 
                 </table>
             </td>
@@ -40,3 +48,7 @@
 
     </table>
 </div>
+@section Scripts{
+    @Scripts.Render("~/assets/Table");
+    <script src="~/Scripts/Pages/JS/DataTableInitialization.js"></script>
+}

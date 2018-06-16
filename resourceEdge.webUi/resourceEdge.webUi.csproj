@@ -1229,6 +1229,7 @@
     <Content Include="Infrastructure\EmailTemplates\images\tw.jpg" />
     <Content Include="Scripts\Pages\AlertInterceptors.js" />
     <Content Include="Scripts\Pages\JS\Admin\Admin.js" />
+    <Content Include="Scripts\Pages\JS\Asset\RequestAsset.js" />
     <Content Include="Scripts\Pages\JS\colReorder.js" />
     <Content Include="Scripts\Pages\JS\Configuration\addPosition.js" />
     <Content Include="Scripts\Pages\JS\Configuration\EmpStatus.js" />
@@ -1527,6 +1528,8 @@
     <Content Include="Views\Employee\AllUnitHead.cshtml" />
     <Content Include="Views\SelfService\LeaveHistory.cshtml" />
     <Content Include="Views\Appraisal\ViewConfiguredAppraisal.cshtml" />
+    <Content Include="Views\Appraisal\MyAppraisal.cshtml" />
+    <Content Include="Views\Asset\RequestHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

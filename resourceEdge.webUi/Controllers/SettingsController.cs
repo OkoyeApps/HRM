@@ -518,6 +518,22 @@ namespace resourceEdge.webUi.Controllers
             return Ok(result);
         }
 
+        [Route("api/settings/GetAssetByCategory/{id:int}")]
+        [HttpGet]
+        public IHttpActionResult GetAssetByCategory(int? Id)
+        {
+            if (Id == null)
+            {
+                return BadRequest();
+            }
+            var result = Apimanager.GetAssetByCategory(Id.Value);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
+        
 
         // POST: api/Settings
         public void Post([FromBody]string value)

@@ -591,15 +591,15 @@ namespace resourceEdge.Domain.Entities
     {
         public int Id { get; set; }
         public int Category { get; set; }
+        public int AssetId { get; set; }
         public SelectList CategotyList { get; set; }
         public int Amount { get; set; }
         public DateTime? DueTime { get; set; }
         public string RequestedBy { get; set; }
-        public string createdBy { get; set; }
+        public string CategoryName { get; set; }
         public string CreatedByFullName { get; set; }
-        public string ModifiedBy { get; set; }
-        public DateTime? CreatedOn { get; set; }
-        public DateTime? ModifiedOn { get; set; }
+        public bool? IsResolved { get; set; }
+        public string AssetName { get; set; }
     }
     public class GeneralQuestionViewModel
     {

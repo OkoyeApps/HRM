@@ -219,6 +219,7 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
                     FullName = x.EmployeeName,
                     ReportManager = x.ReportingManager,
                     Date = x.ExpiryDate.Date.ToShortDateString(),
+                    Response = x.EmployeeStatement
                 }).ToList();
             allIncident.ToList().ForEach(x => x.FullName = unitofWork.employees.Get(filter: y => y.userId == x.FullName).FirstOrDefault().FullName);
             allIncident.ToList().ForEach(x => x.ReportManager = unitofWork.employees.Get(filter: y => y.userId == x.ReportManager).FirstOrDefault().FullName);
@@ -229,7 +230,8 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
         {
             try
             {
-                var allIncident = unitofWork.Discipline.Get(filter: x => x.GroupId == groupId && x.LocationId == LocationId, includeProperties: "CorrectiveAction,Violation,Department,BusinessUnit")
+
+                var allIncident = unitofWork.Discipline.Get(filter: x => x.GroupId == groupId && x.LocationId == LocationId && x.Id == Id, includeProperties: "CorrectiveAction,Violation,Department,BusinessUnit")
                  .Select(x => new DisciplineListItem
                  {
                      ID = x.Id,

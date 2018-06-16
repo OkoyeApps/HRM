@@ -531,7 +531,8 @@ namespace resourceEdge.webUi.Controllers
             var result = employeeManager.GetEmployeesByLocation(usersessionObject.LocationId.Value);
             return View(result);
         }
-       [RedirectPostInterceptor(Order =1),HttpPost, ValidateAntiForgeryToken(Order =2)]
+       //[ValidateAntiForgeryToken(Order = 2)]
+       [RedirectPostInterceptor(Order =1),HttpPost]
         public ActionResult ViewQuestion(string key)
         {
             ViewBag.PageTitle =$"{employeeManager.GetEmployeeByUserId(key).FullName} performance Indicator";

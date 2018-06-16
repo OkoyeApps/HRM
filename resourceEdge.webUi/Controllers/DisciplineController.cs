@@ -125,7 +125,7 @@ namespace resourceEdge.webUi.Controllers
         [CustomAuthorizationFilter(Roles = "HR, System Admin")]
         public ActionResult AllIncident()
         {
-            ViewBag.PageTitle = "All RaisedIncident(s)";
+            ViewBag.PageTitle = "All Raised Incident(s)";
             var userDetails = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
             var result = disciplineManager.AllIncident(userDetails.GroupId.Value, userDetails.LocationId.Value);
             return View(result);
@@ -185,7 +185,7 @@ namespace resourceEdge.webUi.Controllers
         {
            
             var result = disciplineManager.GetIncidentById(id);
-            if (result.ExpiryDate > DateTime.Now)
+            if (result.ExpiryDate < DateTime.Now)
             {
                 return View("Error");
             }
