@@ -86,6 +86,10 @@ namespace resourceEdge.Domain.UnitofWork
         private GenericRepository<Skill> skillRepo;
         private GenericRepository<TrainingAndCertification> trainingRepo;
         private GenericRepository<Visa> visaRepo;
+        private GenericRepository<AppUserClaim> appUserClaimRepo;
+        private GenericRepository<Claim> claimRepo;
+        private GenericRepository<EmployeeUnitDepartment> employeeunitdeptRepo;
+        private GenericRepository<EmployeeConfiguration> employeeConfigRepo;
         private EdgeDbContext Context
         {
             get
@@ -106,6 +110,22 @@ namespace resourceEdge.Domain.UnitofWork
             return myContext;
         }
 
+        public GenericRepository<AppUserClaim> AppUserClaim
+        {
+            get { return this.appUserClaimRepo ?? new GenericRepository<Entities.AppUserClaim>(Context); }
+        }
+        public GenericRepository<Claim> Claim
+        {
+            get { return this.claimRepo ?? new GenericRepository<Entities.Claim>(Context);}
+        }
+        public GenericRepository<EmployeeConfiguration> EmployeeConfiguration
+        {
+            get { return this.employeeConfigRepo ?? new GenericRepository<Entities.EmployeeConfiguration>(Context); }
+        }
+        public GenericRepository<EmployeeUnitDepartment> EmpUnitDepartment
+        {
+            get { return this.employeeunitdeptRepo ?? new GenericRepository<EmployeeUnitDepartment>(Context); }
+        }
         public GenericRepository<BusinessUnit> BusinessUnit
         {
             get { return this.BusinessRepo ?? new GenericRepository<BusinessUnit>(Context); }
@@ -327,7 +347,7 @@ namespace resourceEdge.Domain.UnitofWork
         }
         public GenericRepository<Violation> Violation
         {
-            get { return this.violationRepo ?? new GenericRepository<Entities.Violation>(Context);}
+            get { return this.violationRepo ?? new GenericRepository<Entities.Violation>(Context); }
         }
         public GenericRepository<Consequence> Consequence
         {

@@ -189,6 +189,7 @@
     <Compile Include="Concrete\RequestAssetRepository.cs" />
     <Compile Include="Concrete\RequisitionRepo.cs" />
     <Compile Include="DbEntities\products.cs" />
+    <Compile Include="Entities\ActionMethod.cs" />
     <Compile Include="Entities\ActivityLog.cs" />
     <Compile Include="Entities\Announcement.cs" />
     <Compile Include="Entities\AppraisalPeriod.cs" />
@@ -210,6 +211,7 @@
     <Compile Include="Entities\CandidateStatus.cs" />
     <Compile Include="Entities\CandidateWorkDetail.cs" />
     <Compile Include="Entities\Consequence.cs" />
+    <Compile Include="Entities\Controller.cs" />
     <Compile Include="Entities\DisciplinaryIncident.cs" />
     <Compile Include="Entities\EmployeeArchives\AdditionalDetail.cs" />
     <Compile Include="Entities\EmployeeArchives\Contact.cs" />
@@ -275,8 +277,9 @@
     <Compile Include="Entities\SubGroup.cs" />
     <Compile Include="Entities\SystemAdmin.cs" />
     <Compile Include="Entities\Users\AppUser.cs" />
+    <Compile Include="Entities\Users\AppUserClaim.cs" />
     <Compile Include="Entities\Users\Claim.cs" />
-    <Compile Include="Entities\Users\EmployeeBusinessUnit.cs" />
+    <Compile Include="Entities\Users\EmployeeUnitDepartment.cs" />
     <Compile Include="Entities\Users\EmployeeConfiguration.cs" />
     <Compile Include="Entities\Violation.cs" />
     <Compile Include="Entities\WeekDay.cs" />

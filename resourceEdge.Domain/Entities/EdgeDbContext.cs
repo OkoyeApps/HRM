@@ -37,7 +37,10 @@ namespace resourceEdge.Domain.Entities
             //base.OnModelCreating(modelBuilder);
             // throw new UnintentionalCodeFirstException();
         }
-
+        public DbSet<AppUserClaim> AppUserClaim { get; set; }
+        public DbSet<Claim> Claim { get; set; }
+        public DbSet<EmployeeUnitDepartment> EmployeeBusinessUnitDepartment { get; set; }
+        public DbSet<EmployeeConfiguration> EmployeeConfiguration { get; set; }
         public virtual DbSet<Employee> Employee { get; set; }
         public virtual DbSet<IdentityCode> IdentityCode { get; set; }
         public virtual DbSet<BusinessUnit> Businessunit { get; set; }
