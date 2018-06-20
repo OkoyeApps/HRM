@@ -19,16 +19,20 @@ namespace resourceEdge.Domain.Entities
         public string unitcode { get; set; }
         public string descriptions { get; set; }
         public DateTime? startdate { get; set; }
-        [ForeignKey("Employee")]
+        //[ForeignKey("Employee")]
         public string reportManager1 { get; set; }
         public string reportManager2 { get; set; }
+        public string reportManager3 { get; set; }
         public int? LocationId { get; set; }
+        public bool? Primary { get; set; }
         public string createdby { get; set; }
         public string modifiedby { get; set; }
+
         public Nullable<System.DateTime> createddate { get; set; }
         public Nullable<System.DateTime> modifieddate { get; set; }
         public Nullable<bool> isactive { get; set; }
-        public  ICollection<Employee> Employee { get; set; }
+        //public  ICollection<Employee> Employee { get; set; }
+        public ICollection<Department> Deparments { get; set; }
         public  Location Location { get; set; }
     }
 }

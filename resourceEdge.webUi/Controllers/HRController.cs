@@ -62,7 +62,7 @@ namespace resourceEdge.webUi.Controllers
             QuestionRepo = Qparam;
             empdetail = new EmployeeManager.EmployeeDetails();
             employeeManager = new EmployeeManager(empParam, rParam, Mailparam);
-            UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
+            UserManager = new ApplicationUserManager(new UserStore<AppUser>(db));
             ConfigManager = new ConfigurationManager();
             dropDownManager = new DropDownManager();
         }
@@ -451,7 +451,7 @@ namespace resourceEdge.webUi.Controllers
         {
             if (model.empEmail != null)
             {
-                ApplicationUser user = new ApplicationUser()
+                AppUser user = new AppUser()
                 {
                     Email = model.empEmail,
                     UserName = model.empEmail,

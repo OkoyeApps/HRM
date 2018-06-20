@@ -21,7 +21,8 @@ namespace resourceEdge.webUi.Controllers
         }
         public ActionResult Index()
         {
-            return View(repo.product);
+            return View();
+//            return View(repo.product);
         }
 
         public ActionResult About()

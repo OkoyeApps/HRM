@@ -16,14 +16,15 @@ using System.Collections.Generic;
 using resourceEdge.Domain.Concrete;
 using resourceEdge.webUi.Infrastructure.Handlers;
 using resourceEdge.webUi.Infrastructure.Core;
+using AuthManager.Core;
 
 namespace resourceEdge.webUi.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
-        private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;
+        private AuthManager.Core.ApplicationSignInManager _signInManager;
+        private AuthUserManager _userManager;
         private ILogin LoginRepo = new LoginRepository();
 
         public AccountController()
@@ -31,17 +32,17 @@ namespace resourceEdge.webUi.Controllers
 
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public AccountController(AuthUserManager userManager, AuthManager.Core.ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
         }
 
-        public ApplicationSignInManager SignInManager
+        public AuthManager.Core.ApplicationSignInManager SignInManager
         {
             get
             {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+                return _signInManager ?? HttpContext.GetOwinContext().Get<AuthManager.Core.ApplicationSignInManager>();
             }
             private set
             {
@@ -49,11 +50,11 @@ namespace resourceEdge.webUi.Controllers
             }
         }
 
-        public ApplicationUserManager UserManager
+        public AuthUserManager UserManager
         {
             get
             {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<AuthUserManager>();
             }
             private set
             {
@@ -178,10 +179,10 @@ namespace resourceEdge.webUi.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.emailaddress, Email = model.emailaddress };
-                var result = await UserManager.CreateAsync(user, model.emppassword);
+                var user = new AppUser { UserName = model.Email, Email = model.Email };
+                var result = await UserManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {
@@ -397,7 +398,7 @@ namespace resourceEdge.webUi.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new AppUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

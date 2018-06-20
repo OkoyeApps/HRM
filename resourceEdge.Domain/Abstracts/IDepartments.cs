@@ -9,11 +9,11 @@ namespace resourceEdge.Domain.Abstracts
 {
    public interface IDepartments
     {
-        IEnumerable<Departments> Getdepartment();
-        Departments GetdepartmentById(int id);
-        void addepartment(Departments department);
-        void Updatedepartment(Departments department);
+        IEnumerable<Department> Getdepartment();
+        Department GetdepartmentById(int id);
+        void addepartment(Department department);
+        void Updatedepartment(Department department);
         void DeleteDepartment(int id);
-        List<Departments> GetDepartmentByUnit(int id);
+        List<Department> GetDepartmentByUnit(int id);
     }
 }

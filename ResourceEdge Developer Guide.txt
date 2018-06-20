@@ -1,0 +1,19 @@
+Actually this is silly but in order to avoid alot of head aches
+Firstly we have currently Four parts of the system 
+Resource Edge Core and this consist of two projects
+Authmanager and Resource Edge Logic
+we also have resource layer which consists of
+Resource Edge Domaina and webUI
+
+leave long stories for now...
+When you pull from git Check into testbranch2 for Former working edge ot TestBranch3 for current changes
+when you check into testbranch3, this would give you assess to the most current development updates
+Firstly, change the connection strings for the projects which is found in both Authmanager and WebUi webconfig
+This project uses migrations to keep the database sychronized, you must run the update the database command 
+from the package manager configuration console. if this fails with error message of "More than one Configuration Context found in the assembly resourceedge.webUi"
+then you have to use the Configuration Command when running the Update command, and this configuration Context is found in the migration Folder of each project
+You are advised to run the AuthManager migration first, because it creates the required AspNet Tables.
+then the Domain Migration can then be ran.
+Example you can run the Update command for the Authmanager using
+-- Update-database -ConfigurationTypeName:AuthManager.Migration.Configuration -verbose
+this shoulf run the update command successfully

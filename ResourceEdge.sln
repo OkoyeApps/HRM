@@ -9,6 +9,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "resourceEdge.webUi", "resou
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "resourceEdge.webUi.Tests", "resourceEdge.webUi.Tests\resourceEdge.webUi.Tests.csproj", "{FCE3A656-7058-4B66-846D-12FCAA491B93}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ResourceEdge Core", "ResourceEdge Core", "{62EC2073-C853-4974-883D-3CE83E50A405}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthManager", "AuthManager\AuthManager.csproj", "{CC55B8B8-5538-4537-81C4-36203A76609C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEdge.Logic", "ResourceEdge.Logic\ResourceEdge.Logic.csproj", "{02330122-FB2A-4744-8CF4-94A979890263}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{551DA5C0-89D9-4814-8B79-AAABCD5701C2}"
+	ProjectSection(SolutionItems) = preProject
+		ResourceEdge Developer Guide.txt = ResourceEdge Developer Guide.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,8 +38,20 @@ Global
 		{FCE3A656-7058-4B66-846D-12FCAA491B93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCE3A656-7058-4B66-846D-12FCAA491B93}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCE3A656-7058-4B66-846D-12FCAA491B93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC55B8B8-5538-4537-81C4-36203A76609C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC55B8B8-5538-4537-81C4-36203A76609C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC55B8B8-5538-4537-81C4-36203A76609C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC55B8B8-5538-4537-81C4-36203A76609C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02330122-FB2A-4744-8CF4-94A979890263}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02330122-FB2A-4744-8CF4-94A979890263}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02330122-FB2A-4744-8CF4-94A979890263}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02330122-FB2A-4744-8CF4-94A979890263}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CC55B8B8-5538-4537-81C4-36203A76609C} = {62EC2073-C853-4974-883D-3CE83E50A405}
+		{02330122-FB2A-4744-8CF4-94A979890263} = {62EC2073-C853-4974-883D-3CE83E50A405}
 	EndGlobalSection
 EndGlobal

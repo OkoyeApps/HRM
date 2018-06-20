@@ -34,7 +34,7 @@ namespace resourceEdge.Domain.Entities
         public Consequence CorrectiveAction { get; set; }
         public Group Group { get; set; }
         public Location Location { get; set; }
-        public Departments Department { get; set; }
+        public Department Department { get; set; }
         public BusinessUnit BusinessUnit { get; set; }
     }
 }

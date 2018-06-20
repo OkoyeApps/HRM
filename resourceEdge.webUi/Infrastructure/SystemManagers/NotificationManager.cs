@@ -15,7 +15,7 @@ namespace resourceEdge.webUi.Infrastructure
 {
     public class NotificationManager
     {
-        ApplicationUserManager UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+        ApplicationUserManager UserManager = new ApplicationUserManager(new UserStore<AppUser>(new ApplicationDbContext()));
         public async Task<bool> sendEmailNotification(EmailObject Mail,  HttpPostedFileBase attachment=null)
         {
             //string body;

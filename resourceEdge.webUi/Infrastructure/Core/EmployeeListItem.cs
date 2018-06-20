@@ -31,7 +31,7 @@ namespace resourceEdge.webUi.Infrastructure.Core
         public BusinessUnit Units { get; set; }
         public Group Group { get; set; }
         public Location Location { get; set; }
-        public Departments Department { get; set; }
+        public Department Department { get; set; }
     }
     public class EmloyeeDetailistItem
     {

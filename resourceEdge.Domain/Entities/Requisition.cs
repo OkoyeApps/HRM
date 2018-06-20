@@ -43,7 +43,7 @@ namespace resourceEdge.Domain.Entities
         public DateTime? modifiedDate { get; set; }
         public string Isactive { get; set; }
         public BusinessUnit BusinessUnit { get; set; }
-        public Departments Department { get; set; }
+        public Department Department { get; set; }
         public Jobtitle JobTitle { get; set; }
         public Position Position { get; set; }
         public Group Group { get; set; }

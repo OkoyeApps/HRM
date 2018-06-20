@@ -15,7 +15,7 @@ namespace resourceEdge.Domain.UnitofWork
 
         private EdgeDbContext myContext;
         private GenericRepository<BusinessUnit> BusinessRepo;
-        private GenericRepository<Departments> departmentRepo;
+        private GenericRepository<Department> departmentRepo;
         private GenericRepository<Employee> employeesRepo;
         private GenericRepository<EmploymentStatus> employementStatusRepo;
         private GenericRepository<IdentityCode> identitycodesRepo;
@@ -110,9 +110,9 @@ namespace resourceEdge.Domain.UnitofWork
         {
             get { return this.BusinessRepo ?? new GenericRepository<BusinessUnit>(Context); }
         }
-        public GenericRepository<Departments> Department
+        public GenericRepository<Department> Department
         {
-            get { return this.departmentRepo ?? new GenericRepository<Departments>(Context); }
+            get { return this.departmentRepo ?? new GenericRepository<Department>(Context); }
         }
         public GenericRepository<Employee> employees
         {

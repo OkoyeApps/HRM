@@ -19,21 +19,21 @@ namespace resourceEdge.webUi.Infrastructure
     {
         private static ApplicationDbContext context = new ApplicationDbContext();
         static UnitOfWork unitOfWork = new UnitOfWork();
-        public static ApplicationUserManager userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
+        public static ApplicationUserManager userManager = new ApplicationUserManager(new UserStore<AppUser>(context));
 
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
 
-        public static async Task<Tuple<ApplicationUser, string>> CreateUser(
+        public static async Task<Tuple<AppUser, string>> CreateUser(
             string email, string empRole, string userstatus, string fname, string lname, string phoneNo,
             string empId, string jobId, string Comments, string createdBy, string modifiedBy, string modeofEntry, DateTime? selectedDate, string candidateReferredBy, bool? isactive
             , string DeptId, string BUnitId, int groupId, int locationId)
         {
             try
             {
-                var user = new ApplicationUser()
+                var user = new AppUser()
                 {
 
                     UserName = email,
@@ -183,7 +183,7 @@ namespace resourceEdge.webUi.Infrastructure
             }
             return false;
         }
-        public static ApplicationUser getEmployeeIdFromUserTable(string userid)
+        public static AppUser getEmployeeIdFromUserTable(string userid)
         {
             var result = context.Users.Find(userid);
             return result ?? null;

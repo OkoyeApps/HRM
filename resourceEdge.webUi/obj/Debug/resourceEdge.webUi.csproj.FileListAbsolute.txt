@@ -98,8 +98,7 @@ C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdg
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.webUi\bin\es\Hangfire.Core.resources.dll
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.webUi\bin\zh\Hangfire.Core.resources.dll
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.webUi\obj\Debug\resourceEdge.webUi.csprojResolveAssemblyReference.cache
-C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.webUi\obj\Debug\resourceEdge.webUi.Migrations.ApplicationDbConntextMigrations.InitialCreate.resources
-C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.webUi\obj\Debug\resourceEdge.webUi.Migrations.ApplicationDbConntextMigrations.IdentitymodelupdatedwithnullablegroupandlocationId.resources
-C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.webUi\obj\Debug\resourceEdge.webUi.csproj.GenerateResource.Cache
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.webUi\obj\Debug\resourceEdge.webUi.dll
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.webUi\obj\Debug\resourceEdge.webUi.pdb
+C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.webUi\bin\AuthManager.dll
+C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.webUi\bin\AuthManager.pdb

@@ -9,13 +9,13 @@ using resourceEdge.webUi.Models;
 
 namespace resourceEdge.webUi.Security.CustomValidators
 {
-    public class CustomUserValidator : UserValidator<ApplicationUser>
+    public class CustomUserValidator : UserValidator<AppUser>
     {
         public CustomUserValidator(ApplicationUserManager manager) : base(manager)
         {
         }
 
-        public override async Task<IdentityResult> ValidateAsync(ApplicationUser user)
+        public override async Task<IdentityResult> ValidateAsync(AppUser user)
         {
             IdentityResult result = await base.ValidateAsync(user);
             if (!user.Email.ToLower().EndsWith("@tenece.com"))
@@ -27,7 +27,7 @@ namespace resourceEdge.webUi.Security.CustomValidators
             return result;
         }
 
-        public IdentityResult Validate(ApplicationUser user)
+        public IdentityResult Validate(AppUser user)
         {
             IdentityResult result = Validate(user);
             if (!user.Email.ToLower().EndsWith("@tenece.com"))

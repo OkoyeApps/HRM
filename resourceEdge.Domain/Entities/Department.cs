@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace resourceEdge.Domain.Entities
 {
-    public partial class Departments
+    public partial class Department
     {
         [Key]
         public int Id { get; set; }
@@ -23,6 +23,7 @@ namespace resourceEdge.Domain.Entities
         public string depthead { get; set; }
        //[ForeignKey("BusinessUnits")]
         public int BusinessUnitsId { get; set; }
+        public bool? Primary { get; set; }
         public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }
         public DateTime? CreatedDate { get; set; }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using resourceEdge.Domain.Abstracts;
+using resourceEdge.Domain.Entities;
 using resourceEdge.webUi.Models;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace resourceEdge.webUi.Infrastructure
         
         public BackendValidationManager()
         {
-            UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(dbContext));
+            UserManager = new ApplicationUserManager(new UserStore<AppUser>(dbContext));
         }
         public BackendValidationManager(IEmployees eParam)
         {

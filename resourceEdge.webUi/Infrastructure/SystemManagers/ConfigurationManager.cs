@@ -75,7 +75,7 @@ namespace resourceEdge.webUi.Infrastructure
 
             if (model != null)
             {
-                Departments Dept = new Departments()
+                Department Dept = new Department()
                 {
                     BusinessUnitsId = model.BunitId,
                     CreatedBy = UserId,
@@ -460,10 +460,10 @@ namespace resourceEdge.webUi.Infrastructure
             var codes = unitOfWork.identityCodes.Get(includeProperties: "Group");
             return codes;
         }
-        public IEnumerable<Departments> GetAllDepartment(int? groupId=null, int? locationId=null)
+        public IEnumerable<Department> GetAllDepartment(int? groupId=null, int? locationId=null)
         {
             //Fix this later for the locations to see only the location Departments
-            IEnumerable<Departments> department = new List<Departments>();
+            IEnumerable<Department> department = new List<Department>();
             if (groupId != null && locationId == null)
             {
                 department = unitOfWork.Department.Get(filter: x=> x.GroupId == groupId, includeProperties: "BusinessUnits,Location,Group").OrderBy(x=>x.Location.State);

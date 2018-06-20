@@ -23,7 +23,7 @@ namespace resourceEdge.Domain.Entities
         public Group Group { get; set; }
         public Location Location { get; set; }
         public BusinessUnit BusinessUnit { get; set; }
-        public Departments Department { get; set; }
+        public Department Department { get; set; }
 
     }
 }

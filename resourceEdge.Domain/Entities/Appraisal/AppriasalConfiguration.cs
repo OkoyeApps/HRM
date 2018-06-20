@@ -29,6 +29,6 @@ namespace resourceEdge.Domain.Entities
         public bool IsActive { get; set; }
         public AppraisalInitialization AppraisalInitialization { get; set; }
         public BusinessUnit BusinessUnit { get; set; }
-        public Departments Department { get; set; }
+        public Department Department { get; set; }
     }
 }

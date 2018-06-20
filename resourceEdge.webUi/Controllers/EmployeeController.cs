@@ -40,7 +40,7 @@ namespace resourceEdge.webUi.Controllers
             jobRepo = jParam;
             QuestionRepo = Qparam;
             EmpManager = new EmployeeManager(EParam,fParam, LParam, payParam);
-            UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            UserManager = new ApplicationUserManager(new UserStore<AppUser>(new ApplicationDbContext()));
             EmpDetails = new EmployeeDetails();
             EmpEdit = new EmployeeEdit(EParam,fParam,LParam,payParam);
         }

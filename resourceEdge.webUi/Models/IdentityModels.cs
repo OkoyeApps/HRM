@@ -8,8 +8,8 @@ using resourceEdge.Domain.Entities;
 
 namespace resourceEdge.webUi.Models
 {
-    // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
-    public class ApplicationUser : IdentityUser
+    // You can add profile data for the user by adding more properties to your AppUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
+    public class AppUser1 : IdentityUser
     {
         public string EmpRole { get; set; }
         public string UserStatus { get; set; }
@@ -34,7 +34,7 @@ namespace resourceEdge.webUi.Models
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public Nullable<bool> Isactive { get; set; }
 
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<AppUser1> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
@@ -44,12 +44,12 @@ namespace resourceEdge.webUi.Models
 
     }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<AppUser>
     {
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
-         
+            //AppDomain.CurrentDomain.SetData("DataDirectory", System.IO.Directory.GetCurrentDirectory());
         }
         public static ApplicationDbContext Create()
         {            

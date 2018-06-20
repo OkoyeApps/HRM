@@ -284,16 +284,6 @@
     <Compile Include="Infrastructure\SystemManagers\RoleManager.cs" />
     <Compile Include="Infrastructure\SystemManagers\StatManager.cs" />
     <Compile Include="Infrastructure\SystemManagers\UserManager.cs" />
-    <Compile Include="Migrations\ApplicationDbConntextMigrations\201803211503312_InitialCreate.cs" />
-    <Compile Include="Migrations\ApplicationDbConntextMigrations\201803211503312_InitialCreate.Designer.cs">
-      <DependentUpon>201803211503312_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\ApplicationDbConntextMigrations\201806081202338_Identity model updated with nullable group and location Id.cs" />
-    <Compile Include="Migrations\ApplicationDbConntextMigrations\201806081202338_Identity model updated with nullable group and location Id.Designer.cs">
-      <DependentUpon>201806081202338_Identity model updated with nullable group and location Id.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\ApplicationDbConntextMigrations\Configuration.cs" />
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\SystemModel\AllSystemModels.cs" />
     <Compile Include="Models\SystemModel\BreadCrumb.cs" />
@@ -1554,6 +1544,10 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AuthManager\AuthManager.csproj">
+      <Project>{cc55b8b8-5538-4537-81c4-36203a76609c}</Project>
+      <Name>AuthManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\resourceEdge.Domain\resourceEdge.Domain.csproj">
       <Project>{d58b47c7-a8f2-4aaa-9c31-2007341ae20d}</Project>
       <Name>resourceEdge.Domain</Name>
@@ -1561,14 +1555,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\ApplicationDbConntextMigrations\201803211503312_InitialCreate.resx">
-      <DependentUpon>201803211503312_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\ApplicationDbConntextMigrations\201806081202338_Identity model updated with nullable group and location Id.resx">
-      <DependentUpon>201806081202338_Identity model updated with nullable group and location Id.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

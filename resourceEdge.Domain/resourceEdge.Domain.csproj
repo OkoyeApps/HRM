@@ -240,7 +240,7 @@
     <Compile Include="Entities\CareerPath.cs" />
     <Compile Include="Entities\Career.cs" />
     <Compile Include="Entities\EdgeDbContext.cs" />
-    <Compile Include="Entities\Departments.cs" />
+    <Compile Include="Entities\Department.cs" />
     <Compile Include="Entities\EmpHoliday.cs" />
     <Compile Include="Entities\EmployeeDetailDispatcher.cs" />
     <Compile Include="Entities\EmployeeLeave.cs" />
@@ -272,172 +272,16 @@
     <Compile Include="Entities\Requisition.cs" />
     <Compile Include="Entities\RequisitionHistory.cs" />
     <Compile Include="Entities\RequisitionSummary.cs" />
+    <Compile Include="Entities\SubGroup.cs" />
     <Compile Include="Entities\SystemAdmin.cs" />
+    <Compile Include="Entities\Users\AppUser.cs" />
+    <Compile Include="Entities\Users\Claim.cs" />
+    <Compile Include="Entities\Users\EmployeeBusinessUnit.cs" />
+    <Compile Include="Entities\Users\EmployeeConfiguration.cs" />
     <Compile Include="Entities\Violation.cs" />
     <Compile Include="Entities\WeekDay.cs" />
     <Compile Include="Entities\Week.cs" />
     <Compile Include="Infrastructures\Enumerations.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201804201720491_InitialDatabaseCreation.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201804201720491_InitialDatabaseCreation.Designer.cs">
-      <DependentUpon>201804201720491_InitialDatabaseCreation.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201804210321200_Association update For Level.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201804210321200_Association update For Level.Designer.cs">
-      <DependentUpon>201804210321200_Association update For Level.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201804241139157_Update for Requisition Candidate Details.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201804241139157_Update for Requisition Candidate Details.Designer.cs">
-      <DependentUpon>201804241139157_Update for Requisition Candidate Details.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201804241317361_Update for Requisition Candidate Details2.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201804241317361_Update for Requisition Candidate Details2.Designer.cs">
-      <DependentUpon>201804241317361_Update for Requisition Candidate Details2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201804251543428_Interview detail Update.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201804251543428_Interview detail Update.Designer.cs">
-      <DependentUpon>201804251543428_Interview detail Update.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201804251555561_Interview detail Update2.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201804251555561_Interview detail Update2.Designer.cs">
-      <DependentUpon>201804251555561_Interview detail Update2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201804260747225_interviewUpdate.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201804260747225_interviewUpdate.Designer.cs">
-      <DependentUpon>201804260747225_interviewUpdate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201804261237054_interviewUpdate2.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201804261237054_interviewUpdate2.Designer.cs">
-      <DependentUpon>201804261237054_interviewUpdate2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201804261454058_RequisitionUpdate.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201804261454058_RequisitionUpdate.Designer.cs">
-      <DependentUpon>201804261454058_RequisitionUpdate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201804281244242_Update to requisition Association.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201804281244242_Update to requisition Association.Designer.cs">
-      <DependentUpon>201804281244242_Update to requisition Association.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201805011127514_Asset and AssetCategory added.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201805011127514_Asset and AssetCategory added.Designer.cs">
-      <DependentUpon>201805011127514_Asset and AssetCategory added.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201805021801178_AssetRequisition Entity.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201805021801178_AssetRequisition Entity.Designer.cs">
-      <DependentUpon>201805021801178_AssetRequisition Entity.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201805030909032_AssetRequisition Update to serialNumber.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201805030909032_AssetRequisition Update to serialNumber.Designer.cs">
-      <DependentUpon>201805030909032_AssetRequisition Update to serialNumber.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201805071204386_Candidate groupId added.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201805071204386_Candidate groupId added.Designer.cs">
-      <DependentUpon>201805071204386_Candidate groupId added.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201805071235183_Requistion groupId added.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201805071235183_Requistion groupId added.Designer.cs">
-      <DependentUpon>201805071235183_Requistion groupId added.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201805081200268_Asset,AssetCategory and RequestAsset group and location Update.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201805081200268_Asset,AssetCategory and RequestAsset group and location Update.Designer.cs">
-      <DependentUpon>201805081200268_Asset,AssetCategory and RequestAsset group and location Update.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201805081340343_update for groups for entitites leave,reportmanager,requestAsset.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201805081340343_update for groups for entitites leave,reportmanager,requestAsset.Designer.cs">
-      <DependentUpon>201805081340343_update for groups for entitites leave,reportmanager,requestAsset.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201805100818463_Update to AppraisalInitialization.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201805100818463_Update to AppraisalInitialization.Designer.cs">
-      <DependentUpon>201805100818463_Update to AppraisalInitialization.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201805111156237_General Question Entity added.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201805111156237_General Question Entity added.Designer.cs">
-      <DependentUpon>201805111156237_General Question Entity added.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201805111358031_Appraisal Question GroupId and Departmentid Update and unitId.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201805111358031_Appraisal Question GroupId and Departmentid Update and unitId.Designer.cs">
-      <DependentUpon>201805111358031_Appraisal Question GroupId and Departmentid Update and unitId.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201805121422546_DepartmentQuestion association update.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201805121422546_DepartmentQuestion association update.Designer.cs">
-      <DependentUpon>201805121422546_DepartmentQuestion association update.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201805141522323_httpmethod for activity log.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201805141522323_httpmethod for activity log.Designer.cs">
-      <DependentUpon>201805141522323_httpmethod for activity log.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201805171052340_All Discipline and related model added.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201805171052340_All Discipline and related model added.Designer.cs">
-      <DependentUpon>201805171052340_All Discipline and related model added.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201805171314011_Update to Discipline model.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201805171314011_Update to Discipline model.Designer.cs">
-      <DependentUpon>201805171314011_Update to Discipline model.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201805180809436_Update to Discipline model2.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201805180809436_Update to Discipline model2.Designer.cs">
-      <DependentUpon>201805180809436_Update to Discipline model2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201805180830217_Update to Discipline model3.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201805180830217_Update to Discipline model3.Designer.cs">
-      <DependentUpon>201805180830217_Update to Discipline model3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201805180844585_Update to Discipline model 4.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201805180844585_Update to Discipline model 4.Designer.cs">
-      <DependentUpon>201805180844585_Update to Discipline model 4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201805191349454_Update to Asset Group and Location 1.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201805191349454_Update to Asset Group and Location 1.Designer.cs">
-      <DependentUpon>201805191349454_Update to Asset Group and Location 1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201805210818001_-Asset serialnumber update to string.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201805210818001_-Asset serialnumber update to string.Designer.cs">
-      <DependentUpon>201805210818001_-Asset serialnumber update to string.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201805220709335_Requisition locationId added.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201805220709335_Requisition locationId added.Designer.cs">
-      <DependentUpon>201805220709335_Requisition locationId added.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201805220804366_Location locationId added.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201805220804366_Location locationId added.Designer.cs">
-      <DependentUpon>201805220804366_Location locationId added.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201805241902164_System admin model added.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201805241902164_System admin model added.Designer.cs">
-      <DependentUpon>201805241902164_System admin model added.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201805251607114_nullable locationId for job.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201805251607114_nullable locationId for job.Designer.cs">
-      <DependentUpon>201805251607114_nullable locationId for job.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201805291115419_Birthday and ammouncement model added.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201805291115419_Birthday and ammouncement model added.Designer.cs">
-      <DependentUpon>201805291115419_Birthday and ammouncement model added.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201806041630558_Update to employee model asssociation.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201806041630558_Update to employee model asssociation.Designer.cs">
-      <DependentUpon>201806041630558_Update to employee model asssociation.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201806061607439_Employee Archive added.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201806061607439_Employee Archive added.Designer.cs">
-      <DependentUpon>201806061607439_Employee Archive added.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201806071549178_Department Location and Group Association Added.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201806071549178_Department Location and Group Association Added.Designer.cs">
-      <DependentUpon>201806071549178_Department Location and Group Association Added.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201806081228335_Report manager model association updated.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201806081228335_Report manager model association updated.Designer.cs">
-      <DependentUpon>201806081228335_Report manager model association updated.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201806120823463_Appraisal Configuration Association Update.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201806120823463_Appraisal Configuration Association Update.Designer.cs">
-      <DependentUpon>201806120823463_Appraisal Configuration Association Update.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\201806132049309_Request Asset model Association update.cs" />
-    <Compile Include="Migrations\EdgeDbContext2\201806132049309_Request Asset model Association update.Designer.cs">
-      <DependentUpon>201806132049309_Request Asset model Association update.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\EdgeDbContext2\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitofWork\GenericRepository.cs" />
     <Compile Include="UnitofWork\UnitOfWork.cs" />
@@ -466,128 +310,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201804201720491_InitialDatabaseCreation.resx">
-      <DependentUpon>201804201720491_InitialDatabaseCreation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201804210321200_Association update For Level.resx">
-      <DependentUpon>201804210321200_Association update For Level.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201804241139157_Update for Requisition Candidate Details.resx">
-      <DependentUpon>201804241139157_Update for Requisition Candidate Details.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201804241317361_Update for Requisition Candidate Details2.resx">
-      <DependentUpon>201804241317361_Update for Requisition Candidate Details2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201804251543428_Interview detail Update.resx">
-      <DependentUpon>201804251543428_Interview detail Update.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201804251555561_Interview detail Update2.resx">
-      <DependentUpon>201804251555561_Interview detail Update2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201804260747225_interviewUpdate.resx">
-      <DependentUpon>201804260747225_interviewUpdate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201804261237054_interviewUpdate2.resx">
-      <DependentUpon>201804261237054_interviewUpdate2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201804261454058_RequisitionUpdate.resx">
-      <DependentUpon>201804261454058_RequisitionUpdate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201804281244242_Update to requisition Association.resx">
-      <DependentUpon>201804281244242_Update to requisition Association.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805011127514_Asset and AssetCategory added.resx">
-      <DependentUpon>201805011127514_Asset and AssetCategory added.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805021801178_AssetRequisition Entity.resx">
-      <DependentUpon>201805021801178_AssetRequisition Entity.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805030909032_AssetRequisition Update to serialNumber.resx">
-      <DependentUpon>201805030909032_AssetRequisition Update to serialNumber.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805071204386_Candidate groupId added.resx">
-      <DependentUpon>201805071204386_Candidate groupId added.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805071235183_Requistion groupId added.resx">
-      <DependentUpon>201805071235183_Requistion groupId added.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805081200268_Asset,AssetCategory and RequestAsset group and location Update.resx">
-      <DependentUpon>201805081200268_Asset,AssetCategory and RequestAsset group and location Update.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805081340343_update for groups for entitites leave,reportmanager,requestAsset.resx">
-      <DependentUpon>201805081340343_update for groups for entitites leave,reportmanager,requestAsset.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805100818463_Update to AppraisalInitialization.resx">
-      <DependentUpon>201805100818463_Update to AppraisalInitialization.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805111156237_General Question Entity added.resx">
-      <DependentUpon>201805111156237_General Question Entity added.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805111358031_Appraisal Question GroupId and Departmentid Update and unitId.resx">
-      <DependentUpon>201805111358031_Appraisal Question GroupId and Departmentid Update and unitId.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805121422546_DepartmentQuestion association update.resx">
-      <DependentUpon>201805121422546_DepartmentQuestion association update.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805141522323_httpmethod for activity log.resx">
-      <DependentUpon>201805141522323_httpmethod for activity log.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805171052340_All Discipline and related model added.resx">
-      <DependentUpon>201805171052340_All Discipline and related model added.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805171314011_Update to Discipline model.resx">
-      <DependentUpon>201805171314011_Update to Discipline model.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805180809436_Update to Discipline model2.resx">
-      <DependentUpon>201805180809436_Update to Discipline model2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805180830217_Update to Discipline model3.resx">
-      <DependentUpon>201805180830217_Update to Discipline model3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805180844585_Update to Discipline model 4.resx">
-      <DependentUpon>201805180844585_Update to Discipline model 4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805191349454_Update to Asset Group and Location 1.resx">
-      <DependentUpon>201805191349454_Update to Asset Group and Location 1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805210818001_-Asset serialnumber update to string.resx">
-      <DependentUpon>201805210818001_-Asset serialnumber update to string.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805220709335_Requisition locationId added.resx">
-      <DependentUpon>201805220709335_Requisition locationId added.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805220804366_Location locationId added.resx">
-      <DependentUpon>201805220804366_Location locationId added.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805241902164_System admin model added.resx">
-      <DependentUpon>201805241902164_System admin model added.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805251607114_nullable locationId for job.resx">
-      <DependentUpon>201805251607114_nullable locationId for job.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201805291115419_Birthday and ammouncement model added.resx">
-      <DependentUpon>201805291115419_Birthday and ammouncement model added.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201806041630558_Update to employee model asssociation.resx">
-      <DependentUpon>201806041630558_Update to employee model asssociation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201806061607439_Employee Archive added.resx">
-      <DependentUpon>201806061607439_Employee Archive added.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201806071549178_Department Location and Group Association Added.resx">
-      <DependentUpon>201806071549178_Department Location and Group Association Added.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201806081228335_Report manager model association updated.resx">
-      <DependentUpon>201806081228335_Report manager model association updated.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201806120823463_Appraisal Configuration Association Update.resx">
-      <DependentUpon>201806120823463_Appraisal Configuration Association Update.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\EdgeDbContext2\201806132049309_Request Asset model Association update.resx">
-      <DependentUpon>201806132049309_Request Asset model Association update.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

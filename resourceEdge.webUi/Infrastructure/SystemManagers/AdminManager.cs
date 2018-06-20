@@ -26,7 +26,7 @@ namespace resourceEdge.webUi.Infrastructure
         {
             db = new ApplicationDbContext();
             unitOfWork = new UnitOfWork();
-            userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
+            userManager = new ApplicationUserManager(new UserStore<AppUser>(db));
             roleManager = new Rolemanager();
         }
 
@@ -74,7 +74,7 @@ namespace resourceEdge.webUi.Infrastructure
             {
                 if (model.Name != null && (model.GroupId > 0 && model.LocationId > 0))
                 {
-                    var User = new ApplicationUser
+                    var User = new AppUser
                     {
                         Email = model.Email,
                         FirstName = model.Name,

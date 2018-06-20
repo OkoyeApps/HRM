@@ -17,7 +17,7 @@ namespace resourceEdge.webUi.Infrastructure
     {
         protected override void Seed(EdgeDbContext dbcontext)
         {
-            var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            var userManager = new ApplicationUserManager(new UserStore<AppUser>(new ApplicationDbContext()));
             UnitOfWork context = new UnitOfWork();
            
             var groups = new List<Group>()
@@ -78,19 +78,19 @@ namespace resourceEdge.webUi.Infrastructure
                 context.GetDbContext().Businessunit.AddOrUpdate(item);
                 context.Save();
             }
-            var department = new List<Departments>()
+            var department = new List<Department>()
             {
-                new Departments()
+                new Department()
                 {
                      deptname = "TestDept",deptcode = "Test101",BusinessUnitsId = 1,
                       Isactive = true, startdate = DateTime.Now
                 },
-                   new Departments()
+                   new Department()
                 {
                      deptname = "TestDept2",deptcode = "Test101", BusinessUnitsId = 1,
                      Isactive = true, startdate = DateTime.Now
                 },
-                      new Departments()
+                      new Department()
                 {
                      deptname = "TestDept3", deptcode = "Test101", BusinessUnitsId = 2 ,Isactive = true, startdate = DateTime.Now
                 }
@@ -171,7 +171,7 @@ namespace resourceEdge.webUi.Infrastructure
             };
             context.identityCodes.Insert(identityCode);
             context.Save();
-            var appUser = new ApplicationUser() { Email = "Admin@example.com", UserName = "Admin@example.com" };
+            var appUser = new AppUser() { Email = "Admin@example.com", UserName = "Admin@example.com" };
 
             var result = userManager.Create(appUser, "1234567");
             //add the user to role later
@@ -181,13 +181,13 @@ namespace resourceEdge.webUi.Infrastructure
                 //userManager.AddToRole(appUser.Id, "Head HR");
             }
 
-            //var TestUser1 = new List<ApplicationUser>()
+            //var TestUser1 = new List<AppUser>()
             //{
-            //    new ApplicationUser() { Email = "Test1@example.com", UserName = "Test1@example.com" },
-            //    new ApplicationUser() {Email = "Hr@example.com", UserName = "Hr@example.com" },
-            //    new ApplicationUser() {Email = "Manager@example.com", UserName = "Manager@example.com" },
-            //    new ApplicationUser() {Email = "DeptHead@example.com", UserName = "DeptHead@example.com" },
-            //    new ApplicationUser() {Email = "LocationHead@example.com", UserName = "LocationHead@example.com" }
+            //    new AppUser() { Email = "Test1@example.com", UserName = "Test1@example.com" },
+            //    new AppUser() {Email = "Hr@example.com", UserName = "Hr@example.com" },
+            //    new AppUser() {Email = "Manager@example.com", UserName = "Manager@example.com" },
+            //    new AppUser() {Email = "DeptHead@example.com", UserName = "DeptHead@example.com" },
+            //    new AppUser() {Email = "LocationHead@example.com", UserName = "LocationHead@example.com" }
             //};
             //var Employee = new Employee[]
             //{

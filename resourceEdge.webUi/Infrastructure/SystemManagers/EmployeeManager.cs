@@ -56,7 +56,7 @@ namespace resourceEdge.webUi.Infrastructure
 
         public EmployeeManager()
         {
-            userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
+            userManager = new ApplicationUserManager(new UserStore<AppUser>(db));
             db = new ApplicationDbContext();
         }
         public EmployeeManager(IEmployees eparam)
@@ -522,7 +522,7 @@ namespace resourceEdge.webUi.Infrastructure
                 return null;
             }
 
-            public void AddORUpdateSalary(string userId, PayrollViewModel entity, Employee employee, ApplicationUser currentUser, string systemUserId)
+            public void AddORUpdateSalary(string userId, PayrollViewModel entity, Employee employee, AppUser currentUser, string systemUserId)
             {
                 var CurrentPayRoll = unitofWork.GetDbContext().Payroll.Where(x => x.UserId == userId).FirstOrDefault();
 
@@ -741,7 +741,7 @@ namespace resourceEdge.webUi.Infrastructure
             /// 
 
 
-            public Tuple<Employee, ApplicationUser, Domain.Entities.File, Jobtitle, Position, EmpPayroll, List<LeaveRequest>> GetEmpDetails(int Id)
+            public Tuple<Employee, AppUser, Domain.Entities.File, Jobtitle, Position, EmpPayroll, List<LeaveRequest>> GetEmpDetails(int Id)
             {
 
                 var employee = unitofWork.GetDbContext().Employee.Find(Id);
@@ -758,10 +758,10 @@ namespace resourceEdge.webUi.Infrastructure
                 return null;
             }
 
-            public Tuple<Employee, ApplicationUser, Domain.Entities.File> GetAllHrDetails(int unitId)
+            public Tuple<Employee, AppUser, Domain.Entities.File> GetAllHrDetails(int unitId)
             {
                 var members = unitofWork.employees.Get(filter: x => x.BusinessunitId == unitId && x.empRoleId == 3).FirstOrDefault();
-                ApplicationUser HrUserDetail = new ApplicationUser();
+                AppUser HrUserDetail = new AppUser();
                 Domain.Entities.File Avatar = new Domain.Entities.File();
                 if (members != null)
                 {
@@ -771,10 +771,10 @@ namespace resourceEdge.webUi.Infrastructure
                 return Tuple.Create(members, HrUserDetail, Avatar);
             }
 
-            public Tuple<Employee, ApplicationUser, Domain.Entities.File> GetAllUnitHeadDetails(int unitId)
+            public Tuple<Employee, AppUser, Domain.Entities.File> GetAllUnitHeadDetails(int unitId)
             {
                 var members = unitofWork.employees.Get(filter: x => x.BusinessunitId == unitId && x.IsUnithead == true).FirstOrDefault();
-                ApplicationUser HrUserDetail = new ApplicationUser();
+                AppUser HrUserDetail = new AppUser();
                 Domain.Entities.File Avatar = new Domain.Entities.File();
                 if (members != null)
                 {
@@ -784,11 +784,11 @@ namespace resourceEdge.webUi.Infrastructure
 
                 return Tuple.Create(members, HrUserDetail, Avatar);
             }
-            public Tuple<List<Employee>, List<Domain.Entities.File>, List<ApplicationUser>> GetTeamMembersWithAvatars(int unitId)
+            public Tuple<List<Employee>, List<Domain.Entities.File>, List<AppUser>> GetTeamMembersWithAvatars(int unitId)
             {
                 List<Domain.Entities.File> Images = new List<Domain.Entities.File>();
                 List<Employee> TeamMembers = new List<Employee>();
-                List<ApplicationUser> TeamMemberUserDetail = new List<ApplicationUser>();
+                List<AppUser> TeamMemberUserDetail = new List<AppUser>();
                 var members = unitofWork.employees.Get(x => x.BusinessunitId == unitId && x.IsUnithead != true).ToList();
                 if (members != null)
                 {

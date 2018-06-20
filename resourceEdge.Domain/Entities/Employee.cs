@@ -45,7 +45,7 @@ namespace resourceEdge.Domain.Entities
         public BusinessUnit Businessunit { get; set; }
         public Jobtitle JobTitle { get; set; }
         public Position Position { get; set; }
-        public  Departments Department { get; set; }
+        public  Department Department { get; set; }
         public  Level Level { get; set; }
         public  Group Group { get; set; }
         public Location Location { get; set; }

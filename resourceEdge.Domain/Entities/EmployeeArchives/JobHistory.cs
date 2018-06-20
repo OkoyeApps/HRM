@@ -20,7 +20,7 @@ namespace resourceEdge.Domain.Entities
         public DateTime? To { get; set; }
         public double AmountRecieved { get; set; }
         public double AmountPaid{ get; set; }
-        public Departments Department { get; set; }
+        public Department Department { get; set; }
         public Jobtitle Job { get; set; }
         public Position Position { get; set; }
         public string CreatedBY { get; set; }

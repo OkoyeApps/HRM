@@ -363,7 +363,7 @@ namespace resourceEdge.webUi.Controllers
         public ActionResult AllDepartment()
         {
             ViewBag.PageTitle = "All Departments";
-            IEnumerable<Departments> result = new List<Departments>();
+            IEnumerable<Department> result = new List<Department>();
             var userFromSession = (SessionModel)Session["_ResourceEdgeTeneceIdentity"];
             if (User.IsInRole("Super Admin"))
             {
@@ -407,7 +407,7 @@ namespace resourceEdge.webUi.Controllers
                     return View(model);
                 }
 
-                Departments depts = new Departments()
+                Department depts = new Department()
                 {
                     BusinessUnitsId = model.BunitId,
                     deptcode = model.deptcode,
@@ -435,7 +435,7 @@ namespace resourceEdge.webUi.Controllers
         [CustomAuthorizationFilter(Roles = "System Admin,HR")]
         public ActionResult EditDepartment(int id)
         {
-            Departments dept = DeptRepo.GetdepartmentById(id);
+            Department dept = DeptRepo.GetdepartmentById(id);
             if (dept == null)
             {
                 return HttpNotFound();
@@ -448,7 +448,7 @@ namespace resourceEdge.webUi.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult EditDepartment(Departments dept)
+        public ActionResult EditDepartment(Department dept)
         {
             if (ModelState.IsValid)
             {
@@ -470,14 +470,14 @@ namespace resourceEdge.webUi.Controllers
         [CustomAuthorizationFilter(Roles = "System Admin,HR")]
         public ActionResult DeptDetail(int id)
         {
-            Departments dept = DeptRepo.GetdepartmentById(id);
+            Department dept = DeptRepo.GetdepartmentById(id);
             return View(dept);
         }
 
         [HttpPost]
         public ActionResult DeleteDepartment(int id)
         {
-            Departments dept = DeptRepo.GetdepartmentById(id);
+            Department dept = DeptRepo.GetdepartmentById(id);
             if (dept == null)
             {
                 return HttpNotFound();

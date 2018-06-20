@@ -41,7 +41,7 @@ namespace resourceEdge.Domain.Entities
         public virtual DbSet<Employee> Employee { get; set; }
         public virtual DbSet<IdentityCode> IdentityCode { get; set; }
         public virtual DbSet<BusinessUnit> Businessunit { get; set; }
-        public virtual DbSet<Departments> departments { get; set; }
+        public virtual DbSet<Department> departments { get; set; }
         public virtual DbSet<Jobtitle> Jobtitle { get; set; }
         public virtual DbSet<Position> Position { get; set; }
         public virtual DbSet<Prefix> Prefix { get; set; }
