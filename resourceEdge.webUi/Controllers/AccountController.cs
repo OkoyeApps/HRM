@@ -23,7 +23,7 @@ namespace resourceEdge.webUi.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        private AuthManager.Core.ApplicationSignInManager _signInManager;
+        private AuthManager.Core.AuthManagerSignInManager _signInManager;
         private AuthUserManager _userManager;
         private ILogin LoginRepo = new LoginRepository();
 
@@ -32,17 +32,17 @@ namespace resourceEdge.webUi.Controllers
 
         }
 
-        public AccountController(AuthUserManager userManager, AuthManager.Core.ApplicationSignInManager signInManager)
+        public AccountController(AuthUserManager userManager, AuthManager.Core.AuthManagerSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
         }
 
-        public AuthManager.Core.ApplicationSignInManager SignInManager
+        public AuthManager.Core.AuthManagerSignInManager SignInManager
         {
             get
             {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<AuthManager.Core.ApplicationSignInManager>();
+                return _signInManager ?? HttpContext.GetOwinContext().Get<AuthManager.Core.AuthManagerSignInManager>();
             }
             private set
             {

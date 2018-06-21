@@ -102,3 +102,5 @@ C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdg
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.webUi\obj\Debug\resourceEdge.webUi.pdb
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.webUi\bin\AuthManager.dll
 C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.webUi\bin\AuthManager.pdb
+C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.webUi\bin\ResourceEdge.Logic.dll
+C:\Users\Emmanuel\Documents\Visual Studio 2015\Projects\ResourceEdge\resourceEdge.webUi\bin\ResourceEdge.Logic.pdb

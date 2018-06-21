@@ -281,6 +281,7 @@
     <Compile Include="Entities\Users\Claim.cs" />
     <Compile Include="Entities\Users\EmployeeUnitDepartment.cs" />
     <Compile Include="Entities\Users\EmployeeConfiguration.cs" />
+    <Compile Include="Entities\Users\IdentityModels.cs" />
     <Compile Include="Entities\Violation.cs" />
     <Compile Include="Entities\WeekDay.cs" />
     <Compile Include="Entities\Week.cs" />

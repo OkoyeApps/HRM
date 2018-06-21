@@ -56,7 +56,7 @@ namespace resourceEdge.webUi.Infrastructure
 
         public EmployeeManager()
         {
-            userManager = new ApplicationUserManager(new UserStore<AppUser>(db));
+            userManager = null;/* new ApplicationUserManager(new UserStore<AppUser>(db));*/
             db = new ApplicationDbContext();
         }
         public EmployeeManager(IEmployees eparam)

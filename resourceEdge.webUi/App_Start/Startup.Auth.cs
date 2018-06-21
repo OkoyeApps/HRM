@@ -9,6 +9,7 @@ using resourceEdge.webUi.Models;
 using resourceEdge.webUi.Security;
 using resourceEdge.Domain.Entities;
 using AuthManager.Core;
+using static resourceEdge.webUi.ApplicationSignInManager;
 
 namespace resourceEdge.webUi
 {
@@ -18,12 +19,14 @@ namespace resourceEdge.webUi
         public void ConfigureAuth(IAppBuilder app)
         {
             // Configure the db context, user manager and signin manager to use a single instance per request
-            //app.CreatePerOwinContext(ApplicationDbContext.Create);
-            //app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
-            //app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
+            app.CreatePerOwinContext(ApplicationDbContext.Create);
+            app.CreatePerOwinContext(AuthDbContext.Create);
 
             app.CreatePerOwinContext<AuthUserManager>(AuthUserManager.Create<ApplicationDbContext>);
-            app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
+            app.CreatePerOwinContext<AuthUserManager>(AuthUserManager.Create<AuthDbContext>);
+            //app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
+            app.CreatePerOwinContext<AuthManager.Core.AuthManagerSignInManager>(AuthManager.Core.AuthManagerSignInManager.Create);
+            app.CreatePerOwinContext<AuthManager.Core.AuthManagerRoleManager>(AuthManager.Core.AuthManagerRoleManager.Create);
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
@@ -33,9 +36,9 @@ namespace resourceEdge.webUi
                 {
                     // Enables the application to validate the security stamp when the user logs in.
                     // This is a security feature which is used when you change a password or add an external login to your account.  
-                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, AppUser>(
+                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<UserManager<AppUser>, AppUser,string>(
                     validateInterval: TimeSpan.FromMinutes(30),
-                    regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
+regenerateIdentityCallback: (manager, user) => user.GenerateUserIdentityAsync(manager), getUserIdCallback:(Claim) => Claim.GetUserId() )
                 }
             });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);

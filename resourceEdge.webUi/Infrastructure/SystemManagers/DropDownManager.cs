@@ -69,7 +69,8 @@ namespace resourceEdge.webUi.Infrastructure.SystemManagers
         public SelectList GetRole()
         {
             SelectList result = null;
-            IList<IdentityRole> Role = new List<IdentityRole>();
+            // IList<IdentityRole> Role = new List<IdentityRole>();
+            IList<ApplicationRole> Role = new List<ApplicationRole>();
             using (ApplicationDbContext db = new ApplicationDbContext())
             {
                 if (HttpContext.Current.User.IsInRole("System Admin"))

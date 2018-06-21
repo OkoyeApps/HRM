@@ -17,7 +17,7 @@ namespace resourceEdge.webUi.Infrastructure
         
         public BackendValidationManager()
         {
-            UserManager = new ApplicationUserManager(new UserStore<AppUser>(dbContext));
+            UserManager = null;/* new ApplicationUserManager(new UserStore<AppUser>(dbContext));*/
         }
         public BackendValidationManager(IEmployees eParam)
         {

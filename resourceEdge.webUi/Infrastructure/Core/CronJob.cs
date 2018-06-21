@@ -15,7 +15,7 @@ namespace resourceEdge.webUi.Infrastructure.Core
     {
         UnitOfWork unitOfWork = new UnitOfWork();
         NotificationManager manager = new NotificationManager();
-        ApplicationUserManager UserManager = new ApplicationUserManager(new UserStore<AppUser>(new ApplicationDbContext()));
+        ApplicationUserManager UserManager = null;/*  new ApplicationUserManager(new UserStore<AppUser>(new ApplicationDbContext()));*/
         public async Task SendAccountDetails()
         {
             var AccountDetails = unitOfWork.MailDispatch.Get(filter: x => x.Type == Domain.Infrastructures.MailType.Account && x.Delivered == false);

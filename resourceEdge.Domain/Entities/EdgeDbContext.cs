@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;
@@ -19,23 +20,41 @@ namespace resourceEdge.Domain.Entities
             modelBuilder.Conventions.Remove(new PluralizingTableNameConvention());
             modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
-            
+
             //modelBuilder.Conventions.Remove<IncludeMetadataConvention>();
+            //modelBuilder.Entity<ApplicationUserRole>().HasKey(x => new { x.UserId, x.RoleId });
+            //modelBuilder.Entity<ApplicationRole>()
+            //         .HasMany(e => e.AspNetUsers)
+            //         .WithMany(e => e.AspNetRoles)
+            //         .Map(m => m.ToTable("AspNetUserRole").MapLeftKey("RoleId").MapRightKey("UserId"));
 
-            //modelBuilder.Entity<Employees>()
-            //    .HasRequired(x => x.Departments)
-            //    .WithMany()
-            //    .HasForeignKey(x => x.departmentId)
-            //    .WillCascadeOnDelete(false);
+            modelBuilder.Entity<AppUser>()
+                .HasMany(e => e.AspNetUserClaims)
+                .WithRequired(e => e.AspNetUser)
+                .HasForeignKey(e => e.UserId);
 
-            //modelBuilder.Entity<Departments>()
-            //    .HasRequired(x => x.BusinessUnits)
-            //    .WithMany()
-            //    .HasForeignKey(x => x.BunitId)
-            //    .WillCascadeOnDelete(false);
+            modelBuilder.Entity<AppUser>()
+                .HasMany(e => e.AspNetUserLogins)
+                .WithRequired(e => e.AspNetUser)
+                .HasForeignKey(e => e.UserId);
 
-            //base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<ApplicationUserLogin>().HasKey(x=> new { x.LoginProvider, x.ProviderKey, x.UserId });
+            modelBuilder.Entity<ApplicationUserRole>().HasKey(x => new { x.RoleId, x.UserId });
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<AppUser>().ToTable("AspNetUser");
+
+            //modelBuilder.Entity<IdentityUser>().ToTable("AspNetUser");
+            //modelBuilder.Entity<IdentityRole>().ToTable("AspNetRole");
+            //modelBuilder.Entity<IdentityUserRole>().ToTable("AspNetUserRole");
+            //modelBuilder.Entity<IdentityUserClaim>().ToTable("AspNetUserClaim");
+            //modelBuilder.Entity<IdentityUserLogin>().ToTable("AspNetUserLogin");
             // throw new UnintentionalCodeFirstException();
+
+
+            modelBuilder.Entity<ApplicationRole>().ToTable("AspNetRole");
+            modelBuilder.Entity<ApplicationUserRole>().ToTable("AspNetUserRole");
+            modelBuilder.Entity<ApplicationUserClaim>().ToTable("AspNetUserClaim");
+            modelBuilder.Entity<ApplicationUserLogin>().ToTable("AspNetUserLogin");
         }
         public DbSet<AppUserClaim> AppUserClaim { get; set; }
         public DbSet<Claim> Claim { get; set; }

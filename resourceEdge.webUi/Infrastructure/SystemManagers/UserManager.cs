@@ -19,7 +19,7 @@ namespace resourceEdge.webUi.Infrastructure
     {
         private static ApplicationDbContext context = new ApplicationDbContext();
         static UnitOfWork unitOfWork = new UnitOfWork();
-        public static ApplicationUserManager userManager = new ApplicationUserManager(new UserStore<AppUser>(context));
+        public static ApplicationUserManager userManager = null; /* new ApplicationUserManager(new UserStore<AppUser>(context));*/
 
         /// <summary>
         /// 
@@ -236,7 +236,7 @@ namespace resourceEdge.webUi.Infrastructure
             }
             return identityCode;
         }
-        public static bool? ValidateHeadHRsInGroup(IdentityRole role, int groupId)
+        public static bool? ValidateHeadHRsInGroup(ApplicationRole role, int groupId)
         {
             if (role != null)
             {

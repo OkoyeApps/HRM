@@ -19,7 +19,7 @@ namespace AuthManager
         {
             app.CreatePerOwinContext<AuthDbContext>(AuthDbContext.Create);
             app.CreatePerOwinContext<AuthUserManager>(AuthUserManager.Create<AuthDbContext>);
-            app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
+            app.CreatePerOwinContext<AuthManagerSignInManager>(AuthManagerSignInManager.Create);
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
@@ -29,9 +29,9 @@ namespace AuthManager
                 {
                     // Enables the application to validate the security stamp when the user logs in.
                     // This is a security feature which is used when you change a password or add an external login to your account.  
-                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<AuthUserManager, AppUser>(
+                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<UserManager<AppUser>, AppUser,string>(
          validateInterval: TimeSpan.FromMinutes(30),
-         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
+         regenerateIdentityCallback: (manager, user) => user.GenerateUserIdentityAsync(manager), getUserIdCallback: (Claim) => Claim.GetUserId())
                 }
             });
         }

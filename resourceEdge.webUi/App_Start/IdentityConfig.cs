@@ -21,19 +21,7 @@ namespace resourceEdge.webUi
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
-            //using(var client = new SmtpClient())
-            //{
-            //    using(var mailMessage = new MailMessage())
-            //    {
-            //        try
-            //        {
-
-            //            mailMessage.Body = 
-            //        }
-            //    }
-            //}
-            
+            // Plug in your email service here to send an email.            
             return Task.FromResult(0);
         }
     }
@@ -48,16 +36,16 @@ namespace resourceEdge.webUi
     }
 
     // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
-    public class ApplicationUserManager : UserManager<AppUser>
+    public class ApplicationUserManager : UserManager<AppUser,string>
     {
-        public ApplicationUserManager(IUserStore<AppUser> store)
+        public ApplicationUserManager(IUserStore<AppUser,string> store)
             : base(store)
         {
         }
 
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
-            var manager = new ApplicationUserManager(new UserStore<AppUser>(context.Get<ApplicationDbContext>()));
+            var manager = new ApplicationUserManager(new UserStore<AppUser, ApplicationRole, string, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>(context.Get<ApplicationDbContext>()));
             // Configure validation logic for usernames
             manager.UserValidator = new UserValidator<AppUser>(manager)
             {
@@ -125,6 +113,19 @@ namespace resourceEdge.webUi
         public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)
         {
             return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
+        }
+
+        public class ApplicationRoleManager : RoleManager<ApplicationRole>
+        {
+            public ApplicationRoleManager(IRoleStore<ApplicationRole, string> roleStore)
+                : base(roleStore)
+            {
+            }
+
+            public static ApplicationRoleManager Create(IdentityFactoryOptions<ApplicationRoleManager> options, IOwinContext context)
+            {
+                return new ApplicationRoleManager(new ApplicationRoleStore(context.Get<ApplicationDbContext>()));
+            }
         }
     }
 }

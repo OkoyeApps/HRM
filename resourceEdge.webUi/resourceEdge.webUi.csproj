@@ -1552,6 +1552,10 @@
       <Project>{d58b47c7-a8f2-4aaa-9c31-2007341ae20d}</Project>
       <Name>resourceEdge.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ResourceEdge.Logic\ResourceEdge.Logic.csproj">
+      <Project>{02330122-FB2A-4744-8CF4-94A979890263}</Project>
+      <Name>ResourceEdge.Logic</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

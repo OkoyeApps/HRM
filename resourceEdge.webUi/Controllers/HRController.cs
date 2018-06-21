@@ -62,7 +62,7 @@ namespace resourceEdge.webUi.Controllers
             QuestionRepo = Qparam;
             empdetail = new EmployeeManager.EmployeeDetails();
             employeeManager = new EmployeeManager(empParam, rParam, Mailparam);
-            UserManager = new ApplicationUserManager(new UserStore<AppUser>(db));
+            UserManager = null; // new ApplicationUserManager(new UserStore<AppUser>(db));
             ConfigManager = new ConfigurationManager();
             dropDownManager = new DropDownManager();
         }
@@ -109,11 +109,11 @@ namespace resourceEdge.webUi.Controllers
             return View(employees);
         }
 
-        public List<IdentityRole> GetRoles()
-        {
-            var roles = RoleManager.GetRoles().ToList();
-            return roles;
-        }
+        //public List<IdentityRole> GetRoles()
+        //{
+        //    var roles = RoleManager.GetRoles().ToList();
+        //    return roles;
+        //}
         //[ChildActionOnly]
         public ActionResult Create(string returnUrl)
         {

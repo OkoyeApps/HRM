@@ -9,7 +9,8 @@ namespace resourceEdge.Domain.Entities
 {
     public class AppUserClaim
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
         public string AppUserId { get; set; }
         public int ClaimId { get; set; }
         public Claim Claim { get; set; }

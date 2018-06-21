@@ -15,6 +15,7 @@ namespace resourceEdge.webUi
         {
             ConfigureAuth(app);
             CreateDeafaultRoles();
+            
             //app.MapSignalR();
             var options = new SqlServerStorageOptions() { PrepareSchemaIfNecessary = true };
             GlobalConfiguration.Configuration

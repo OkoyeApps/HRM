@@ -97,6 +97,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Auth Providers\AuthRoleManagerProvider.cs" />
+    <Compile Include="Auth Providers\AuthUserManagerProvider.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Infrastructure\ClaimsManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -111,7 +113,9 @@
       <Name>resourceEdge.Domain</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Claims Manager\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />

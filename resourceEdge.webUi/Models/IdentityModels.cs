@@ -44,10 +44,10 @@ namespace resourceEdge.webUi.Models
 
     }
 
-    public class ApplicationDbContext : IdentityDbContext<AppUser>
+    public class ApplicationDbContext : IdentityDbContext<AppUser, ApplicationRole, string, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("DefaultConnection")
         {
             //AppDomain.CurrentDomain.SetData("DataDirectory", System.IO.Directory.GetCurrentDirectory());
         }
@@ -55,6 +55,15 @@ namespace resourceEdge.webUi.Models
         {            
             return new ApplicationDbContext();
         }
-        
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            //modelBuilder.Entity<AppUser>().ToTable("AspNetUser");
+            //modelBuilder.Entity<ApplicationRole>().ToTable("AspNetRole");
+            //modelBuilder.Entity<ApplicationUserRole>();//.HasKey(x => new { x.UserId, x.RoleId }).ToTable("AspNetUserRole");
+            //modelBuilder.Entity<ApplicationUserClaim>().ToTable("AspNetUserClaim");
+            //modelBuilder.Entity<ApplicationUserLogin>();//.HasKey(x => new { x.LoginProvider, x.ProviderKey, x.UserId }).ToTable("AspNetUserLogin");
+
+        }
     }
 }

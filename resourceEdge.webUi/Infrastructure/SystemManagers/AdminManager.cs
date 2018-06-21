@@ -26,7 +26,7 @@ namespace resourceEdge.webUi.Infrastructure
         {
             db = new ApplicationDbContext();
             unitOfWork = new UnitOfWork();
-            userManager = new ApplicationUserManager(new UserStore<AppUser>(db));
+            userManager = new ApplicationUserManager(new UserStore<AppUser, ApplicationRole, string, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>(db));
             roleManager = new Rolemanager();
         }
 

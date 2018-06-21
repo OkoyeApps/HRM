@@ -30,16 +30,16 @@ namespace AuthManager.Core
         }
     }
 
-    public class AuthUserManager : UserManager<AppUser>
+    public class AuthUserManager : UserManager<AppUser,string>
     {
-        public AuthUserManager(IUserStore<AppUser> store) : base(store)
+        public AuthUserManager(IUserStore<AppUser,string> store) : base(store)
         {
         }
         public static AuthUserManager Create<T>(IdentityFactoryOptions<AuthUserManager> options, IOwinContext context) where T : DbContext
 
         {
             T db = context.Get<T>();
-            AuthUserManager manager = new AuthUserManager(new UserStore<AppUser>(db));
+            AuthUserManager manager = new AuthUserManager(new UserStore<AppUser, ApplicationRole, string, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>(db));
             manager.UserValidator = new UserValidator<AppUser>(manager)
             {
                 AllowOnlyAlphanumericUserNames = false,
@@ -97,21 +97,33 @@ namespace AuthManager.Core
             return manager;
         }
     }
-    public class ApplicationSignInManager : SignInManager<AppUser, string>
+    public class AuthManagerSignInManager : SignInManager<AppUser, string>
     {
-        public ApplicationSignInManager(AuthUserManager userManager, IAuthenticationManager authenticationManager)
+        public AuthManagerSignInManager(AuthUserManager userManager, IAuthenticationManager authenticationManager)
             : base(userManager, authenticationManager)
         {
         }
 
-        //public override Task<ClaimsIdentity> CreateUserIdentityAsync(AppUser user)
-        //{
-        //    return user.GenerateUserIdentityAsync((AuthUserManager)UserManager);
-        //}
-
-        public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)
+        public override Task<ClaimsIdentity> CreateUserIdentityAsync(AppUser user)
         {
-            return new ApplicationSignInManager(context.GetUserManager<AuthUserManager>(), context.Authentication);
+            return user.GenerateUserIdentityAsync((AuthUserManager)UserManager);
+        }
+
+        public static AuthManagerSignInManager Create(IdentityFactoryOptions<AuthManagerSignInManager> options, IOwinContext context)
+        {
+            return new AuthManagerSignInManager(context.GetUserManager<AuthUserManager>(), context.Authentication);
+        }
+    }
+    public class AuthManagerRoleManager : RoleManager<ApplicationRole>
+    {
+        public AuthManagerRoleManager(IRoleStore<ApplicationRole, string> roleStore)
+            : base(roleStore)
+        {
+        }
+
+        public static AuthManagerRoleManager Create(IdentityFactoryOptions<AuthManagerRoleManager> options, IOwinContext context)
+        {
+            return new AuthManagerRoleManager(new ApplicationRoleStore(context.Get<AuthDbContext>()));
         }
     }
 }
